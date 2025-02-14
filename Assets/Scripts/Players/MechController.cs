@@ -48,7 +48,7 @@ public class MechController : MonoBehaviour
 
     private InputAction _movementAction;
 
-    private Vector3 _movementInput;
+    private Vector2 _movementInput;
 
     private Transform _cameraTransform;
 
@@ -85,50 +85,44 @@ public class MechController : MonoBehaviour
     {
         if (context.performed)
         {
-            Vector2 input = context.ReadValue<Vector2>();
-            _movementInput = new Vector3(input.x, 0, input.y);
+            _movementInput = context.ReadValue<Vector2>();
         }
         else if (context.canceled) _movementInput = Vector3.zero;
     }
 
     private void Update()
     {
-        Move(_movementInput.x, _movementInput.y);
+        Move();
         RotateTorso();
         RotateBarrelEnds();
     }
 
-    private void Move(float horizontal, float vertical) // Handles the movement of the player based off the camera postion
+    private void Move() // Handles the movement of the player based off the camera postion
     {
-
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized; // reads input, while no input, vector equals 0
-
-        if (direction.magnitude >= 0.1f) // checks if any input is being pressed
+        if (_movementInput.magnitude >= 0.1f) // checks if any input is being pressed
         {
-            _animator.SetBool("Walking", true); // starts ainmation
+            _animator.SetBool("Walking", true); 
 
-            Vector3 cameraForward = _cameraTransform.forward; // checks the forward direction of the camera
-            cameraForward.y = 0; // ignores tilt
-            cameraForward.Normalize();
+            Vector3 moveDir = GetCameraRelativeMovement();
 
-            Vector3 cameraRight = _cameraTransform.right;// checks the right direction of the camera
-            cameraRight.y = 0; // ignores tilt
-            cameraRight.Normalize();
-
-            Vector3 moveDir = (cameraRight * horizontal) + (cameraForward * vertical); // writes the direction of the camera multiplied by the input to a direction
-            moveDir.Normalize();
-
-
-            _rigidbody.linearVelocity = new Vector3(moveDir.x * _speed, _rigidbody.linearVelocity.y, moveDir.z * _speed); // multiplies above direction by max spped
-            _hips.forward = moveDir;// sets the lower half of player to face direction its moving
+            // multiplies above direction by max spped
+            _rigidbody.linearVelocity = new Vector3(moveDir.x * _speed, _rigidbody.linearVelocity.y, moveDir.z * _speed); 
+            _hips.forward = moveDir; 
 
         }
         else
         {
-            _animator.SetBool("Walking", false); // Stops animation
+            _animator.SetBool("Walking", false);
         }
         _turso.rotation = Quaternion.Euler(0, _turso.rotation.y, 0); // enusures top half of player doesnt rotate in werid ways
 
+    }
+
+    private Vector3 GetCameraRelativeMovement()
+    {
+        Vector3 forward = Vector3.ProjectOnPlane(_cameraTransform.forward, Vector3.up).normalized;
+        Vector3 right = Vector3.ProjectOnPlane(_cameraTransform.right, Vector3.up).normalized;
+        return (right * _movementInput.x) + (forward * _movementInput.y);
     }
 
     private void RotateTorso()
