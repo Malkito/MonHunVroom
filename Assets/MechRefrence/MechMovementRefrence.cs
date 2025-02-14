@@ -91,7 +91,7 @@ public class MechMovementRefrence : MonoBehaviour
     {
         foreach(GameObject barrelEndTransform in barrelEnds)
         {
-            float angle = (cam.VerticalAxis.Value * (maxAngle * 2)) - maxAngle; // calculates desired angle
+            float angle = (cam.VerticalAxis.Value * (maxAngle * 2)) - maxAngle; // calculates desired angle for barrel rotation, only considered up and down
             barrelEndTransform.transform.localRotation = Quaternion.Euler(angle, barrelEndTransform.transform.rotation.y, barrelEndTransform.transform.rotation.z);// rotates the barrel ends based of the vertical axis of the camera
 
         }
