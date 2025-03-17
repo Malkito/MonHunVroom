@@ -422,7 +422,7 @@ MonoBehaviour:
   - {fileID: 7118498134260919067}
   - {fileID: 8578517012422087374}
   maxAngle: 15
-  rb: {fileID: 0}
+  rb: {fileID: 4737655085500366164}
   anim: {fileID: 946554570253249710}
 --- !u!1 &3904425995936969946
 GameObject:

@@ -9,7 +9,7 @@ public class MulltiplayerMechMovement : NetworkBehaviour
     [SerializeField] private GameObject torso; // Top half of player
 
     [Header("Camera")]
-    [SerializeField]private CinemachineCamera cam;
+    [SerializeField] private CinemachineCamera cam;
     public Transform cameraTransform;
 
     [Header("Movement")]
@@ -26,6 +26,7 @@ public class MulltiplayerMechMovement : NetworkBehaviour
     [Header("Other")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator anim;
+    [SerializeField] private GameInput gameInput;
 
     public override void OnNetworkSpawn()
     {
@@ -40,7 +41,8 @@ public class MulltiplayerMechMovement : NetworkBehaviour
         }
     }
 
-
+    /// MUltiplayer
+    /*
     private void FixedUpdate()
     {
         if (IsOwner || IsLocalPlayer) {
@@ -51,12 +53,20 @@ public class MulltiplayerMechMovement : NetworkBehaviour
             RotateBarrelEndsServerRpc();
         }
     }
+    */
 
+    private void FixedUpdate()
+    {
+        Vector2 inputVector = gameInput.getMovementInputNormalized();
+        movement(inputVector);
+        rotateTorso();
+        rotatioBarrelEnds();
+    }
 
-    private void movement(float horizontal, float vertical) // Handles the movement of the player based off the camera postion
+    private void movement(Vector2 inputVector) // Handles the movement of the player based off the camera postion
     {
 
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized; // reads input, while no input, vector equals 0
+        Vector3 direction = new Vector3(inputVector.x, 0f, inputVector.y).normalized; // reads input, while no input, vector equals 0
 
         if (direction.magnitude >= 0.1f) // checks if any input is being pressed
         {
@@ -70,11 +80,12 @@ public class MulltiplayerMechMovement : NetworkBehaviour
             cameraRight.y = 0; // ignores tilt
             cameraRight.Normalize();
 
-            Vector3 moveDir = (cameraRight * horizontal) + (cameraForward * vertical); // writes the direction of the camera multiplied by the input to a direction
+            Vector3 moveDir = (cameraRight * inputVector.x) + (cameraForward * inputVector.y); // writes the direction of the camera multiplied by the input to a direction
             moveDir.Normalize();
 
             rb.linearVelocity = new Vector3(moveDir.x * speed, rb.linearVelocity.y, moveDir.z * speed); // multiplies above direction by max spped
             hips.transform.forward = moveDir;// sets the lower half of player to face direction its moving
+            hips.transform.rotation = Quaternion.Euler(0, hips.transform.rotation.y, 0);
 
         }
         else
@@ -104,7 +115,7 @@ public class MulltiplayerMechMovement : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void movementServerRpc()
     {
-        movement(HorizontalInput, VerticalInput);
+       // movement();
     }
     [ServerRpc(RequireOwnership = false)]
     private void RotateTorsoServerRpc()
