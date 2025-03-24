@@ -5,8 +5,8 @@ public class GameInput : MonoBehaviour
     private PlayerInputActions playerInputActions;
     private void Awake()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
     }
@@ -44,6 +44,12 @@ public class GameInput : MonoBehaviour
     public bool getAbilityThreeInput()
     {
         bool abilityThreeInputPressed = playerInputActions.Player.Ability3.IsPressed();
+        return abilityThreeInputPressed;
+    }
+
+    public bool getSprintInput()
+    {
+        bool abilityThreeInputPressed = playerInputActions.Player.Sprint.IsPressed();
         return abilityThreeInputPressed;
     }
 

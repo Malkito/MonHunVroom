@@ -1,16 +1,52 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class waterBullet : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    //Goes onto water Bullet prefab, checks if it collides with anything, then instantiates the particle system
+    //Particle system has putOutFire script to check collsions with fire
+
+    [SerializeField] private float waterDuration;
+    [SerializeField] private GameObject waterSplash;
+    [SerializeField] private float sphereSize;
+    private fireManager FM;
+
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        GameObject water = Instantiate(waterSplash, transform.position, Quaternion.identity);
+        Destroy(water, waterDuration);
+        Destroy(gameObject);
+
+        foreach(GameObject fireOBj in findFireInArea())
+        {
+            FM = fireOBj.GetComponent<fireManager>();
+            if(FM.buildingHealthFireManager != null)
+            {
+                FM.stopDamageOverTime();
+            }
+            Destroy(fireOBj);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private GameObject[] findFireInArea()
     {
-        
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sphereSize);
+        List<GameObject> fires = new List<GameObject>();
+
+        foreach(Collider col in hitColliders)
+        {
+            if (col.gameObject.CompareTag("Fire"))
+            {
+                fires.Add(col.gameObject);
+            }
+        }
+        return fires.ToArray();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, sphereSize);
     }
 }

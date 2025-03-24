@@ -1,6 +1,8 @@
 using UnityEngine;
+using System.Collections;
 using Unity.Cinemachine;
 using Unity.Netcode;
+using UnityEngine.UI;
 
 public class playerMovement : NetworkBehaviour
 {
@@ -16,7 +18,8 @@ public class playerMovement : NetworkBehaviour
 
     [Header("Movement")]
     [SerializeField] private GameObject hips; // lower half of player
-    [SerializeField] private float speed; // max speed
+    [SerializeField] private float BaseSpeed; // max Base speed
+    [SerializeField] private float CurrentSpeed; // Current speed
     private float VerticalInput;
     private float HorizontalInput;
 
@@ -25,11 +28,30 @@ public class playerMovement : NetworkBehaviour
     [SerializeField] private float maxAngle;
 
 
+    [Header("Sprint Stats")]
+    [SerializeField] private float sprintSpeedMultiplier;
+    [SerializeField] private Slider staminaSlider;
+    [SerializeField] private float maxStamina;
+    [SerializeField] private float staminaDeplationRate;
+    [SerializeField] private float staminaRegenRate;
+    private float currentStamina;
+    private bool canRegen;
+    private bool canSprint;
+    [SerializeField] private float RegenDelayTime;
+    [SerializeField] private float minStaminaPercentageToSprint;
+
     [Header("Other")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator anim;
     [SerializeField] private GameInput gameInput;
     private Vector3 hipDirection;
+
+
+    private void Start()
+    {
+        canSprint = true;
+        currentStamina = maxStamina;
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -58,13 +80,61 @@ public class playerMovement : NetworkBehaviour
     }
     */
 
+
     private void FixedUpdate()
     {
+        staminaSlider.value = currentStamina / maxStamina;
         Vector2 inputVector = gameInput.getMovementInputNormalized();
         movement(inputVector);
         rotateTorso();
         rotatioBarrelEnds();
+
+        if (gameInput.getSprintInput() && currentStamina >= 0 && canSprint)
+        {
+            isSprinting();
+        }
+        else
+        {
+            isNotSprinting();
+        }
     }
+
+
+    private void isSprinting() // Is Sprinting
+    {
+        CurrentSpeed = BaseSpeed * sprintSpeedMultiplier;
+        currentStamina -= Time.deltaTime * staminaDeplationRate;
+        if(currentStamina <= 0)
+        {
+            canSprint = false;
+            StartCoroutine(sprintRegenDelay(RegenDelayTime));
+        }
+        else
+        {
+            canRegen = true;
+        }
+
+    }
+
+    private void isNotSprinting() // Is not Sprinting
+    {
+        CurrentSpeed = BaseSpeed;
+        if(canRegen) currentStamina += Time.deltaTime * staminaRegenRate;
+        if (currentStamina > (maxStamina * (minStaminaPercentageToSprint / 100)))
+        {
+            canSprint = true;
+        }
+    }
+
+
+    IEnumerator sprintRegenDelay(float delay)
+    {
+        canRegen = false;
+        yield return new WaitForSeconds(delay);
+        canRegen = true;
+    }
+    
+
 
     private void movement(Vector2 inputVector) // Handles the movement of the player based off the camera postion
     {
@@ -90,7 +160,7 @@ public class playerMovement : NetworkBehaviour
 
             hipDirection = moveDir;
 
-            rb.linearVelocity = new Vector3(moveDir.x * speed, rb.linearVelocity.y, moveDir.z * speed); // multiplies above direction by max spped
+            rb.linearVelocity = new Vector3(moveDir.x * CurrentSpeed, rb.linearVelocity.y, moveDir.z * CurrentSpeed); // multiplies above direction by max spped
 
             //Vector3 oldPOS = hips.transform.forward;
             //hips.transform.forward = Vector3.Lerp(oldPOS, moveDir, rotateSpeed);
@@ -124,21 +194,4 @@ public class playerMovement : NetworkBehaviour
 
         }
     }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void movementServerRpc()
-    {
-        // movement();
-    }
-    [ServerRpc(RequireOwnership = false)]
-    private void RotateTorsoServerRpc()
-    {
-        rotateTorso();
-    }
-    [ServerRpc(RequireOwnership = false)]
-    private void RotateBarrelEndsServerRpc()
-    {
-        rotatioBarrelEnds();
-    }
-
 }

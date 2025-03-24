@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6441876520053498273}
   - component: {fileID: 3523516331896512985}
   - component: {fileID: 4781733492754431829}
+  - component: {fileID: 2358364002334082206}
   m_Layer: 0
   m_Name: MainBulletPrefab
   m_TagString: Untagged
@@ -66,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d3ec09497b67a224cb14c95f3f1d6fcd, type: 2}
+  - {fileID: 2100000, guid: 13020ba7ef064eb45956b529b0051196, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -136,3 +137,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2358364002334082206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648193206323190310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e386340ec88c65545b57e7338a45196e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletData: {fileID: 11400000, guid: 9b56692c8011c784e916d91c5a410be7, type: 2}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496d2b5f1e1f71143975476bafdeb64d, type: 3}
   m_Name: AltBullet
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 6648193206323190310, guid: e85e161eddc56bc4ebfde7690be35015, type: 3}
+  bulletPrefab: {fileID: 6355969511972491034, guid: ff752bf85138e1e42af0b4cee622c1e3, type: 3}
   bulletSpeed: 50
   bulletLifetime: 5
   bulletDamage: 100

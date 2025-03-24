@@ -94,7 +94,7 @@ public class playerShooting : MonoBehaviour
 
         GameObject projectile = Instantiate(altBulletSO.bulletPrefab, altBarrelEnd.transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        rb.linearVelocity = altBarrelEnd.transform.forward * altBulletSO.bulletSpeed;
+        rb.linearVelocity = mainBarrelEnds[0].forward * altBulletSO.bulletSpeed;
         Destroy(projectile, altBulletSO.bulletLifetime);
 
     }
