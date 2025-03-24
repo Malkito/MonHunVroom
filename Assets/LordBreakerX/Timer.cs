@@ -11,7 +11,7 @@ public class Timer
 
     private float _time;
 
-    public TimerEnded OnTimerFinished { get; set; } 
+    public TimerEnded onTimerFinished;
 
     public Timer(float timeInSeconds)
     {
@@ -28,12 +28,17 @@ public class Timer
     {
         if (_time >= _timeInSeconds)
         {
-            OnTimerFinished?.Invoke();
+            onTimerFinished?.Invoke();
             Reset();
         }
         else
         {
             _time += timeSinceLastStep;
         }
+    }
+
+    public void Step()
+    {
+        Step(Time.deltaTime);
     }
 }

@@ -7,14 +7,14 @@ namespace LordBreakerX.States
         [SerializeField]
         private string _id;
 
-        protected StateMachine StateController { get; private set; }
+        protected StateMachine Machine { get; private set; }
         protected GameObject StateObject { get; private set; }
 
         public string ID { get { return _id; } }
 
         public virtual void Init(GameObject machineObject)
         {
-            StateController = machineObject.GetComponent<StateMachine>();
+            Machine = machineObject.GetComponent<StateMachine>();
             StateObject = machineObject;
         }
 
@@ -27,9 +27,5 @@ namespace LordBreakerX.States
         public abstract void FixedUpdate();
 
         public abstract void LateUpdate();
-
-        public abstract void DrawGizmosSelected();
-
-        public abstract void DrawGizmos();
     }
 }

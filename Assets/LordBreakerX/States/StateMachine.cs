@@ -45,26 +45,6 @@ namespace LordBreakerX.States
             if (_currentState != null) _currentState.LateUpdate();
         }
 
-        protected virtual void OnDrawGizmosSelected()
-        {
-            if (_states.Count == 0) return;
-
-            foreach (State state in _states)
-            {
-                if (state != null) state.DrawGizmosSelected();
-            }
-        }
-
-        protected virtual void OnDrawGizmos()
-        {
-            if (_states.Count == 0) return;
-
-            foreach (State state in _states)
-            {
-                if (state != null) state.DrawGizmos();
-            }
-        }
-
         public void RegisterState(State state)
         {
             if (state == null || _registeredStates.ContainsKey(state.ID)) return;

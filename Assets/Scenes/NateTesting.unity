@@ -898,6 +898,7 @@ MonoBehaviour:
   _states:
   - {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
   - {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
+  - {fileID: 11400000, guid: 6731ff80c3f15f944bc95d20a5187dba, type: 2}
 --- !u!195 &1414769366
 NavMeshAgent:
   m_ObjectHideFlags: 0
