@@ -22,7 +22,12 @@ namespace LordBreakerX.States
                 if (state != null) RegisterState(state);
             }
 
-            if (_startingState != null) ChangeState(_startingState.ID);
+            if (_startingState != null)
+            {
+                State copiedStartingState = Instantiate(_startingState);
+                copiedStartingState.Init(gameObject);
+                ChangeState(copiedStartingState);
+            }
         }
 
         protected virtual void Update()
@@ -40,25 +45,25 @@ namespace LordBreakerX.States
             if (_currentState != null) _currentState.LateUpdate();
         }
 
-        //protected virtual void OnDrawGizmosSelected()
-        //{
-        //    if (_states.Count == 0) return;
+        protected virtual void OnDrawGizmosSelected()
+        {
+            if (_states.Count == 0) return;
 
-        //    foreach (State state in _states)
-        //    {
-        //        if (state !=  null) state.DrawGizmosSelected();
-        //    }
-        //}
+            foreach (State state in _states)
+            {
+                if (state != null) state.DrawGizmosSelected();
+            }
+        }
 
-        //protected virtual void OnDrawGizmos()
-        //{
-        //    if (_states.Count == 0) return;
+        protected virtual void OnDrawGizmos()
+        {
+            if (_states.Count == 0) return;
 
-        //    foreach (State state in _states)
-        //    {
-        //        if (state != null) state.DrawGizmos();
-        //    }
-        //}
+            foreach (State state in _states)
+            {
+                if (state != null) state.DrawGizmos();
+            }
+        }
 
         public void RegisterState(State state)
         {
@@ -70,16 +75,16 @@ namespace LordBreakerX.States
             _registeredStates.Add(copiedState.ID, copiedState);
         }
 
-        public bool IsCurrentState(string id)
+        public bool IsCurrentState(string stateID)
         {
-            return _registeredStates.ContainsKey(id) && _registeredStates[id] == _currentState;
+            return _registeredStates.ContainsKey(stateID) && _registeredStates[stateID] == _currentState;
         }
 
-        public void ChangeState(string id)
+        public void ChangeState(string stateID)
         {
-            if (!_registeredStates.ContainsKey(id) || _registeredStates[id] == _currentState) return;
+            if (!_registeredStates.ContainsKey(stateID) || _registeredStates[stateID] == _currentState) return;
 
-            ChangeState(_registeredStates[id]);
+            ChangeState(_registeredStates[stateID]);
         }
 
         public void ChangeState(State state)
