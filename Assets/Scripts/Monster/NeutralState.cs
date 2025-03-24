@@ -17,7 +17,6 @@ public class NeutralState : State
     public override void Init(GameObject machineObject)
     {
         base.Init(machineObject);
-        Debug.Log("Test 222");
         _agent = machineObject.GetComponent<NavMeshAgent>();
     }
 
