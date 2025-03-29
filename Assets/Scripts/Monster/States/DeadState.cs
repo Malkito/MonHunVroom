@@ -21,7 +21,7 @@ public class DeadState : State
 
     public override void Exit()
     {
-        
+
     }
 
     public override void FixedUpdate()
