@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: LaserEyes
   m_EditorClassIdentifier: 
   _id: LaserEyes
-  _randomAttackRange: 10
+  _duration: 2
   _laser: {fileID: 1795866302372145853, guid: e9c596d46fdb0e64ba1d5ab34e791042, type: 3}
+  _attackRate: 0.5
+  _utility:
+    _targetRange: 10

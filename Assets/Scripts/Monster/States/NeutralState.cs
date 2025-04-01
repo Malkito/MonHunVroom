@@ -19,8 +19,6 @@ public class NeutralState : State
     [Min(0f)]
     private float _timeBetweenRandomAttacks = 10;
 
-    private bool _isAttacking;
-
     private NavMeshAgent _agent;
 
     private Timer _playerAttackTimer;
@@ -28,28 +26,22 @@ public class NeutralState : State
 
     private AbilityHandler _abilityHandler;
 
-    public override void Init(GameObject machineObject)
+    protected override void OnInitilization()
     {
-        base.Init(machineObject);
-        _agent = machineObject.GetComponent<NavMeshAgent>();
+        _agent = StateObject.GetComponent<NavMeshAgent>();
+        _abilityHandler = StateObject.GetComponent<AbilityHandler>();
+
         _playerAttackTimer = new Timer(_timeBetweenPlayerAttacks);
-        _playerAttackTimer.onTimerFinished += OnPlayerAttack;
         _randomAttackTimer = new Timer(_timeBetweenRandomAttacks);
+
+        _playerAttackTimer.onTimerFinished += OnPlayerAttack;
         _randomAttackTimer.onTimerFinished += OnRandomAttack;
-        _abilityHandler = machineObject.GetComponent<AbilityHandler>();
     }
 
     private void OnRandomAttack()
     {
-        _isAttacking = true;
-
-        // change this to doing the actual attacks later
-
-        int attackIndex = Random.Range(0, _abilityHandler.RegisteredAbilities.Count);
-        Debug.Log($"Monster Attacked Random Location with {_abilityHandler.RegisteredAbilities[attackIndex]}");
-        _abilityHandler.StartAbility(_abilityHandler.RegisteredAbilities[attackIndex]);
-
-        _isAttacking = false;
+        _abilityHandler.StartRandomAbility();
+        _agent.SetDestination(_agent.transform.position);
     }
 
     private void OnPlayerAttack()
@@ -62,10 +54,15 @@ public class NeutralState : State
         _playerAttackTimer.Step();
         _randomAttackTimer.Step();
 
-        if (!_isAttacking && _agent.velocity.sqrMagnitude < 0.01f && !_agent.pathPending)
+        if (CanWamder())
         {
             ChangeDestination();
         }
+    }
+
+    private bool CanWamder()
+    {
+        return !_abilityHandler.HasActiveAbility && _agent.velocity.sqrMagnitude < 0.01f && !_agent.pathPending;
     }
 
     private void ChangeDestination()
@@ -80,7 +77,6 @@ public class NeutralState : State
 
     public override void Enter()
     {
-        _isAttacking = false;
         _randomAttackTimer.Reset();
     }
 

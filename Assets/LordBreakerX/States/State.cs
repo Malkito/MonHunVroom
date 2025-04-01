@@ -12,11 +12,14 @@ namespace LordBreakerX.States
 
         public string ID { get { return _id; } }
 
-        public virtual void Init(GameObject machineObject)
+        public void Init(GameObject machineObject)
         {
             Machine = machineObject.GetComponent<StateMachine>();
             StateObject = machineObject;
+            OnInitilization();
         }
+
+        protected abstract void OnInitilization();
 
         public abstract void Enter();
 

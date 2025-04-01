@@ -7,10 +7,9 @@ public class DeadState : State
 {
     private NavMeshAgent _agent;
 
-    public override void Init(GameObject machineObject)
+    protected override void OnInitilization()
     {
-        base.Init(machineObject);
-        _agent = machineObject.GetComponent<NavMeshAgent>();
+        _agent = StateObject.GetComponent<NavMeshAgent>();
     }
 
     public override void Enter()
