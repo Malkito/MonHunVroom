@@ -36,5 +36,10 @@ namespace LordBreakerX.Utilities.Math
             return origin + offset;
         }
 
+        public static Vector3 GetRandomPositionInDisc(float radius, Vector3 origin)
+        {
+            return GetRandomPositionInDisc(radius, origin, Vector3.forward, Vector3.right);
+        }
+
     }
 }

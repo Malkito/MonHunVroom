@@ -1,3 +1,4 @@
+using LordBreakerX.AbilitySystem;
 using LordBreakerX.States;
 using UnityEngine;
 using UnityEngine.AI;
@@ -5,10 +6,6 @@ using UnityEngine.AI;
 [CreateAssetMenu(menuName = "Monster States/Neutral")]
 public class NeutralState : State
 {
-    // remove later once attacks are in
-    private string[] _attacks = new string[3] { "Laser Eyes", "Stomp", "Tail Swipe" };
-
-
     [SerializeField]
     [Min(1)]
     [Tooltip("The range that around the monster that the monster can select a wander point from")]
@@ -29,6 +26,8 @@ public class NeutralState : State
     private Timer _playerAttackTimer;
     private Timer _randomAttackTimer;
 
+    private AbilityHandler _abilityHandler;
+
     public override void Init(GameObject machineObject)
     {
         base.Init(machineObject);
@@ -37,6 +36,7 @@ public class NeutralState : State
         _playerAttackTimer.onTimerFinished += OnPlayerAttack;
         _randomAttackTimer = new Timer(_timeBetweenRandomAttacks);
         _randomAttackTimer.onTimerFinished += OnRandomAttack;
+        _abilityHandler = machineObject.GetComponent<AbilityHandler>();
     }
 
     private void OnRandomAttack()
@@ -45,8 +45,9 @@ public class NeutralState : State
 
         // change this to doing the actual attacks later
 
-        int attackIndex = Random.Range(0, _attacks.Length);
-        Debug.Log($"Monster Attacked Random Location with {_attacks[attackIndex]}");
+        int attackIndex = Random.Range(0, _abilityHandler.RegisteredAbilities.Count);
+        Debug.Log($"Monster Attacked Random Location with {_abilityHandler.RegisteredAbilities[attackIndex]}");
+        _abilityHandler.StartAbility(_abilityHandler.RegisteredAbilities[attackIndex]);
 
         _isAttacking = false;
     }
