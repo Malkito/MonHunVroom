@@ -119,6 +119,14 @@ namespace LordBreakerX.AbilitySystem
             if (ability != null) StopAbility(ability.ID);
         }
 
+        public void StopAllAbilities()
+        {
+            foreach(IAbility ability in _activeAbilities.Values)
+            {
+                if (ability != null) StopAbility(ability.ID);
+            }
+        }
+
         public void StartRandomAbility()
         {
             int attackIndex = Random.Range(0, RegisteredAbilities.Count);

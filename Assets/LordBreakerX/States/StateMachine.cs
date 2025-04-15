@@ -3,56 +3,73 @@ using UnityEngine;
 
 namespace LordBreakerX.States
 {
-    public class StateMachine : MonoBehaviour
+    public class StateMachine : MonoBehaviour, IStateMachine
     {
         [SerializeField]
-        private State _startingState;
+        private BaseState _startingState;
 
         [SerializeField]
-        private List<State> _states = new List<State>();
+        private List<BaseState> _statesToRegister = new List<BaseState>();
 
-        private State _currentState;
+        private Dictionary<string, IState> _registeredStates = new Dictionary<string, IState>();
 
-        private Dictionary<string, State> _registeredStates = new Dictionary<string, State>();
+        private IState _currentState;
 
-        protected virtual void Awake()
+        private void Awake()
         {
-            foreach (State state in _states) 
+            foreach (BaseState state in _statesToRegister) 
             {
                 if (state != null) RegisterState(state);
             }
+        }
 
+        private void Start()
+        {
+            //Note: Done this way so that for a state thats only used as the starting state
+            //      and not wanting to be able to change to the state.
             if (_startingState != null)
             {
-                State copiedStartingState = Instantiate(_startingState);
-                copiedStartingState.Init(gameObject);
-                ChangeState(copiedStartingState);
+                if (_registeredStates.ContainsKey(_startingState.ID))
+                {
+                    ChangeState(_startingState.ID);
+                }
+                else
+                {
+                    BaseState copiedStartingState = Instantiate(_startingState);
+                    copiedStartingState.Initilize(this, gameObject);
+                    ChangeState(copiedStartingState);
+                }
             }
         }
 
-        protected virtual void Update()
+        private void Update()
         {
             if (_currentState != null) _currentState.Update();
         }
 
-        protected virtual void FixedUpdate()
+        private void FixedUpdate()
         {
             if (_currentState != null) _currentState.FixedUpdate();
         }
 
-        protected virtual void LateUpdate()
+        private void LateUpdate()
         {
             if (_currentState != null) _currentState.LateUpdate();
         }
 
-        public void RegisterState(State state)
+        public void RegisterState(BaseState state)
         {
             if (state == null || _registeredStates.ContainsKey(state.ID)) return;
 
-            State copiedState = Instantiate(state);
+            IState copiedState = Instantiate(state);
+            RegisterState(copiedState);
+        }
 
-            copiedState.Init(gameObject);
-            _registeredStates.Add(copiedState.ID, copiedState);
+        public void RegisterState(IState state)
+        {
+            if (state == null || _registeredStates.ContainsKey(state.ID)) return;
+            state.Initilize(this, gameObject);
+            _registeredStates.Add(state.ID, state);
         }
 
         public bool IsCurrentState(string stateID)
@@ -60,15 +77,22 @@ namespace LordBreakerX.States
             return _registeredStates.ContainsKey(stateID) && _registeredStates[stateID] == _currentState;
         }
 
+        public bool IsCurrentState(IState state)
+        {
+            return _currentState == state;
+        }
+
         public void ChangeState(string stateID)
         {
-            if (!_registeredStates.ContainsKey(stateID) || _registeredStates[stateID] == _currentState) return;
+            if (!_registeredStates.ContainsKey(stateID)) return;
 
             ChangeState(_registeredStates[stateID]);
         }
 
-        public void ChangeState(State state)
+        public void ChangeState(IState state)
         {
+            if (_currentState == state) return;
+
             if (_currentState != null) _currentState.Exit();
             _currentState = state;
             if (_currentState != null) _currentState.Enter();

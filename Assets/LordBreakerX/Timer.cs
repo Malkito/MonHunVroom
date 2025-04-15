@@ -13,6 +13,8 @@ public class Timer
 
     public TimerEnded onTimerFinished;
 
+    public bool IsFinished { get { return _time >= _timeInSeconds; } }
+
     public Timer(float timeInSeconds)
     {
         _timeInSeconds = timeInSeconds;
@@ -26,7 +28,7 @@ public class Timer
 
     public void Step(float timeSinceLastStep)
     {
-        if (_time >= _timeInSeconds)
+        if (IsFinished)
         {
             onTimerFinished?.Invoke();
             Reset();

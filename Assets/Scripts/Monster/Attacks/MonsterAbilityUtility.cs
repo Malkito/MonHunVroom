@@ -25,7 +25,18 @@ public class MonsterAbilityUtility
 
     public Vector3 GetTargetPosition()
     {
-        Vector3 randomPosition = PositionUtility.GetRandomPositionInFrontHalfSquare(_targetRange, _monsterTransform.position + Monster.MonsterBottom, _monsterTransform.forward, _monsterTransform.right);
-        return randomPosition;
+        if (Machine.IsCurrentState("Neutral"))
+        {
+            Vector3 randomPosition = PositionUtility.GetRandomPositionInFrontHalfSquare(_targetRange, _monsterTransform.position + Monster.MonsterBottom, _monsterTransform.forward, _monsterTransform.right);
+            return randomPosition;
+        }
+        else if (Machine.IsCurrentState("PlayerAttack") && Monster.Target != null)
+        {
+            return Monster.Target.transform.position;
+        }
+        else
+        {
+            return _monsterTransform.position;
+        }
     }
 }
