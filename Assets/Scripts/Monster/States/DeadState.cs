@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [CreateAssetMenu(menuName = "Monster States/Dead")]
-public class DeadState : State
+public class DeadState : BaseState
 {
     private NavMeshAgent _agent;
 

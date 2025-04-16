@@ -1,9 +1,8 @@
-using LordBreakerX.AbilitySystem;
 using UnityEngine;
 using UnityEngine.AI;
 
 [CreateAssetMenu(menuName = "Abilities/Monster/Stomp")]
-public class StompAbility : BaseAbility
+public class StompAbility : MonsterAttackAbility
 {
     [SerializeField]
     [Header("Properties")]
@@ -14,9 +13,6 @@ public class StompAbility : BaseAbility
     [Min(0)]
     private float _stompRadius = 1;
 
-    [SerializeField]
-    private MonsterAbilityUtility _utility = new MonsterAbilityUtility();
-
     private Vector3 _targetPosition;
 
     private Vector3 _checkPosition;
@@ -25,7 +21,7 @@ public class StompAbility : BaseAbility
 
     protected override void OnInitilization()
     {
-        _utility.Initilize(Handler);
+        base.OnInitilization();
         _agent = Handler.GetComponent<NavMeshAgent>();
     }
 
@@ -38,11 +34,6 @@ public class StompAbility : BaseAbility
 
     }
 
-    public override bool CanUse()
-    {
-        return true;
-    }
-
     public override void FixedUpdate()
     {
 
@@ -50,14 +41,14 @@ public class StompAbility : BaseAbility
 
     public override void Update()
     {
-        _targetPosition = _utility.GetTargetPosition();
+        _targetPosition = GetTargetPosition();
         _checkPosition = new Vector3(_targetPosition.x, Handler.transform.position.y, _targetPosition.z);
         _agent.SetDestination(_targetPosition);
 
         if (Vector3.Distance(Handler.transform.position, _checkPosition) < _maxStompDistance)
         {
             _agent.SetDestination(_agent.transform.position);
-            _utility.Monster.Stomp();
+            Monster.Stomp();
             Handler.StopAbility(ID);
         }
     }

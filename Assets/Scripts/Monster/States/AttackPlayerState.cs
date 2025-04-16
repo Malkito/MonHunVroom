@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [CreateAssetMenu(menuName ="Monster States/Attack")]
-public class AttackPlayerState : State
+public class AttackPlayerState : BaseState
 {
     [SerializeField]
     [Min(0)]
     private float _timeInState = 30;
+
+    [SerializeField]
+    private NeutralState _neutralState;
 
     private Timer _stateTimer;
 
@@ -30,7 +33,7 @@ public class AttackPlayerState : State
 
     private void StopAttack()
     {
-        Machine.ChangeState("Neutral");
+        Machine.ChangeState(_neutralState);
     }
 
     public override void Enter()

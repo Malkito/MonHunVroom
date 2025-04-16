@@ -25,20 +25,9 @@ namespace LordBreakerX.States
 
         private void Start()
         {
-            //Note: Done this way so that for a state thats only used as the starting state
-            //      and not wanting to be able to change to the state.
             if (_startingState != null)
             {
-                if (_registeredStates.ContainsKey(_startingState.ID))
-                {
-                    ChangeState(_startingState.ID);
-                }
-                else
-                {
-                    BaseState copiedStartingState = Instantiate(_startingState);
-                    copiedStartingState.Initilize(this, gameObject);
-                    ChangeState(copiedStartingState);
-                }
+                ChangeState(_startingState);
             }
         }
 
@@ -59,43 +48,81 @@ namespace LordBreakerX.States
 
         public void RegisterState(BaseState state)
         {
-            if (state == null || _registeredStates.ContainsKey(state.ID)) return;
-
-            IState copiedState = Instantiate(state);
-            RegisterState(copiedState);
+            if (CanRegisterState(state))
+            {
+                IState copiedState = Instantiate(state);
+                state.Initilize(this, gameObject);
+                _registeredStates.Add(state.ID, state);
+            }
         }
 
         public void RegisterState(IState state)
         {
-            if (state == null || _registeredStates.ContainsKey(state.ID)) return;
-            state.Initilize(this, gameObject);
-            _registeredStates.Add(state.ID, state);
+            if (CanRegisterState(state))
+            {
+                state.Initilize(this, gameObject);
+                _registeredStates.Add(state.ID, state);
+            }
         }
 
-        public bool IsCurrentState(string stateID)
+        private bool CanRegisterState(IState state)
         {
-            return _registeredStates.ContainsKey(stateID) && _registeredStates[stateID] == _currentState;
+#if UNITY_EDITOR
+            if (state == null)
+            {
+                Debug.LogWarning("[StateMachine] Could not register state: no state provided!");
+                return false;
+            }
+
+            if (_registeredStates.ContainsKey(state.ID))
+            {
+                Debug.LogWarning($"[StateMachine] Could not register state: ID {state.ID} is already taken!");
+                return false;
+            }
+
+            return true;
+#else
+            return state != null && !_registeredStates.ContainsKey(state.ID);
+#endif
+        }
+
+        // created so that can easily use it with unity events in the inspector
+        public bool IsCurrentState(BaseState state)
+        {
+            return IsCurrentState((IState)state);
         }
 
         public bool IsCurrentState(IState state)
         {
-            return _currentState == state;
+            return _registeredStates.ContainsKey(state.ID) && _registeredStates[state.ID] == _currentState;
         }
 
-        public void ChangeState(string stateID)
+        // created so that can easily use it with unity events in the inspector
+        public void ChangeState(BaseState state)
         {
-            if (!_registeredStates.ContainsKey(stateID)) return;
-
-            ChangeState(_registeredStates[stateID]);
+            ChangeState((IState)state);
         }
 
         public void ChangeState(IState state)
         {
-            if (_currentState == state) return;
+            if (CanChangeState(state))
+            {
+                if (_currentState != null) _currentState.Exit();
+                _currentState = state;
+                if (_currentState != null) _currentState.Enter();
+            }
+        }
 
-            if (_currentState != null) _currentState.Exit();
-            _currentState = state;
-            if (_currentState != null) _currentState.Enter();
+        private bool CanChangeState(IState state)
+        {
+#if UNITY_EDITOR
+            if (!_registeredStates.ContainsKey(state.ID))
+            {
+                Debug.LogWarning($"[StateMachine] Could not change state: ID {state.ID} has not been registered.");
+                return false;
+            }
+#endif
+            return _currentState != state;
         }
 
     }

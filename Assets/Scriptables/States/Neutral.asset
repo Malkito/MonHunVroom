@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: Neutral
   _wanderRange: 10
+  _timeBetweenPlayerAttacks: 30
+  _timeBetweenRandomAttacks: 10
+  _attackState: {fileID: 11400000, guid: 6731ff80c3f15f944bc95d20a5187dba, type: 2}

@@ -1,9 +1,15 @@
-using LordBreakerX.AbilitySystem;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Monster/Laser Eyes")]
-public class LaserEyesAttack : TimedAbility
+public class LaserEyesAttack : MonsterAttackAbility
 {
+    [SerializeField]
+    [Header("Timed Ability")]
+    [Min(0f)]
+    private float _duration;
+
+    private float _durationLeft;
+
     [SerializeField]
     [Header("Properties")]
     private Laser _laser;
@@ -12,34 +18,27 @@ public class LaserEyesAttack : TimedAbility
     [Min(0)]
     private float _attackRate = 0.5f;
 
-    [SerializeField]
-    private MonsterAbilityUtility _utility = new MonsterAbilityUtility();
-
     private Timer _attackTimer;
 
     private Vector3 _targetPosition;
 
+    public override void BeginAbility()
+    {
+        _durationLeft = _duration;
+        _targetPosition = GetTargetPosition();
+    }
+
     protected override void OnInitilization()
     {
-        _utility.Initilize(Handler);
+        base.OnInitilization();
         _attackTimer = new Timer(_attackRate);
         _attackTimer.onTimerFinished += Attack;
     }
 
     private void Attack()
     {
-        Transform eye = _utility.Monster.GetRandomEye();
+        Transform eye = Monster.GetRandomEye();
         Laser.Create(_laser, eye.position, _targetPosition);
-    }
-
-    protected override void ActivateAbility()
-    {
-        _targetPosition = _utility.GetTargetPosition();
-    }
-
-    public override bool CanUse()
-    {
-        return true;
     }
 
     public override void FinishAbility()
@@ -48,13 +47,21 @@ public class LaserEyesAttack : TimedAbility
     }
 
 
-    protected override void TimedUpdate()
-    {
-        _attackTimer.Step();
-    }
 
     public override void FixedUpdate()
     {
         
+    }
+
+    public override void Update()
+    {
+        _attackTimer.Step();
+
+        _durationLeft -= Time.deltaTime;
+
+        if (_durationLeft <= 0)
+        {
+            Handler.StopAbility(ID);
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [CreateAssetMenu(menuName = "Monster States/Neutral")]
-public class NeutralState : State
+public class NeutralState : BaseState
 {
     [SerializeField]
     [Min(1)]
@@ -18,6 +18,9 @@ public class NeutralState : State
     [SerializeField]
     [Min(0f)]
     private float _timeBetweenRandomAttacks = 10;
+
+    [SerializeField]
+    private AttackPlayerState _attackState;
 
     private NavMeshAgent _agent;
 
@@ -46,7 +49,7 @@ public class NeutralState : State
 
     private void OnPlayerAttack()
     {
-        Machine.ChangeState("PlayerAttack");
+        Machine.ChangeState(_attackState);
     }
 
     public override void Update()

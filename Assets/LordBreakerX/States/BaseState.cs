@@ -2,24 +2,19 @@ using UnityEngine;
 
 namespace LordBreakerX.States
 {
-    public abstract class BaseState: BaseState<IStateMachine>
-    {
-        
-    }
-
-    public abstract class BaseState<T> : ScriptableObject, IState<T> where T : IStateMachine
+    public abstract class BaseState : ScriptableObject, IState
     {
         [SerializeField]
         private string _id;
 
-        protected T Machine { get; private set; }
+        protected IStateMachine Machine { get; private set; }
         protected GameObject StateObject { get; private set; }
 
         public string ID { get { return _id; } }
 
-        public void Initilize(T stateMachine, GameObject stateObject)
+        public void Initilize(IStateMachine machine, GameObject stateObject)
         {
-            Machine = stateMachine;
+            Machine = machine;
             StateObject = stateObject;
             OnInitilization();
         }

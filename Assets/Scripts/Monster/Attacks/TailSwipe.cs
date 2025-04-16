@@ -1,8 +1,7 @@
-using LordBreakerX.AbilitySystem;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TailSwipe : BaseAbility
+public class TailSwipe : MonsterAttackAbility
 {
     [SerializeField]
     [Header("Properties")]
@@ -12,9 +11,6 @@ public class TailSwipe : BaseAbility
     [SerializeField]
     [Min(0)]
     private float _stompRadius = 1;
-
-    [SerializeField]
-    private MonsterAbilityUtility _utility = new MonsterAbilityUtility();
 
     private Vector3 _targetPosition;
 
@@ -44,21 +40,21 @@ public class TailSwipe : BaseAbility
 
     public override void Update()
     {
-        _targetPosition = _utility.GetTargetPosition();
+        _targetPosition = GetTargetPosition();
         _checkPosition = new Vector3(_targetPosition.x, Handler.transform.position.y, _targetPosition.z);
         _agent.SetDestination(_targetPosition);
 
         if (Vector3.Distance(Handler.transform.position, _checkPosition) < _maxStompDistance)
         {
             _agent.SetDestination(_agent.transform.position);
-            _utility.Monster.TailSwipe();
+            Monster.TailSwipe();
             Handler.StopAbility(ID);
         }
     }
 
     protected override void OnInitilization()
     {
-        _utility.Initilize(Handler);
+        base.OnInitilization();
         _agent = Handler.GetComponent<NavMeshAgent>();
     }
 }

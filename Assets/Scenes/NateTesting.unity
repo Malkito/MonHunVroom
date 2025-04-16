@@ -1388,10 +1388,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startingState: {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
-  _states:
-  - {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
-  - {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
+  _statesToRegister:
   - {fileID: 11400000, guid: 6731ff80c3f15f944bc95d20a5187dba, type: 2}
+  - {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
+  - {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
 --- !u!195 &1414769366
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1454,13 +1454,13 @@ MonoBehaviour:
       - m_Target: {fileID: 1414769365}
         m_TargetAssemblyTypeName: LordBreakerX.States.StateMachine, Assembly-CSharp
         m_MethodName: ChangeState
-        m_Mode: 5
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
+          m_ObjectArgumentAssemblyTypeName: LordBreakerX.States.BaseState, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Dead
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1414769368

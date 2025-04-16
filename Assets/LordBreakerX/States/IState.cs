@@ -2,16 +2,11 @@ using UnityEngine;
 
 namespace LordBreakerX.States
 {
-    public interface IState : IState<IStateMachine>
-    {
-
-    }
-
-    public interface IState<T> where T : IStateMachine
+    public interface IState
     {
         public string ID { get; }
 
-        public void Initilize(T stateMachine, GameObject stateObject);
+        public void Initilize(IStateMachine stateMachine, GameObject stateObject);
 
         public void Enter();
 
