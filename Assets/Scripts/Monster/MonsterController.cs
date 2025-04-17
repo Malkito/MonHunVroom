@@ -30,7 +30,7 @@ public class MonsterController : MonoBehaviour
         return _eyes[index];
     }
 
-    public void OnMonsterDamaged(HealthInfo healthInfo)
+    public void OnMonsterHealthChanged(HealthInfo healthInfo)
     {
         Debug.Log($"Called Damaged Monster with following: (CH:{healthInfo.CurrentHealth}, MH:{healthInfo.Maxhealth}, HS:{healthInfo.Source != null}, DC:{healthInfo.DamageCaused})");
 
