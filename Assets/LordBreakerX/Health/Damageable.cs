@@ -33,6 +33,12 @@ namespace LordBreakerX.Health
             _currentHealth = _maxHealth;
             HealthInfo healthInfo = new HealthInfo(_maxHealth, _currentHealth, 0, 0, null);
             _onHealthChanged.Invoke(healthInfo);
+            OnAwake();
+        }
+
+        public virtual void OnAwake()
+        {
+
         }
 
         /// <summary>
