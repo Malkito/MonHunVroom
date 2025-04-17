@@ -15,6 +15,7 @@ MonoBehaviour:
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
-  pickupObject: {fileID: 0}
+  pickupObject: {fileID: 4413470043277477823, guid: 14abc235de6ac0c44886fbf1efdb108c, type: 3}
   IconImage: {fileID: 21300000, guid: 33348e425a2e5bd439da7c2acdac8f09, type: 3}
   itemDesc: 
+  isAvailble: 0

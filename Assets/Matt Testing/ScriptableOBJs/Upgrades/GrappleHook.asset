@@ -15,6 +15,10 @@ MonoBehaviour:
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
-  pickupObject: {fileID: 0}
+  pickupObject: {fileID: 3410189889518294452, guid: 0a124de21689b694780e8fdd8bbae8f1, type: 3}
   IconImage: {fileID: 21300000, guid: 62ed72273fdf34a4f9118d0da59317ec, type: 3}
   itemDesc: 
+  isAvailble: 0
+  isBulletUpgrade: 0
+  logicScriptObject: {fileID: 4339472396725398950, guid: 952c4901fc95c0d48b05f78e608cd841, type: 3}
+  cooldown: 4

@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Netcode;
 
-public class playerShooting : MonoBehaviour
+public class playerShooting : NetworkBehaviour
 {
     /// <summary>
     /// 
@@ -14,57 +15,46 @@ public class playerShooting : MonoBehaviour
     /// 
     /// </summary>
 
-
-    [SerializeField] private GameInput gameInput;
-
-
     [Header("Main Attack")]
     public BulletSO mainBulletSO;
-    [SerializeField] private Transform[] mainBarrelEnds;
+    public Transform[] mainBarrelEnds;
     private float MaintimeBetweenShots;
     private int currentBarrelNum;
 
     [Header("Alt Attack")]
     public BulletSO altBulletSO;
-    [SerializeField] private Transform altBarrelEnd;
+    public Transform altBarrelEnd;
     private float altTimeBetweenShots;
 
 
     [Header("test stuff")]
-    [SerializeField] private BulletSO fireBullet;
-    [SerializeField] private BulletSO waterBullet;
-    [SerializeField] private BulletSO electricBullet;
-    private bool fireActive = false;
-    [SerializeField] ParticleSystem flameThrower;
     [SerializeField] TMP_Text currentMainBuleltTest;
     [SerializeField] TMP_Text currentAltBuleltTest;
 
+    [Header("Other")]
+    public bool canShoot;
 
+
+    private void Start()
+    {
+        canShoot = true;
+        MaintimeBetweenShots = mainBulletSO.minTimeBetweenShots;
+        altTimeBetweenShots = altBulletSO.minTimeBetweenShots;
+
+    }
     void Update()
     {
+        if (!canShoot) return;
 
-        if (gameInput.getAttackInput() && MaintimeBetweenShots > mainBulletSO.minTimeBetweenShots)
+        if (GameInput.instance.getAttackInput() && MaintimeBetweenShots > mainBulletSO.minTimeBetweenShots)
         {
             shoot();
             MaintimeBetweenShots = 0;
         }
-        if (gameInput.getAltAttackInput() && altTimeBetweenShots > altBulletSO.minTimeBetweenShots)
+        if (GameInput.instance.getAltAttackInput() && altTimeBetweenShots > altBulletSO.minTimeBetweenShots)
         {
             altShoot();
             altTimeBetweenShots = 0;
-        }
-        if (gameInput.getAbilityOneInput())
-        {
-            changeMainBullet(electricBullet);
-        }
-        if (gameInput.getAbilityTwoInput())
-        {
-            changeMainBullet(fireBullet);
-        }
-
-        if (gameInput.getAbilityThreeInput())
-        {
-            changeAltBullet(waterBullet);
         }
         altTimeBetweenShots += Time.deltaTime;
         MaintimeBetweenShots += Time.deltaTime;
@@ -86,7 +76,7 @@ public class playerShooting : MonoBehaviour
         else { currentBarrelNum = 0; }
     }
 
-    private void altShoot()
+    public void altShoot()
     {
 
         //Play sound
@@ -103,9 +93,12 @@ public class playerShooting : MonoBehaviour
     public void changeMainBullet(BulletSO newBullet)
     {
         mainBulletSO = newBullet;
+        MaintimeBetweenShots = mainBulletSO.minTimeBetweenShots;
     }
     public void changeAltBullet(BulletSO newBullet)
     {
         altBulletSO = newBullet;
+        altTimeBetweenShots = altBulletSO.minTimeBetweenShots;
+
     }
 }

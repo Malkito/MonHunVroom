@@ -3,10 +3,14 @@ using UnityEngine.InputSystem;
 public class GameInput : MonoBehaviour
 {
     private PlayerInputActions playerInputActions;
+
+    public static GameInput instance { get; private set; }
+
+
+
     private void Awake()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        instance = this;
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
     }

@@ -19,3 +19,6 @@ MonoBehaviour:
   IconImage: {fileID: 21300000, guid: 53223632eeee04941aab84c7efbe1296, type: 3}
   itemDesc: 
   isAvailble: 0
+  isBulletUpgrade: 0
+  logicScriptObject: {fileID: 1909412488855794685, guid: d6d683f02319f1b4fa9aaa63fbc42208, type: 3}
+  cooldown: 0

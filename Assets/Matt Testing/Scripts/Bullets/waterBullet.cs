@@ -19,11 +19,6 @@ public class waterBullet : MonoBehaviour
 
         foreach(GameObject fireOBj in findFireInArea())
         {
-            FM = fireOBj.GetComponent<fireManager>();
-            if(FM.buildingHealthFireManager != null)
-            {
-                FM.stopDamageOverTime();
-            }
             Destroy(fireOBj);
         }
     }

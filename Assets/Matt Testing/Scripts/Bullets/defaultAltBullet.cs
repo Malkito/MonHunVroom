@@ -1,37 +1,43 @@
 using UnityEngine;
 using System.Collections.Generic;
-
 public class defaultAltBullet : MonoBehaviour
 {
-    [SerializeField] private BulletSO bulletData;
-    [SerializeField] private float damageRadius;
-    [SerializeField] ParticleSystem explosion;
+
+    /// <summary>
+    /// 
+    /// The deafauly alt fire (Right click)
+    /// 
+    /// When the bulelt collides with something, gets all the damageble objects in the radius and deals damage to it
+    /// 
+    /// </summary>
+
+    [SerializeField] private BulletSO bulletData; // Alt bulelt data, set in inspector
+    [SerializeField] private float damageRadius; // the radius of the damage, set in inspector
+    [SerializeField] ParticleSystem explosion; // paritcle system
 
     private void OnCollisionEnter(Collision collision)
     {
-        foreach(BuildingHealth health in getBuildingsInArea())
-        {
-            health.dealDamage(bulletData.bulletDamage);
-        }
-        GameObject explosionParticle = Instantiate(explosion.gameObject, transform.position, Quaternion.identity);
-        Destroy(explosionParticle, explosion.main.duration);
+        DealDamageToArea();
+
+        GameObject explosionParticle = Instantiate(explosion.gameObject, transform.position, Quaternion.identity);  // starts the particles
+        Destroy(explosionParticle, explosion.main.duration); // gets rid of particles after the duration
+
         Destroy(gameObject);
     }
 
-    private BuildingHealth[] getBuildingsInArea()
+    private void DealDamageToArea() 
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, damageRadius);
-        List<BuildingHealth> buildingsInArea = new List<BuildingHealth>();
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, damageRadius); // gets all the colliders in the area
 
-        foreach (Collider col in hitColliders)
+
+        foreach (Collider col in hitColliders) 
         {
-            BuildingHealth BH = col.gameObject.GetComponent<BuildingHealth>();
-            if(BH != null)
+            if(col.gameObject.TryGetComponent(out dealDamage healthScript)) // for each collider, checks if the object can be damaged
             {
-                buildingsInArea.Add(BH);
+                healthScript.dealDamage(bulletData.bulletDamage, Color.grey); // damages the objects
             }
+
         }
-        return buildingsInArea.ToArray();
     }
 
     private void OnDrawGizmos()

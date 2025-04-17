@@ -2,21 +2,20 @@ using UnityEngine;
 
 public class fireManager : MonoBehaviour
 {
-    //goes onto fireEffect object, starts the damage over time, 
-    //stops the damage over time, destroy object
 
-    public BuildingHealth buildingHealthFireManager;
+    //Created when a fire bulelt hits an object
+    //Attached to fireEffect
+    //If the fireEffect this script is attached to is destroyed, either by water or the duration, decrease the number of fires
 
-    public void startDamageOverTime(float damage, float duration)
+
+    private GameObject parent;
+    private void OnDestroy()
     {
-        buildingHealthFireManager.applyDamageOverTime(damage, duration);
+        parent = transform.parent.gameObject;
+        if (parent.TryGetComponent(out dealDamage healthScript))
+        {
+            healthScript.decreaseFireNumber();
+        }
     }
-
-
-    public void stopDamageOverTime()
-    {
-        buildingHealthFireManager.stopDamageOverTime();
-    }
-
 
 }

@@ -20,8 +20,6 @@ public class playerMovement : NetworkBehaviour
     [SerializeField] private GameObject hips; // lower half of player
     [SerializeField] private float BaseSpeed; // max Base speed
     [SerializeField] private float CurrentSpeed; // Current speed
-    private float VerticalInput;
-    private float HorizontalInput;
 
     [Header("Barrel Ends")]
     [SerializeField] private GameObject[] barrelEnds; // Two barrel ends, one at the end of each arm
@@ -43,14 +41,17 @@ public class playerMovement : NetworkBehaviour
     [Header("Other")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator anim;
-    [SerializeField] private GameInput gameInput;
     private Vector3 hipDirection;
+    public bool canMove;
 
 
     private void Start()
     {
+        canMove = true;
         canSprint = true;
         currentStamina = maxStamina;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public override void OnNetworkSpawn()
@@ -83,13 +84,16 @@ public class playerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if (!canMove) return;
+
+
         staminaSlider.value = currentStamina / maxStamina;
-        Vector2 inputVector = gameInput.getMovementInputNormalized();
+        Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
         movement(inputVector);
         rotateTorso();
         rotatioBarrelEnds();
 
-        if (gameInput.getSprintInput() && currentStamina >= 0 && canSprint)
+        if (GameInput.instance.getSprintInput() && currentStamina >= 0 && canSprint)
         {
             isSprinting();
         }

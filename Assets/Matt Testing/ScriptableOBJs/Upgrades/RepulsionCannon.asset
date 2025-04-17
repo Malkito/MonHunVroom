@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
+  m_Name: RepulsionCannon
+  m_EditorClassIdentifier: 
+  isPurchased: 0
+  amountOfTimePurchased: 0
+  spawnWeight: 0
+  pickupObject: {fileID: 816842516761365982, guid: b46c418eb9c281040b74a34da3f7a5ba, type: 3}
+  IconImage: {fileID: 0}
+  itemDesc: 
+  isAvailble: 0
+  isBulletUpgrade: 1
+  logicScriptObject: {fileID: 6271838625019508455, guid: 46a35d90d9815af4d87774482c1fe053, type: 3}
+  cooldown: 10
