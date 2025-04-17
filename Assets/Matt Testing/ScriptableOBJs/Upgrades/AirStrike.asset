@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
+  m_Name: AirStrike
+  m_EditorClassIdentifier: 
+  isPurchased: 0
+  amountOfTimePurchased: 0
+  spawnWeight: 0
+  pickupObject: {fileID: 1638817216687844807, guid: 2e490dc4a5e4f0043a5b2ef5ede1c008, type: 3}
+  IconImage: {fileID: 21300000, guid: 91c5409547d3962419606e472eb12a19, type: 3}
+  itemDesc: 
+  isAvailble: 0
+  isBulletUpgrade: 0
+  logicScriptObject: {fileID: 4333488246708774856, guid: dc94125f41636ad479d0691ce52aa05c, type: 3}
+  cooldown: 10
+  canBeUsedWhileDead: 0

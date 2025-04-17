@@ -354,7 +354,6 @@ MonoBehaviour:
   cameraTransform: {fileID: 0}
   hips: {fileID: 7268400423755789275}
   speed: 5
-  listener: {fileID: 2561607324920528490}
   barrelEnds:
   - {fileID: 7118498134260919067}
   - {fileID: 8578517012422087374}
@@ -1515,8 +1514,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9069935891991561363}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25340134, y: -5.7717645e-37, z: 5.2222255e-37, w: 0.9673613}
-  m_LocalPosition: {x: 0, y: 4.813215, z: -2.193492}
+  m_LocalRotation: {x: 0.110509835, y: 3.4905648e-15, z: -4.0958432e-16, w: 0.9938751}
+  m_LocalPosition: {x: 0, y: 5.417968, z: -8.03068}
   m_LocalScale: {x: 0.52587295, y: 0.52587295, z: 0.52587295}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1588,14 +1587,14 @@ MonoBehaviour:
   Radius: 10
   Orbits:
     Top:
-      Radius: 2.3
-      Height: 5
+      Radius: 17.2
+      Height: 8.35
     Center:
-      Radius: 4
-      Height: 2.25
+      Radius: 15.1
+      Height: 3.4
     Bottom:
-      Radius: 2.5
-      Height: 0.1
+      Radius: 15
+      Height: -2.83
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:

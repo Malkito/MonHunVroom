@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
+  m_Name: Jetpack
+  m_EditorClassIdentifier: 
+  isPurchased: 0
+  amountOfTimePurchased: 0
+  spawnWeight: 0
+  pickupObject: {fileID: 7246390563043167947, guid: 102fc80b4e320d644b59c67e0ac8f3f7, type: 3}
+  IconImage: {fileID: 21300000, guid: 53223632eeee04941aab84c7efbe1296, type: 3}
+  itemDesc: 
+  isAvailble: 0
+  isBulletUpgrade: 0
+  logicScriptObject: {fileID: 1909412488855794685, guid: d6d683f02319f1b4fa9aaa63fbc42208, type: 3}
+  cooldown: 0
