@@ -3,6 +3,13 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.Netcode;
 
+
+
+interface bullet {
+    public void setDamageOrigin(GameObject DamageOrigin);
+
+}
+
 public class playerShooting : NetworkBehaviour
 {
     /// <summary>
@@ -33,6 +40,7 @@ public class playerShooting : NetworkBehaviour
 
     [Header("Other")]
     public bool canShoot;
+    public float damageDealt;
 
 
     private void Start()
@@ -71,6 +79,12 @@ public class playerShooting : NetworkBehaviour
         GameObject projectile = Instantiate(mainBulletSO.bulletPrefab, mainBarrelEnds[currentBarrelNum].transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.linearVelocity = mainBarrelEnds[currentBarrelNum].transform.forward * mainBulletSO.bulletSpeed;
+
+        if(projectile.gameObject.TryGetComponent(out bullet bullet))
+        {
+            bullet.setDamageOrigin(gameObject);
+        }
+
         Destroy(projectile, mainBulletSO.bulletLifetime);
         if (currentBarrelNum == 0) { currentBarrelNum = 1; }
         else { currentBarrelNum = 0; }
@@ -84,6 +98,10 @@ public class playerShooting : NetworkBehaviour
 
         GameObject projectile = Instantiate(altBulletSO.bulletPrefab, altBarrelEnd.transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        if (projectile.gameObject.TryGetComponent(out bullet bullet))
+        {
+            bullet.setDamageOrigin(gameObject);
+        }
         rb.linearVelocity = mainBarrelEnds[0].forward * altBulletSO.bulletSpeed;
         Destroy(projectile, altBulletSO.bulletLifetime);
 

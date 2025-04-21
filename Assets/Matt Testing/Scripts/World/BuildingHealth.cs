@@ -56,7 +56,7 @@ public class BuildingHealth : MonoBehaviour, dealDamage
 
 
 
-        if(numOfFiresOnBuilding  > 0) // if the number of the fires on the builind 1 or aboive, begin to deal damage over time absed on the number on fires on the building
+        if(numOfFiresOnBuilding  > 0) // if the number of the fires on the building 1 or aboive, begin to deal damage over time absed on the number on fires on the building
         {
             applyDamageOverTime(numOfFiresOnBuilding, 1);
         }
@@ -66,10 +66,16 @@ public class BuildingHealth : MonoBehaviour, dealDamage
         }
         
     }
-    public void dealDamage(float damage, Color flashColor) // Takes away a certian amount of health, starts the flash damage color Coroutine
+    public void dealDamage(float damage, Color flashColor, GameObject DamageOrigin) // Takes away a certian amount of health, starts the flash damage color Coroutine
     {
         currentHealth -= damage;
         StartCoroutine(flashDamageColor(flashColor));
+
+
+        ///testing stuff
+        playerShooting PS = DamageOrigin.GetComponent<playerShooting>();
+        PS.damageDealt += damage;
+        print("Total Damage Done by: " + DamageOrigin.name+" : " + PS.damageDealt);
     }
 
 
@@ -98,7 +104,8 @@ public class BuildingHealth : MonoBehaviour, dealDamage
         while(elapsedTIme < maxBurnTime) // if the max burn time has not elapsed
         {
             yield return new WaitForSeconds(1f);
-            dealDamage(damagePerTick, fireColour); // deal damage based of number of fires on obj
+            currentHealth -= damagePerTick;
+            flashDamageColor(Color.red);
             elapsedTIme += 1f;
         }
         dotCoroutine = null;

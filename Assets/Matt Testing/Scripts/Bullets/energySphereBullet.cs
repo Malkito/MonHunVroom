@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class energySphereBullet : MonoBehaviour
+public class energySphereBullet : MonoBehaviour, bullet
 {
 
     /// <summary>
@@ -34,6 +34,8 @@ public class energySphereBullet : MonoBehaviour
     [SerializeField] float bulletSpawnRadius; // the radius the fire bullets spawn onto
 
 
+    public GameObject BulletDamageOrigin;
+
     private void Awake()
     {
         MeshRenderer = gameObject.GetComponent<MeshRenderer>();
@@ -50,7 +52,7 @@ public class energySphereBullet : MonoBehaviour
 
         }else if(collision.gameObject.TryGetComponent(out dealDamage healthScript)) // if the collidied object can be damaged
         {
-            healthScript.dealDamage(bulletSO.bulletDamage, Color.grey); // deals damage to the collidied
+            healthScript.dealDamage(bulletSO.bulletDamage, Color.grey, BulletDamageOrigin); // deals damage to the collidied
         }
 
         Destroy(gameObject);
@@ -61,6 +63,11 @@ public class energySphereBullet : MonoBehaviour
         MeshRenderer.material = fireMat;
     }
 
+
+    public void setDamageOrigin(GameObject damageOrigin)
+    {
+        BulletDamageOrigin = damageOrigin;
+    }
 
 
     private void spawnAndLaunchFire() // spawns a singlar fire bullet on sphere, picks a random direction then shoots the bullet with a randomized speed

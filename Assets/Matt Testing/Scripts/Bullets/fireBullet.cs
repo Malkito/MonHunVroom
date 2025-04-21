@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class fireBullet : MonoBehaviour
+public class fireBullet : MonoBehaviour, bullet
 {
     /// <summary>
     /// 
@@ -17,6 +17,13 @@ public class fireBullet : MonoBehaviour
     [SerializeField] float maxBurnTime;
 
 
+
+    public void setDamageOrigin(GameObject damageOrigin)
+    {
+
+
+
+    }
 
     public void OnCollisionEnter(Collision collision)
     {
