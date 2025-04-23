@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class defaultAltBullet : MonoBehaviour
+public class defaultAltBullet : MonoBehaviour, bullet
 {
 
     /// <summary>
@@ -15,6 +15,8 @@ public class defaultAltBullet : MonoBehaviour
     [SerializeField] private float damageRadius; // the radius of the damage, set in inspector
     [SerializeField] ParticleSystem explosion; // paritcle system
 
+    private GameObject BulletDamageOrigin;
+
     private void OnCollisionEnter(Collision collision)
     {
         DealDamageToArea();
@@ -23,6 +25,11 @@ public class defaultAltBullet : MonoBehaviour
         Destroy(explosionParticle, explosion.main.duration); // gets rid of particles after the duration
 
         Destroy(gameObject);
+    }
+
+    public void setDamageOrigin(GameObject damageOrigin)
+    {
+        BulletDamageOrigin = damageOrigin;
     }
 
     private void DealDamageToArea() 
@@ -34,7 +41,7 @@ public class defaultAltBullet : MonoBehaviour
         {
             if(col.gameObject.TryGetComponent(out dealDamage healthScript)) // for each collider, checks if the object can be damaged
             {
-                healthScript.dealDamage(bulletData.bulletDamage, Color.grey); // damages the objects
+                healthScript.dealDamage(bulletData.bulletDamage, Color.grey, BulletDamageOrigin); // damages the objects
             }
 
         }

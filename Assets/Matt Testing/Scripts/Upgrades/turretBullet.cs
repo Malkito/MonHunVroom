@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class turretBullet : MonoBehaviour
+public class turretBullet : MonoBehaviour, bullet 
 {
 
     [SerializeField] private LayerMask allowedLayers;
@@ -11,19 +11,26 @@ public class turretBullet : MonoBehaviour
     [Header("Shooting varibles")]
     public BulletSO[] bulletData;
     private float timeBetweenShots;
+    [SerializeField] private float fireRate;
     private Vector3 hemisphereUp;
     [SerializeField] private Transform barrelEnd;
+
+    public GameObject turretOwner;
 
     private void Start()
     {
         RB = gameObject.GetComponent<Rigidbody>();
     }
 
+    public void setDamageOrigin(GameObject damageOrigin)
+    {
+        turretOwner = damageOrigin;
+    }
 
 
     private void Update()
     {
-        if(timeBetweenShots > 1 && isAttached)
+        if(timeBetweenShots > fireRate && isAttached)
         {
             shoot();
             timeBetweenShots = 0;
@@ -61,18 +68,14 @@ public class turretBullet : MonoBehaviour
 
         GameObject projectile = Instantiate(bulletData[randomNum].bulletPrefab, barrelEnd.position, Quaternion.LookRotation(randomDir));
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        if (projectile.gameObject.TryGetComponent(out bullet bullet))
+        {
+            bullet.setDamageOrigin(turretOwner);
+        }
         if (rb != null)
         {
             rb.AddForce(randomDir * bulletData[randomNum].bulletSpeed, ForceMode.VelocityChange);
             Destroy(projectile, bulletData[randomNum].bulletLifetime);
         }
-
-
-
     }
-
-
-
-
-
 }

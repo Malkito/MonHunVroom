@@ -86,17 +86,24 @@ public class playerHealth : MonoBehaviour, dealDamage
         while (elapsedTIme < maxBurnTime)
         {
             yield return new WaitForSeconds(1f);
-            dealDamage(damagePerTick, fireColour);
+            dealDamage(damagePerTick, fireColour, gameObject);
             elapsedTIme += 1f;
         }
         dotCoroutine = null;
     }
 
-    public void dealDamage(float damage, Color flashColor)
+    public void dealDamage(float damage, Color flashColor, GameObject damageOrigin)
     {
         if (!canTakeDamage) return;
         StartCoroutine(flashDamageColor(flashColor, mat));
         currentHealth -= damage;
+
+        ///testing stuff
+        playerShooting PS = damageOrigin.GetComponent<playerShooting>();
+        if (PS != null) return;
+        PS.damageDealt += damage;
+        print("Total Damage Done: " + PS.damageDealt);
+
 
     }
 
