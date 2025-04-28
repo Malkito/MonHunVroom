@@ -1731,6 +1731,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6337766300811027692}
+  - component: {fileID: 3861744101805627766}
   m_Layer: 8
   m_Name: Torso
   m_TagString: Untagged
@@ -1758,6 +1759,52 @@ Transform:
   - {fileID: 7432293702710382791}
   m_Father: {fileID: 1428912807139932871}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3861744101805627766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5948774089829944268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cc8e5ff2ae05f84593a416206b77dfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 1
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 1
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &5996353716212423531
 GameObject:
   m_ObjectHideFlags: 0
@@ -3040,6 +3087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef45175d287eb5419130eb5b38f31ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   mainBulletSO: {fileID: 11400000, guid: 9b56692c8011c784e916d91c5a410be7, type: 2}
   mainBarrelEnds:
   - {fileID: 3602276650289169553}
@@ -3049,6 +3097,7 @@ MonoBehaviour:
   currentMainBuleltTest: {fileID: 2225097335244766896}
   currentAltBuleltTest: {fileID: 8636531444133407434}
   canShoot: 0
+  damageDealt: 0
 --- !u!114 &1123841036505487399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3061,12 +3110,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc80c44c196c5645b788b070a31692f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   currentUpgrades:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  maxNumOfUpgrades: 1
-  gameInput: {fileID: 0}
   abilityOneCooldown: 0
   abilityTwoCooldown: 0
   abilityThreeCooldown: 0
@@ -3142,7 +3190,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
+  AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -3317,6 +3365,7 @@ GameObject:
   - component: {fileID: 2197777508556400728}
   - component: {fileID: 2519552129031583535}
   - component: {fileID: 8216913980165847947}
+  - component: {fileID: 3299559862798441683}
   m_Layer: 8
   m_Name: Hips
   m_TagString: Untagged
@@ -3437,6 +3486,52 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3299559862798441683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8369488834534845815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cc8e5ff2ae05f84593a416206b77dfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 1
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 1
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &8538952749937621997
 GameObject:
   m_ObjectHideFlags: 0

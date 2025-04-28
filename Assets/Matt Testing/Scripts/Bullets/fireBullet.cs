@@ -16,12 +16,12 @@ public class fireBullet : MonoBehaviour, bullet
     [SerializeField] BulletSO fireBulletSO; // the fire bullet date, set in inspector
     [SerializeField] float maxBurnTime;
 
+    private GameObject DamageOrigin;
 
 
     public void setDamageOrigin(GameObject damageOrigin)
     {
-
-
+        DamageOrigin = damageOrigin;
 
     }
 
@@ -31,7 +31,7 @@ public class fireBullet : MonoBehaviour, bullet
 
         if (collision.gameObject.CompareTag("energySphere"))
         {
-            // if the collided object is the energy sphere then is sets teh energysphere in fire
+            // if the collided object is the energy sphere then is sets teh energysphere on fire
             energySphereBullet EnergyBullet = collision.gameObject.GetComponent<energySphereBullet>();
             EnergyBullet.setFire();
             Destroy(gameObject);
@@ -41,17 +41,15 @@ public class fireBullet : MonoBehaviour, bullet
 
         GameObject fire = Instantiate(fireEffect, transform.position, Quaternion.Euler(-90,0,0)); // creates the fire object
 
+        fireManager FM = fire.GetComponent<fireManager>();
+        //FM.ObjectOrigin = DamageOrigin;
+
         fireParticle = fire.transform.GetChild(0).GetComponent<ParticleSystem>();
         Destroy(fire, fireParticle.main.duration);// reads the duration of the particle system and drestoys the created fire object based off the duration
 
         fire.transform.SetParent(collision.transform);
 
 
-
-        if (collision.gameObject.TryGetComponent(out dealDamage healthScript)) // checks if the object can be damaged
-        {
-            healthScript.increaseFireNumber(); //Increase the number of fires on that specific object
-        }
 
         Destroy(gameObject);
     }

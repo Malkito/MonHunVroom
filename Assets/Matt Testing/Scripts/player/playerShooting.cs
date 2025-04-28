@@ -52,6 +52,8 @@ public class playerShooting : NetworkBehaviour
     }
     void Update()
     {
+        if (!IsOwner) return;
+
         if (!canShoot) return;
 
         if (GameInput.instance.getAttackInput() && MaintimeBetweenShots > mainBulletSO.minTimeBetweenShots)
@@ -80,7 +82,10 @@ public class playerShooting : NetworkBehaviour
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.linearVelocity = mainBarrelEnds[currentBarrelNum].transform.forward * mainBulletSO.bulletSpeed;
 
-        if(projectile.gameObject.TryGetComponent(out bullet bullet))
+        NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>();
+        networkProjectile.Spawn(true);
+
+        if (projectile.gameObject.TryGetComponent(out bullet bullet))
         {
             bullet.setDamageOrigin(gameObject);
         }

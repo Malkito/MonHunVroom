@@ -58,7 +58,11 @@ public class BuildingHealth : MonoBehaviour, dealDamage
 
         if(numOfFiresOnBuilding  > 0) // if the number of the fires on the building 1 or aboive, begin to deal damage over time absed on the number on fires on the building
         {
-            applyDamageOverTime(numOfFiresOnBuilding, 1);
+            if (dotCoroutine != null)
+            {
+                return;
+            }
+            dotCoroutine = StartCoroutine(damageOverTimeCoroutine(numOfFiresOnBuilding, 1));
         }
         else // Fires on building are 0
         {
@@ -74,21 +78,15 @@ public class BuildingHealth : MonoBehaviour, dealDamage
 
         ///testing stuff
         playerShooting PS = DamageOrigin.GetComponent<playerShooting>();
-        PS.damageDealt += damage;
-        print("Total Damage Done by: " + DamageOrigin.name+" : " + PS.damageDealt);
-    }
-
-
-    public void applyDamageOverTime(float damagePerTick, float maxBurnTime) // checks to see if the damage over time courtine has not started,
-    {                                                                        //, if not then write the coroutine to the varible and start it
-        if (dotCoroutine != null)
+        if (PS != null)
         {
-            return;
+            PS.damageDealt += damage;
+            print("Total Damage Done by: " + DamageOrigin.name + " : " + PS.damageDealt);
         }
-        dotCoroutine = StartCoroutine(damageOverTimeCoroutine(damagePerTick, maxBurnTime));
     }
 
-    public void stopDamageOverTime() // stops the damage overtime when the number of fires is 0
+
+    private void stopDamageOverTime() // stops the damage overtime when the number of fires is 0
     {
         if(dotCoroutine != null)
         {
@@ -105,7 +103,7 @@ public class BuildingHealth : MonoBehaviour, dealDamage
         {
             yield return new WaitForSeconds(1f);
             currentHealth -= damagePerTick;
-            flashDamageColor(Color.red);
+            StartCoroutine(flashDamageColor(Color.red));
             elapsedTIme += 1f;
         }
         dotCoroutine = null;

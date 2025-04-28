@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+using Unity.Netcode;
+
 /// <summary>
 /// 
 /// This script handles the upgrades that the player can use.
@@ -17,7 +19,7 @@ interface useAbility
 }
 
 
-public class playerUpgradeManager : MonoBehaviour
+public class playerUpgradeManager : NetworkBehaviour
 {
     public UpgradeScriptableOBJ[] currentUpgrades = new UpgradeScriptableOBJ[3]; // the array current upgrades availble to the player, with a max of3
 
@@ -70,13 +72,15 @@ public class playerUpgradeManager : MonoBehaviour
 
     private void Update()
     {
-        if (!canUseUpgrade) return; // if the player cant use upgrades, ignore below
+        if (!IsOwner) return;
+
+        if (!canUseUpgrade) return; // if the player cant use the upgrades for whatever reason (Like being dead), ignore below
 
 
         /*
          * Explanations of Logic Scripts:
          * 
-         * Each upgrade has an unique logic script, set in the inspector for that upgradeScriptableObject
+         * Each upgrade has an unique logic script object, set in the inspector for that upgradeScriptableObject. An empty object with the upgrade specific Logic script
          * 
          * Logic scripts handles the moment the ability is used, aswell as any logic that is required if the input is not being pressed.
          * 
@@ -97,17 +101,17 @@ public class playerUpgradeManager : MonoBehaviour
          *           Energy Sphere: if the input is pressed, set the ALTattack Bullet Data to the Energy Sphere data. Then after a duration, revert the change. starts cooldown
          *           Water Grenade: if the input is pressed, set the ALTattack Bullet Data to the Water Grenade data. Then after a duration, revert the change. starts cooldown
          *           
-         * Most logic scripts act the same, so far, only the jetpack is super uniqie, and the grapple hook has a unique system for pickup explained in the "GrappleHookPickUpScript"  
+         * Most logic scripts act the same, so far, only the jetpack is super unique, and the grapple hook has a unique system for pickup explained in the "GrappleHookPickUpScript"  
          *           
          *       
          */
 
 
-        /* Each block of code below checks the input for each position. Q checks pos 1, E checks pos 2, R checks pos 3. 
+        /* Each block of code below checks the input for each position in the current upgrade array. Q checks pos 1, E checks pos 2, R checks pos 3. 
          * 
          * 
-         * if the input for the repsective upgrade is postiive, it uses the "Use ability" function sending the arguement of true
-         * if the input is negative, it uses the "Use ability" function sending the arguement of false
+         * if the input for the repsective upgrade is postiive, it uses the "Use ability" on the respective logic script function sending with the arguement of true
+         * if the input is negative, it uses the "Use ability" function on the respective logic script sending the arguement of false
          * 
          * in either case, checks to see if there is even an upgrade in the postion in the first place
          * 
@@ -118,42 +122,48 @@ public class playerUpgradeManager : MonoBehaviour
 
 
 
-        ///////////Upgrade 1//////////////
+        ///////////Upgrade Pos 1//////////////
         if (currentUpgrades[0] !=null && GameInput.instance.getAbilityOneInput() &&  currentUpgrades[0].logicScriptObject.TryGetComponent(out useAbility abilityOneScriptInUse) && abilityOneCooldown <= 0)
         {
+            //Ability pressed
             abilityOneScriptInUse.useAbility(transform, true);
             abilityOneCooldown = currentUpgrades[0].cooldown;
         }else if (currentUpgrades[0] != null && currentUpgrades[0].logicScriptObject.TryGetComponent(out useAbility abilityOneScriptNotInUse))
         {
+            //Ability not pressed
             abilityOneScriptNotInUse.useAbility(transform, false);
         }
 
 
-        ///////////Upgrade 2///////////////
+        ///////////Upgrade Pos 2///////////////
         if (currentUpgrades[1] != null && GameInput.instance.getAbilityTwoInput() && currentUpgrades[1].logicScriptObject.TryGetComponent(out useAbility abilityTwoScriptInUse) && abilityTwoCooldown <= 0)
         {
+            //Ability pressed
             abilityTwoScriptInUse.useAbility(transform, true);
             abilityTwoCooldown = currentUpgrades[1].cooldown;
         }
         else if (currentUpgrades[1] != null && currentUpgrades[1].logicScriptObject.TryGetComponent(out useAbility abilityTwoScriptNotInUse))
         {
+            //Ability not pressed
             abilityTwoScriptNotInUse.useAbility(transform, false);
         }
 
 
 
-        ///////////Upgrade 3///////////////
+        ///////////Upgrade Pos 3///////////////
         if (currentUpgrades[2] != null && GameInput.instance.getAbilityThreeInput() && currentUpgrades[2].logicScriptObject.TryGetComponent(out useAbility abilityThreeScriptInUse) && abilityThreeCooldown <= 0)
         {
+            //Ability pressed
             abilityThreeScriptInUse.useAbility(transform, true);
             abilityThreeCooldown = currentUpgrades[2].cooldown;
         }
         else if (currentUpgrades[2] != null && currentUpgrades[2].logicScriptObject.TryGetComponent(out useAbility abilityThreeScriptNotInUse))
         {
+            //Ability not pressed
             abilityThreeScriptNotInUse.useAbility(transform, false);
         }
 
-        //Countdowns cooldowns
+        //Countdowns the cooldowns
         abilityOneCooldown -= Time.deltaTime;
         abilityTwoCooldown -= Time.deltaTime;
         abilityThreeCooldown -= Time.deltaTime;
