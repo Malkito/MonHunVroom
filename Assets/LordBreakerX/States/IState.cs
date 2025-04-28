@@ -17,5 +17,9 @@ namespace LordBreakerX.States
         public void FixedUpdate();
 
         public void LateUpdate();
+
+        public void OnGizmos();
+
+        public void OnGizmosSelected();
     }
 }

@@ -37,4 +37,14 @@ public class DeadState : BaseState
     {
         
     }
+
+    public override void OnGizmos()
+    {
+        
+    }
+
+    public override void OnGizmosSelected()
+    {
+        
+    }
 }

@@ -72,4 +72,14 @@ public class AttackPlayerState : BaseState
     {
         
     }
+
+    public override void OnGizmos()
+    {
+        
+    }
+
+    public override void OnGizmosSelected()
+    {
+        
+    }
 }

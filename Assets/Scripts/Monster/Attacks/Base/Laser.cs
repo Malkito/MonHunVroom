@@ -1,3 +1,4 @@
+using LordBreakerX.Utilities.Tags;
 using System;
 using UnityEngine;
 
@@ -11,9 +12,18 @@ public class Laser : MonoBehaviour
     [Min(0)]
     private float _moveSpeed;
 
+    [SerializeField]
+    [TagDropdown]
+    private string _monsterTag = "Monster";
+
+    [SerializeField]
+    private float _damage = 50;
+
     private Vector3 _moveDirection = Vector3.zero;
 
     private Timer _timer;
+
+    private GameObject _creator;
 
     private void Awake()
     {
@@ -44,12 +54,19 @@ public class Laser : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!collision.gameObject.CompareTag(_monsterTag))
+        {
+            dealDamage damage = collision.gameObject.GetComponent<dealDamage>();
+            if (damage != null) damage.dealDamage(_damage, Color.red, _creator);
+        }
+
         Destroy(gameObject);
     }
 
-    public static Laser Create(Laser prefab, Vector3 startPosition, Vector3 targetPosition)
+    public static Laser Create(Laser prefab, GameObject creator, Vector3 startPosition, Vector3 targetPosition)
     {
         Laser createdLaser = Instantiate(prefab, startPosition, Quaternion.identity);
+        createdLaser._creator = creator;
         createdLaser._moveDirection = (targetPosition - startPosition).normalized;
         return createdLaser;
     }

@@ -7,7 +7,7 @@ public class StompAbility : MonsterAttackAbility
     [SerializeField]
     [Header("Properties")]
     [Min(0)]
-    private float _maxStompDistance = 1;
+    private float _maxStompDistance = 1.2f;
 
     [SerializeField]
     [Min(0)]
@@ -31,7 +31,7 @@ public class StompAbility : MonsterAttackAbility
 
     public override void FinishAbility()
     {
-
+        
     }
 
     public override void FixedUpdate()

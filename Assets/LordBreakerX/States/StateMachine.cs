@@ -46,6 +46,26 @@ namespace LordBreakerX.States
             if (_currentState != null) _currentState.LateUpdate();
         }
 
+        private void OnDrawGizmos()
+        {
+            if (_registeredStates == null || _registeredStates.Count == 0) return;
+
+            foreach (IState state in _registeredStates.Values)
+            {
+                state.OnGizmos();
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (_registeredStates == null || _registeredStates.Count == 0) return;
+
+            foreach (IState state in _registeredStates.Values)
+            {
+                state.OnGizmosSelected();
+            }
+        }
+
         public void RegisterState(BaseState state)
         {
             if (CanRegisterState(state))

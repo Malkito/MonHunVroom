@@ -1,3 +1,4 @@
+using LordBreakerX.Utilities.Math;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Monster/Laser Eyes")]
@@ -38,7 +39,7 @@ public class LaserEyesAttack : MonsterAttackAbility
     private void Attack()
     {
         Transform eye = Monster.GetRandomEye();
-        Laser.Create(_laser, eye.position, _targetPosition);
+        Laser.Create(_laser, Handler.gameObject, eye.position, _targetPosition);
     }
 
     public override void FinishAbility()
@@ -63,5 +64,12 @@ public class LaserEyesAttack : MonsterAttackAbility
         {
             Handler.StopAbility(ID);
         }
+    }
+
+    public override Vector3 RandomTargetPosition()
+    {
+        Vector3 monsterOrigin = Monster.transform.position + Monster.MonsterBottom;
+        Vector3 randomPosition = PositionUtility.GetRandomPositionInFrontHalfSquare(TargetRange, monsterOrigin, Monster.transform.forward, -Monster.transform.right);
+        return randomPosition;
     }
 }

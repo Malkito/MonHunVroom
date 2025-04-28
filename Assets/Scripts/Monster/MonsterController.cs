@@ -1,6 +1,7 @@
 using LordBreakerX.Health;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MonsterController : MonoBehaviour
 {
@@ -13,11 +14,39 @@ public class MonsterController : MonoBehaviour
     [SerializeField]
     private ParticleSystem _stompEffect;
 
+    [SerializeField]
+    [Min(0)]
+    private float _stompRadius = 1;
+
+    [SerializeField]
+    private Animator _animator;
+
+    [SerializeField]
+    private NavMeshAgent _agent;
+
     private Dictionary<GameObject, float> _damageTable = new Dictionary<GameObject, float>();
 
     public Vector3 MonsterBottom { get { return _monsterBottom; } }
 
     public GameObject Target { get; private set; }
+
+    private void Update()
+    {
+        // temp stuff
+        if (_agent.velocity.sqrMagnitude >= 0.1f)
+        {
+            _animator.SetBool("walk", true);
+        }
+        else
+        {
+            _animator.SetBool("walk", false);
+        }
+    }
+
+    public void OnDead()
+    {
+        _animator.SetBool("dead", true);
+    }
 
     public Transform GetRandomEye()
     {
@@ -72,16 +101,37 @@ public class MonsterController : MonoBehaviour
     public void Stomp()
     {
         _stompEffect.Play();
+
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position + MonsterBottom, _stompRadius, Vector3.down, _stompRadius);
+        foreach (RaycastHit hit in hits)
+        {
+            if (!hit.collider.CompareTag("Monster"))
+            {
+                dealDamage damage = hit.collider.gameObject.GetComponent<dealDamage>();
+                if (damage != null) damage.dealDamage(50, Color.red, gameObject);
+            }
+            
+        }
     }
 
     public void TailSwipe()
     {
-        
+        _animator.Play("tail swipe");
+    }
+
+    public bool TailSwipeFinished()
+    {
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        return !stateInfo.IsName("tail swipe");
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(transform.position + _monsterBottom, 0.1f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + _monsterBottom, _stompRadius);
+        Gizmos.DrawWireSphere(transform.position + _monsterBottom, _stompRadius * 2);
     }
 }

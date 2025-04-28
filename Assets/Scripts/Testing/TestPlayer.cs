@@ -8,11 +8,11 @@ public class TestPlayer : MonoBehaviour
     private float _damageToEnemy = 10;
 
     [SerializeField]
-    private Damageable _enemy;
+    private MonsterHealth _enemy;
 
     [ContextMenu("Damage Monster")]
     public void DoDamage()
     {
-        _enemy.Damage(_damageToEnemy, gameObject);
+        _enemy.dealDamage(_damageToEnemy, Color.red, gameObject);
     }
 }

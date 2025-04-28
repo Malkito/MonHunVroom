@@ -1,5 +1,7 @@
 using LordBreakerX.AbilitySystem;
 using LordBreakerX.States;
+using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -29,10 +31,15 @@ public class NeutralState : BaseState
 
     private AbilityHandler _abilityHandler;
 
+    private MonsterController _monsterController;
+
+    private Vector3 _targetPosition;
+
     protected override void OnInitilization()
     {
         _agent = StateObject.GetComponent<NavMeshAgent>();
         _abilityHandler = StateObject.GetComponent<AbilityHandler>();
+        _monsterController = StateObject.GetComponent<MonsterController>();
 
         _playerAttackTimer = new Timer(_timeBetweenPlayerAttacks);
         _randomAttackTimer = new Timer(_timeBetweenRandomAttacks);
@@ -44,7 +51,6 @@ public class NeutralState : BaseState
     private void OnRandomAttack()
     {
         _abilityHandler.StartRandomAbility();
-        _agent.SetDestination(_agent.transform.position);
     }
 
     private void OnPlayerAttack()
@@ -57,30 +63,25 @@ public class NeutralState : BaseState
         _playerAttackTimer.Step();
         _randomAttackTimer.Step();
 
+        if (!_abilityHandler.HasActiveAbility && _targetPosition != _agent.destination) _agent.SetDestination(_targetPosition);
+
         if (CanWamder())
         {
-            ChangeDestination();
+            _targetPosition = NavMeshUtility.GetRandomPosition(_agent.transform.position, _wanderRange);
+            _agent.SetDestination(_targetPosition);
         }
     }
 
     private bool CanWamder()
     {
-        return !_abilityHandler.HasActiveAbility && _agent.velocity.sqrMagnitude < 0.01f && !_agent.pathPending;
-    }
-
-    private void ChangeDestination()
-    {
-        Vector3 randomPoint = Random.insideUnitSphere * _wanderRange;
-        randomPoint += _agent.transform.position;
-        if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, _wanderRange, NavMesh.AllAreas))
-        {
-            _agent.SetDestination(hit.position);
-        }
+        return !_abilityHandler.HasActiveAbility && (Vector3.Distance(StateObject.transform.position, _targetPosition) <= 1.2f || _agent.pathStatus != NavMeshPathStatus.PathComplete);
     }
 
     public override void Enter()
     {
         _randomAttackTimer.Reset();
+        _targetPosition = _agent.transform.position;
+        _agent.SetDestination(_targetPosition);
     }
 
     public override void Exit()
@@ -96,5 +97,20 @@ public class NeutralState : BaseState
     public override void LateUpdate()
     {
         
+    }
+
+    public override void OnGizmos()
+    {
+        
+    }
+
+    public override void OnGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(StateObject.transform.position, _wanderRange);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(_agent.transform.position, 0.1f);
+        Gizmos.DrawSphere(_targetPosition, 0.1f);
     }
 }

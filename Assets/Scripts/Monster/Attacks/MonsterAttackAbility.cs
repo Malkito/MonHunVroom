@@ -21,6 +21,8 @@ public abstract class MonsterAttackAbility : BaseAbility
     public MonsterController Monster { get; private set; }
     public StateMachine Machine { get; private set; }
 
+    public float TargetRange { get; private set; }
+
     public override bool CanUse()
     {
         return true;
@@ -33,21 +35,29 @@ public abstract class MonsterAttackAbility : BaseAbility
         Machine = Handler.GetComponent<StateMachine>();
     }
 
-    public Vector3 GetTargetPosition()
+    public Vector3 GetTargetPosition() 
     {
-        Debug.Log($"{Machine} -- {_neutralState}");
         if (Machine.IsCurrentState(_neutralState))
         {
-            Vector3 randomPosition = PositionUtility.GetRandomPositionInFrontHalfSquare(_targetRange, _monsterTransform.position + Monster.MonsterBottom, _monsterTransform.forward, _monsterTransform.right);
-            return randomPosition;
+            return RandomTargetPosition();
         }
-        else if (Machine.IsCurrentState(_attackPlayerState) && Monster.Target != null)
+        else if (Machine.IsCurrentState(_attackPlayerState))
         {
-            return Monster.Target.transform.position;
+            return PlayerTargetPosition();
         }
         else
         {
             return _monsterTransform.position;
         }
+    }
+
+    public virtual Vector3 RandomTargetPosition()
+    {
+        return NavMeshUtility.GetRandomPosition(_monsterTransform.position, _targetRange);
+    }
+
+    public virtual Vector3 PlayerTargetPosition()
+    {
+        return Monster.Target.transform.position;
     }
 }

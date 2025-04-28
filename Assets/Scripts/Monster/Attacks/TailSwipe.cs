@@ -1,16 +1,13 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+[CreateAssetMenu(menuName ="Abilities/Monster/Tail Swipe")]
 public class TailSwipe : MonsterAttackAbility
 {
     [SerializeField]
     [Header("Properties")]
     [Min(0)]
-    private float _maxStompDistance = 1;
-
-    [SerializeField]
-    [Min(0)]
-    private float _stompRadius = 1;
+    private float _maxTailSwipeDistance = 1;
 
     private Vector3 _targetPosition;
 
@@ -18,9 +15,11 @@ public class TailSwipe : MonsterAttackAbility
 
     private NavMeshAgent _agent;
 
+    private bool _started = false;
+
     public override void BeginAbility()
     {
-        
+        _started = false;
     }
 
     public override bool CanUse()
@@ -44,10 +43,15 @@ public class TailSwipe : MonsterAttackAbility
         _checkPosition = new Vector3(_targetPosition.x, Handler.transform.position.y, _targetPosition.z);
         _agent.SetDestination(_targetPosition);
 
-        if (Vector3.Distance(Handler.transform.position, _checkPosition) < _maxStompDistance)
+        if (!_started && Vector3.Distance(Handler.transform.position, _checkPosition) < _maxTailSwipeDistance)
         {
             _agent.SetDestination(_agent.transform.position);
             Monster.TailSwipe();
+            _started = true;
+        }
+
+        if (_started && Monster.TailSwipeFinished())
+        {
             Handler.StopAbility(ID);
         }
     }
