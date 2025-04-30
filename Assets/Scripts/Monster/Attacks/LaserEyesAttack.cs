@@ -69,7 +69,7 @@ public class LaserEyesAttack : MonsterAttackAbility
     public override Vector3 RandomTargetPosition()
     {
         Vector3 monsterOrigin = Monster.transform.position + Monster.MonsterBottom;
-        Vector3 randomPosition = PositionUtility.GetRandomPositionInFrontHalfSquare(TargetRange, monsterOrigin, Monster.transform.forward, -Monster.transform.right);
+        Vector3 randomPosition = PositionUtility.GetRandomPositionInFrontHalfSquare(TargetRange, monsterOrigin, Monster.transform.forward, Monster.transform.right);
         return randomPosition;
     }
 }
