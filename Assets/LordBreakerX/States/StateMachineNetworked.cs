@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace LordBreakerX.States
 {
-    public class StateMachine : MonoBehaviour, IStateMachine
+    public class StateMachineNetworked : NetworkBehaviour
     {
         [SerializeField]
         private BaseState _startingState;
@@ -11,23 +12,27 @@ namespace LordBreakerX.States
         [SerializeField]
         private List<BaseState> _statesToRegister = new List<BaseState>();
 
-        private Dictionary<string, IState> _registeredStates = new Dictionary<string, IState>();
+        private Dictionary<string, BaseState> _registeredStates = new Dictionary<string, BaseState>();
 
-        private IState _currentState;
+        private BaseState _currentState;
 
-        private void Awake()
+        public override void OnNetworkSpawn()
         {
-            foreach (BaseState state in _statesToRegister) 
+            base.OnNetworkSpawn();
+
+            foreach (BaseState state in _statesToRegister)
             {
                 if (state != null) RegisterState(state);
             }
-        }
 
-        private void Start()
-        {
-            if (_startingState != null)
+            if (IsServer && _startingState != null)
             {
                 ChangeState(_startingState);
+            }
+
+            if (IsClient)
+            {
+                CurrentStateServerRpc();
             }
         }
 
@@ -50,7 +55,7 @@ namespace LordBreakerX.States
         {
             if (_registeredStates == null || _registeredStates.Count == 0) return;
 
-            foreach (IState state in _registeredStates.Values)
+            foreach (BaseState state in _registeredStates.Values)
             {
                 state.OnGizmos();
             }
@@ -60,7 +65,7 @@ namespace LordBreakerX.States
         {
             if (_registeredStates == null || _registeredStates.Count == 0) return;
 
-            foreach (IState state in _registeredStates.Values)
+            foreach (BaseState state in _registeredStates.Values)
             {
                 state.OnGizmosSelected();
             }
@@ -70,22 +75,13 @@ namespace LordBreakerX.States
         {
             if (CanRegisterState(state))
             {
-                IState copiedState = Instantiate(state);
+                BaseState copiedState = Instantiate(state);
                 state.Initilize(this, gameObject);
                 _registeredStates.Add(state.ID, state);
             }
         }
 
-        public void RegisterState(IState state)
-        {
-            if (CanRegisterState(state))
-            {
-                state.Initilize(this, gameObject);
-                _registeredStates.Add(state.ID, state);
-            }
-        }
-
-        private bool CanRegisterState(IState state)
+        private bool CanRegisterState(BaseState state)
         {
 #if UNITY_EDITOR
             if (state == null)
@@ -106,43 +102,50 @@ namespace LordBreakerX.States
 #endif
         }
 
-        // created so that can easily use it with unity events in the inspector
         public bool IsCurrentState(BaseState state)
         {
-            return IsCurrentState((IState)state);
+            return _registeredStates.ContainsKey(state.ID) && state == _currentState;
         }
 
-        public bool IsCurrentState(IState state)
-        {
-            return _registeredStates.ContainsKey(state.ID) && _registeredStates[state.ID] == _currentState;
-        }
-
-        // created so that can easily use it with unity events in the inspector
         public void ChangeState(BaseState state)
         {
-            ChangeState((IState)state);
+            if (IsServer)
+            {
+                ChangeState(state.ID);
+                OnChangeStateClientRpc(state.ID);
+            }
         }
 
-        public void ChangeState(IState state)
+        [ClientRpc(RequireOwnership = false)]
+        public void OnChangeStateClientRpc(string stateID)
         {
-            if (CanChangeState(state))
+            ChangeState(stateID);
+        }
+
+        private void ChangeState(string stateID)
+        {
+            if (CanChangeState(stateID))
             {
                 if (_currentState != null) _currentState.Exit();
-                _currentState = state;
+                _currentState = _registeredStates[stateID];
                 if (_currentState != null) _currentState.Enter();
             }
         }
 
-        private bool CanChangeState(IState state)
+        private bool CanChangeState(string stateID)
         {
-#if UNITY_EDITOR
-            if (!_registeredStates.ContainsKey(state.ID))
+            if (!_registeredStates.ContainsKey(stateID))
             {
-                Debug.LogWarning($"[StateMachine] Could not change state: ID {state.ID} has not been registered.");
+                Debug.LogWarning($"[StateMachine] Could not change state: ID {stateID} has not been registered.");
                 return false;
             }
-#endif
-            return _currentState != state;
+            return _currentState != _registeredStates[stateID];
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void CurrentStateServerRpc()
+        {
+            OnChangeStateClientRpc(_currentState.ID);
         }
 
     }

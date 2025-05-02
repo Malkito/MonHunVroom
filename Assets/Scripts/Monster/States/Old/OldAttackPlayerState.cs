@@ -4,27 +4,24 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [CreateAssetMenu(menuName ="Monster States/Attack")]
-public class AttackPlayerState : BaseState
+public class OldAttackPlayerState : BaseState
 {
     [SerializeField]
     [Min(0)]
     private float _timeInState = 30;
 
     [SerializeField]
-    private NeutralState _neutralState;
+    private OldNeutralState _neutralState;
 
     private Timer _stateTimer;
 
-    private NavMeshAgent _agent;
-
-    private MonsterController _monster;
+    private MonsterControllerOld _monster;
 
     private AbilityHandler _abilityHandler;
 
     protected override void OnInitilization()
     {
-        _agent = StateObject.GetComponent<NavMeshAgent>();
-        _monster = StateObject.GetComponent<MonsterController>();
+        _monster = StateObject.GetComponent<MonsterControllerOld>();
         _abilityHandler = StateObject.GetComponent<AbilityHandler>();
 
         _stateTimer = new Timer(_timeInState);
@@ -38,7 +35,7 @@ public class AttackPlayerState : BaseState
 
     public override void Enter()
     {
-        _agent.SetDestination(_agent.transform.position);
+        _monster.StopMovement();
 
         _monster.UpdateTarget();
         _monster.ResetDamageTable();
@@ -61,25 +58,5 @@ public class AttackPlayerState : BaseState
         {
             _abilityHandler.StartRandomAbility();
         }
-    }
-
-    public override void FixedUpdate()
-    {
-        
-    }
-
-    public override void LateUpdate()
-    {
-        
-    }
-
-    public override void OnGizmos()
-    {
-        
-    }
-
-    public override void OnGizmosSelected()
-    {
-        
     }
 }

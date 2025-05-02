@@ -15,8 +15,11 @@ EditorBuildSettings:
     path: Assets/Matt Testing/Test Scene.unity
     guid: 9e8f4597e07c67f438b8e83004010d1c
   - enabled: 1
-    path: Assets/Scenes/NateTesting.unity
+    path: Assets/Scenes/OldNateTesting.unity
     guid: fdb90fa82e9e1b34eb5a15c9c4d7914e
+  - enabled: 1
+    path: Assets/Scenes/NewNateTesting.unity
+    guid: 9994bfabf11bfeb43912c12126ed825c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

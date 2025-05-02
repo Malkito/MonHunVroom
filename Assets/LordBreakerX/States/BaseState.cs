@@ -2,36 +2,36 @@ using UnityEngine;
 
 namespace LordBreakerX.States
 {
-    public abstract class BaseState : ScriptableObject, IState
+    public abstract class BaseState : ScriptableObject
     {
         [SerializeField]
         private string _id;
 
-        protected IStateMachine Machine { get; private set; }
+        protected StateMachineNetworked Machine { get; private set; }
         protected GameObject StateObject { get; private set; }
 
         public string ID { get { return _id; } }
 
-        public void Initilize(IStateMachine machine, GameObject stateObject)
+        public void Initilize(StateMachineNetworked machine, GameObject stateObject)
         {
             Machine = machine;
             StateObject = stateObject;
             OnInitilization();
         }
 
-        protected abstract void OnInitilization();
+        protected virtual void OnInitilization() { }
 
-        public abstract void Enter();
+        public virtual void Enter() { }
 
-        public abstract void Exit();
+        public virtual void Exit() { }
 
-        public abstract void Update();
+        public virtual void Update() { }
 
-        public abstract void FixedUpdate();
+        public virtual void FixedUpdate() { }
 
-        public abstract void LateUpdate();
+        public virtual void LateUpdate() { }
 
-        public abstract void OnGizmos();
-        public abstract void OnGizmosSelected();
+        public virtual void OnGizmos() { }
+        public virtual void OnGizmosSelected() { }
     }
 }

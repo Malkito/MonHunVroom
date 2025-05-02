@@ -1,38 +1,57 @@
-using LordBreakerX.Health;
-using System.Collections.Generic;
+using LordBreakerX.AbilitySystem;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MonsterController : MonoBehaviour
+public class MonsterController : NetworkBehaviour
 {
-    [SerializeField]
-    private Transform[] _eyes;
-
-    [SerializeField]
-    private Vector3 _monsterBottom;
-
-    [SerializeField]
-    private ParticleSystem _stompEffect;
-
-    [SerializeField]
-    [Min(0)]
-    private float _stompRadius = 1;
-
-    [SerializeField]
-    private Animator _animator;
-
     [SerializeField]
     private NavMeshAgent _agent;
 
-    private Dictionary<GameObject, float> _damageTable = new Dictionary<GameObject, float>();
+    [SerializeField]
+    private AbilityHandler _abilityHandler;
 
-    public Vector3 MonsterBottom { get { return _monsterBottom; } }
+    private Animator _animator;
 
-    public GameObject Target { get; private set; }
+    private NetworkVariable<Vector3> _targetPosition = new NetworkVariable<Vector3>();
 
-    private void Update()
+    public Vector3 TargetPosition { get {  return _targetPosition.Value; } }
+
+    public bool DestinationReachable { get { return _agent.pathStatus == NavMeshPathStatus.PathComplete; } }
+
+    public override void OnNetworkSpawn()
     {
-        // temp stuff
+        base.OnNetworkSpawn();
+        _animator = GetComponent<Animator>();
+
+        _targetPosition.OnValueChanged += OnTargetPositionChanged;
+    }
+
+    #region Movement Logic
+
+    private void OnTargetPositionChanged(Vector3 previousValue, Vector3 newValue)
+    {
+        _agent.SetDestination(newValue);
+    }
+
+    public void StopMovement()
+    {
+        if (IsServer)
+        {
+            _targetPosition.Value = _agent.transform.position;
+        }
+    }
+
+    public void RandomDestination(float range)
+    {
+        if (IsServer)
+        {
+            _targetPosition.Value = NavMeshUtility.GetRandomPosition(_agent.transform.position, range);
+        }
+    }
+
+    public void UpdateWalkAnimation()
+    {
         if (_agent.velocity.sqrMagnitude >= 0.1f)
         {
             _animator.SetBool("walk", true);
@@ -43,95 +62,20 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    public void OnDead()
-    {
-        _animator.SetBool("dead", true);
-    }
+    #endregion
 
-    public Transform GetRandomEye()
+    public void RequestStartRandomAttack()
     {
-        if (_eyes.Length == 0)
+        if (IsServer)
         {
-            return null;
-        }
-
-        int index = Random.Range(0, _eyes.Length);
-        return _eyes[index];
-    }
-
-    public void OnMonsterHealthChanged(HealthInfo healthInfo)
-    {
-        Debug.Log($"Called Damaged Monster with following: (CH:{healthInfo.CurrentHealth}, MH:{healthInfo.Maxhealth}, HS:{healthInfo.Source != null}, DC:{healthInfo.DamageCaused})");
-
-        if (healthInfo.Source == null || healthInfo.DamageCaused <= 0) return;
-
-        if (_damageTable.ContainsKey(healthInfo.Source)) 
-            _damageTable[healthInfo.Source] += healthInfo.DamageCaused;
-        else
-            _damageTable[healthInfo.Source] = healthInfo.DamageCaused;
-    }
-
-    public void ResetDamageTable()
-    {
-        _damageTable.Clear();
-    }
-
-    public void UpdateTarget()
-    {
-        if (_damageTable.Count > 0)
-        {
-            KeyValuePair<GameObject, float> highestPair = new KeyValuePair<GameObject, float>(null, 0);
-
-            foreach(KeyValuePair<GameObject, float> damagePair in _damageTable)
-            {
-                if (damagePair.Value > 0 && damagePair.Value > highestPair.Value)
-                {
-                    highestPair = damagePair;
-                }
-            }
-
-            Target = highestPair.Key;
-        }
-        else
-        {
-            Target = null;
+            //_abilityHandler.StartRandomAbility();
+            //StartRandomAttackClientRpc();
         }
     }
 
-    public void Stomp()
+    [ClientRpc(RequireOwnership = false)]
+    private void StartRandomAttackClientRpc()
     {
-        _stompEffect.Play();
-
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position + MonsterBottom, _stompRadius, Vector3.down, _stompRadius);
-        foreach (RaycastHit hit in hits)
-        {
-            if (!hit.collider.CompareTag("Monster"))
-            {
-                dealDamage damage = hit.collider.gameObject.GetComponent<dealDamage>();
-                if (damage != null) damage.dealDamage(50, Color.red, gameObject);
-            }
-            
-        }
-    }
-
-    public void TailSwipe()
-    {
-        _animator.Play("tail swipe");
-    }
-
-    public bool TailSwipeFinished()
-    {
-        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-        return !stateInfo.IsName("tail swipe");
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(transform.position + _monsterBottom, 0.1f);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + _monsterBottom, _stompRadius);
-        Gizmos.DrawWireSphere(transform.position + _monsterBottom, _stompRadius * 2);
-    }
+        // update this method once attacking has been fully made network ready
+    } 
 }

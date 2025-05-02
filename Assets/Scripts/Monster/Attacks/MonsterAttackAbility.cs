@@ -11,15 +11,15 @@ public abstract class MonsterAttackAbility : BaseAbility
     private float _targetRange;
 
     [SerializeField]
-    private NeutralState _neutralState;
+    private OldNeutralState _neutralState;
 
     [SerializeField]
-    private AttackPlayerState _attackPlayerState;
+    private OldAttackPlayerState _attackPlayerState;
 
     private Transform _monsterTransform;
 
-    public MonsterController Monster { get; private set; }
-    public StateMachine Machine { get; private set; }
+    public MonsterControllerOld Monster { get; private set; }
+    public StateMachineNetworked Machine { get; private set; }
 
     public float TargetRange { get; private set; }
 
@@ -31,8 +31,8 @@ public abstract class MonsterAttackAbility : BaseAbility
     protected override void OnInitilization()
     {
         _monsterTransform = Handler.transform;
-        Monster = Handler.GetComponent<MonsterController>();
-        Machine = Handler.GetComponent<StateMachine>();
+        Monster = Handler.GetComponent<MonsterControllerOld>();
+        Machine = Handler.GetComponent<StateMachineNetworked>();
     }
 
     public Vector3 GetTargetPosition() 
