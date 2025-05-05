@@ -1,8 +1,10 @@
 using LordBreakerX.Utilities.Tags;
-using System;
+using TMPro;
+using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Laser : MonoBehaviour
+public class Laser : NetworkBehaviour
 {
     [SerializeField]
     [Min(0)]
@@ -54,7 +56,7 @@ public class Laser : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.CompareTag(_monsterTag))
+        if (!collision.gameObject.CompareTag(_monsterTag) && IsServer)
         {
             dealDamage damage = collision.gameObject.GetComponent<dealDamage>();
             if (damage != null) damage.dealDamage(_damage, Color.red, _creator);
@@ -63,11 +65,10 @@ public class Laser : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public static Laser Create(Laser prefab, GameObject creator, Vector3 startPosition, Vector3 targetPosition)
+    public static void CreateLaser(Laser prefab, GameObject creator, Vector3 startPosition, Vector3 targetPosition)
     {
         Laser createdLaser = Instantiate(prefab, startPosition, Quaternion.identity);
         createdLaser._creator = creator;
         createdLaser._moveDirection = (targetPosition - startPosition).normalized;
-        return createdLaser;
     }
 }

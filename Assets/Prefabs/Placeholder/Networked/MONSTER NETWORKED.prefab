@@ -170,9 +170,12 @@ GameObject:
   - component: {fileID: 1732796973136470677}
   - component: {fileID: 1204498781396672927}
   - component: {fileID: 8192249243088673953}
+  - component: {fileID: 8067960999970358045}
   - component: {fileID: 2443632983641123185}
+  - component: {fileID: 6751879605839655232}
   - component: {fileID: 1956137998364240052}
   - component: {fileID: 5844190137704927300}
+  - component: {fileID: 7098129502881699581}
   m_Layer: 6
   m_Name: MONSTER NETWORKED
   m_TagString: Monster
@@ -234,8 +237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2445620604
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 4131456128
+  InScenePlacedSourceGlobalObjectIdHash: 245838759
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -263,6 +266,22 @@ MonoBehaviour:
   _startingState: {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
   _statesToRegister:
   - {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
+  - {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
+--- !u!114 &8067960999970358045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738603782965198034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec81573463b1ce34f8715cd955989c39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  _attacksToRegister:
+  - {fileID: 11400000, guid: af3a43b02ca168c48a4b5cb2776b6780, type: 2}
 --- !u!114 &2443632983641123185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +295,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  _eyes: []
   _agent: {fileID: 5844190137704927300}
+  _attackController: {fileID: 0}
+  _stateMachine: {fileID: 0}
+--- !u!114 &6751879605839655232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738603782965198034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab32ce152a318d84aaa9b6db19afaee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  _maxHealth: 100
+  _onHealthChangedServerSide:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHealthChangedClientSide:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDeathServerSide:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8192249243088673953}
+        m_TargetAssemblyTypeName: LordBreakerX.States.StateMachineNetworked, Assembly-CSharp
+        m_MethodName: ChangeState
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
+          m_ObjectArgumentAssemblyTypeName: LordBreakerX.States.BaseState, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onDeathClientSide:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &1956137998364240052
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -322,6 +382,52 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7098129502881699581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738603782965198034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &1797147326934726769
 GameObject:
   m_ObjectHideFlags: 0

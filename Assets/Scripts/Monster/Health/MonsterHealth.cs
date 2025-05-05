@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,7 +22,6 @@ namespace LordBreakerX.Health
         private UnityEvent<HealthInfo> _onHealthChangedServerSide = new UnityEvent<HealthInfo>();
 
         [SerializeField]
-        [Header("Events")]
         [Tooltip("Invoked whenever the health changes.")]
         private UnityEvent<HealthInfo> _onHealthChangedClientSide = new UnityEvent<HealthInfo>();
 
@@ -33,7 +33,7 @@ namespace LordBreakerX.Health
         [Tooltip("Invoked when the health reaches zero or below.")]
         private UnityEvent _onDeathClientSide = new UnityEvent();
 
-        private NetworkVariable<float> _currentHealth;
+        private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
         public override void OnNetworkSpawn()
         {

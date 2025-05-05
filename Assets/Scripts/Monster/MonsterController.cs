@@ -1,4 +1,4 @@
-using LordBreakerX.AbilitySystem;
+using LordBreakerX.States;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -6,16 +6,28 @@ using UnityEngine.AI;
 public class MonsterController : NetworkBehaviour
 {
     [SerializeField]
+    private Transform[] _eyes;
+    [SerializeField]
     private NavMeshAgent _agent;
 
     [SerializeField]
-    private AbilityHandler _abilityHandler;
+    private AttackController _attackController;
+
+    [SerializeField]
+    private StateMachineNetworked _stateMachine;
+
+    [SerializeField]
+    private Laser _laserPrefab;
 
     private Animator _animator;
 
     private NetworkVariable<Vector3> _targetPosition = new NetworkVariable<Vector3>();
 
     public Vector3 TargetPosition { get {  return _targetPosition.Value; } }
+
+    public AttackController AttackHandler {  get { return _attackController; } }
+
+    public StateMachineNetworked Machine { get { return _stateMachine; } }
 
     public bool DestinationReachable { get { return _agent.pathStatus == NavMeshPathStatus.PathComplete; } }
 
@@ -62,20 +74,36 @@ public class MonsterController : NetworkBehaviour
         }
     }
 
+    public void RequestStartRandomAttack()
+    {
+        _attackController.StartRandomAttack();
+    }
     #endregion
 
-    public void RequestStartRandomAttack()
+    #region Attacking Logic
+
+    public void RequestShootLaser(Laser prefab, Vector3 attackPosition)
     {
         if (IsServer)
         {
-            //_abilityHandler.StartRandomAbility();
-            //StartRandomAttackClientRpc();
+            ShootLaser(prefab, attackPosition);
+            ShootLaserClientRpc(attackPosition);
         }
     }
 
-    [ClientRpc(RequireOwnership = false)]
-    private void StartRandomAttackClientRpc()
+    private void ShootLaser(Laser prefab, Vector3 attackPosition)
     {
-        // update this method once attacking has been fully made network ready
-    } 
+        int randomEyeIndex = Random.Range(0, _eyes.Length);
+        Vector3 eyePosition = _eyes[randomEyeIndex].position;
+
+        Laser.CreateLaser(prefab, gameObject, eyePosition, attackPosition);
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void ShootLaserClientRpc(Vector3 attackPosition)
+    {
+        ShootLaser(_laserPrefab, attackPosition);
+    }
+
+    #endregion
 }

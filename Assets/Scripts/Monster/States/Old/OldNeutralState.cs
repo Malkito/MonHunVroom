@@ -45,7 +45,7 @@ public class OldNeutralState : BaseState
 
     private void OnPlayerAttack()
     {
-        Machine.ChangeState(_attackState);
+        Machine.RequestChangeState(_attackState);
     }
 
     public override void Update()

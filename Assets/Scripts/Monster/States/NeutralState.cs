@@ -20,25 +20,19 @@ public class NeutralState : BaseState
     [Min(0f)]
     private float _timeBetweenRandomAttacks = 10;
 
-    [SerializeField]
-    private BaseState _attackState;
-
     private MonsterController _monster;
-    private AbilityHandler _abilityHandler;
 
     private Timer _playerAttackTimer;
     private Timer _randomAttackTimer;
 
     protected override void OnInitilization()
     {
-        _abilityHandler = StateObject.GetComponent<AbilityHandler>();
         _monster = StateObject.GetComponent<MonsterController>();
-        _abilityHandler = StateObject.GetComponent<AbilityHandler>();
 
         _playerAttackTimer = new Timer(_timeBetweenPlayerAttacks);
         _randomAttackTimer = new Timer(_timeBetweenRandomAttacks);
 
-        _playerAttackTimer.onTimerFinished += () => { Machine.ChangeState(_attackState); }; 
+        _playerAttackTimer.onTimerFinished += () => { Machine.RequestChangeState("TargetPlayer"); }; 
 
         _randomAttackTimer.onTimerFinished += () => { if (_monster != null) _monster.RequestStartRandomAttack(); };
     }
@@ -65,8 +59,7 @@ public class NeutralState : BaseState
 
     private bool CanChangeDestination()
     {
-        return (Vector3.Distance(StateObject.transform.position, _monster.TargetPosition) <= 1.2f || !_monster.DestinationReachable);
-        //return !_abilityHandler.HasActiveAbility && (Vector3.Distance(StateObject.transform.position, _monster.TargetPosition) <= 1.2f || !_monster.DestinationReachable);
+        return !_monster.AttackHandler.IsAttacking && (Vector3.Distance(StateObject.transform.position, _monster.TargetPosition) <= 1.2f || !_monster.DestinationReachable);
     }
 
     public override void OnGizmosSelected()

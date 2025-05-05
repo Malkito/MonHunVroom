@@ -30,7 +30,7 @@ public class OldAttackPlayerState : BaseState
 
     private void StopAttack()
     {
-        Machine.ChangeState(_neutralState);
+        Machine.RequestChangeState(_neutralState);
     }
 
     public override void Enter()

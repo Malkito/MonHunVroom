@@ -27,7 +27,7 @@ namespace LordBreakerX.States
 
             if (IsServer && _startingState != null)
             {
-                ChangeState(_startingState);
+                RequestChangeState(_startingState);
             }
 
             if (IsClient)
@@ -104,15 +104,25 @@ namespace LordBreakerX.States
 
         public bool IsCurrentState(BaseState state)
         {
-            return _registeredStates.ContainsKey(state.ID) && state == _currentState;
+            return IsCurrentState(state.ID);
         }
 
-        public void ChangeState(BaseState state)
+        public bool IsCurrentState(string stateID)
+        {
+            return _registeredStates.ContainsKey(stateID) && _currentState == _registeredStates[stateID];
+        }
+
+        public void RequestChangeState(BaseState state)
+        {
+            RequestChangeState(state.ID);
+        }
+
+        public void RequestChangeState(string stateID)
         {
             if (IsServer)
             {
-                ChangeState(state.ID);
-                OnChangeStateClientRpc(state.ID);
+                ChangeState(stateID);
+                OnChangeStateClientRpc(stateID);
             }
         }
 

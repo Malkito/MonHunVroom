@@ -1,75 +1,62 @@
 using LordBreakerX.Utilities.Math;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/Monster/Laser Eyes")]
-public class LaserEyesAttack : MonsterAttackAbility
+[CreateAssetMenu(menuName = "Monster/Attacks/Laser Eyes")]
+public class LaserEyesAttack : MonsterAttack
 {
     [SerializeField]
-    [Header("Timed Ability")]
+    [Header("Timing")]
     [Min(0f)]
     private float _duration;
-
-    private float _durationLeft;
-
-    [SerializeField]
-    [Header("Properties")]
-    private Laser _laser;
 
     [SerializeField]
     [Min(0)]
     private float _attackRate = 0.5f;
 
+    [SerializeField]
+    [Header("Prefabs")]
+    private Laser _laser;
+
+    private float _durationLeft;
+
     private Timer _attackTimer;
 
-    private Vector3 _targetPosition;
+    private MonsterController _monster;
 
-    public override void BeginAbility()
+    public override void OnInilization()
     {
-        _durationLeft = _duration;
-        _targetPosition = GetTargetPosition();
-    }
-
-    protected override void OnInitilization()
-    {
-        base.OnInitilization();
+        base.OnInilization();
+        _monster = Parent.GetComponent<MonsterController>();
         _attackTimer = new Timer(_attackRate);
-        _attackTimer.onTimerFinished += Attack;
+        _attackTimer.onTimerFinished += () => Monster.RequestShootLaser(_laser, GetAttackPosition());
     }
 
-    private void Attack()
+    public override void OnStart()
     {
-        Transform eye = Monster.GetRandomEye();
-        Laser.Create(_laser, Handler.gameObject, eye.position, _targetPosition);
+        _monster.StopMovement();
+        _durationLeft = _duration;
     }
 
-    public override void FinishAbility()
+    public override void OnStop()
     {
         _attackTimer.Reset();
     }
 
-
-
-    public override void FixedUpdate()
-    {
-        
-    }
-
-    public override void Update()
+    public override void OnUpdate()
     {
         _attackTimer.Step();
-
         _durationLeft -= Time.deltaTime;
-
-        if (_durationLeft <= 0)
-        {
-            Handler.StopAbility(ID);
-        }
     }
 
-    public override Vector3 RandomTargetPosition()
+    public override bool CanFinishAttack()
     {
-        Vector3 monsterOrigin = Monster.transform.position + Monster.MonsterBottom;
-        Vector3 randomPosition = PositionUtility.GetRandomPositionInFrontHalfSquare(TargetRange, monsterOrigin, Monster.transform.forward, Monster.transform.right);
+        return _durationLeft <= 0;
+    }
+
+    public override Vector3 GetRandomPosition()
+    {
+        Vector3 monsterOrigin = Monster.transform.position;
+        Vector3 randomPosition = PositionUtility.GetRandomPositionInFrontHalfSquare(RandomPositionRange, monsterOrigin, Monster.transform.forward, Monster.transform.right);
         return randomPosition;
     }
 }
