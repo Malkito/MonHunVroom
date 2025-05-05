@@ -1,4 +1,6 @@
+using LordBreakerX.Health;
 using LordBreakerX.States;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -23,6 +25,8 @@ public class MonsterController : NetworkBehaviour
 
     private NetworkVariable<Vector3> _targetPosition = new NetworkVariable<Vector3>();
 
+    private Dictionary<GameObject, float> _damageTable = new Dictionary<GameObject, float>();
+
     public Vector3 TargetPosition { get {  return _targetPosition.Value; } }
 
     public AttackController AttackHandler {  get { return _attackController; } }
@@ -30,6 +34,8 @@ public class MonsterController : NetworkBehaviour
     public StateMachineNetworked Machine { get { return _stateMachine; } }
 
     public bool DestinationReachable { get { return _agent.pathStatus == NavMeshPathStatus.PathComplete; } }
+
+    public GameObject AttackTarget { get; private set; }
 
     public override void OnNetworkSpawn()
     {
@@ -102,7 +108,57 @@ public class MonsterController : NetworkBehaviour
     [ClientRpc(RequireOwnership = false)]
     private void ShootLaserClientRpc(Vector3 attackPosition)
     {
-        ShootLaser(_laserPrefab, attackPosition);
+        if (!IsHost || !IsServer) ShootLaser(_laserPrefab, attackPosition);
+    }
+
+    #endregion
+
+    #region Damaged Logic
+
+    /// <summary>
+    /// and be used on client and server side
+    /// </summary>
+    public void OnMonsterHealthChanged(HealthInfo healthInfo)
+    {
+        if (!IsServer) return;
+
+        Debug.Log($"Called Damaged Monster with following: (CH:{healthInfo.CurrentHealth}, MH:{healthInfo.Maxhealth}, HS:{healthInfo.Source != null}, DC:{healthInfo.DamageCaused})");
+
+        if (healthInfo.Source == null || healthInfo.DamageCaused <= 0) return;
+
+        if (_damageTable.ContainsKey(healthInfo.Source))
+            _damageTable[healthInfo.Source] += healthInfo.DamageCaused;
+        else
+            _damageTable[healthInfo.Source] = healthInfo.DamageCaused;
+    }
+
+    public void ResetDamageTable()
+    {
+        if (IsServer) _damageTable.Clear();
+    }
+
+    public void UpdateTarget()
+    {
+        if (!IsServer) return; 
+
+        if (_damageTable.Count > 0)
+        {
+            KeyValuePair<GameObject, float> highestPair = new KeyValuePair<GameObject, float>(null, 0);
+
+            foreach (KeyValuePair<GameObject, float> damagePair in _damageTable)
+            {
+                if (damagePair.Value > 0 && damagePair.Value > highestPair.Value)
+                {
+                    highestPair = damagePair;
+                }
+            }
+
+            AttackTarget = highestPair.Key;
+        }
+        else
+        {
+            AttackTarget = null;
+        }
     }
 
     #endregion
