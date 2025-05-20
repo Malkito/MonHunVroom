@@ -21,6 +21,9 @@ public class MonsterController : NetworkBehaviour
     [SerializeField]
     private Laser _laserPrefab;
 
+    [SerializeField]
+    ParticleSystem _stompEffect;
+
     private Animator _animator;
 
     private NetworkVariable<Vector3> _targetPosition = new NetworkVariable<Vector3>();
@@ -54,18 +57,17 @@ public class MonsterController : NetworkBehaviour
 
     public void StopMovement()
     {
-        if (IsServer)
-        {
-            _targetPosition.Value = _agent.transform.position;
-        }
+        if (IsServer) _targetPosition.Value = _agent.transform.position;
     }
 
     public void RandomDestination(float range)
     {
-        if (IsServer)
-        {
-            _targetPosition.Value = NavMeshUtility.GetRandomPosition(_agent.transform.position, range);
-        }
+        if (IsServer) _targetPosition.Value = NavMeshUtility.GetRandomPosition(_agent.transform.position, range);
+    }
+
+    public void ChangeDestination(Vector3 destination)
+    {
+        if (IsServer) _targetPosition.Value += destination;
     }
 
     public void UpdateWalkAnimation()
@@ -158,6 +160,22 @@ public class MonsterController : NetworkBehaviour
         else
         {
             AttackTarget = null;
+        }
+    }
+
+    public void Stomp(float effectRadius)
+    {
+        _stompEffect.Play();
+
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, effectRadius, Vector3.down, effectRadius);
+        foreach (RaycastHit hit in hits)
+        {
+            if (!hit.collider.CompareTag("Monster") && IsServer)
+            {
+                dealDamage damage = hit.collider.gameObject.GetComponent<dealDamage>();
+                if (damage != null) damage.dealDamage(50, Color.red, gameObject);
+            }
+
         }
     }
 

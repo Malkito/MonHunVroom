@@ -21,19 +21,16 @@ public class LaserEyesAttack : MonsterAttack
 
     private Timer _attackTimer;
 
-    private MonsterController _monster;
-
     public override void OnInilization()
     {
         base.OnInilization();
-        _monster = Parent.GetComponent<MonsterController>();
         _attackTimer = new Timer(_attackRate);
         _attackTimer.onTimerFinished += () => Monster.RequestShootLaser(_laser, GetAttackPosition());
     }
 
     public override void OnStart()
     {
-        _monster.StopMovement();
+        Monster.StopMovement();
         _durationLeft = _duration;
     }
 

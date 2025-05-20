@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 031e69e19fd4a054490cd573f3823f1d, type: 3}
+  m_Script: {fileID: 11500000, guid: a3d64d043fc9fe9439754c8cc6821d35, type: 3}
   m_Name: LaserEyes
   m_EditorClassIdentifier: 
   _id: LaserEyes
-  _targetRange: 20
-  _neutralState: {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
-  _attackPlayerState: {fileID: 11400000, guid: 6731ff80c3f15f944bc95d20a5187dba, type: 2}
+  _randomPositionRange: 20
   _duration: 2
-  _laser: {fileID: 1795866302372145853, guid: e9c596d46fdb0e64ba1d5ab34e791042, type: 3}
   _attackRate: 0.5
+  _laser: {fileID: 1795866302372145853, guid: e9c596d46fdb0e64ba1d5ab34e791042, type: 3}

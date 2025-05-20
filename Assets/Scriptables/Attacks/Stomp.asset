@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cbef2c9563a38d46a3e6e356d13b427, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f30f58751271da4eb49fd82cc5bb303, type: 3}
   m_Name: Stomp
   m_EditorClassIdentifier: 
   _id: Stomp
-  _targetRange: 20
-  _neutralState: {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
-  _attackPlayerState: {fileID: 11400000, guid: 6731ff80c3f15f944bc95d20a5187dba, type: 2}
-  _maxStompDistance: 1
-  _stompRadius: 1
+  _randomPositionRange: 20
+  _maxStompDistance: 2
+  _effectRadius: 2
