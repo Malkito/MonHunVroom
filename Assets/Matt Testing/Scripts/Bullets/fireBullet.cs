@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class fireBullet : MonoBehaviour, bullet
+public class fireBullet : NetworkBehaviour, bullet
 {
     /// <summary>
     /// 
@@ -18,6 +19,7 @@ public class fireBullet : MonoBehaviour, bullet
 
     private GameObject DamageOrigin;
 
+    Transform collisionTransform;
 
     public void setDamageOrigin(GameObject damageOrigin)
     {
@@ -38,19 +40,25 @@ public class fireBullet : MonoBehaviour, bullet
             return;
         }
 
+        collisionTransform = collision.transform;
 
-        GameObject fire = Instantiate(fireEffect, transform.position, Quaternion.Euler(-90,0,0)); // creates the fire object
-
-        fireManager FM = fire.GetComponent<fireManager>();
-        //FM.ObjectOrigin = DamageOrigin;
-
-        fireParticle = fire.transform.GetChild(0).GetComponent<ParticleSystem>();
-        Destroy(fire, fireParticle.main.duration);// reads the duration of the particle system and drestoys the created fire object based off the duration
-
-        fire.transform.SetParent(collision.transform);
-
+        spawnfireServerRPC();
 
 
         Destroy(gameObject);
     }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void spawnfireServerRPC()
+    {
+        GameObject fire = Instantiate(fireEffect, transform.position, Quaternion.Euler(-90, 0, 0)); // creates the fire object
+
+        fireParticle = fire.transform.GetChild(0).GetComponent<ParticleSystem>();
+        Destroy(fire, fireParticle.main.duration);// reads the duration of the particle system and drestoys the created fire object based off the duration
+
+        fire.transform.SetParent(collisionTransform);
+
+    }
+
 }

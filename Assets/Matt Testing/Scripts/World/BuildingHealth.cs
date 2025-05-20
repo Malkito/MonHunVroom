@@ -74,15 +74,6 @@ public class BuildingHealth : MonoBehaviour, dealDamage
     {
         currentHealth -= damage;
         StartCoroutine(flashDamageColor(flashColor));
-
-
-        ///testing stuff
-        playerShooting PS = DamageOrigin.GetComponent<playerShooting>();
-        if (PS != null)
-        {
-            PS.damageDealt += damage;
-            print("Total Damage Done by: " + DamageOrigin.name + " : " + PS.damageDealt);
-        }
     }
 
 

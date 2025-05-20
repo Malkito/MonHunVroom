@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class flare : MonoBehaviour
+public class flare : NetworkBehaviour
 {
 
     [SerializeField] private GameObject airStrikeMissle;
@@ -19,9 +20,17 @@ public class flare : MonoBehaviour
         elapsedTime += Time.deltaTime;
         if(elapsedTime >= timeToSpawn && !spawned)
         {
-            Vector3 spawnPos = new Vector3(transform.position.x, transform.position.x + spawnHeight, transform.position.z);
-            Instantiate(airStrikeMissle, spawnPos, Quaternion.identity);
-            spawned = true;
+            spawnAirSrtikeServerRPC();
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void spawnAirSrtikeServerRPC()
+    {
+        Vector3 spawnPos = new Vector3(transform.position.x, transform.position.x + spawnHeight, transform.position.z);
+        Instantiate(airStrikeMissle, spawnPos, Quaternion.identity);
+        spawned = true;
+    }
+
+
 }

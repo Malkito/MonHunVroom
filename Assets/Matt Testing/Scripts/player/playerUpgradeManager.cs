@@ -44,6 +44,7 @@ public class playerUpgradeManager : NetworkBehaviour
     }
     public void addToPlayerUpgrades(UpgradeScriptableOBJ upgradeToAdd) // this function adds a new upgrades to the lsit. Called by "Upgrade Pick Up" script 
     {
+        if (!IsOwner) return;
         if(currentUpgradeCount < currentUpgrades.Length) // if the number of upgrades is less than the max allowed
         {
             
