@@ -1,7 +1,8 @@
 using LordBreakerX.Health;
+using Unity.Netcode;
 using UnityEngine;
 
-public class TestPlayer : MonoBehaviour
+public class TestPlayer : NetworkBehaviour
 {
     [SerializeField]
     [Min(0)]
@@ -10,9 +11,33 @@ public class TestPlayer : MonoBehaviour
     [SerializeField]
     private MonsterHealth _enemy;
 
+    private GameObject _attackPlayer;
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        playerShooting[] players = FindObjectsByType<playerShooting>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach(var player in players)
+        {
+            if (player.IsOwner)
+            {
+                _attackPlayer = player.gameObject;
+            }
+        }
+    }
+
     [ContextMenu("Damage Monster")]
     public void DoDamage()
     {
-        _enemy.dealDamage(_damageToEnemy, Color.red, gameObject);
+        if (_attackPlayer != null) 
+        {
+            Debug.Log("Attacking");
+            _enemy.dealDamage(_damageToEnemy, Color.red, _attackPlayer.gameObject);
+        }
+        else
+        {
+            _enemy.dealDamage(_damageToEnemy, Color.red, null);
+        }
     }
 }
