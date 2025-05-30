@@ -3,44 +3,44 @@ using UnityEngine;
 [System.Serializable]
 public class Timer
 {
-    public delegate void TimerEnded();
+    public delegate void TimerFinishedHandler();
 
     [SerializeField]
     [Min(0)]
-    private float _timeInSeconds;
+    private float _durationSeconds;
 
-    private float _time;
+    private float _elapsedTime;
 
-    public TimerEnded onTimerFinished;
+    public TimerFinishedHandler OnTimerFinished { get; set; }
 
-    public bool IsFinished { get { return _time >= _timeInSeconds; } }
+    public bool IsComplete { get { return _elapsedTime >= _durationSeconds; } }
 
-    public Timer(float timeInSeconds)
+    public Timer(float durationSeconds)
     {
-        _timeInSeconds = timeInSeconds;
-        _time = 0;
+        _durationSeconds = durationSeconds;
+        Reset();
     }
 
     public void Reset()
     {
-        _time = 0;
+        _elapsedTime = 0f;
     }
 
-    public void Step(float timeSinceLastStep)
+    public void Update(float timeSinceLastStep)
     {
-        if (IsFinished)
+        if (IsComplete)
         {
-            onTimerFinished?.Invoke();
+            OnTimerFinished?.Invoke();
             Reset();
         }
         else
         {
-            _time += timeSinceLastStep;
+            _elapsedTime += timeSinceLastStep;
         }
     }
 
-    public void Step()
+    public void Update()
     {
-        Step(Time.deltaTime);
+        Update(Time.deltaTime);
     }
 }

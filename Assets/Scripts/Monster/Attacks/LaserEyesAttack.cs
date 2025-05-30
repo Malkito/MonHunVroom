@@ -25,7 +25,7 @@ public class LaserEyesAttack : MonsterAttack
     {
         base.OnInilization();
         _attackTimer = new Timer(_attackRate);
-        _attackTimer.onTimerFinished += () => Monster.RequestShootLaser(_laser, GetAttackPosition());
+        _attackTimer.OnTimerFinished += () => Monster.RequestShootLaser(_laser, GetAttackPosition());
     }
 
     public override void OnStart()
@@ -41,7 +41,7 @@ public class LaserEyesAttack : MonsterAttack
 
     public override void OnUpdate()
     {
-        _attackTimer.Step();
+        _attackTimer.Update();
         _durationLeft -= Time.deltaTime;
     }
 

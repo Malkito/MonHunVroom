@@ -1,5 +1,7 @@
 using LordBreakerX.Health;
 using LordBreakerX.States;
+using LordBreakerX.Utilities.Tags;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,6 +9,16 @@ using UnityEngine.AI;
 
 public class MonsterController : NetworkBehaviour
 {
+    public const string WALK_ANIMATION_VARIABLE = "walk";
+
+    private const string STARTING_MONSTER_TAG = "Monster";
+
+    private const string TAIL_SWIPE_ANIMATION = "tail swipe";
+
+    private const float STOMP_DAMAGE_AMOUNT = 50;
+
+    private static readonly Color STOMP_FLASH_COLOR = Color.red;
+
     [SerializeField]
     private Transform[] _eyes;
     [SerializeField]
@@ -24,53 +36,50 @@ public class MonsterController : NetworkBehaviour
     [SerializeField]
     ParticleSystem _stompEffect;
 
-    private Animator _animator;
+    [SerializeField]
+    [Min(0f)]
+    private float _timeBetweenPlayerAttacks = 30;
 
-    private NetworkVariable<Vector3> _targetPosition = new NetworkVariable<Vector3>();
+    [SerializeField]
+    [TagDropdown]
+    private string _monsterTag = STARTING_MONSTER_TAG;
+
+    private Animator _animator;
 
     private Dictionary<GameObject, float> _damageTable = new Dictionary<GameObject, float>();
 
-    public Vector3 TargetPosition { get {  return _targetPosition.Value; } }
+    public Vector3 TargetPosition { get; private set; }
 
     public AttackController AttackHandler {  get { return _attackController; } }
 
     public StateMachineNetworked Machine { get { return _stateMachine; } }
 
-    public bool DestinationReachable { get { return _agent.pathStatus == NavMeshPathStatus.PathComplete; } }
-
     public GameObject AttackTarget { get; private set; }
+
+    public Timer PlayerAttackTimer { get; private set; }
+
+    public bool FindingTargetPosition { get; private set; }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         _animator = GetComponent<Animator>();
 
-        _targetPosition.OnValueChanged += OnTargetPositionChanged;
+        PlayerAttackTimer = new Timer(_timeBetweenPlayerAttacks);
+        PlayerAttackTimer.OnTimerFinished += () => { Machine.ChangeStateWhen(MonsterStates.TARGET_PLAYER, () => !AttackHandler.IsAttacking && !AttackHandler.IsRequestingAttack); };
+    }
+
+    private void Update()
+    {
+        if (_animator != null) 
+        {
+            UpdateWalkAnimation();
+        }
     }
 
     #region Movement Logic
 
-    private void OnTargetPositionChanged(Vector3 previousValue, Vector3 newValue)
-    {
-        _agent.SetDestination(newValue);
-    }
-
-    public void StopMovement()
-    {
-        if (IsServer) _targetPosition.Value = _agent.transform.position;
-    }
-
-    public void RandomDestination(float range)
-    {
-        if (IsServer) _targetPosition.Value = NavMeshUtility.GetRandomPosition(_agent.transform.position, range);
-    }
-
-    public void ChangeDestination(Vector3 destination)
-    {
-        if (IsServer) _targetPosition.Value += destination;
-    }
-
-    public void UpdateWalkAnimation()
+    private void UpdateWalkAnimation()
     {
         if (_agent.velocity.sqrMagnitude >= 0.1f)
         {
@@ -79,6 +88,57 @@ public class MonsterController : NetworkBehaviour
         else
         {
             _animator.SetBool("walk", false);
+        }
+    }
+
+    public void StopMovement()
+    {
+        ChangeDestination(transform.position);
+    }
+
+    public void RandomDestination(float minRadius, float maxRadius, float decreaseRate)
+    {
+        if (IsServer && !FindingTargetPosition) StartCoroutine(DetermineTargerPosition(minRadius, maxRadius, decreaseRate));
+    }
+
+    private IEnumerator DetermineTargerPosition(float minRadius, float maxRadius, float decreaseRate)
+    {
+        FindingTargetPosition = true;
+
+        float currentRange = maxRadius;
+        Vector3 position = NavMeshUtility.GetRandomPosition(_agent.transform.position, currentRange);
+
+        NavMeshPath path = new NavMeshPath();
+
+        while (!IsCompletePath(position, path))
+        {
+            currentRange = Mathf.Clamp(currentRange - decreaseRate, minRadius, maxRadius);
+            position = NavMeshUtility.GetRandomPosition(_agent.transform.position, currentRange);
+            yield return null;
+        }
+
+        TargetPosition = position;
+        _agent.SetPath(path);
+        
+        FindingTargetPosition = false;
+    }
+
+    public bool IsCompletePath(Vector3 targetPosition, NavMeshPath path)
+    {
+        if (NavMesh.CalculatePath(_agent.transform.position, targetPosition, NavMesh.AllAreas, path))
+        {
+            return path.status == NavMeshPathStatus.PathComplete;
+        }
+        return false;
+    }
+
+    public void ChangeDestination(Vector3 destination)
+    {
+        if (IsServer)
+        {
+            _agent.SetDestination(destination);
+            TargetPosition = destination;
+            FindingTargetPosition = false;
         }
     }
 
@@ -162,7 +222,6 @@ public class MonsterController : NetworkBehaviour
             AttackTarget = null;
         }
     }
-
     public void Stomp(float effectRadius)
     {
         _stompEffect.Play();
@@ -170,14 +229,40 @@ public class MonsterController : NetworkBehaviour
         RaycastHit[] hits = Physics.SphereCastAll(transform.position, effectRadius, Vector3.down, effectRadius);
         foreach (RaycastHit hit in hits)
         {
-            if (!hit.collider.CompareTag("Monster") && IsServer)
+            if (!hit.collider.CompareTag(_monsterTag) && IsServer)
             {
                 dealDamage damage = hit.collider.gameObject.GetComponent<dealDamage>();
-                if (damage != null) damage.dealDamage(50, Color.red, gameObject);
+                if (damage != null) damage.dealDamage(STOMP_DAMAGE_AMOUNT, STOMP_FLASH_COLOR, gameObject);
             }
 
         }
     }
 
+    public void TailSwipe()
+    {
+        _animator.Play(TAIL_SWIPE_ANIMATION);
+    }
+
+    public bool TailSwipeFinished()
+    {
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        return !stateInfo.IsName(TAIL_SWIPE_ANIMATION);
+    }
+
     #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        if (AttackTarget != null) 
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(AttackTarget.transform.position, Vector3.one);
+        }
+
+        if (_agent != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawCube(_agent.destination, Vector3.one);
+        }
+    }
 }

@@ -12,6 +12,8 @@ public class StompAttack : MonsterAttack
     [Min(0)]
     private float _effectRadius = 1;
 
+    private bool _finishedAttack = false;
+
     public override void OnInilization()
     {
         base.OnInilization();
@@ -19,7 +21,6 @@ public class StompAttack : MonsterAttack
 
     public override void OnUpdate()
     {
-        base.OnUpdate();
         Vector3 attackPosition = GetAttackPosition();
         Vector3 checkPosition = new Vector3(attackPosition.x, Parent.transform.position.y, attackPosition.z);
         Monster.ChangeDestination(attackPosition);
@@ -28,7 +29,18 @@ public class StompAttack : MonsterAttack
         {
             Monster.StopMovement();
             Monster.Stomp(_effectRadius);
-            Monster.AttackHandler.RequestStopAttack();
+            _finishedAttack = true;
         }
+    }
+
+    public override bool CanFinishAttack()
+    {
+        return _finishedAttack;
+    }
+
+    public override void OnStop()
+    {
+        _finishedAttack = false;
+        Monster.StopMovement();
     }
 }

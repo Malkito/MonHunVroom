@@ -14,7 +14,7 @@ public abstract class MonsterAttack : Attack
 
     public Vector3 GetAttackPosition()
     {
-        if (Monster.Machine.IsCurrentState("Neutral"))
+        if (Monster.Machine.IsCurrentState("Rampage"))
         {
             return GetRandomPosition();
         }

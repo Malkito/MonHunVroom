@@ -15,6 +15,8 @@ public class AttackController : NetworkBehaviour
 
     public bool IsAttacking { get { return _activeAttack != null; } }
 
+    public bool IsRequestingAttack { get; private set; }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -59,10 +61,13 @@ public class AttackController : NetworkBehaviour
 
     public void RequestStartAttack(Attack attack)
     {
+        IsRequestingAttack = true;
+
         if (IsServer)
         {
             StartAttack(attack.ID);
             StartAttackClientRpc(attack.ID);
+            IsRequestingAttack = false;
         }
     }
 
@@ -80,6 +85,7 @@ public class AttackController : NetworkBehaviour
     private void StartAttackClientRpc(string attackID)
     {
         StartAttack(attackID);
+        IsRequestingAttack = false;
     }
 
     public void RequestStopAttack()

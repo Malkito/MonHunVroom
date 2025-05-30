@@ -4,13 +4,10 @@ namespace LordBreakerX.States
 {
     public abstract class BaseState : ScriptableObject
     {
-        [SerializeField]
-        private string _id;
-
         protected StateMachineNetworked Machine { get; private set; }
         protected GameObject StateObject { get; private set; }
 
-        public string ID { get { return _id; } }
+        public abstract string ID { get; }
 
         public void Initilize(StateMachineNetworked machine, GameObject stateObject)
         {

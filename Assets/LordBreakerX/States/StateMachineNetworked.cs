@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -158,5 +159,40 @@ namespace LordBreakerX.States
             OnChangeStateClientRpc(_currentState.ID);
         }
 
+        public bool TryGetState<T>(string stateID, out T state) where T : BaseState
+        {
+            if (_registeredStates.ContainsKey(stateID))
+            {
+                state = (T)_registeredStates[stateID];
+
+                if (state != null)
+                {
+                    return true;
+                }
+            }
+
+            state = null;
+            return false;
+        }
+
+        public void ChangeStateWhen(string stateID, System.Func<bool> condition)
+        {
+            StartCoroutine(WaitUntilAndChangeState(stateID, condition));
+        }
+
+        public void ChangeStateWhen(BaseState state, System.Func<bool> condition) 
+        {
+            StartCoroutine(WaitUntilAndChangeState(state.ID, condition));
+        }
+
+        private IEnumerator WaitUntilAndChangeState(string stateID, System.Func<bool> condition)
+        {
+            while (!condition())
+            {
+                yield return null;
+            }
+
+            RequestChangeState(stateID);
+        }
     }
 }
