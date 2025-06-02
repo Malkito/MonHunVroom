@@ -141,11 +141,6 @@ public class MonsterController : NetworkBehaviour
             FindingTargetPosition = false;
         }
     }
-
-    public void RequestStartRandomAttack()
-    {
-        _attackController.StartRandomAttack();
-    }
     #endregion
 
     #region Attacking Logic

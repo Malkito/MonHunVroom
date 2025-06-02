@@ -47,7 +47,7 @@ public class TargetPlayerState : BaseState
 
         if (!_stateTimer.IsComplete && !_monster.AttackHandler.IsAttacking)
         {
-            _monster.AttackHandler.StartRandomAttack();
+            _monster.AttackHandler.RequestStartAttack();
         }
     }
 }

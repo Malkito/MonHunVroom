@@ -16,7 +16,7 @@ public class RampageState : BaseState
     public override void Enter()
     {
         _monster.StopMovement();
-        _monster.RequestStartRandomAttack();
+        _monster.AttackHandler.RequestStartAttack();
     }
 
     public override void Update()

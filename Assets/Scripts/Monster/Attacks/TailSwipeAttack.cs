@@ -19,10 +19,10 @@ public class TailSwipeAttack : MonsterAttack
     public override void OnUpdate()
     {
         Vector3 attackPosition = GetAttackPosition();
-        Vector3 checkPosition = new Vector3(attackPosition.x, Parent.transform.position.y, attackPosition.z);
+        Vector3 checkPosition = new Vector3(attackPosition.x, AttackHandler.transform.position.y, attackPosition.z);
         Monster.ChangeDestination(attackPosition);
 
-        if (!_swipeStarted && Vector3.Distance(Parent.transform.position, checkPosition) <= _maxTailSwipeDistance)
+        if (!_swipeStarted && Vector3.Distance(AttackHandler.transform.position, checkPosition) <= _maxTailSwipeDistance)
         {
             Monster.StopMovement();
             Monster.TailSwipe();

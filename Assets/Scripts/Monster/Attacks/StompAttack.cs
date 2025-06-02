@@ -14,7 +14,7 @@ public class StompAttack : MonsterAttack
 
     private bool _finishedAttack = false;
 
-    public override void OnInilization()
+    protected override void OnInilization()
     {
         base.OnInilization();
     }
@@ -22,10 +22,10 @@ public class StompAttack : MonsterAttack
     public override void OnUpdate()
     {
         Vector3 attackPosition = GetAttackPosition();
-        Vector3 checkPosition = new Vector3(attackPosition.x, Parent.transform.position.y, attackPosition.z);
+        Vector3 checkPosition = new Vector3(attackPosition.x, AttackHandler.transform.position.y, attackPosition.z);
         Monster.ChangeDestination(attackPosition);
 
-        if (Vector3.Distance(Parent.transform.position, checkPosition) <= _maxStompDistance)
+        if (Vector3.Distance(AttackHandler.transform.position, checkPosition) <= _maxStompDistance)
         {
             Monster.StopMovement();
             Monster.Stomp(_effectRadius);

@@ -21,7 +21,7 @@ public class LaserEyesAttack : MonsterAttack
 
     private Timer _attackTimer;
 
-    public override void OnInilization()
+    protected override void OnInilization()
     {
         base.OnInilization();
         _attackTimer = new Timer(_attackRate);

@@ -7,9 +7,9 @@ public abstract class MonsterAttack : Attack
 
     public Vector3 TargetPosition { get { return Monster.TargetPosition; } }
 
-    public override void OnInilization()
+    protected override void OnInilization()
     {
-        Monster = Parent.GetComponent<MonsterController>();
+        Monster = AttackHandler.GetComponent<MonsterController>();
     }
 
     public Vector3 GetAttackPosition()
@@ -24,7 +24,7 @@ public abstract class MonsterAttack : Attack
         }
         else
         {
-            return Parent.transform.position;
+            return AttackHandler.transform.position;
         }
     }
 }
