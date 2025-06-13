@@ -1,8 +1,13 @@
-using LordBreakerX.Utilities.Math;
 using UnityEngine;
 
+/*
+ *  Make the following changes: 
+ *  1. monster should move to a max shooting distance if father then the distance)
+ *  2. if the monster isn't facing the target then they should make themselves face the target.
+ */
+
 [CreateAssetMenu(menuName = "Monster/Attacks/Laser Eyes")]
-public class LaserEyesAttack : MonsterAttack
+public class LaserEyesAttack : Attack
 {
     [SerializeField]
     [Header("Timing")]
@@ -21,16 +26,23 @@ public class LaserEyesAttack : MonsterAttack
 
     private Timer _attackTimer;
 
-    protected override void OnInilization()
+    private MonsterAttackController _monsterAttack;
+
+    private MonsterMovementController _monsterMovement;
+
+    protected override void OnInilization(GameObject controlledObject)
     {
-        base.OnInilization();
+        base.OnInilization(controlledObject);
+        _monsterAttack = controlledObject.GetComponent<MonsterAttackController>();
+        _monsterMovement = controlledObject.GetComponent<MonsterMovementController>();
+
         _attackTimer = new Timer(_attackRate);
-        _attackTimer.OnTimerFinished += () => Monster.RequestShootLaser(_laser, GetAttackPosition());
+        _attackTimer.OnTimerFinished += () => _monsterAttack.RequestShootLaser(_laser, TargetProvider.GetTargetPosiiton());
     }
 
     public override void OnStart()
     {
-        Monster.StopMovement();
+        _monsterMovement.StopMovement();
         _durationLeft = _duration;
     }
 
@@ -48,12 +60,5 @@ public class LaserEyesAttack : MonsterAttack
     public override bool CanFinishAttack()
     {
         return _durationLeft <= 0;
-    }
-
-    public override Vector3 GetRandomPosition()
-    {
-        Vector3 monsterOrigin = Monster.transform.position;
-        Vector3 randomPosition = PositionUtility.GetRandomPositionInFrontHalfSquare(RandomPositionRange, monsterOrigin, Monster.transform.forward, Monster.transform.right);
-        return randomPosition;
     }
 }

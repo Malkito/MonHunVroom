@@ -1,7 +1,5 @@
-using LordBreakerX.Utilities.Tags;
-using TMPro;
+using LordBreakerX.Attributes;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Laser : NetworkBehaviour

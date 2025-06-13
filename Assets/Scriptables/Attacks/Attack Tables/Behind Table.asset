@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _selectCondition: {fileID: 11400000, guid: ff7f4a86c3489444280a9c61cbe9af12, type: 2}
   _attacks:
-  - {fileID: 11400000, guid: 6f04e064b3466cd42bc466ed026f4bfb, type: 2}
+  - _attack: {fileID: 11400000, guid: 6f04e064b3466cd42bc466ed026f4bfb, type: 2}
+    _weight: 100

@@ -12,9 +12,17 @@ public class AttackController : NetworkBehaviour
 
     private Attack _activeAttack;
 
+    private TargetResolver _provider = new TargetResolver();
+
     public bool IsAttacking { get { return _activeAttack != null; } }
 
     public bool IsRequestingAttack { get; private set; }
+
+    public TargetResolver TargetProvider { get { return _provider; } }
+
+    public Vector3 TargetPosition { get => _provider.GetTargetPosiiton(); }
+
+    public bool HasTarget { get => _provider.HasTarget; }
 
     public override void OnNetworkSpawn()
     {

@@ -4,9 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = MonsterStates.WANDER, menuName = MonsterStates.CreatePaths.WANDER)]
 public class WanderState : BaseState
 {
-    private const float MIN_STOP_CHANCE = 0.0f;
-    private const float MAX_STOP_CHANCE = 1.0f;
-
     private const float CHANGE_DESTINATION_THRESHOLD = 1.2f;
 
     private static readonly Color MIN_WANDER_RADIUS_GIZMO_COLOR = Color.blue;
@@ -17,116 +14,59 @@ public class WanderState : BaseState
 
     [SerializeField]
     [Min(0f)]
-    private float _maxWanderRadius;
-
-    [SerializeField]
-    [Min(0f)]
-    private float _minWanderRadius;
-
-    [SerializeField]
-    [Min(0)]
-    private float _radiusDecreaseAmount;
-
-    [SerializeField]
-    [Min(0f)]
-    private float _minStopTime = 0f;
-
-    [SerializeField]
-    private float _maxStopTime = 1f;
-
-    [SerializeField]
-    [Min(0f)]
-    private float _stopChance = 0.3f;
-
-    [SerializeField]
-    [Min(0f)]
     private float _timeBetweenRandomAttacks = 10;
 
-    private MonsterController _monster;
+    private MonsterMovementController _monsterMovement;
+    private MonsterAttackController _monsterAttack;
 
     private Timer _randomAttackTimer;
-    private Timer _stopTimer;
-
-    private bool _monsterStopped = false;
 
     public override string ID => MonsterStates.WANDER;
 
-    private void OnValidate()
-    {
-        _stopChance = Mathf.Clamp(_stopChance, MIN_STOP_CHANCE, MAX_STOP_CHANCE);
-    }
-
     protected override void OnInitilization()
     {
-        _monster = StateObject.GetComponent<MonsterController>();
+        _monsterMovement = StateObject.GetComponent<MonsterMovementController>();
+        _monsterAttack = StateObject.GetComponent<MonsterAttackController>();
 
         _randomAttackTimer = new Timer(_timeBetweenRandomAttacks);
 
         _randomAttackTimer.OnTimerFinished += StartRandomAttack;
-
-        _stopTimer.OnTimerFinished += OnFinishStop;
     }
 
     private void StartRandomAttack()
     {
-        if (_monster != null) Machine.RequestChangeState(MonsterStates.RAMPAGE);
-    }
-
-    private void OnFinishStop()
-    {
-        _monster.RandomDestination(_minWanderRadius, _maxWanderRadius, _radiusDecreaseAmount);
-        _monsterStopped = false;
+        if (_monsterMovement != null) Machine.RequestChangeState(MonsterStates.RAMPAGE);
     }
 
     public override void Enter()
     {
-        _stopTimer.Reset();
         _randomAttackTimer.Reset();
-        _monster.StopMovement();
-        _monsterStopped = false;
+        _monsterMovement.StopMovement();
+        _monsterMovement.UpdateWalkAnimation(true);
     }
 
     public override void Update()
     {
-        _monster.PlayerAttackTimer.Update();
+        _monsterAttack.PlayerAttackTimer.Update();
         _randomAttackTimer.Update();
 
-        if (!CanChangeDestination() || _monster.FindingTargetPosition) 
+        if (!CanChangeDestination()) 
             return;
 
-        _monster.RandomDestination(_minWanderRadius, _maxWanderRadius, _radiusDecreaseAmount);
-
-        //if (_monsterStopped)
-        //{
-        //    _stopTimer.Update();
-        //    return;
-        //}
-
-        //Debug.Log("Made it passed");
-
-        //if (Random.value <= _stopChance)
-        //{
-        //    Debug.Log("Stopping");
-        //    _stopTimer = new Timer(Random.Range(_minStopTime, _maxStopTime));
-        //    _monsterStopped = true;
-        //}
-        //else
-        //{
-        //    _monster.RandomDestination(_minWanderRadius, _maxWanderRadius, _radiusDecreaseAmount);
-        //}
+        _monsterMovement.SetRandomDestination();
     }
 
     private bool CanChangeDestination()
     {
-        return Vector3.Distance(StateObject.transform.position, _monster.TargetPosition) <= CHANGE_DESTINATION_THRESHOLD;
+        return Vector3.Distance(StateObject.transform.position, _monsterMovement.CurrentDestination) <= CHANGE_DESTINATION_THRESHOLD;
     }
 
     public override void OnGizmosSelected()
     {
-        Gizmos.color = MIN_WANDER_RADIUS_GIZMO_COLOR;
-        Gizmos.DrawWireSphere(StateObject.transform.position, _maxWanderRadius);
+        //Gizmos.color = MIN_WANDER_RADIUS_GIZMO_COLOR;
+        //Gizmos.DrawWireSphere(StateObject.transform.position, _maxWanderRadius);
 
-        Gizmos.color = MAX_WANDER_RADIUS_GIZMO_COLOR;
-        Gizmos.DrawWireSphere(StateObject.transform.position, _minWanderRadius);
+        //Gizmos.color = MAX_WANDER_RADIUS_GIZMO_COLOR;
+        //Gizmos.DrawWireSphere(StateObject.transform.position, _minWanderRadius);
     }
 }

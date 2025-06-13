@@ -1,4 +1,4 @@
-using LordBreakerX.Utilities.Tags;
+using LordBreakerX.Attributes;
 using UnityEngine;
 
 public class Tail : MonoBehaviour

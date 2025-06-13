@@ -6,21 +6,21 @@ public class DeadState : BaseState
 {
     public const string DEAD_ANIMATION_VARIABLE = "dead";
 
-    private MonsterController _monster;
+    private MonsterMovementController _movementController;
     private Animator _animator;
 
     public override string ID => MonsterStates.DEAD;
 
     protected override void OnInitilization()
     {
-        _monster = StateObject.GetComponent<MonsterController>();
+        _movementController = StateObject.GetComponent<MonsterMovementController>();
         _animator = StateObject.GetComponent<Animator>();
     }
 
     public override void Enter()
     {
-        _monster.StopMovement();
+        _movementController.StopMovement();
         _animator.SetBool(DEAD_ANIMATION_VARIABLE, true);
-        _animator.SetBool(MonsterController.WALK_ANIMATION_VARIABLE, false);
+        _animator.SetBool(MonsterMovementController.WALK_ANIMATION_VARIABLE, false);
     }
 }

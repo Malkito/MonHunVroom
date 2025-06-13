@@ -8,46 +8,49 @@ public class TargetPlayerState : BaseState
     [Min(0)]
     private float _timeInState = 30;
 
-    private MonsterController _monster; 
+    private MonsterAttackController _monsterAttack;
+    private StateMachineNetworked _machine;
+
     private Timer _stateTimer;
 
     public override string ID => MonsterStates.TARGET_PLAYER;
 
     protected override void OnInitilization()
     {
-        _monster = StateObject.GetComponent<MonsterController>();
+        _monsterAttack = StateObject.GetComponent<MonsterAttackController>();
+        _machine = StateObject.GetComponent<StateMachineNetworked>();
         _stateTimer = new Timer(_timeInState);
         _stateTimer.OnTimerFinished += LeaveState;
     }
 
     private void LeaveState()
     {
-        _monster.Machine.RequestChangeState(MonsterStates.WANDER);
+        _machine.RequestChangeState(MonsterStates.WANDER);
     }
 
     public override void Enter()
     {
-        _monster.PlayerAttackTimer.Reset();
+        _monsterAttack.PlayerAttackTimer.Reset();
         _stateTimer.Reset();
 
-        _monster.UpdateTarget();
-        _monster.ResetDamageTable();
+        _monsterAttack.UpdateTarget();
+        _monsterAttack.ResetDamageTable();
 
-        if (_monster.AttackTarget == null) _monster.Machine.RequestChangeState(MonsterStates.WANDER);
+        if (!_monsterAttack.HasTarget) _machine.RequestChangeState(MonsterStates.WANDER);
     }
 
     public override void Exit()
     {
-        _monster.AttackHandler.RequestStopAttack();
+        _monsterAttack.RequestStopAttack();
     }
 
     public override void Update()
     {
         _stateTimer.Update();
 
-        if (!_stateTimer.IsComplete && !_monster.AttackHandler.IsAttacking)
+        if (!_stateTimer.IsComplete && !_monsterAttack.IsAttacking)
         {
-            _monster.AttackHandler.RequestStartAttack();
+            _monsterAttack.RequestStartAttack();
         }
     }
 }

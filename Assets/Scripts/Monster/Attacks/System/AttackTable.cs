@@ -9,7 +9,9 @@ public class AttackTable : ScriptableObject
     private AttackCondition _selectCondition;
 
     [SerializeField]
-    private List<Attack> _attacks = new List<Attack>();
+    private List<AttackEntry> _attacks = new List<AttackEntry>();
+
+    private int _totalWeight;
 
     public bool CanUse(AttackController controller)
     {
@@ -28,24 +30,37 @@ public class AttackTable : ScriptableObject
 
     public Attack GetRandomAttack()
     {
-        int attackIndex = Random.Range(0, _attacks.Count);
-        return _attacks[attackIndex];
+        int weight = Random.Range(0, _totalWeight);
+
+        foreach (AttackEntry entry in _attacks) 
+        {
+            if (weight <= entry.Weight)
+            {
+                return entry.ChoosenAttack;
+            }
+            else
+            {
+                weight -= entry.Weight;
+            }
+        }
+        
+        return _attacks[0].ChoosenAttack;
     }
 
     public static AttackTable Copy(AttackTable tableToCopy, AttackController creator)
     {
         AttackTable table = Instantiate(tableToCopy);
 
-        List<Attack> copiedAttacks = new List<Attack>();
+        List<AttackEntry> copiedEntries = new List<AttackEntry>();
 
-        foreach (Attack attackToCopy in table._attacks)
+        foreach (AttackEntry entryToCopy in table._attacks)
         {
-            Attack copiedAttackInstance = Instantiate(attackToCopy);
+            Attack copiedAttackInstance = Instantiate(entryToCopy.ChoosenAttack);
             copiedAttackInstance.Initilize(creator);
-            copiedAttacks.Add(copiedAttackInstance);
+            copiedEntries.Add(new AttackEntry(copiedAttackInstance, entryToCopy.Weight));
         }
 
-        table._attacks = copiedAttacks;
+        table._attacks = copiedEntries;
 
         if (table._selectCondition != null)
         {
@@ -53,7 +68,19 @@ public class AttackTable : ScriptableObject
             table._selectCondition.OnIniliization();
         }
 
+        table.Inililize();
+
         return table;
+    }
+
+    private void Inililize()
+    {
+        _totalWeight = 0;
+
+        foreach(AttackEntry entry in  _attacks)
+        {
+            _totalWeight += entry.Weight;
+        }
     }
 
 }
