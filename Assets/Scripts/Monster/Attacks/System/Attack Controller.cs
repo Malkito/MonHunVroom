@@ -1,3 +1,5 @@
+using LordBreakerX.Utilities.AI;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -37,6 +39,8 @@ public class AttackController : NetworkBehaviour
 
         _attackTables = copiedTables;
 
+        if (_fallbackTable != null) _fallbackTable = AttackTable.Copy(_fallbackTable, this);
+
         if (IsClient)
         {
             RequestActiveAttackServerRpc();
@@ -50,7 +54,11 @@ public class AttackController : NetworkBehaviour
             _activeAttack.OnUpdate();
             if (_activeAttack.CanFinishAttack()) RequestStopAttack();
         }
+
+        OnControllerUpdate();
     }
+
+    protected virtual void OnControllerUpdate() { }
 
     private void OnDrawGizmos()
     {
@@ -108,8 +116,6 @@ public class AttackController : NetworkBehaviour
         if (useableTables.Count > 0)
         {
             int usedTableIndex = Random.Range(0, useableTables.Count);
-
-            Debug.Log($"Gotten Attack Table: {useableTables[usedTableIndex]} [{usedTableIndex + 1} / {useableTables.Count}]");
             return useableTables[usedTableIndex];
         }
 
@@ -151,6 +157,20 @@ public class AttackController : NetworkBehaviour
         {
             StartAttackClientRpc();
         }
+    }
+
+    public void RequestAttackRandomPosition(Vector3 start, float attackRadius)
+    {
+        IsRequestingAttack = true;
+        if (IsServer) StartCoroutine(RandomAttackPosition(start, attackRadius));
+    }
+
+    private IEnumerator RandomAttackPosition(Vector3 start, float attackRadius)
+    {
+        RandomPathGenerator generator = new RandomPathGenerator(transform, attackRadius);
+        yield return generator.FindReachablePath();
+        TargetProvider.SetTargetPosition(generator.GeneratedDestination);
+        RequestStartAttack();
     }
 
 }

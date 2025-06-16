@@ -12,6 +12,7 @@ public class WithinBox : AttackCondition
     private Vector3 _startOffset;
 
     [SerializeField]
+    [Min(0)]
     private Vector3 _size;
 
     [SerializeField]
@@ -26,11 +27,16 @@ public class WithinBox : AttackCondition
 
     private Vector3 _startPosition;
 
+    private Vector3 _boxMin;
+    private Vector3 _boxMax;
+
     public override bool CanUse(AttackController controller)
     {
         UpdateBoxInfo(controller.transform);
         Collider[] colliders = Physics.OverlapBox(_boxCenter, _halfSize, Quaternion.identity, _targetLayers, QueryTriggerInteraction.Ignore);
-        return colliders.Length > 0;
+        //return colliders.Length > 0;
+        Vector3 targetPosition = controller.TargetPosition;
+        return targetPosition.x >= _boxMin.x && targetPosition.x <= _boxMax.x && targetPosition.y >= _boxMin.y && targetPosition.y <= _boxMax.y; 
     }
 
     private void UpdateBoxInfo(Transform attackerTransform)
@@ -38,6 +44,8 @@ public class WithinBox : AttackCondition
         _startPosition = attackerTransform.position + _startOffset;
         Vector3 direction  = GetDirection(attackerTransform);
         _boxCenter = _startPosition + direction.Multiply(_halfSize);
+        _boxMin = _boxCenter - _halfSize;
+        _boxMax = _boxCenter + _halfSize;
     }
 
     private Vector3 GetDirection(Transform attackerTransform)

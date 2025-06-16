@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3d64d043fc9fe9439754c8cc6821d35, type: 3}
   m_Name: LaserEyes
   m_EditorClassIdentifier: 
-  _id: LaserEyes
   _randomPositionRange: 20
   _duration: 2
-  _attackRate: 0.5
+  _attackRate: 0.2
+  _maxAttackDistance: 5
   _laser: {fileID: 1795866302372145853, guid: e9c596d46fdb0e64ba1d5ab34e791042, type: 3}

@@ -1,9 +1,6 @@
 using LordBreakerX.Attributes;
 using LordBreakerX.Health;
 using LordBreakerX.States;
-using LordBreakerX.Utilities.AI;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,11 +15,12 @@ public class MonsterAttackController : AttackController
     [RequiredField]
     private Laser _laserPrefab;
 
+    [Header("Targetting Player Properties")]
     [SerializeField]
     [Min(0f)]
     private float _timeBetweenPlayerAttacks = 30;
 
-    private Dictionary<GameObject, float> _damageTable = new Dictionary<GameObject, float>();
+    private DamageTable _recentDamageTable = new DamageTable();
 
     private Timer _playerAttackTimer;
 
@@ -30,14 +28,18 @@ public class MonsterAttackController : AttackController
 
     public Timer PlayerAttackTimer { get { return _playerAttackTimer; } }
 
-    public bool IsFindingAttackPosition { get; private set; }
-
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         _machine = GetComponent<StateMachineNetworked>();
         _playerAttackTimer = new Timer(_timeBetweenPlayerAttacks);
         _playerAttackTimer.OnTimerFinished += () => { _machine.ChangeStateWhen(MonsterStates.TARGET_PLAYER, () => !IsAttacking && !IsRequestingAttack); };
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(TargetPosition, Vector3.one);
     }
 
     //------------------------------
@@ -73,62 +75,25 @@ public class MonsterAttackController : AttackController
 
     public void OnMonsterHealthChanged(HealthInfo healthInfo)
     {
-        if (!IsServer) return;
-
-        Debug.Log($"Called Damaged Monster with following: (CH:{healthInfo.CurrentHealth}, MH:{healthInfo.Maxhealth}, HS:{healthInfo.Source != null}, DC:{healthInfo.DamageCaused})");
-
-        if (healthInfo.Source == null || healthInfo.DamageCaused <= 0) return;
-
-        if (_damageTable.ContainsKey(healthInfo.Source))
-            _damageTable[healthInfo.Source] += healthInfo.DamageCaused;
-        else
-            _damageTable[healthInfo.Source] = healthInfo.DamageCaused;
+        if (IsServer)
+            _recentDamageTable.UpdateTable(healthInfo.Source, healthInfo.DamageCaused);
     }
 
     public void ResetDamageTable()
     {
-        if (IsServer) _damageTable.Clear();
+        if (IsServer) 
+            _recentDamageTable.ResetTable();
     }
 
     public void UpdateTarget()
     {
         if (!IsServer) return;
 
-        if (_damageTable.Count > 0)
-        {
-            KeyValuePair<GameObject, float> highestPair = new KeyValuePair<GameObject, float>(null, 0);
+        GameObject target = _recentDamageTable.GetMostDamageTarget();
 
-            foreach (KeyValuePair<GameObject, float> damagePair in _damageTable)
-            {
-                if (damagePair.Value > 0 && damagePair.Value > highestPair.Value)
-                {
-                    highestPair = damagePair;
-                }
-            }
-
-            TargetProvider.SetTarget(highestPair.Key.transform, transform.position);
-        }
-        else
-        {
-            TargetProvider.SetTargetPosition(transform.position);
-        }
+        if (target == null)  TargetProvider.SetTargetPosition(transform.position);
+        else TargetProvider.SetTarget(target.transform, transform.position);
     }
 
-    //-------------------------------------
-    // Random Attacking Methods
-    //-------------------------------------
-
-    public void RequestRandomAttackPosition(Vector3 start, float attackRadius)
-    {
-        if (IsServer) StartCoroutine(RandomAttackPosition(start, attackRadius));
-    }
-
-    private IEnumerator RandomAttackPosition(Vector3 start, float attackRadius)
-    {
-        RandomPathGenerator generator = new RandomPathGenerator(transform, attackRadius);
-        yield return generator.FindReachablePath();
-        TargetProvider.SetTargetPosition(generator.GeneratedDestination);
-        RequestStartAttack();
-    }
 }
 

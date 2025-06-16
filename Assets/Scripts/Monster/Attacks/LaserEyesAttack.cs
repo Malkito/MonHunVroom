@@ -10,16 +10,21 @@ using UnityEngine;
 public class LaserEyesAttack : Attack
 {
     [SerializeField]
-    [Header("Timing")]
+    [Header("Timing Properties")]
     [Min(0f)]
     private float _duration;
 
     [SerializeField]
+    [Header("Attacking Properties")]
     [Min(0)]
     private float _attackRate = 0.5f;
 
     [SerializeField]
-    [Header("Prefabs")]
+    [Min(0)]
+    private float _maxAttackDistance = 5.0f;
+
+    [SerializeField]
+    [Header("Prefab Properties")]
     private Laser _laser;
 
     private float _durationLeft;
@@ -42,7 +47,6 @@ public class LaserEyesAttack : Attack
 
     public override void OnStart()
     {
-        _monsterMovement.StopMovement();
         _durationLeft = _duration;
     }
 
@@ -53,8 +57,30 @@ public class LaserEyesAttack : Attack
 
     public override void OnUpdate()
     {
-        _attackTimer.Update();
-        _durationLeft -= Time.deltaTime;
+        if (Vector3.Distance(AttackHandler.transform.position, TargetPosition) > _maxAttackDistance)
+        {
+            _monsterMovement.UpdateWalkAnimation(true);
+            _monsterMovement.ChangeDestination(TargetPosition);
+        }
+        else if (IsBehindObject())
+        {
+            _monsterMovement.UpdateWalkAnimation(true);
+            _monsterMovement.ChangeDestination(TargetPosition);
+        }
+        else
+        {
+            _monsterMovement.UpdateWalkAnimation(false);
+            _monsterMovement.StopMovement();
+            _attackTimer.Update();
+            _durationLeft -= Time.deltaTime;
+        }
+    }
+
+    public bool IsBehindObject()
+    {
+        Vector3 directionToTarget = (TargetPosition - AttackHandler.transform.position).normalized;
+        float dot = Vector3.Dot(AttackHandler.transform.forward, directionToTarget);
+        return dot < 0;
     }
 
     public override bool CanFinishAttack()

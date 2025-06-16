@@ -35,6 +35,11 @@ public class StompAttack : Attack
         _movementController = controlledObject.GetComponent<MonsterMovementController>();
     }
 
+    public override void OnStart()
+    {
+        _movementController.UpdateWalkAnimation(true);
+    }
+
     public override void OnUpdate()
     {
         Vector3 attackPosition = TargetProvider.GetTargetPosiiton();
@@ -46,6 +51,7 @@ public class StompAttack : Attack
             _movementController.StopMovement();
             Stomp();
             _finishedAttack = true;
+            _movementController.UpdateWalkAnimation(false);
         }
     }
 
@@ -62,7 +68,7 @@ public class StompAttack : Attack
 
     public void Stomp()
     {
-        _stompEffect.GetOrCreateInstance(AttackHandler.transform.position).Play();
+        _stompEffect.GetOrCreateInstance(AttackHandler.transform.position, AttackHandler.transform).Play();
 
         Collider[] hits = Physics.OverlapSphere(AttackHandler.transform.position, _effectRadius);
 

@@ -13,12 +13,17 @@ public class PrefabInstance<T> where T : Object
         _sourcePrefab = sourcePrefab;
     }
 
-    public T  GetOrCreateInstance(Vector3 createPosition)
+    public T  GetOrCreateInstance(Vector3 createPosition, Transform parent)
     {
         if (_cachedInstance == null)
         {
-            _cachedInstance = Object.Instantiate(_sourcePrefab, createPosition, Quaternion.identity);
+            _cachedInstance = Object.Instantiate(_sourcePrefab, createPosition, Quaternion.identity, parent);
         }
         return _cachedInstance;
+    }
+
+    public T GetOrCreateInstance(Vector3 createPosition)
+    {
+        return GetOrCreateInstance(createPosition, null);
     }
 }

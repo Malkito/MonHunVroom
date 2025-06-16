@@ -11,6 +11,8 @@ public abstract class Attack : ScriptableObject
 
     protected TargetResolver TargetProvider { get => AttackHandler.TargetProvider; }
 
+    public Vector3 TargetPosition { get => TargetProvider.GetTargetPosiiton(); }
+
     public void Initilize(AttackController attackHandler)
     {
         AttackHandler = attackHandler;

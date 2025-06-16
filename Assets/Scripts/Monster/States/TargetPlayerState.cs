@@ -11,7 +11,7 @@ public class TargetPlayerState : BaseState
     private MonsterAttackController _monsterAttack;
     private StateMachineNetworked _machine;
 
-    private Timer _stateTimer;
+    private Timer _stateCycleTimer;
 
     public override string ID => MonsterStates.TARGET_PLAYER;
 
@@ -19,8 +19,8 @@ public class TargetPlayerState : BaseState
     {
         _monsterAttack = StateObject.GetComponent<MonsterAttackController>();
         _machine = StateObject.GetComponent<StateMachineNetworked>();
-        _stateTimer = new Timer(_timeInState);
-        _stateTimer.OnTimerFinished += LeaveState;
+        _stateCycleTimer = new Timer(_timeInState);
+        _stateCycleTimer.OnTimerFinished += LeaveState;
     }
 
     private void LeaveState()
@@ -31,7 +31,7 @@ public class TargetPlayerState : BaseState
     public override void Enter()
     {
         _monsterAttack.PlayerAttackTimer.Reset();
-        _stateTimer.Reset();
+        _stateCycleTimer.Reset();
 
         _monsterAttack.UpdateTarget();
         _monsterAttack.ResetDamageTable();
@@ -46,9 +46,9 @@ public class TargetPlayerState : BaseState
 
     public override void Update()
     {
-        _stateTimer.Update();
+        _stateCycleTimer.Update();
 
-        if (!_stateTimer.IsComplete && !_monsterAttack.IsAttacking)
+        if (!_stateCycleTimer.IsComplete && !_monsterAttack.IsAttacking)
         {
             _monsterAttack.RequestStartAttack();
         }

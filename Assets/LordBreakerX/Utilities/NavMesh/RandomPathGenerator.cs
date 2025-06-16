@@ -25,6 +25,7 @@ namespace LordBreakerX.Utilities.AI
 
         public RandomPathGenerator(Transform agentTransform, float radius) : this(agentTransform, radius, radius, 0)
         {
+            
         }
 
         public IEnumerator FindReachablePath()

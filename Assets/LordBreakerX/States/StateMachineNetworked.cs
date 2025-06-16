@@ -17,6 +17,8 @@ namespace LordBreakerX.States
 
         private BaseState _currentState;
 
+        public BaseState CurrentState { get { return _currentState; } }
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();

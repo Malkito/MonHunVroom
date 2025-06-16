@@ -20,7 +20,7 @@ public class MonsterMovementController : NetworkBehaviour
 
     [SerializeField]
     [Range(0, 1)]
-    private float _decreaseRate = 0.01f;
+    private float _radiusDecreaseRate = 0.01f;
 
     private NavMeshAgent _monsterAgent;
     private Animator _monsterAnimator;
@@ -39,7 +39,7 @@ public class MonsterMovementController : NetworkBehaviour
         base.OnNetworkSpawn();
         _monsterAgent = GetComponent<NavMeshAgent>();
         _monsterAnimator = GetComponent<Animator>();
-        _pathGenerator = new RandomPathGenerator(transform, _minMovementRadius, _maxMovementRadius, _decreaseRate);
+        _pathGenerator = new RandomPathGenerator(transform, _minMovementRadius, _maxMovementRadius, _radiusDecreaseRate);
     }
 
     public void UpdateWalkAnimation(bool isWalking)
@@ -57,7 +57,7 @@ public class MonsterMovementController : NetworkBehaviour
 
     public void SetRandomDestination()
     {
-        if (_pathGenerator == null) _pathGenerator = new RandomPathGenerator(transform, _minMovementRadius, _maxMovementRadius, _decreaseRate);
+        if (_pathGenerator == null) _pathGenerator = new RandomPathGenerator(transform, _minMovementRadius, _maxMovementRadius, _radiusDecreaseRate);
         if (IsServer && !_pathGenerator.IsFindingPath) StartCoroutine(DetermineTargetPosition());
     }
 

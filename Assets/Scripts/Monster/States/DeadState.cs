@@ -20,6 +20,7 @@ public class DeadState : BaseState
     public override void Enter()
     {
         _movementController.StopMovement();
+        _movementController.UpdateWalkAnimation(false);
         _animator.SetBool(DEAD_ANIMATION_VARIABLE, true);
         _animator.SetBool(MonsterMovementController.WALK_ANIMATION_VARIABLE, false);
     }

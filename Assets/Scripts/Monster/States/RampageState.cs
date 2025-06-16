@@ -2,7 +2,6 @@ using LordBreakerX.Attributes;
 using LordBreakerX.States;
 using LordBreakerX.Utilities.AI;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -41,7 +40,6 @@ public class RampageState : BaseState
 
     public override void Enter()
     {
-        _monsterMovement.StopMovement();
         StartRandomAttack();
     }
 
@@ -60,16 +58,12 @@ public class RampageState : BaseState
         Vector3 start = StateObject.transform.position;
         float chance = Random.Range(0.0f, 100.0f);
 
-        if (chance <= _damageableTargetingChance)
-        {
-            bool foundValidDamageable = TryTargetRandomDamageable();
-            if (foundValidDamageable) return;
-        }
+        if (chance <= _damageableTargetingChance && TryTargetDamageable()) return;
 
-        _monsterAttack.RequestRandomAttackPosition(StateObject.transform.position, _attackRadius);
+        _monsterAttack.RequestAttackRandomPosition(StateObject.transform.position, _attackRadius);
     }
 
-    private bool TryTargetRandomDamageable()
+    private bool TryTargetDamageable()
     {
         List<Collider> validDamageables = new List<Collider>();
 
@@ -84,14 +78,15 @@ public class RampageState : BaseState
                 validDamageables.Add(protentialDamageable);
             }
         }
+        return ChooseRandomTarget(validDamageables);
+    }
 
-        if (validDamageables.Count > 0)
+    private bool ChooseRandomTarget(List<Collider> elements)
+    {
+        if (elements.Count > 0)
         {
-            int damageableIndex = Random.Range(0, validDamageables.Count);
-
-            Debug.Log($"damageableIndex: {damageableIndex}  validDamageables.Count: {validDamageables.Count}");
-
-            _monsterAttack.TargetProvider.SetTarget(validDamageables[damageableIndex].transform, StateObject.transform.position);
+            int randomIndex = Random.Range(0, elements.Count);
+            _monsterAttack.TargetProvider.SetTarget(elements[randomIndex].transform, StateObject.transform.position);
             _monsterAttack.RequestStartAttack();
             return true;
         }
@@ -105,7 +100,17 @@ public class RampageState : BaseState
         {
             dealDamage damageable = collider.GetComponent<dealDamage>();
             _damageables.Add(collider, damageable);
+            Debug.Log(_damageables.Count);
         }
-        return _damageables[collider] != null && !collider.CompareTag(_monsterTag) && RandomPathGenerator.IsPathValid(path, StateObject.transform.position, collider.transform.position);
+        return _damageables[collider] != null && !collider.CompareTag(_monsterTag); //&& RandomPathGenerator.IsPathValid(path, StateObject.transform.position, collider.transform.position);
+    }
+
+    public override void OnGizmosSelected()
+    {
+        Gizmos.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0.1f);
+        Gizmos.DrawSphere(StateObject.transform.position, _attackRadius);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(StateObject.transform.position, _attackRadius);
     }
 }
