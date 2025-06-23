@@ -9,9 +9,8 @@ public abstract class Attack : ScriptableObject
 
     protected float RandomPositionRange { get { return _randomPositionRange; } }
 
-    protected TargetResolver TargetProvider { get => AttackHandler.TargetProvider; }
-
-    public Vector3 TargetPosition { get => TargetProvider.GetTargetPosiiton(); }
+    public Vector3 TargetPosition { get => AttackHandler.TargetPosition; }
+    public Vector3 OffsettedTargetPosition { get => AttackHandler.OffsettedTargetPosition; }
 
     public void Initilize(AttackController attackHandler)
     {

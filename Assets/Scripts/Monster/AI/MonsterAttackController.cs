@@ -36,12 +36,6 @@ public class MonsterAttackController : AttackController
         _playerAttackTimer.OnTimerFinished += () => { _machine.ChangeStateWhen(MonsterStates.TARGET_PLAYER, () => !IsAttacking && !IsRequestingAttack); };
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(TargetPosition, Vector3.one);
-    }
-
     //------------------------------
     // Laser Eyes Methods
     //------------------------------

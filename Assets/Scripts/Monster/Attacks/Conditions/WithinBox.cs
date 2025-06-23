@@ -33,8 +33,6 @@ public class WithinBox : AttackCondition
     public override bool CanUse(AttackController controller)
     {
         UpdateBoxInfo(controller.transform);
-        Collider[] colliders = Physics.OverlapBox(_boxCenter, _halfSize, Quaternion.identity, _targetLayers, QueryTriggerInteraction.Ignore);
-        //return colliders.Length > 0;
         Vector3 targetPosition = controller.TargetPosition;
         return targetPosition.x >= _boxMin.x && targetPosition.x <= _boxMax.x && targetPosition.y >= _boxMin.y && targetPosition.y <= _boxMax.y; 
     }

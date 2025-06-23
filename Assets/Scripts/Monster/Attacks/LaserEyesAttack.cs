@@ -42,7 +42,7 @@ public class LaserEyesAttack : Attack
         _monsterMovement = controlledObject.GetComponent<MonsterMovementController>();
 
         _attackTimer = new Timer(_attackRate);
-        _attackTimer.OnTimerFinished += () => _monsterAttack.RequestShootLaser(_laser, TargetProvider.GetTargetPosiiton());
+        _attackTimer.OnTimerFinished += () => _monsterAttack.RequestShootLaser(_laser, TargetPosition);
     }
 
     public override void OnStart()
@@ -57,15 +57,15 @@ public class LaserEyesAttack : Attack
 
     public override void OnUpdate()
     {
-        if (Vector3.Distance(AttackHandler.transform.position, TargetPosition) > _maxAttackDistance)
+        if (Vector3.Distance(AttackHandler.transform.position, OffsettedTargetPosition) > _maxAttackDistance)
         {
             _monsterMovement.UpdateWalkAnimation(true);
-            _monsterMovement.ChangeDestination(TargetPosition);
+            _monsterMovement.ChangeDestination(OffsettedTargetPosition);
         }
         else if (IsBehindObject())
         {
             _monsterMovement.UpdateWalkAnimation(true);
-            _monsterMovement.ChangeDestination(TargetPosition);
+            _monsterMovement.ChangeDestination(OffsettedTargetPosition);
         }
         else
         {

@@ -12,9 +12,12 @@ public class AttackController : NetworkBehaviour
     [SerializeField]
     private AttackTable _fallbackTable;
 
+    [SerializeField]
+    private float _targetOffset;
+
     private Attack _activeAttack;
 
-    private TargetResolver _provider = new TargetResolver();
+    private TargetResolver _provider;
 
     public bool IsAttacking { get { return _activeAttack != null; } }
 
@@ -22,9 +25,10 @@ public class AttackController : NetworkBehaviour
 
     public TargetResolver TargetProvider { get { return _provider; } }
 
-    public Vector3 TargetPosition { get => _provider.GetTargetPosiiton(); }
-
     public bool HasTarget { get => _provider.HasTarget; }
+
+    public Vector3 TargetPosition { get => _provider.GetTargetPosiiton(); }
+    public Vector3 OffsettedTargetPosition { get => _provider.GetOffsettedTargetPosition(transform.position); }
 
     public override void OnNetworkSpawn()
     {
@@ -45,6 +49,8 @@ public class AttackController : NetworkBehaviour
         {
             RequestActiveAttackServerRpc();
         }
+
+        _provider = new TargetResolver(_targetOffset);
     }
 
     private void Update()
@@ -68,6 +74,11 @@ public class AttackController : NetworkBehaviour
             {
                 if (attackTable != null) attackTable.DrawGizmos(this);
             }
+        }
+
+        if (_provider != null)
+        {
+            _provider.DrawTarget(transform.position);
         }
     }
 
