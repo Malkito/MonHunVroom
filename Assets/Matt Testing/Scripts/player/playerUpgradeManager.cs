@@ -33,6 +33,9 @@ public class playerUpgradeManager : NetworkBehaviour
 
     public bool canUseUpgrade; // bool that allows the player to use upgrades. Turned off while player is dead
 
+    [SerializeField] private Transform[] upgradePlaceHolders;
+
+
     private void Start()
     {
         canUseUpgrade = true;
@@ -49,23 +52,50 @@ public class playerUpgradeManager : NetworkBehaviour
         {
             
             currentUpgrades[currentUpgradeCount] = upgradeToAdd; // adds the upgrade to the oppropiate postion
+
+            GameObject newUpgrade =  Instantiate(upgradeToAdd.logicScriptObject, upgradePlaceHolders[currentUpgradeCount]);
+
+            NetworkObject newUpgradeNetwork = newUpgrade.GetComponent<NetworkObject>();
+            newUpgradeNetwork.Spawn();
+
+            newUpgrade.transform.SetParent(upgradePlaceHolders[currentUpgradeCount]);
+
+
             currentUpgradeCount++; //increse the number of upgrades the player has
         }
         else // if the numebr of upgrades is max, shuffles the upgrades forward on spot, then drops the "oldest" upgrade
         {
             GameObject pickUpObject = Instantiate(currentUpgrades[0].pickupObject, transform.position, Quaternion.identity); // drops the "oldest upgrade"
+            Destroy(upgradePlaceHolders[0].GetChild(0).gameObject);
 
             upgradePickUp upgradePickUpScrit = pickUpObject.GetComponent<upgradePickUp>(); // sets certain conditons on the upgrade pick up script to ensure that no "pick up loops" occor. Pick up loops being when the upgrades are constanly switching,picking up and dropping
             upgradePickUpScrit.canBePickedUp = false;
             upgradePickUpScrit.dropped = true;
 
+
+
             currentUpgrades[0] = currentUpgrades[1]; // shuffles upgrade in second pos to first pos
+            Transform secondUpgrade = upgradePlaceHolders[1].GetChild(0);
+            secondUpgrade.position = upgradePlaceHolders[0].position;
+            secondUpgrade.SetParent(upgradePlaceHolders[0]);
+
             abilityOneCooldown = abilityTwoCooldown;
 
+
+
             currentUpgrades[1] = currentUpgrades[2];// shuffles upgrade in third pos to second pos
+            Transform ThirdUpgrade = upgradePlaceHolders[2].GetChild(0);
+            ThirdUpgrade.position = upgradePlaceHolders[1].position;
+            ThirdUpgrade.SetParent(upgradePlaceHolders[1]);
             abilityTwoCooldown = abilityThreeCooldown;
 
+
+
             currentUpgrades[2] = upgradeToAdd; // adds new upgrade to third pos
+            GameObject newUpgrade = Instantiate(upgradeToAdd.logicScriptObject, upgradePlaceHolders[2]);
+            NetworkObject newUpgradeNetwork = newUpgrade.GetComponent<NetworkObject>();
+            newUpgradeNetwork.Spawn();
+            newUpgrade.transform.SetParent(upgradePlaceHolders[2]);
             abilityThreeCooldown = 0;
 
         }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
-
-public class BuildingHealth : MonoBehaviour, dealDamage
+using Unity.Netcode;
+public class BuildingHealth : NetworkBehaviour, dealDamage
 {
     /// <summary>
     /// Health goes on all buildings. "Buildings" includes cars, trees, props, etc.
@@ -46,12 +46,13 @@ public class BuildingHealth : MonoBehaviour, dealDamage
         numOfFiresOnBuilding--;
     }
 
+
     // Update is called once per frame
     void Update()
     {
         if(currentHealth <= 0) 
         {
-            Destroy(gameObject);
+            DestroyBuildingServerRpc();
         }
 
 
@@ -69,6 +70,16 @@ public class BuildingHealth : MonoBehaviour, dealDamage
             stopDamageOverTime();
         }
         
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DestroyBuildingServerRpc()
+    {
+        NetworkObject netObj = gameObject.GetComponent<NetworkObject>();
+        netObj.Despawn();
+        Destroy(gameObject);
+
     }
     public void dealDamage(float damage, Color flashColor, GameObject DamageOrigin) // Takes away a certian amount of health, starts the flash damage color Coroutine
     {

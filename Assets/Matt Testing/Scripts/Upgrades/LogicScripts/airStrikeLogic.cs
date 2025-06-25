@@ -11,7 +11,7 @@ public class airStrikeLogic : MonoBehaviour, useAbility
         PS = transform.gameObject.GetComponent<playerShooting>();
         defaultAltBulletSO = PS.altBulletSO;
         PS.changeAltBullet(flareBulletSO);
-        PS.altShoot();
+        PS.AltShootServerRPC();
         PS.changeAltBullet(defaultAltBulletSO);
     }
 

@@ -1,6 +1,8 @@
 using UnityEngine;
+using Unity.Netcode;
 interface dealDamage //Anything that needs to take damage inherites from this
 {
+    [ServerRpc()]
     public void dealDamage(float damageDealt, Color flashColor, GameObject damageOrigin);
 
     public void increaseFireNumber();

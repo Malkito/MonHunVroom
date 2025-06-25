@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8111644522755087368}
   - component: {fileID: 7560855586954723174}
   - component: {fileID: 21143053101039203}
+  - component: {fileID: -536420619345897838}
   m_Layer: 0
   m_Name: RepulsionCannon
   m_TagString: Untagged
@@ -75,6 +76,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objToPickUp: {fileID: 11400000, guid: 3592a0bd4899577468e7e6cfa48996d5, type: 2}
+  canBePickedUp: 0
+  dropped: 0
+  playerThatPickedUpUpgrade: {fileID: 0}
+--- !u!114 &-536420619345897838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816842516761365982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &2119462769703648399
 GameObject:
   m_ObjectHideFlags: 0

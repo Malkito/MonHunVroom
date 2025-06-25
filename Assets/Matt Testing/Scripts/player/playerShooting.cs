@@ -27,6 +27,7 @@ public class playerShooting : NetworkBehaviour
     public Transform[] mainBarrelEnds;
     private float MaintimeBetweenShots;
     private int currentBarrelNum;
+    [SerializeField] bool onlyOneBarrel;
 
     [Header("Alt Attack")]
     public BulletSO altBulletSO;
@@ -73,13 +74,13 @@ public class playerShooting : NetworkBehaviour
 
 
     [ServerRpc(RequireOwnership = true)]
-    private void shootServerRPC()
+    public void shootServerRPC()
     {
         shoot();
     }
 
     [ServerRpc(RequireOwnership = true)]
-    private void AltShootServerRPC()
+    public void AltShootServerRPC()
     {
         altShoot();
     }
@@ -88,6 +89,11 @@ public class playerShooting : NetworkBehaviour
     {
         //Play sound
         //play muzzle flash
+
+        if (onlyOneBarrel)
+        {
+            currentBarrelNum = 0;
+        }
 
         GameObject projectile = Instantiate(mainBulletSO.bulletPrefab, mainBarrelEnds[currentBarrelNum].transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
@@ -138,6 +144,16 @@ public class playerShooting : NetworkBehaviour
     {
         altBulletSO = newBullet;
         altTimeBetweenShots = altBulletSO.minTimeBetweenShots;
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Vector3 start = mainBarrelEnds[0].position;
+        Vector3 end = start + mainBarrelEnds[0].transform.forward * 10;
+
+        Gizmos.DrawLine(start, end);
 
     }
 }
