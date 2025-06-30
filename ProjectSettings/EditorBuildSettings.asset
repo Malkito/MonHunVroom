@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Multiplayer Testing/NGO_Minimal_Setup/NGO_Setup.unity
     guid: a5d3b1d7baf87c84ba0cf8f518e72b69
   - enabled: 1
-    path: Assets/Matt Testing/Test Scene.unity
+    path: Assets/Matt Testing/Scenes/GameScene.unity
     guid: 9e8f4597e07c67f438b8e83004010d1c
   - enabled: 1
     path: Assets/Scenes/OldNateTesting.unity

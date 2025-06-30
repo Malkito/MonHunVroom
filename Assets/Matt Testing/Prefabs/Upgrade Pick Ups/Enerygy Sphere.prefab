@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 835536654350810013}
   - component: {fileID: 4852234411369836878}
   - component: {fileID: 6958599462491021259}
+  - component: {fileID: -6665541960770869442}
   m_Layer: 0
   m_Name: Enerygy Sphere
   m_TagString: Untagged
@@ -122,3 +123,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objToPickUp: {fileID: 11400000, guid: 4ef6ed5c1e97829479d3e8d380d86047, type: 2}
+  canBePickedUp: 0
+  dropped: 0
+  playerThatPickedUpUpgrade: {fileID: 0}
+--- !u!114 &-6665541960770869442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255406236035438577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0

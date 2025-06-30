@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class defaultAltBullet : MonoBehaviour, bullet
+using Unity.Netcode;
+public class defaultAltBullet : NetworkBehaviour, bullet
 {
 
     /// <summary>

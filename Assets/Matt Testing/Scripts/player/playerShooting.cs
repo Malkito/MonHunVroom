@@ -27,6 +27,7 @@ public class playerShooting : NetworkBehaviour
     public Transform[] mainBarrelEnds;
     private float MaintimeBetweenShots;
     private int currentBarrelNum;
+    [SerializeField] bool onlyOneBarrel;
 
     [Header("Alt Attack")]
     public BulletSO altBulletSO;
@@ -42,7 +43,6 @@ public class playerShooting : NetworkBehaviour
     public bool canShoot;
     public float damageDealt;
 
-
     private void Start()
     {
         canShoot = true;
@@ -52,16 +52,18 @@ public class playerShooting : NetworkBehaviour
     }
     void Update()
     {
+        if (!IsOwner) return;
+
         if (!canShoot) return;
 
         if (GameInput.instance.getAttackInput() && MaintimeBetweenShots > mainBulletSO.minTimeBetweenShots)
         {
-            shoot();
+            shootServerRPC();
             MaintimeBetweenShots = 0;
         }
         if (GameInput.instance.getAltAttackInput() && altTimeBetweenShots > altBulletSO.minTimeBetweenShots)
         {
-            altShoot();
+            AltShootServerRPC();
             altTimeBetweenShots = 0;
         }
         altTimeBetweenShots += Time.deltaTime;
@@ -71,16 +73,36 @@ public class playerShooting : NetworkBehaviour
     }
 
 
+    [ServerRpc(RequireOwnership = true)]
+    public void shootServerRPC()
+    {
+        shoot();
+    }
+
+    [ServerRpc(RequireOwnership = true)]
+    public void AltShootServerRPC()
+    {
+        altShoot();
+    }
+
     private void shoot()
     {
         //Play sound
         //play muzzle flash
 
+        if (onlyOneBarrel)
+        {
+            currentBarrelNum = 0;
+        }
+
         GameObject projectile = Instantiate(mainBulletSO.bulletPrefab, mainBarrelEnds[currentBarrelNum].transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.linearVelocity = mainBarrelEnds[currentBarrelNum].transform.forward * mainBulletSO.bulletSpeed;
 
-        if(projectile.gameObject.TryGetComponent(out bullet bullet))
+        NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>();
+        networkProjectile.Spawn(true);
+
+        if (projectile.gameObject.TryGetComponent(out bullet bullet))
         {
             bullet.setDamageOrigin(gameObject);
         }
@@ -90,6 +112,7 @@ public class playerShooting : NetworkBehaviour
         else { currentBarrelNum = 0; }
     }
 
+
     public void altShoot()
     {
 
@@ -98,6 +121,10 @@ public class playerShooting : NetworkBehaviour
 
         GameObject projectile = Instantiate(altBulletSO.bulletPrefab, altBarrelEnd.transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
+
+        NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>();
+        networkProjectile.Spawn(true);
+
         if (projectile.gameObject.TryGetComponent(out bullet bullet))
         {
             bullet.setDamageOrigin(gameObject);
@@ -117,6 +144,16 @@ public class playerShooting : NetworkBehaviour
     {
         altBulletSO = newBullet;
         altTimeBetweenShots = altBulletSO.minTimeBetweenShots;
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Vector3 start = mainBarrelEnds[0].position;
+        Vector3 end = start + mainBarrelEnds[0].transform.forward * 10;
+
+        Gizmos.DrawLine(start, end);
 
     }
 }

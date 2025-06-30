@@ -50,12 +50,15 @@ public class energySphereBullet : MonoBehaviour, bullet
                 spawnAndLaunchFire();
             }
 
-        }else if(collision.gameObject.TryGetComponent(out dealDamage healthScript)) // if the collidied object can be damaged
+            Destroy(gameObject);
+
+        }
+        else if(collision.gameObject.TryGetComponent(out dealDamage healthScript)) // if the collidied object can be damaged
         {
             healthScript.dealDamage(bulletSO.bulletDamage, Color.grey, BulletDamageOrigin); // deals damage to the collidied
-        }
 
-        Destroy(gameObject);
+            Destroy(gameObject);
+        }
     }
     public void setFire() // sets the energy sphere on fire, called by the fire bullet
     {

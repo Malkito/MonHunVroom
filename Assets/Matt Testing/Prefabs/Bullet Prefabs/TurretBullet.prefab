@@ -560,6 +560,7 @@ GameObject:
   - component: {fileID: 80747292195068380}
   - component: {fileID: 5695235034296093576}
   - component: {fileID: -66503015405270582}
+  - component: {fileID: -2889047302028425825}
   m_Layer: 0
   m_Name: TurretBullet
   m_TagString: Untagged
@@ -655,7 +656,12 @@ MonoBehaviour:
     m_Bits: 247
   bulletData:
   - {fileID: 11400000, guid: 9b56692c8011c784e916d91c5a410be7, type: 2}
-  fireRate: 0.2
+  - {fileID: 11400000, guid: d7cf5072fe7a7cf40b1dbedbff289a9d, type: 2}
+  - {fileID: 11400000, guid: c0f1eeb54dcba364da6c651bddec2f24, type: 2}
+  - {fileID: 11400000, guid: e07e9d1240ced70468f866bc6bb29b7b, type: 2}
+  - {fileID: 11400000, guid: c0f1eeb54dcba364da6c651bddec2f24, type: 2}
+  - {fileID: 11400000, guid: 67f08d7d03c844049bf8c7193921c61a, type: 2}
+  fireRate: 1
   barrelEnd: {fileID: 495791370891123973}
   turretOwner: {fileID: 0}
 --- !u!114 &-66503015405270582
@@ -704,6 +710,31 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-2889047302028425825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745424611243006235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &8907557880051629312
 GameObject:
   m_ObjectHideFlags: 0

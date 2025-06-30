@@ -40,9 +40,12 @@ public class playerMovement : NetworkBehaviour
 
     [Header("Other")]
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private Animator anim;
+    //[SerializeField] private Animator anim;
     private Vector3 hipDirection;
     public bool canMove;
+    [SerializeField] private bool IsSinglePlayer;
+    [SerializeField] private float roatationSpeed;
+    [SerializeField] private Vector3 rotationOffset;
 
 
     private void Start()
@@ -84,8 +87,8 @@ public class playerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsOwner) return;
         if (!canMove) return;
-
 
         staminaSlider.value = currentStamina / maxStamina;
         Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
@@ -147,7 +150,7 @@ public class playerMovement : NetworkBehaviour
 
         if (direction.magnitude >= 0.1f) // checks if any input is being pressed
         {
-            anim.SetBool("Walking", true); // starts ainmation
+            //anim.SetBool("Walking", true); // starts ainmation
 
             Vector3 cameraForward = cameraTransform.forward; // checks the forward direction of the camera
             cameraForward.y = 0; // ignores tilt
@@ -164,27 +167,31 @@ public class playerMovement : NetworkBehaviour
 
             hipDirection = moveDir;
 
-            rb.linearVelocity = new Vector3(moveDir.x * CurrentSpeed, rb.linearVelocity.y, moveDir.z * CurrentSpeed); // multiplies above direction by max spped
+            rb.linearVelocity = new Vector3(moveDir.x * CurrentSpeed, rb.linearVelocity.y, moveDir.z * CurrentSpeed); // multiplies above direction by max speed
 
-            //Vector3 oldPOS = hips.transform.forward;
-            //hips.transform.forward = Vector3.Lerp(oldPOS, moveDir, rotateSpeed);
-             
-           // hips.transform.forward = moveDir;// sets the lower half of player to face direction its moving
-           // hips.transform.rotation = Quaternion.Euler(0, hips.transform.rotation.y, 0);
 
         }
         else
         {
-            anim.SetBool("Walking", false); // Stops animation
+            //anim.SetBool("Walking", false); // Stops animation
         }
-        hips.transform.forward = hipDirection;
+        //hipDirection.y = 0;
+
+        
+
+        Quaternion targetRotation = Quaternion.LookRotation(hipDirection);
+
+        targetRotation *= Quaternion.Euler(rotationOffset);
+
+        hips.transform.rotation = Quaternion.Slerp(hips.transform.rotation, targetRotation, Time.deltaTime * roatationSpeed);
+
         torso.transform.rotation = Quaternion.Euler(0, torso.transform.rotation.y, 0); // enusures top half of player doesnt rotate in werid ways
 
     }
 
     private void rotateTorso()
     {
-        torso.transform.rotation = Quaternion.Euler(torso.transform.parent.rotation.x, cam.GetComponent<CinemachineOrbitalFollow>().HorizontalAxis.Value, torso.transform.rotation.z); // reads the horizontal axis of the camera and rotates the top hlaf of player accordingly
+        torso.transform.rotation = Quaternion.Euler(torso.transform.rotation.x, cam.GetComponent<CinemachineOrbitalFollow>().HorizontalAxis.Value - 70, torso.transform.parent.rotation.z - 90); // reads the horizontal axis of the camera and rotates the top hlaf of player accordingly
 
     }
 
@@ -194,7 +201,7 @@ public class playerMovement : NetworkBehaviour
         {
             float angle = cam.GetComponent<CinemachineOrbitalFollow>().VerticalAxis.Value; // calculates desired angle for barrel rotation, only considered up and down
             angle = Mathf.Clamp(angle, -maxAngle, maxAngle);
-            barrelEndTransform.transform.localRotation = Quaternion.Euler(angle, barrelEndTransform.transform.rotation.y, barrelEndTransform.transform.rotation.z);// rotates the barrel ends based of the vertical axis of the camera
+            barrelEndTransform.transform.localRotation = Quaternion.Euler(barrelEndTransform.transform.rotation.x, barrelEndTransform.transform.rotation.y, angle);// rotates the barrel ends based of the vertical axis of the camera
 
         }
     }

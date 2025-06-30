@@ -9,6 +9,18 @@ public class fireManager : MonoBehaviour
 
 
     private GameObject parent;
+
+    public GameObject ObjectOrigin;
+
+    private void Start()
+    {
+        parent = transform.parent.gameObject;
+        if (parent.TryGetComponent(out dealDamage healthScript)){
+            healthScript.increaseFireNumber();
+        }
+    }
+
+
     private void OnDestroy()
     {
         parent = transform.parent.gameObject;

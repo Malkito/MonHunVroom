@@ -43,13 +43,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _Dissolve: 0
-    - _Distortion: 204.7
+    - _Distortion: 71.8
     - _NormalStrength: 6.46
-    - _NormalTiling: 2.64
+    - _NormalTiling: 1.23
     - _QueueControl: 1
     - _QueueOffset: 0
     - _Smoothness: 1
-    - _VectorDisplacement: 1.23
+    - _VectorDisplacement: 0.1
     m_Colors:
     - _SpecularColour: {r: 0, g: 0.40817901, b: 0.4528302, a: 1}
   m_BuildTextureStacks: []

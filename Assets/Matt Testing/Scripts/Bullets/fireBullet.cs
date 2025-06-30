@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class fireBullet : MonoBehaviour, bullet
+public class fireBullet : NetworkBehaviour, bullet
 {
     /// <summary>
     /// 
@@ -16,12 +17,13 @@ public class fireBullet : MonoBehaviour, bullet
     [SerializeField] BulletSO fireBulletSO; // the fire bullet date, set in inspector
     [SerializeField] float maxBurnTime;
 
+    private GameObject DamageOrigin;
 
+    Transform collisionTransform;
 
     public void setDamageOrigin(GameObject damageOrigin)
     {
-
-
+        DamageOrigin = damageOrigin;
 
     }
 
@@ -31,28 +33,32 @@ public class fireBullet : MonoBehaviour, bullet
 
         if (collision.gameObject.CompareTag("energySphere"))
         {
-            // if the collided object is the energy sphere then is sets teh energysphere in fire
+            // if the collided object is the energy sphere then is sets teh energysphere on fire
             energySphereBullet EnergyBullet = collision.gameObject.GetComponent<energySphereBullet>();
             EnergyBullet.setFire();
             Destroy(gameObject);
             return;
         }
 
+        collisionTransform = collision.transform;
 
-        GameObject fire = Instantiate(fireEffect, transform.position, Quaternion.Euler(-90,0,0)); // creates the fire object
+        spawnfireServerRPC();
+
+
+        Destroy(gameObject);
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void spawnfireServerRPC()
+    {
+        GameObject fire = Instantiate(fireEffect, transform.position, Quaternion.Euler(-90, 0, 0)); // creates the fire object
 
         fireParticle = fire.transform.GetChild(0).GetComponent<ParticleSystem>();
         Destroy(fire, fireParticle.main.duration);// reads the duration of the particle system and drestoys the created fire object based off the duration
 
-        fire.transform.SetParent(collision.transform);
+        fire.transform.SetParent(collisionTransform);
 
-
-
-        if (collision.gameObject.TryGetComponent(out dealDamage healthScript)) // checks if the object can be damaged
-        {
-            healthScript.increaseFireNumber(); //Increase the number of fires on that specific object
-        }
-
-        Destroy(gameObject);
     }
+
 }

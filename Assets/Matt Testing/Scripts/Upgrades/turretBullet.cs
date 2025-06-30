@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class turretBullet : MonoBehaviour, bullet 
+public class turretBullet : NetworkBehaviour, bullet 
 {
 
     [SerializeField] private LayerMask allowedLayers;
@@ -32,7 +33,7 @@ public class turretBullet : MonoBehaviour, bullet
     {
         if(timeBetweenShots > fireRate && isAttached)
         {
-            shoot();
+            shootServerRPC();
             timeBetweenShots = 0;
         }
         timeBetweenShots += Time.deltaTime;
@@ -68,6 +69,10 @@ public class turretBullet : MonoBehaviour, bullet
 
         GameObject projectile = Instantiate(bulletData[randomNum].bulletPrefab, barrelEnd.position, Quaternion.LookRotation(randomDir));
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
+
+        NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>();
+        networkProjectile.Spawn(true);
+
         if (projectile.gameObject.TryGetComponent(out bullet bullet))
         {
             bullet.setDamageOrigin(turretOwner);
@@ -77,5 +82,11 @@ public class turretBullet : MonoBehaviour, bullet
             rb.AddForce(randomDir * bulletData[randomNum].bulletSpeed, ForceMode.VelocityChange);
             Destroy(projectile, bulletData[randomNum].bulletLifetime);
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void shootServerRPC()
+    {
+        shoot();
     }
 }

@@ -531,6 +531,7 @@ GameObject:
   - component: {fileID: 4086904680120587381}
   - component: {fileID: 3899084424286920899}
   - component: {fileID: 402246715748369989}
+  - component: {fileID: 290783691608590081}
   m_Layer: 0
   m_Name: HeliHat
   m_TagString: Untagged
@@ -572,6 +573,7 @@ MonoBehaviour:
   objToPickUp: {fileID: 11400000, guid: 3b3c2aef010daf447a421d96a057c5a5, type: 2}
   canBePickedUp: 0
   dropped: 0
+  playerThatPickedUpUpgrade: {fileID: 0}
 --- !u!135 &402246715748369989
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -593,6 +595,31 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &290783691608590081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7246390563043167947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &8465552875393284709
 GameObject:
   m_ObjectHideFlags: 0
