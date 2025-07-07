@@ -56,6 +56,7 @@ public class Laser : NetworkBehaviour
     {
         if (!collision.gameObject.CompareTag(_monsterTag) && IsServer)
         {
+            Debug.Log("damage done");
             dealDamage damage = collision.gameObject.GetComponent<dealDamage>();
             if (damage != null) damage.dealDamage(_damage, Color.red, _creator);
         }

@@ -6,7 +6,7 @@ public class TargetResolver
     private Transform _targetTransform;
     private Vector3 _fallbackPosition;
 
-    private Dictionary<Transform, TargetOffsetter> _targetOffsets = new Dictionary<Transform, TargetOffsetter>();
+    private Dictionary<Transform, TargetOffsetter> _targetOffsetters = new Dictionary<Transform, TargetOffsetter>();
 
     private float _offset;
 
@@ -52,25 +52,31 @@ public class TargetResolver
 
     private Vector3 GetTransformOffset(Vector3 startPosition)
     {
-        TargetOffsetter offsetter = GetTargetOffsetter();
+        TargetOffsetter offsetter = GetTargetOffsetter(_targetTransform);
 
         if (!offsetter.HasOffset) return _targetTransform.position;
 
         return offsetter.GetOffsettedPosition(startPosition);
     }
 
-    private TargetOffsetter GetTargetOffsetter() 
+    private TargetOffsetter GetTargetOffsetter(Transform checkTransform) 
     {
-        if (_targetOffsets.ContainsKey(_targetTransform))
+        if (_targetOffsetters.ContainsKey(checkTransform))
         {
-            return _targetOffsets[_targetTransform];
+            return _targetOffsetters[checkTransform];
         }
         else
         {
-            TargetOffsetter offsetter = new TargetOffsetter(_targetTransform, _offset);
-            _targetOffsets.Add(_targetTransform, offsetter);
+            TargetOffsetter offsetter = new TargetOffsetter(checkTransform, _offset);
+            _targetOffsetters.Add(checkTransform, offsetter);
             return offsetter;
         }
+    }
+
+    public bool IsValidTarget(Transform checkTransform, Vector3 startPosition)
+    {
+        TargetOffsetter targetOffsetter = GetTargetOffsetter(checkTransform);
+        return targetOffsetter.IsValidTarget(startPosition);
     }
 
     public void DrawTarget(Vector3 startPosition)
@@ -83,7 +89,7 @@ public class TargetResolver
             return;
         }
 
-        TargetOffsetter offsetter = GetTargetOffsetter();
+        TargetOffsetter offsetter = GetTargetOffsetter(_targetTransform);
 
         if (!offsetter.HasOffset)
         {

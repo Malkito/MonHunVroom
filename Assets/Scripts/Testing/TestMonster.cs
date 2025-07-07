@@ -7,7 +7,7 @@ public class TestMonster : MonoBehaviour
 
     TargetOffsetter _targetOffsetter;
 
-    private void Awake()
+    private void Start()
     {
         _targetOffsetter = new TargetOffsetter(_target, 1);
     }
