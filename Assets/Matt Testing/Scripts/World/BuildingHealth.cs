@@ -28,7 +28,6 @@ public class BuildingHealth : NetworkBehaviour, dealDamage
 
 
     public float numOfFiresOnBuilding;
-
     void Start()
     {
         mat = GetComponent<MeshRenderer>().material;
@@ -52,12 +51,14 @@ public class BuildingHealth : NetworkBehaviour, dealDamage
     {
         if(currentHealth <= 0) 
         {
-            DestroyBuildingServerRpc();
+            DestroyBuildingClientRpc();
+            //NetworkObject netobj = gameObject.GetComponent<NetworkObject>();
+            //netobj.Despawn();
         }
 
 
 
-        if(numOfFiresOnBuilding  > 0) // if the number of the fires on the building 1 or aboive, begin to deal damage over time absed on the number on fires on the building
+        if (numOfFiresOnBuilding  > 0) // if the number of the fires on the building 1 or aboive, begin to deal damage over time absed on the number on fires on the building
         {
             if (dotCoroutine != null)
             {
@@ -73,14 +74,12 @@ public class BuildingHealth : NetworkBehaviour, dealDamage
     }
 
 
-    [ServerRpc(RequireOwnership = false)]
-    public void DestroyBuildingServerRpc()
+    [ClientRpc()]
+    private void DestroyBuildingClientRpc()
     {
-        NetworkObject netObj = gameObject.GetComponent<NetworkObject>();
-        netObj.Despawn();
         Destroy(gameObject);
-
     }
+
     public void dealDamage(float damage, Color flashColor, GameObject DamageOrigin) // Takes away a certian amount of health, starts the flash damage color Coroutine
     {
         currentHealth -= damage;

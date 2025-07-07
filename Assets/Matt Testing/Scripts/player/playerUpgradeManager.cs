@@ -35,6 +35,7 @@ public class playerUpgradeManager : NetworkBehaviour
 
     [SerializeField] private Transform[] upgradePlaceHolders;
 
+    private GameObject newUpgrade;
 
     private void Start()
     {
@@ -44,6 +45,7 @@ public class playerUpgradeManager : NetworkBehaviour
         abilityOneCooldown = 0;
         abilityTwoCooldown = 0;
         abilityThreeCooldown = 0;
+
     }
     public void addToPlayerUpgrades(UpgradeScriptableOBJ upgradeToAdd) // this function adds a new upgrades to the lsit. Called by "Upgrade Pick Up" script 
     {
@@ -53,12 +55,11 @@ public class playerUpgradeManager : NetworkBehaviour
             
             currentUpgrades[currentUpgradeCount] = upgradeToAdd; // adds the upgrade to the oppropiate postion
 
-            GameObject newUpgrade =  Instantiate(upgradeToAdd.logicScriptObject, upgradePlaceHolders[currentUpgradeCount]);
+            newUpgrade =  Instantiate(upgradeToAdd.logicScriptObject, upgradePlaceHolders[currentUpgradeCount]);
 
-            NetworkObject newUpgradeNetwork = newUpgrade.GetComponent<NetworkObject>();
-            newUpgradeNetwork.Spawn();
+            spawnLogicOBJServerRPC();
 
-            newUpgrade.transform.SetParent(upgradePlaceHolders[currentUpgradeCount]);
+            //Upgrade.transform.SetParent(upgradePlaceHolders[currentUpgradeCount]);
 
 
             currentUpgradeCount++; //increse the number of upgrades the player has
@@ -77,28 +78,40 @@ public class playerUpgradeManager : NetworkBehaviour
             currentUpgrades[0] = currentUpgrades[1]; // shuffles upgrade in second pos to first pos
             Transform secondUpgrade = upgradePlaceHolders[1].GetChild(0);
             secondUpgrade.position = upgradePlaceHolders[0].position;
-            secondUpgrade.SetParent(upgradePlaceHolders[0]);
+            //secondUpgrade.SetParent(upgradePlaceHolders[0]);
 
             abilityOneCooldown = abilityTwoCooldown;
 
 
 
             currentUpgrades[1] = currentUpgrades[2];// shuffles upgrade in third pos to second pos
+
             Transform ThirdUpgrade = upgradePlaceHolders[2].GetChild(0);
             ThirdUpgrade.position = upgradePlaceHolders[1].position;
-            ThirdUpgrade.SetParent(upgradePlaceHolders[1]);
+            //ThirdUpgrade.SetParent(upgradePlaceHolders[1]);
+
+
             abilityTwoCooldown = abilityThreeCooldown;
 
 
 
             currentUpgrades[2] = upgradeToAdd; // adds new upgrade to third pos
-            GameObject newUpgrade = Instantiate(upgradeToAdd.logicScriptObject, upgradePlaceHolders[2]);
-            NetworkObject newUpgradeNetwork = newUpgrade.GetComponent<NetworkObject>();
-            newUpgradeNetwork.Spawn();
-            newUpgrade.transform.SetParent(upgradePlaceHolders[2]);
+            newUpgrade = Instantiate(upgradeToAdd.logicScriptObject, upgradePlaceHolders[2]);
+
+            spawnLogicOBJServerRPC();
+
+            //newUpgrade.transform.SetParent(upgradePlaceHolders[2]);
             abilityThreeCooldown = 0;
 
         }
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void spawnLogicOBJServerRPC()
+    {
+        NetworkObject newUpgradeNetwork = newUpgrade.GetComponent<NetworkObject>();
+        newUpgradeNetwork.Spawn();
     }
 
     private void Update()

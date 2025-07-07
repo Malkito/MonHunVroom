@@ -82,6 +82,7 @@ public class playerShooting : NetworkBehaviour
     [ServerRpc(RequireOwnership = true)]
     public void AltShootServerRPC()
     {
+        print("Alt shooting");
         altShoot();
     }
 
@@ -144,6 +145,13 @@ public class playerShooting : NetworkBehaviour
     {
         altBulletSO = newBullet;
         altTimeBetweenShots = altBulletSO.minTimeBetweenShots;
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void changeMainBulletServerRpc()
+    {
+
 
     }
 

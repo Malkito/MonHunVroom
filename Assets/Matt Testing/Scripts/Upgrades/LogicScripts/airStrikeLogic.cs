@@ -1,21 +1,33 @@
 using UnityEngine;
-
-public class airStrikeLogic : MonoBehaviour, useAbility
+using Unity.Netcode;
+public class airStrikeLogic : NetworkBehaviour, useAbility
 {
-    [SerializeField] private BulletSO flareBulletSO;
-    private BulletSO defaultAltBulletSO;
-    playerShooting PS;
+    [SerializeField] private BulletSO bulletSO;
+    [SerializeField] private playerShooting PS;
+    BulletSO defaultBullet;
     public void useAbility(Transform transform, bool abiliyUsed)
     {
-        if (!abiliyUsed) return;
         PS = transform.gameObject.GetComponent<playerShooting>();
-        defaultAltBulletSO = PS.altBulletSO;
-        PS.changeAltBullet(flareBulletSO);
+
+        if (!abiliyUsed) return;
+        defaultBullet = PS.altBulletSO;
+        changeBulletServerRpc();
         PS.AltShootServerRPC();
-        PS.changeAltBullet(defaultAltBulletSO);
+        revertBulletServerRpc();
+        print("Air strike used");      
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void changeBulletServerRpc()
+    {
+        PS.changeAltBullet(bulletSO);
     }
 
 
+    [ServerRpc(RequireOwnership = false)]
+    public void revertBulletServerRpc()
+    {
+        PS.changeAltBullet(defaultBullet);
 
-
+    }
 }

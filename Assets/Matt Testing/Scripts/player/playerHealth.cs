@@ -21,17 +21,14 @@ public class playerHealth : MonoBehaviour, dealDamage
 
     [Header("Other")]
     [SerializeField] private float numOfFiresOnHealth;
-    [SerializeField] private MeshRenderer[] mat;
+    [SerializeField] private Material mat;
 
     public bool canTakeDamage;
 
     void Start()
     {
         canTakeDamage = true;
-        mat = GetComponentsInChildren<MeshRenderer>();
         currentHealth = maxHealth;
-
-
     }
     public void increaseFireNumber()
     {
@@ -95,16 +92,8 @@ public class playerHealth : MonoBehaviour, dealDamage
     public void dealDamage(float damage, Color flashColor, GameObject damageOrigin)
     {
         if (!canTakeDamage) return;
-        StartCoroutine(flashDamageColor(flashColor, mat));
+        StartCoroutine(FlashDamageColor(flashColor, mat));
         currentHealth -= damage;
-
-        ///testing stuff
-        playerShooting PS = damageOrigin.GetComponent<playerShooting>();
-        if (PS != null) return;
-        PS.damageDealt += damage;
-        print("Total Damage Done: " + PS.damageDealt);
-
-
     }
 
 
@@ -112,24 +101,12 @@ public class playerHealth : MonoBehaviour, dealDamage
 
 
 
-    private IEnumerator flashDamageColor(Color flashColor, MeshRenderer[] meshes)
+    private IEnumerator FlashDamageColor(Color flashColor, Material mat)
     {
-
-        Color[] originalcolors = new Color[meshes.Length];
-
-        for(int i = 0; i < meshes.Length; i++)
-        {
-            originalcolors[i] = meshes[i].material.color;
-            meshes[i].material.color = flashColor;
-        }
-
+        Color originalcolor = mat.color;
+        mat.color = flashColor;
         yield return new WaitForSeconds(flashTIme);
-
-        for (int i = 0; i < meshes.Length; i++)
-        {
-            meshes[i].material.color = originalcolors[i];
-        }
-
+        mat.color = originalcolor;
     }
 
 }
