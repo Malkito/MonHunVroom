@@ -30,6 +30,8 @@ public class AttackController : NetworkBehaviour
     public Vector3 TargetPosition { get => _provider.GetTargetPosiiton(); }
     public Vector3 OffsettedTargetPosition { get => _provider.GetOffsettedTargetPosition(transform.position); }
 
+    public Attack ActiveAttack { get => _activeAttack; }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();

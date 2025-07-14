@@ -19,6 +19,9 @@ public class Laser : NetworkBehaviour
     [SerializeField]
     private float _damage = 50;
 
+    [SerializeField]
+    ParticleSystem _hitParticle;
+
     private Vector3 _moveDirection = Vector3.zero;
 
     private Timer _timer;
@@ -54,14 +57,14 @@ public class Laser : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.CompareTag(_monsterTag) && IsServer)
+        if (!collision.gameObject.CompareTag(_monsterTag))
         {
-            Debug.Log("damage done");
             dealDamage damage = collision.gameObject.GetComponent<dealDamage>();
             if (damage != null) damage.dealDamage(_damage, Color.red, _creator);
         }
 
-        Destroy(gameObject);
+        if (_hitParticle != null) _hitParticle.Play();
+        Destroy(gameObject, 1);
     }
 
     public static void CreateLaser(Laser prefab, GameObject creator, Vector3 startPosition, Vector3 targetPosition)
@@ -69,5 +72,6 @@ public class Laser : NetworkBehaviour
         Laser createdLaser = Instantiate(prefab, startPosition, Quaternion.identity);
         createdLaser._creator = creator;
         createdLaser._moveDirection = (targetPosition - startPosition).normalized;
+        createdLaser.transform.LookAt(targetPosition, Vector3.up);
     }
 }

@@ -6,7 +6,9 @@ public static class NavMeshUtility
 {
     public static Vector3 GetRandomPosition(Vector3 currentPosition, float radius)
     {
-        Vector3 randomPoint = (Random.insideUnitSphere * radius) + currentPosition;
+        float x = Random.Range(-radius, radius);
+        float z = Random.Range(-radius, radius);
+        Vector3 randomPoint = new Vector3(x, currentPosition.y, z); //(Random.insideUnitSphere * radius) + currentPosition;
 
         if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, radius, NavMesh.AllAreas))
         {

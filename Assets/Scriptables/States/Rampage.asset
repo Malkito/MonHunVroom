@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35700408f79c7ed48868f20141674bf9, type: 3}
   m_Name: Rampage
   m_EditorClassIdentifier: 
-  _damageableTargetingChance: 90
-  _attackRadius: 30
+  _damageableTargetingChance: 100
+  _attackRadius: 60
   _monsterTag: Monster

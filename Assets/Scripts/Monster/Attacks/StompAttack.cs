@@ -42,9 +42,13 @@ public class StompAttack : Attack
 
     public override void OnUpdate()
     {
-        _movementController.ChangeDestination(OffsettedTargetPosition);
+        Vector3 targetPosition = OffsettedTargetPosition;
 
-        if (Vector3.Distance(AttackHandler.transform.position, OffsettedTargetPosition) <= _maxStompDistance)
+        _movementController.ChangeDestination(targetPosition);
+
+        Vector3 checkTargetPosition = new Vector3(targetPosition.x, AttackHandler.transform.position.y, targetPosition.z);
+
+        if (Vector3.Distance(AttackHandler.transform.position, checkTargetPosition) <= _maxStompDistance)
         {
             _movementController.StopMovement();
             Stomp();

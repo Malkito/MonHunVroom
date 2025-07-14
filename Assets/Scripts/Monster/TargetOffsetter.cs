@@ -5,40 +5,31 @@ using UnityEngine.AI;
 public class TargetOffsetter
 {
     // offset from the colliders edges
-    private float _offsetDistance;
+    private float _offset;
 
     private Collider _targetCollider;
 
-    private List<Vector3> _offsets;
+    private List<Vector3> _offsettedPositions;
 
     public bool HasOffset { get { return _targetCollider != null; } }
 
-    public Vector3 TargetPosition { get => _targetCollider.transform.position; }
-
-    public TargetOffsetter(Transform target, float offsetDistance)
+    public TargetOffsetter(Transform target, float offset)
     {
         _targetCollider = target.GetComponent<Collider>();
-        _offsetDistance = offsetDistance;
-        SetOffsets();
+        _offset = offset;
     }
 
-    private void SetOffsets()
+    private void UpdateOffsettedPoints(Vector3 startPosition)
     {
-        if (_targetCollider == null) return;
+        Vector3 max = _targetCollider.bounds.max;
+        Vector3 min = _targetCollider.bounds.min;
 
-        Vector3 maxExtends = _targetCollider.bounds.extents;
-        Vector3 minExtends = -maxExtends;
-
-        _offsets = new List<Vector3>()
+        _offsettedPositions = new List<Vector3>()
         {
-            new Vector3(minExtends.x - _offsetDistance, 0, 0),
-            new Vector3(minExtends.x - _offsetDistance, 0, minExtends.z - _offsetDistance),
-            new Vector3(minExtends.x - _offsetDistance, 0, maxExtends.z + _offsetDistance),
-            new Vector3(0, 0, minExtends.z - _offsetDistance),
-            new Vector3(maxExtends.x + _offsetDistance, 0, 0),
-            new Vector3(maxExtends.x + _offsetDistance, 0, minExtends.z - _offsetDistance),
-            new Vector3(maxExtends.x + _offsetDistance, 0, maxExtends.z + _offsetDistance),
-            new Vector3(0, 0, maxExtends.z + _offsetDistance)
+           new Vector3(min.x - _offset, startPosition.y, _targetCollider.transform.position.z),
+           new Vector3(_targetCollider.transform.position.x, startPosition.y, min.z - _offset),
+           new Vector3(max.x + _offset, startPosition.y, _targetCollider.transform.position.z),
+           new Vector3(_targetCollider.transform.position.x, startPosition.y, max.z + _offset),
         };
     }
 
@@ -46,7 +37,9 @@ public class TargetOffsetter
     {
         if (HasOffset)
         {
-            foreach (Vector3 offsetPoint in _offsets)
+            UpdateOffsettedPoints(startPosition);
+
+            foreach (Vector3 offsetPoint in _offsettedPositions)
             {
                 if (IsPathValid(offsetPoint, startPosition)) return offsetPoint;
             }
@@ -59,7 +52,9 @@ public class TargetOffsetter
     {
         if (!HasOffset) return true;
 
-        foreach (Vector3 offsetPoint in _offsets) 
+        UpdateOffsettedPoints(startPosition);
+
+        foreach (Vector3 offsetPoint in _offsettedPositions)
         {
             if (IsPathValid(offsetPoint, startPosition)) return true;
         }
@@ -73,12 +68,14 @@ public class TargetOffsetter
 
         if (!HasOffset) return;
 
-        foreach(Vector3 offsetPoint in _offsets)
+        UpdateOffsettedPoints(startPosition);
+
+        foreach (Vector3 offsetPoint in _offsettedPositions)
         {
             if (IsPathValid(offsetPoint, startPosition)) Gizmos.color = Color.green;
             else Gizmos.color = Color.red;
 
-            Gizmos.DrawSphere(TargetPosition + offsetPoint, 0.1f);
+            Gizmos.DrawSphere(offsetPoint, 0.1f);
         }
 
         Gizmos.color = startingColor;
@@ -88,7 +85,7 @@ public class TargetOffsetter
     {
         NavMeshPath path = new NavMeshPath();
 
-        if (NavMesh.CalculatePath(startPosition, TargetPosition + point, NavMesh.AllAreas, path))
+        if (NavMesh.CalculatePath(startPosition, point, NavMesh.AllAreas, path))
         {
             return path.status == NavMeshPathStatus.PathComplete;
         }

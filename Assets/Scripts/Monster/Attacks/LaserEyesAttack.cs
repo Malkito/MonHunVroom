@@ -64,6 +64,7 @@ public class LaserEyesAttack : Attack
         }
         else if (IsBehindObject())
         {
+            Debug.Log("behind object");
             _monsterMovement.UpdateWalkAnimation(true);
             _monsterMovement.ChangeDestination(OffsettedTargetPosition);
         }

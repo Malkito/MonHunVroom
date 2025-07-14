@@ -15,5 +15,5 @@ MonoBehaviour:
   _randomPositionRange: 20
   _duration: 2
   _attackRate: 0.2
-  _maxAttackDistance: 5
+  _maxAttackDistance: 15
   _laser: {fileID: 1795866302372145853, guid: e9c596d46fdb0e64ba1d5ab34e791042, type: 3}

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Stomp
   m_EditorClassIdentifier: 
   _randomPositionRange: 20
-  _maxStompDistance: 2
-  _effectRadius: 2
+  _maxStompDistance: 3
+  _effectRadius: 5
   _monsterTag: Monster
   _stompEffect:
     _sourcePrefab: {fileID: 7120335522972623030, guid: b5e382e08ccf104429536df1696470c2, type: 3}
