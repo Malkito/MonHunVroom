@@ -26,4 +26,4 @@ public class UpgradeScriptableOBJ : ScriptableObject
 
     public bool canBeUsedWhileDead;
 
-}
+}  

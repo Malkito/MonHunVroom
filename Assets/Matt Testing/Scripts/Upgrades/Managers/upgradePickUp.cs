@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class upgradePickUp : MonoBehaviour
+public class upgradePickUp : NetworkBehaviour
 {
     /// <summary>
     /// 
@@ -15,6 +16,7 @@ public class upgradePickUp : MonoBehaviour
     [HideInInspector] public bool canBePickedUp;
     [HideInInspector] public bool dropped = false;
     [HideInInspector] public GameObject playerThatPickedUpUpgrade;
+    [SerializeField] private int objectArrayIndex;
 
 
     private void Start()
@@ -28,15 +30,21 @@ public class upgradePickUp : MonoBehaviour
         {
             //PLayer has picked up the upgrade
 
-
             playerThatPickedUpUpgrade = other.gameObject; // Unique idenedifier used for the grapple hook upgrade
 
             playerUpgradeManager playerUpgradeManager = other.GetComponent<playerUpgradeManager>();
-            playerUpgradeManager.addToPlayerUpgrades(objToPickUp); // Makes the upgrde avaible to the player
-
-            Destroy(gameObject);
+            playerUpgradeManager.addToPlayerUpgrades(objectArrayIndex); // Makes the upgrde avaible to the player
+            destroyPickUpClientRpc();
         }
     }
+
+    [ClientRpc()]
+    private void destroyPickUpClientRpc()
+    {
+        Destroy(gameObject);
+    }
+
+    
 
     private void OnTriggerExit(Collider other)
     {

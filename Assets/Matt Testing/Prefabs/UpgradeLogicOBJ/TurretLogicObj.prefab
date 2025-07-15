@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5120873793160399378}
   - component: {fileID: 5599375738872715160}
-  - component: {fileID: 6818858549045512794}
+  - component: {fileID: 8294568473631349788}
   m_Layer: 0
   m_Name: TurretLogicObj
   m_TagString: Untagged
@@ -59,7 +59,7 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &6818858549045512794
+--- !u!114 &8294568473631349788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,11 +68,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3546442050109167328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 512748af5a8a67549bd9be5ec1fd76b0, type: 3}
+  m_Script: {fileID: 11500000, guid: d0a9a3d1613d3654dbb3e4a450733606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  bulletSO: {fileID: 11400000, guid: c11d1c85f3287d7459934d4a4aeb5c0f, type: 2}
+  PS: {fileID: 0}
+  bulletSOIndex: 7
 --- !u!1 &4921052747046444379
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}

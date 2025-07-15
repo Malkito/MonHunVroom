@@ -6426,17 +6426,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  mainBulletSO: {fileID: 11400000, guid: 9b56692c8011c784e916d91c5a410be7, type: 2}
+  currentMainBulletSoIndex: 0
   mainBarrelEnds:
   - {fileID: 862868711590239367}
   - {fileID: 0}
   onlyOneBarrel: 1
-  altBulletSO: {fileID: 11400000, guid: d7cf5072fe7a7cf40b1dbedbff289a9d, type: 2}
+  currentAltBulletSoIndex: 0
   altBarrelEnd: {fileID: 862868711590239367}
   currentMainBuleltTest: {fileID: 1395627057550144827}
   currentAltBuleltTest: {fileID: 1717406009285451114}
   canShoot: 0
   damageDealt: 0
+  bulletSOarray:
+  - {fileID: 11400000, guid: 9b56692c8011c784e916d91c5a410be7, type: 2}
+  - {fileID: 11400000, guid: d7cf5072fe7a7cf40b1dbedbff289a9d, type: 2}
+  - {fileID: 11400000, guid: d2e906cb1524f664e89c8720dbe6391c, type: 2}
+  - {fileID: 11400000, guid: c0f1eeb54dcba364da6c651bddec2f24, type: 2}
+  - {fileID: 11400000, guid: e07e9d1240ced70468f866bc6bb29b7b, type: 2}
+  - {fileID: 11400000, guid: 718c22865174d7a4a92e0a1b42f83f4f, type: 2}
+  - {fileID: 11400000, guid: eb7554b0b8543cf46a61573861da5d80, type: 2}
+  - {fileID: 11400000, guid: c11d1c85f3287d7459934d4a4aeb5c0f, type: 2}
+  - {fileID: 11400000, guid: 67f08d7d03c844049bf8c7193921c61a, type: 2}
 --- !u!114 &4462390516167709757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6462,6 +6472,21 @@ MonoBehaviour:
   - {fileID: 6544901697435720849}
   - {fileID: 1277973674349870095}
   - {fileID: 7211767415852682941}
+  upgradeArray:
+  - {fileID: 11400000, guid: 6dcece01264a23a46bf88dc66e6cc6ef, type: 2}
+  - {fileID: 11400000, guid: cf77acb7f343bf542add926b566d4bf6, type: 2}
+  - {fileID: 11400000, guid: 74fadb185cbecea42b1668f36017680c, type: 2}
+  - {fileID: 11400000, guid: 4ef6ed5c1e97829479d3e8d380d86047, type: 2}
+  - {fileID: 11400000, guid: 41c0dd1953e5fc54084aaab1873f2f7e, type: 2}
+  - {fileID: 11400000, guid: b43f0d35993d467439c207ff6f9c1d85, type: 2}
+  - {fileID: 11400000, guid: 3b3c2aef010daf447a421d96a057c5a5, type: 2}
+  - {fileID: 11400000, guid: dbc1abaf7454655468bc543ec5162407, type: 2}
+  - {fileID: 11400000, guid: b2847b1ae74b2104f9ed14fa5cd3567d, type: 2}
+  - {fileID: 11400000, guid: a1cee2643effc81479def850759e294c, type: 2}
+  - {fileID: 11400000, guid: 3592a0bd4899577468e7e6cfa48996d5, type: 2}
+  - {fileID: 11400000, guid: 11052a1002c79f5458e13e8b56936a98, type: 2}
+  - {fileID: 11400000, guid: 432f47366cc30a74ab12c7e67a29509e, type: 2}
+  - {fileID: 11400000, guid: 823955df9e9ee134aae91df67a228c1a, type: 2}
 --- !u!114 &8180779637909461952
 MonoBehaviour:
   m_ObjectHideFlags: 0
