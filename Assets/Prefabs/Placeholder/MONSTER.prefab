@@ -593,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b6aee785970fee4993aa72e090b2559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   _fillImage: {fileID: 2991776551332617440}
 --- !u!1 &3185304913066940343
 GameObject:
@@ -1444,6 +1445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23d3160c67826b42a4bf86e1e53e6d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _monsterStatManager: {fileID: 3524137280470754205}
   _monsterAnimator: {fileID: 60298490284039638}
   _monster: {fileID: 7549028244194166420}
   _monsterTag: Monster
@@ -1576,6 +1578,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6242554899666415213}
   - component: {fileID: 2378797744660724832}
+  - component: {fileID: 3524137280470754205}
   - component: {fileID: 5039756964868264020}
   - component: {fileID: 5008790797301554141}
   - component: {fileID: 60298490284039638}
@@ -1637,6 +1640,19 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &3524137280470754205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7549028244194166420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb35cc3105d4a324e91872e90e4193df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _monsterStats: {fileID: 11400000, guid: f165afe911246604a81bffb10fb2faf3, type: 2}
 --- !u!114 &5039756964868264020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1729,7 +1745,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _maxHealth: 1000
   _onHealthChangedServerSide:
     m_PersistentCalls:
       m_Calls:

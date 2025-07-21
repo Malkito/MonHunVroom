@@ -4,8 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Monster/Attacks/Stomp")]
 public class StompAttack : Attack
 {
-    private const float STOMP_DAMAGE_AMOUNT = 50;
-
     private static readonly Color STOMP_FLASH_COLOR = Color.red;
 
     private const string STARTING_MONSTER_TAG = "Monster";
@@ -14,10 +12,6 @@ public class StompAttack : Attack
     [Header("Properties")]
     [Min(0)]
     private float _maxStompDistance = 1.2f;
-
-    [SerializeField]
-    [Min(0)]
-    private float _effectRadius = 1;
 
     [SerializeField]
     [TagDropdown]
@@ -29,10 +23,12 @@ public class StompAttack : Attack
     private bool _finishedAttack = false;
 
     private MonsterMovementController _movementController;
+    private MonsterStatManager _monsterStatManager;
 
     protected override void OnInilization(GameObject controlledObject)
     {
         _movementController = controlledObject.GetComponent<MonsterMovementController>();
+        _monsterStatManager = controlledObject.GetComponent<MonsterStatManager>();
     }
 
     public override void OnStart()
@@ -72,14 +68,14 @@ public class StompAttack : Attack
     {
         _stompEffect.GetOrCreateInstance(AttackHandler.transform.position, AttackHandler.transform).Play();
 
-        Collider[] hits = Physics.OverlapSphere(AttackHandler.transform.position, _effectRadius);
+        Collider[] hits = Physics.OverlapSphere(AttackHandler.transform.position, _monsterStatManager.StompRadius);
 
         foreach (Collider hit in hits)
         {
             if (!hit.CompareTag(_monsterTag))
             {
                 dealDamage damage = hit.gameObject.GetComponent<dealDamage>();
-                if (damage != null) damage.dealDamage(STOMP_DAMAGE_AMOUNT, STOMP_FLASH_COLOR, AttackHandler.gameObject);
+                if (damage != null) damage.dealDamage(_monsterStatManager.StompDamage, STOMP_FLASH_COLOR, AttackHandler.gameObject);
             }
         }
     }

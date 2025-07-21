@@ -17,9 +17,6 @@ public class Laser : NetworkBehaviour
     private string _monsterTag = "Monster";
 
     [SerializeField]
-    private float _damage = 50;
-
-    [SerializeField]
     ParticleSystem _hitParticle;
 
     private Vector3 _moveDirection = Vector3.zero;
@@ -27,6 +24,8 @@ public class Laser : NetworkBehaviour
     private Timer _timer;
 
     private GameObject _creator;
+
+    private MonsterStatManager _statManager;
 
     private void Awake()
     {
@@ -47,7 +46,7 @@ public class Laser : NetworkBehaviour
     {
         _timer.Update();
 
-        transform.position += _moveDirection * _moveSpeed * Time.deltaTime;
+        transform.position += _moveDirection * _statManager.LaserEyeSpeed * Time.deltaTime;
     }
 
     private void OnDeath()
@@ -60,18 +59,19 @@ public class Laser : NetworkBehaviour
         if (!collision.gameObject.CompareTag(_monsterTag))
         {
             dealDamage damage = collision.gameObject.GetComponent<dealDamage>();
-            if (damage != null) damage.dealDamage(_damage, Color.red, _creator);
+            if (damage != null) damage.dealDamage(_statManager.LaserEyesDamage, Color.red, _creator);
         }
 
         if (_hitParticle != null) _hitParticle.Play();
         Destroy(gameObject, 1);
     }
 
-    public static void CreateLaser(Laser prefab, GameObject creator, Vector3 startPosition, Vector3 targetPosition)
+    public static void CreateLaser(Laser prefab, GameObject creator, Vector3 startPosition, Vector3 targetPosition, MonsterStatManager statManager)
     {
         Laser createdLaser = Instantiate(prefab, startPosition, Quaternion.identity);
         createdLaser._creator = creator;
         createdLaser._moveDirection = (targetPosition - startPosition).normalized;
         createdLaser.transform.LookAt(targetPosition, Vector3.up);
+        createdLaser._statManager = statManager;
     }
 }

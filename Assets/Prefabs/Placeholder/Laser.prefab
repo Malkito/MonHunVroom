@@ -5023,7 +5023,7 @@ MonoBehaviour:
   _survivalTime: 10
   _moveSpeed: 20
   _monsterTag: Monster
-  _damage: 50
+  _monsterStats: {fileID: 11400000, guid: f165afe911246604a81bffb10fb2faf3, type: 2}
   _hitParticle: {fileID: 2566055645945908332}
 --- !u!54 &7457236678161861250
 Rigidbody:
