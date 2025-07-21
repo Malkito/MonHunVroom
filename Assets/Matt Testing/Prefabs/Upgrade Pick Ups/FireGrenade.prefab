@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 401076240220540726}
   - component: {fileID: 6649929183235210905}
   - component: {fileID: 9109485695562898557}
-  - component: {fileID: 5477159884670709962}
   - component: {fileID: 3830086239568793998}
+  - component: {fileID: 5477159884670709962}
   m_Layer: 0
   m_Name: FireGrenade
   m_TagString: Untagged
@@ -110,23 +110,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5477159884670709962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8408881960340060570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d15d1204be5ac94a8e6869cb40ce466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objToPickUp: {fileID: 11400000, guid: 41c0dd1953e5fc54084aaab1873f2f7e, type: 2}
-  canBePickedUp: 0
-  dropped: 0
-  playerThatPickedUpUpgrade: {fileID: 0}
-  objectArrayIndex: 4
 --- !u!114 &3830086239568793998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,3 +135,21 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &5477159884670709962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8408881960340060570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d15d1204be5ac94a8e6869cb40ce466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  objToPickUp: {fileID: 11400000, guid: 41c0dd1953e5fc54084aaab1873f2f7e, type: 2}
+  canBePickedUp: 0
+  dropped: 0
+  playerThatPickedUpUpgrade: {fileID: 0}
+  objectArrayIndex: 4

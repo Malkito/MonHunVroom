@@ -18,6 +18,8 @@ public class turretBullet : NetworkBehaviour, bullet
 
     public GameObject turretOwner;
 
+    private GameObject parentOBJ;
+
     private void Start()
     {
         RB = gameObject.GetComponent<Rigidbody>();
@@ -42,17 +44,25 @@ public class turretBullet : NetworkBehaviour, bullet
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (isAttached) return;
+        if (isAttached || collision.gameObject.CompareTag("Player")) return;
 
         ContactPoint contact = collision.contacts[0];
         transform.position = contact.point;
         Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, contact.normal);
         transform.rotation = targetRotation;
-        transform.SetParent(collision.transform);
+        parentOBJ = collision.gameObject;
+        parentTurretServerRpc();
         hemisphereUp = contact.normal;
         isAttached = true;
 
         RB.constraints = RigidbodyConstraints.FreezeAll;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void parentTurretServerRpc()
+    {
+        gameObject.transform.SetParent(parentOBJ.transform);
+
     }
 
 

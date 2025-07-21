@@ -54,6 +54,9 @@ public class fireBullet : NetworkBehaviour, bullet
     {
         GameObject fire = Instantiate(fireEffect, transform.position, Quaternion.Euler(-90, 0, 0)); // creates the fire object
 
+        NetworkObject fireNetOBj = fire.GetComponent<NetworkObject>();
+        fireNetOBj.Spawn();
+
         fireParticle = fire.transform.GetChild(0).GetComponent<ParticleSystem>();
         Destroy(fire, fireParticle.main.duration);// reads the duration of the particle system and drestoys the created fire object based off the duration
 

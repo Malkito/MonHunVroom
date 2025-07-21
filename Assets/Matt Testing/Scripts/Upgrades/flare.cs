@@ -28,9 +28,18 @@ public class flare : NetworkBehaviour
     private void spawnAirSrtikeServerRPC()
     {
         Vector3 spawnPos = new Vector3(transform.position.x, transform.position.x + spawnHeight, transform.position.z);
-        Instantiate(airStrikeMissle, spawnPos, Quaternion.identity);
-        spawned = true;
+        GameObject bomb = Instantiate(airStrikeMissle, spawnPos, Quaternion.identity);
+        NetworkObject bombNetOBJ = bomb.GetComponent<NetworkObject>();
+        bombNetOBJ.Spawn();
+        spawnedClientRPC();
+        print("Is spawned: " + spawned);
+
     }
 
+    [ClientRpc]
+    public void spawnedClientRPC()
+    {
+        spawned = true;
+    }
 
 }

@@ -117,10 +117,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 327835207934645572}
-  - component: {fileID: 5788719819305726578}
   - component: {fileID: -8669931170634234567}
+  - component: {fileID: -3495627782654725180}
   m_Layer: 0
-  m_Name: FireGrenadeLogicScript
+  m_Name: FireBulletLogicScript
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,20 +142,6 @@ Transform:
   - {fileID: 1599685950079687229}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5788719819305726578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5362797592063252832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ca0d9649f815f54ba7d9dc06b798b06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityDuration: 5
-  waterGrendadeBulletIndex: 0
 --- !u!114 &-8669931170634234567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,3 +167,21 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &-3495627782654725180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5362797592063252832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf99d7c1bdfb18f449908fd343414459, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxCharge: 500
+  chargeDeplationRate: 250
+  chargeRegenAmout: 50
+  bulletSoIndex: 4
+  PS: {fileID: 0}

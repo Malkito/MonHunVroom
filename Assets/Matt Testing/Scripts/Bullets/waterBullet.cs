@@ -20,6 +20,9 @@ public class waterBullet : NetworkBehaviour
     public void OnCollisionServerRpc()
     {
         GameObject water = Instantiate(waterSplash, transform.position, Quaternion.identity);
+        NetworkObject splashNetworkOBJ = water.GetComponent<NetworkObject>();
+        splashNetworkOBJ.Spawn();
+
         Destroy(water, waterDuration);
         Destroy(gameObject);
         foreach (GameObject fireOBj in findFireInArea())

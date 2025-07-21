@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e4fd84e1d309442a4a4256d8361d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverForce: 6
+  hoverForce: 50
   hoverChargeDeplationRate: 60
   hoverChargeRegenAmout: 40
 --- !u!114 &-5492991516151708472

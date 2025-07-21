@@ -22,3 +22,4 @@ MonoBehaviour:
   isBulletUpgrade: 0
   logicScriptObject: {fileID: 1909412488855794685, guid: d6d683f02319f1b4fa9aaa63fbc42208, type: 3}
   cooldown: 0
+  canBeUsedWhileDead: 0

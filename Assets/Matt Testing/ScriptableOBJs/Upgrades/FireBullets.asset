@@ -21,4 +21,5 @@ MonoBehaviour:
   isAvailble: 0
   isBulletUpgrade: 1
   logicScriptObject: {fileID: 5362797592063252832, guid: 02ee6b7d640850548b76ab1300f509d5, type: 3}
-  cooldown: 10
+  cooldown: 0
+  canBeUsedWhileDead: 0

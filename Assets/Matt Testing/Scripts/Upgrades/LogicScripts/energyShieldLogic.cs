@@ -7,10 +7,10 @@ public class energyShieldLogic : NetworkBehaviour, useAbility
     [SerializeField] private GameObject shieldObject;
     private Transform spawnLocal;
 
-    public void useAbility(Transform spawnLocation , bool abilityused)
+    public void useAbility(Transform transform , bool abilityused)
     {
-       if (!abilityused) return;
-        spawnLocal = spawnLocation;
+        if (!abilityused) return;
+        spawnLocal = transform;
         spawnSheildServerRPC();
     }
 
@@ -18,7 +18,7 @@ public class energyShieldLogic : NetworkBehaviour, useAbility
     [ServerRpc(RequireOwnership = false)]
     private void spawnSheildServerRPC()
     {
-
+        print("RPC runs");
         GameObject Shield = Instantiate(shieldObject, spawnLocal.position, Quaternion.identity);
         NetworkObject sheildNetworkOBj = Shield.GetComponent<NetworkObject>();
         sheildNetworkOBj.Spawn();

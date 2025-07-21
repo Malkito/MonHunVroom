@@ -8,7 +8,6 @@ public class projectileLaunchLogic : MonoBehaviour, useAbility
     {
         PS = transform.gameObject.GetComponent<playerShooting>();
         if (!abiliyUsed) return;
-        PS.AltShootServerRPC(bulletSOIndex);
-        print("Air strike used");      
+        PS.AltShootServerRPC(bulletSOIndex);     
     }
 }

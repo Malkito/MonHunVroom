@@ -42,7 +42,7 @@ public class playerShooting : NetworkBehaviour
     [Header("Other")]
     public bool canShoot;
     public float damageDealt;
-    [SerializeField] private BulletSO[] bulletSOarray;
+    [SerializeField] public BulletSO[] bulletSOarray;
 
     private void Start()
     {
