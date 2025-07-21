@@ -1,0 +1,189 @@
+using LordBreakerX.Utilities.AI;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEngine;
+
+public class AttackController : NetworkBehaviour
+{
+    [SerializeField]
+    private List<AttackTable> _attackTables = new List<AttackTable>();
+
+    [SerializeField]
+    private AttackTable _fallbackTable;
+
+    [SerializeField]
+    private float _targetOffset;
+
+    private Attack _activeAttack;
+
+    private TargetResolver _provider;
+
+    public bool IsAttacking { get { return _activeAttack != null; } }
+
+    public bool IsRequestingAttack { get; private set; }
+
+    public TargetResolver TargetProvider { get { return _provider; } }
+
+    public bool HasTarget { get => _provider.HasTarget; }
+
+    public Vector3 TargetPosition { get => _provider.GetTargetPosiiton(); }
+    public Vector3 OffsettedTargetPosition { get => _provider.GetOffsettedTargetPosition(transform.position); }
+
+    public Attack ActiveAttack { get => _activeAttack; }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        List<AttackTable> copiedTables = new List<AttackTable>();
+
+        foreach (AttackTable attackTable in _attackTables)
+        {
+            copiedTables.Add(AttackTable.Copy(attackTable, this));
+        }
+
+        _attackTables = copiedTables;
+
+        if (_fallbackTable != null) _fallbackTable = AttackTable.Copy(_fallbackTable, this);
+
+        if (IsClient)
+        {
+            RequestActiveAttackServerRpc();
+        }
+
+        _provider = new TargetResolver(_targetOffset);
+    }
+
+    private void Update()
+    {
+        if (_activeAttack != null)
+        {
+            _activeAttack.OnUpdate();
+            if (_activeAttack.CanFinishAttack()) RequestStopAttack();
+        }
+
+        OnControllerUpdate();
+    }
+
+    protected virtual void OnControllerUpdate() { }
+
+    private void OnDrawGizmos()
+    {
+        if (_attackTables.Count > 0)
+        {
+            foreach(AttackTable attackTable in _attackTables)
+            {
+                if (attackTable != null) attackTable.DrawGizmos(this);
+            }
+        }
+
+        if (_provider != null)
+        {
+            _provider.DrawTarget(transform.position);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (_attackTables.Count > 0)
+        {
+            foreach(AttackTable attackTable in _attackTables)
+            {
+                if (attackTable != null) attackTable.DrawGizmosSelected(this);
+            }
+        }
+    }
+
+    public void RequestStartAttack()
+    {
+        IsRequestingAttack = true;
+
+        if (IsServer)
+        {
+            StartAttack();
+            StartAttackClientRpc();
+            IsRequestingAttack = false;
+        }
+    }
+
+    private void StartAttack()
+    {
+        AttackTable attackTable = GetTable();
+
+        if (IsAttacking || attackTable == null) return;
+
+        _activeAttack = attackTable.GetRandomAttack();
+        _activeAttack.OnStart();
+    }
+
+    private AttackTable GetTable()
+    {
+        List<AttackTable> useableTables = new List<AttackTable>();
+
+        foreach (AttackTable attackTable in _attackTables)
+        {
+            if (attackTable.CanUse(this)) useableTables.Add(attackTable);
+        }
+
+        if (useableTables.Count > 0)
+        {
+            int usedTableIndex = Random.Range(0, useableTables.Count);
+            return useableTables[usedTableIndex];
+        }
+
+        return _fallbackTable;
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void StartAttackClientRpc()
+    {
+        StartAttack();
+        IsRequestingAttack = false;
+    }
+
+    public void RequestStopAttack()
+    {
+        if (IsServer)
+        {
+            StopAttack();
+            StopAttackClientRpc();
+        }
+    }
+
+    private void StopAttack()
+    {
+        if (_activeAttack != null) _activeAttack.OnStop();
+        _activeAttack = null;
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void StopAttackClientRpc()
+    {
+        StopAttack();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestActiveAttackServerRpc()
+    {
+        if (_activeAttack != null)
+        {
+            StartAttackClientRpc();
+        }
+    }
+
+    public void RequestAttackRandomPosition(Vector3 start, float attackRadius)
+    {
+        IsRequestingAttack = true;
+        if (IsServer) StartCoroutine(RandomAttackPosition(start, attackRadius));
+    }
+
+    private IEnumerator RandomAttackPosition(Vector3 start, float attackRadius)
+    {
+        RandomPathGenerator generator = new RandomPathGenerator(transform, attackRadius);
+        yield return generator.FindReachablePath();
+        TargetProvider.SetTargetPosition(generator.GeneratedDestination);
+        RequestStartAttack();
+    }
+
+}

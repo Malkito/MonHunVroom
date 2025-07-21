@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f30f58751271da4eb49fd82cc5bb303, type: 3}
+  m_Name: Stomp
+  m_EditorClassIdentifier: 
+  _randomPositionRange: 20
+  _monsterStats: {fileID: 11400000, guid: f165afe911246604a81bffb10fb2faf3, type: 2}
+  _maxStompDistance: 3
+  _monsterTag: Monster
+  _stompEffect:
+    _sourcePrefab: {fileID: 7120335522972623030, guid: b5e382e08ccf104429536df1696470c2, type: 3}
