@@ -28,12 +28,13 @@ public class upgradePickUp : NetworkBehaviour
     {
         if (other.CompareTag("Player") && canBePickedUp)
         {
-            //PLayer has picked up the upgrade
+            //Player has picked up the upgrade
 
-            playerThatPickedUpUpgrade = other.gameObject; // Unique idenedifier used for the grapple hook upgrade
+            playerThatPickedUpUpgrade = other.gameObject; // Unique identifier used for the grapple hook upgrade
 
             playerUpgradeManager playerUpgradeManager = other.GetComponent<playerUpgradeManager>();
             playerUpgradeManager.addToPlayerUpgrades(objectArrayIndex); // Makes the upgrde avaible to the player
+            print("Added upgrade to array");
             destroyPickUpClientRpc();
         }
     }
@@ -41,6 +42,7 @@ public class upgradePickUp : NetworkBehaviour
     [ClientRpc()]
     private void destroyPickUpClientRpc()
     {
+        print("Destroying object pick up");
         Destroy(gameObject);
     }
 

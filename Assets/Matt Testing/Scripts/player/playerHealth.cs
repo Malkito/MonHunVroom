@@ -45,7 +45,7 @@ public class playerHealth : MonoBehaviour, dealDamage
         if (currentHealth <= 0)
         {
             print("Helth has hit 0");
-            StartCoroutine(respawnManager.Instance.respawnPlayer(transform));
+            StartCoroutine(respawnManager.Instance.StartSpawnPlayer(transform));
         }
 
         if (numOfFiresOnHealth > 0)

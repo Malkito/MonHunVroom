@@ -52,8 +52,6 @@ public class BuildingHealth : NetworkBehaviour, dealDamage
         if(currentHealth <= 0) 
         {
             DestroyBuildingClientRpc();
-            //NetworkObject netobj = gameObject.GetComponent<NetworkObject>();
-            //netobj.Despawn();
         }
 
 

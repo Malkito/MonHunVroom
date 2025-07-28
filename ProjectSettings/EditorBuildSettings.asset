@@ -5,16 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Multiplayer Testing/NGO_Minimal_Setup/NGO_Setup.unity
     guid: a5d3b1d7baf87c84ba0cf8f518e72b69
   - enabled: 1
+    path: Assets/Matt Testing/Scenes/MainMenu.unity
+    guid: 8305bb31608d78249bcaabf5d359f83d
+  - enabled: 1
     path: Assets/Matt Testing/Scenes/GameScene.unity
     guid: 9e8f4597e07c67f438b8e83004010d1c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NewNateTesting.unity
     guid: 9994bfabf11bfeb43912c12126ed825c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Matt Testing/Scenes/MonsterPlayerGameScene.unity
     guid: 8e3ad9a0d9d3f5a4399ffd24ec1de4ba
   m_configObjects:

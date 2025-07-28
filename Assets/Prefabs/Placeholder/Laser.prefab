@@ -4923,7 +4923,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.39, y: 1.864, z: 1.735}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.8}
+  m_LocalScale: {x: 2, y: 2, z: 3.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1337524959164084961}
@@ -5023,7 +5023,6 @@ MonoBehaviour:
   _survivalTime: 10
   _moveSpeed: 20
   _monsterTag: Monster
-  _monsterStats: {fileID: 11400000, guid: f165afe911246604a81bffb10fb2faf3, type: 2}
   _hitParticle: {fileID: 2566055645945908332}
 --- !u!54 &7457236678161861250
 Rigidbody:

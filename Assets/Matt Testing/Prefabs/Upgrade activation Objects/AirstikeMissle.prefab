@@ -131,6 +131,7 @@ MonoBehaviour:
   explsionRadius: 40
   explosonFore: 400
   explosionParticle: {fileID: 515271463630587497, guid: c148a087e331acd4c8c2144a6ecd353a, type: 3}
+  damage: 199
 --- !u!135 &350374957569435910
 SphereCollider:
   m_ObjectHideFlags: 0

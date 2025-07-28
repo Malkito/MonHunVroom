@@ -29,18 +29,11 @@ public class respawnManager : MonoBehaviour
 
     void Start()
     {
-        getSpawnPoints();
-
-        
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
+        getSpawnPoints();      
     }
 
 
-    public IEnumerator respawnPlayer(Transform player)
+    public IEnumerator StartSpawnPlayer(Transform player)
     {
         Rigidbody rb = player.gameObject.GetComponent<Rigidbody>();
         playerMovement movement = player.GetComponent<playerMovement>();
@@ -58,31 +51,26 @@ public class respawnManager : MonoBehaviour
         health.canTakeDamage = false;
 
 
-        ///Despawn Player
-        ///move Camera to cinematic
-
-
         yield return new WaitForSeconds(respawnTime);
 
+        respawnPlayer(player);
 
+    } 
+
+    public void respawnPlayer(Transform player)
+    {
+        StopCoroutine(StartSpawnPlayer(player));
+        playerMovement movement = player.GetComponent<playerMovement>();
+        playerUpgradeManager upgrade = player.GetComponent<playerUpgradeManager>();
+        playerShooting shooting = player.GetComponent<playerShooting>();
+        playerHealth health = player.GetComponent<playerHealth>();
         player.transform.position = respawnPoints[Random.Range(0, respawnPoints.Length)].transform.position;
-
         ///Move Camera
-
         movement.canMove = true;
         upgrade.canUseUpgrade = true;
         shooting.canShoot = true;
         health.canTakeDamage = true;
-
     }
-
-
-
-
-
-
-
-
 
     private void getSpawnPoints()
     {

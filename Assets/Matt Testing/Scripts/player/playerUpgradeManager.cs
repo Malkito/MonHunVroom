@@ -60,13 +60,7 @@ public class playerUpgradeManager : NetworkBehaviour
         }
         else // if the numebr of upgrades is max, shuffles the upgrades forward on spot, then drops the "oldest" upgrade
         {
-            GameObject pickUpObject = Instantiate(currentUpgrades[0].pickupObject, transform.position, Quaternion.identity); // drops the "oldest upgrade"
-            //Destroy(upgradePlaceHolders[0].GetChild(0).gameObject);
-
-            upgradePickUp upgradePickUpScrit = pickUpObject.GetComponent<upgradePickUp>(); // sets certain conditons on the upgrade pick up script to ensure that no "pick up loops" occor. Pick up loops being when the upgrades are constanly switching,picking up and dropping
-            upgradePickUpScrit.canBePickedUp = false;
-            upgradePickUpScrit.dropped = true;
-
+            spawnUpgradePickUpServerRpc();
 
 
             currentUpgrades[0] = currentUpgrades[1]; // shuffles upgrade in second pos to first pos
@@ -96,6 +90,21 @@ public class playerUpgradeManager : NetworkBehaviour
 
 
     [ServerRpc(RequireOwnership = false)]
+    public void spawnUpgradePickUpServerRpc()
+    {
+        GameObject pickUpObject = Instantiate(currentUpgrades[0].pickupObject, transform.position, Quaternion.identity); // drops the "oldest upgrade"
+
+        upgradePickUp upgradePickUpScrit = pickUpObject.GetComponent<upgradePickUp>(); // sets certain conditons on the upgrade pick up script to ensure that no "pick up loops" occor. Pick up loops being when the upgrades are constanly switching,picking up and dropping
+        
+        NetworkObject upgradePickUpObj = pickUpObject.GetComponent<NetworkObject>();
+        upgradePickUpObj.Spawn();
+
+        upgradePickUpScrit.canBePickedUp = false;
+        upgradePickUpScrit.dropped = true;
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
     public void SpawnUpgradeLogicOBJServerRPC(int arrayIndex)
     {
         GameObject newUpgrade = Instantiate(upgradeArray[arrayIndex].logicScriptObject, upgradePlaceHolders[0]);
@@ -106,8 +115,6 @@ public class playerUpgradeManager : NetworkBehaviour
     private void Update()
     {
         if (!IsOwner) return;
-
-        if (!canUseUpgrade) return; // if the player cant use the upgrades for whatever reason (Like being dead), ignore below
 
 
         /*
@@ -156,7 +163,7 @@ public class playerUpgradeManager : NetworkBehaviour
 
 
         ///////////Upgrade Pos 1//////////////
-        if (currentUpgrades[0] !=null && GameInput.instance.getAbilityOneInput() &&  currentUpgrades[0].logicScriptObject.TryGetComponent(out useAbility abilityOneScriptInUse) && abilityOneCooldown <= 0)
+        if (currentUpgrades[0] != null && GameInput.instance.getAbilityOneInput() && currentUpgrades[0].logicScriptObject.TryGetComponent(out useAbility abilityOneScriptInUse) && abilityOneCooldown <= 0 && (currentUpgrades[0].canBeUsedWhileDead || canUseUpgrade))
         {
             //Ability pressed
             abilityOneScriptInUse.useAbility(transform, true);
@@ -169,7 +176,7 @@ public class playerUpgradeManager : NetworkBehaviour
 
 
         ///////////Upgrade Pos 2///////////////
-        if (currentUpgrades[1] != null && GameInput.instance.getAbilityTwoInput() && currentUpgrades[1].logicScriptObject.TryGetComponent(out useAbility abilityTwoScriptInUse) && abilityTwoCooldown <= 0)
+        if (currentUpgrades[1] != null && GameInput.instance.getAbilityTwoInput() && currentUpgrades[1].logicScriptObject.TryGetComponent(out useAbility abilityTwoScriptInUse) && abilityTwoCooldown <= 0 && (currentUpgrades[1].canBeUsedWhileDead || canUseUpgrade))
         {
             //Ability pressed
             abilityTwoScriptInUse.useAbility(transform, true);
@@ -184,7 +191,7 @@ public class playerUpgradeManager : NetworkBehaviour
 
 
         ///////////Upgrade Pos 3///////////////
-        if (currentUpgrades[2] != null && GameInput.instance.getAbilityThreeInput() && currentUpgrades[2].logicScriptObject.TryGetComponent(out useAbility abilityThreeScriptInUse) && abilityThreeCooldown <= 0)
+        if (currentUpgrades[2] != null && GameInput.instance.getAbilityThreeInput() && currentUpgrades[2].logicScriptObject.TryGetComponent(out useAbility abilityThreeScriptInUse) && abilityThreeCooldown <= 0 && (currentUpgrades[2].canBeUsedWhileDead || canUseUpgrade))
         {
             //Ability pressed
             abilityThreeScriptInUse.useAbility(transform, true);

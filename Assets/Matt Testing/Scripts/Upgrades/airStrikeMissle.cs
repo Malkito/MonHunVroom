@@ -7,7 +7,7 @@ public class airStrikeMissle : NetworkBehaviour
     [SerializeField] private float explsionRadius;
     [SerializeField] private float explosonFore;
     [SerializeField] private ParticleSystem explosionParticle;
-
+    [SerializeField] private float damage;
 
 
 
@@ -17,6 +17,15 @@ public class airStrikeMissle : NetworkBehaviour
         Collider[] collidersInRange = Physics.OverlapSphere(transform.position, explsionRadius);
         foreach (Collider col in collidersInRange)
         {
+            if(col.CompareTag("Monster") || col.CompareTag("Player"))
+            {
+                if(col.gameObject.TryGetComponent(out dealDamage healthScript))
+                {
+                    healthScript.dealDamage(damage, Color.red, gameObject);
+                }
+            }
+
+
             Rigidbody rb = col.gameObject.GetComponent<Rigidbody>();
             if (rb != null)
             {

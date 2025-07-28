@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dad9826d65d3ce4485ed72de25dec59, type: 3}
   m_Name: MonsterStats
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 4500
   _movementSpeed: 14
   _turningSpeed: 120
   _laserEyesDamage: 50
+  _laserEyeSpeed: 20
   _stompDamage: 25
-  _tailSwipeDamage: 25
   _stompRadius: 5
+  _tailSwipeDamage: 25
