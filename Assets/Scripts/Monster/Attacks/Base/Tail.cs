@@ -4,9 +4,6 @@ using UnityEngine;
 public class Tail : MonoBehaviour
 {
     [SerializeField]
-    private MonsterStatManager _monsterStatManager;
-
-    [SerializeField]
     private Animator _monsterAnimator;
 
     [SerializeField]
@@ -28,7 +25,7 @@ public class Tail : MonoBehaviour
             dealDamage damage = other.gameObject.GetComponent<dealDamage>();
             if (damage != null)
             {
-                damage.dealDamage(_monsterStatManager.TailSwipeDamage, Color.red, _monster);
+                damage.dealDamage(EnemyStatManager.TailswipeDamage, Color.red, _monster);
                 LaunchHit(other.gameObject);
             }
         }

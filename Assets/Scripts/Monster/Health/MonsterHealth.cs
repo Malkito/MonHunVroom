@@ -9,8 +9,6 @@ namespace LordBreakerX.Health
     /// Invokes events when the health changes or when the object dies.
     /// </summary>
     /// 
-
-    [RequireComponent(typeof(MonsterStatManager))]
     public class MonsterHealth : NetworkBehaviour, dealDamage
     {
         [SerializeField]
@@ -32,18 +30,14 @@ namespace LordBreakerX.Health
 
         private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
-        private MonsterStatManager _monsterStatManager;
-
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
-            _monsterStatManager = GetComponent<MonsterStatManager>();
-
             if (IsServer)
             {
-                _currentHealth.Value = _monsterStatManager.MaxHealth;
-                HealthInfo healthInfo = new HealthInfo(_monsterStatManager.MaxHealth, _currentHealth.Value, 0, 0, null);
+                _currentHealth.Value = EnemyStatManager.MaxHealth;
+                HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, 0, 0, null);
                 _onHealthChangedServerSide.Invoke(healthInfo);
             }
 
@@ -54,7 +48,7 @@ namespace LordBreakerX.Health
         {
             if (IsClient)
             {
-                HealthInfo healthInfo = new HealthInfo(_monsterStatManager.MaxHealth, _currentHealth.Value, previousValue - newValue, 0, null);
+                HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, previousValue - newValue, 0, null);
                 _onHealthChangedClientSide.Invoke(healthInfo);
 
                 if (newValue <= 0)
@@ -79,7 +73,7 @@ namespace LordBreakerX.Health
 
                 if (clampedAmount > 0)
                 {
-                    HealthInfo healthInfo = new HealthInfo(_monsterStatManager.MaxHealth, _currentHealth.Value, clampedAmount, 0, damageOrigin);
+                    HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, clampedAmount, 0, damageOrigin);
                     _onHealthChangedServerSide.Invoke(healthInfo);
                 }
 

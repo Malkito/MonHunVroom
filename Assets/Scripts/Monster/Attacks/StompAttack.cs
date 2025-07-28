@@ -23,12 +23,10 @@ public class StompAttack : Attack
     private bool _finishedAttack = false;
 
     private MonsterMovementController _movementController;
-    private MonsterStatManager _monsterStatManager;
 
     protected override void OnInilization(GameObject controlledObject)
     {
         _movementController = controlledObject.GetComponent<MonsterMovementController>();
-        _monsterStatManager = controlledObject.GetComponent<MonsterStatManager>();
     }
 
     public override void OnStart()
@@ -68,14 +66,14 @@ public class StompAttack : Attack
     {
         _stompEffect.GetOrCreateInstance(AttackHandler.transform.position, AttackHandler.transform).Play();
 
-        Collider[] hits = Physics.OverlapSphere(AttackHandler.transform.position, _monsterStatManager.StompRadius);
+        Collider[] hits = Physics.OverlapSphere(AttackHandler.transform.position, EnemyStatManager.StompRadius);
 
         foreach (Collider hit in hits)
         {
             if (!hit.CompareTag(_monsterTag))
             {
                 dealDamage damage = hit.gameObject.GetComponent<dealDamage>();
-                if (damage != null) damage.dealDamage(_monsterStatManager.StompDamage, STOMP_FLASH_COLOR, AttackHandler.gameObject);
+                if (damage != null) damage.dealDamage(EnemyStatManager.StompDamage, STOMP_FLASH_COLOR, AttackHandler.gameObject);
             }
         }
     }
