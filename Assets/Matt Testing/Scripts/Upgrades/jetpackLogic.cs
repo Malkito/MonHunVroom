@@ -30,9 +30,8 @@ public class jetpackLogic : MonoBehaviour, useAbility
         {
             
             isNotHovering();
+            print("Not hovering");
         }
-
-        print("Current Charge: " + currentHoverCharge);
     }
 
     private void isHovering(Rigidbody rb)
@@ -46,11 +45,5 @@ public class jetpackLogic : MonoBehaviour, useAbility
         currentHoverCharge += Time.deltaTime * hoverChargeRegenAmout;
         if (currentHoverCharge >= (currentHoverCharge * 0.2)) canHover = true;
         if (currentHoverCharge >= maxHoverCharge) currentHoverCharge = maxHoverCharge;
-    }
-
-
-    private void Update()
-    {
-        print("Update running");
     }
 }

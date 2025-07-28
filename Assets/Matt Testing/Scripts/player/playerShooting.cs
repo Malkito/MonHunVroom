@@ -23,14 +23,14 @@ public class playerShooting : NetworkBehaviour
     /// </summary>
 
     [Header("Main Attack")]
-    public BulletSO mainBulletSO;
+    public int currentMainBulletSoIndex;
     public Transform[] mainBarrelEnds;
     private float MaintimeBetweenShots;
     private int currentBarrelNum;
     [SerializeField] bool onlyOneBarrel;
 
     [Header("Alt Attack")]
-    public BulletSO altBulletSO;
+    public int currentAltBulletSoIndex;
     public Transform altBarrelEnd;
     private float altTimeBetweenShots;
 
@@ -42,12 +42,13 @@ public class playerShooting : NetworkBehaviour
     [Header("Other")]
     public bool canShoot;
     public float damageDealt;
+    [SerializeField] public BulletSO[] bulletSOarray;
 
     private void Start()
     {
         canShoot = true;
-        MaintimeBetweenShots = mainBulletSO.minTimeBetweenShots;
-        altTimeBetweenShots = altBulletSO.minTimeBetweenShots;
+        MaintimeBetweenShots = bulletSOarray[currentMainBulletSoIndex].minTimeBetweenShots;
+        altTimeBetweenShots = bulletSOarray[currentAltBulletSoIndex].minTimeBetweenShots;
 
     }
     void Update()
@@ -56,36 +57,36 @@ public class playerShooting : NetworkBehaviour
 
         if (!canShoot) return;
 
-        if (GameInput.instance.getAttackInput() && MaintimeBetweenShots > mainBulletSO.minTimeBetweenShots)
+        if (GameInput.instance.getAttackInput() && MaintimeBetweenShots > bulletSOarray[currentMainBulletSoIndex].minTimeBetweenShots)
         {
-            shootServerRPC();
+            shootServerRPC(currentMainBulletSoIndex);
             MaintimeBetweenShots = 0;
         }
-        if (GameInput.instance.getAltAttackInput() && altTimeBetweenShots > altBulletSO.minTimeBetweenShots)
+        if (GameInput.instance.getAltAttackInput() && altTimeBetweenShots > bulletSOarray[currentAltBulletSoIndex].minTimeBetweenShots)
         {
-            AltShootServerRPC();
+            AltShootServerRPC(currentAltBulletSoIndex);
             altTimeBetweenShots = 0;
         }
         altTimeBetweenShots += Time.deltaTime;
         MaintimeBetweenShots += Time.deltaTime;
-        currentMainBuleltTest.text = mainBulletSO.name;
-        currentAltBuleltTest.text = altBulletSO.name;
+        currentMainBuleltTest.text = bulletSOarray[currentMainBulletSoIndex].name;
+        currentAltBuleltTest.text = bulletSOarray[currentAltBulletSoIndex].name;
     }
 
 
     [ServerRpc(RequireOwnership = true)]
-    public void shootServerRPC()
+    public void shootServerRPC(int bulletIndex)
     {
-        shoot();
+        shoot(bulletIndex);
     }
 
     [ServerRpc(RequireOwnership = true)]
-    public void AltShootServerRPC()
+    public void AltShootServerRPC(int bulletIndex)
     {
-        altShoot();
+        altShoot(bulletIndex);
     }
 
-    private void shoot()
+    private void shoot(int BulletIndex)
     {
         //Play sound
         //play muzzle flash
@@ -95,9 +96,9 @@ public class playerShooting : NetworkBehaviour
             currentBarrelNum = 0;
         }
 
-        GameObject projectile = Instantiate(mainBulletSO.bulletPrefab, mainBarrelEnds[currentBarrelNum].transform.position, transform.rotation);
+        GameObject projectile = Instantiate(bulletSOarray[BulletIndex].bulletPrefab, mainBarrelEnds[currentBarrelNum].transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        rb.linearVelocity = mainBarrelEnds[currentBarrelNum].transform.forward * mainBulletSO.bulletSpeed;
+        rb.linearVelocity = mainBarrelEnds[currentBarrelNum].transform.forward * bulletSOarray[BulletIndex].bulletSpeed;
 
         NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>();
         networkProjectile.Spawn(true);
@@ -107,19 +108,19 @@ public class playerShooting : NetworkBehaviour
             bullet.setDamageOrigin(gameObject);
         }
 
-        Destroy(projectile, mainBulletSO.bulletLifetime);
+        Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);
         if (currentBarrelNum == 0) { currentBarrelNum = 1; }
         else { currentBarrelNum = 0; }
     }
 
 
-    public void altShoot()
+    public void altShoot(int BulletIndex)
     {
 
         //Play sound
         //play muzzle flash
 
-        GameObject projectile = Instantiate(altBulletSO.bulletPrefab, altBarrelEnd.transform.position, transform.rotation);
+        GameObject projectile = Instantiate(bulletSOarray[BulletIndex].bulletPrefab, altBarrelEnd.transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
         NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>();
@@ -129,22 +130,22 @@ public class playerShooting : NetworkBehaviour
         {
             bullet.setDamageOrigin(gameObject);
         }
-        rb.linearVelocity = mainBarrelEnds[0].forward * altBulletSO.bulletSpeed;
-        Destroy(projectile, altBulletSO.bulletLifetime);
+        rb.linearVelocity = mainBarrelEnds[0].forward * bulletSOarray[BulletIndex].bulletSpeed;
+        Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);
 
     }
 
-
-    public void changeMainBullet(BulletSO newBullet)
+    [ServerRpc(RequireOwnership = false)]
+    public void changeBulletServerRpc(bool changeMainBullet, int NewBulletSOindex)
     {
-        mainBulletSO = newBullet;
-        MaintimeBetweenShots = mainBulletSO.minTimeBetweenShots;
-    }
-    public void changeAltBullet(BulletSO newBullet)
-    {
-        altBulletSO = newBullet;
-        altTimeBetweenShots = altBulletSO.minTimeBetweenShots;
-
+        if(changeMainBullet)
+        {
+            currentMainBulletSoIndex = NewBulletSOindex;
+        }
+        else
+        {
+            currentAltBulletSoIndex = NewBulletSOindex;
+        }
     }
 
     private void OnDrawGizmos()
@@ -152,7 +153,6 @@ public class playerShooting : NetworkBehaviour
         Gizmos.color = Color.green;
         Vector3 start = mainBarrelEnds[0].position;
         Vector3 end = start + mainBarrelEnds[0].transform.forward * 10;
-
         Gizmos.DrawLine(start, end);
 
     }

@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Netcode;
 
-public class energySphereBullet : MonoBehaviour, bullet
+public class energySphereBullet : NetworkBehaviour, bullet
 {
 
     /// <summary>
@@ -57,9 +58,19 @@ public class energySphereBullet : MonoBehaviour, bullet
         {
             healthScript.dealDamage(bulletSO.bulletDamage, Color.grey, BulletDamageOrigin); // deals damage to the collidied
 
-            Destroy(gameObject);
+            DestroyServerRpc();
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+
+    public void DestroyServerRpc()
+    {
+        Destroy(gameObject);
+    }
+
+
+
     public void setFire() // sets the energy sphere on fire, called by the fire bullet
     {
         isEffectedByFire = true;

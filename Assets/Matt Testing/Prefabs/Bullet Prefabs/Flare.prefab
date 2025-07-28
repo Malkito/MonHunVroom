@@ -4962,8 +4962,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3105239492237214604}
   - component: {fileID: 1055192671176390636}
-  - component: {fileID: 8543246458376009753}
   - component: {fileID: -8368553391965530483}
+  - component: {fileID: 8543246458376009753}
   - component: {fileID: 8260492060265085960}
   m_Layer: 0
   m_Name: Flare
@@ -5017,21 +5017,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8543246458376009753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7996622516649678803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f3fa5fd0073c8f4e8aa1d43f9ccd480, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  airStrikeMissle: {fileID: 7524584966813132686, guid: b1b88855ab54d9d429e4672c573b0ffe, type: 3}
-  timeToSpawn: 5
-  spawnHeight: 100
 --- !u!114 &-8368553391965530483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5057,6 +5042,22 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &8543246458376009753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996622516649678803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3fa5fd0073c8f4e8aa1d43f9ccd480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  airStrikeMissle: {fileID: 7524584966813132686, guid: b1b88855ab54d9d429e4672c573b0ffe, type: 3}
+  timeToSpawn: 5
+  spawnHeight: 100
 --- !u!114 &8260492060265085960
 MonoBehaviour:
   m_ObjectHideFlags: 0

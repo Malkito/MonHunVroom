@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class airStrikeMissle : MonoBehaviour
+public class airStrikeMissle : NetworkBehaviour
 {
 
     [SerializeField] private float explsionRadius;
@@ -21,12 +22,11 @@ public class airStrikeMissle : MonoBehaviour
             {
                 Vector3 launchDirection = (rb.transform.position - transform.position).normalized;
                 float distance = Vector3.Distance(rb.transform.position, transform.position);
-                print("Name: " + rb.name + " Distance: " + Vector3.Distance(rb.transform.position, transform.position) + " Foce Applied: " + (launchDirection * (explosonFore - distance)));
+                //print("Name: " + rb.name + " Distance: " + Vector3.Distance(rb.transform.position, transform.position) + " Foce Applied: " + (launchDirection * (explosonFore - distance)));
                 rb.AddForce(launchDirection * (explosonFore - distance), ForceMode.Impulse);
             }
         }
-        //explosionParticle.Play();
-        Destroy(gameObject);
+        destroyMissleServerRpc();
     }
 
 
@@ -35,4 +35,12 @@ public class airStrikeMissle : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, explsionRadius);
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void destroyMissleServerRpc()
+    {
+        Destroy(gameObject);
+        //spawn explosin particles;
+    }
+
 }

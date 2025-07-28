@@ -3,19 +3,19 @@ using System.Collections;
 
 public class waterGrenadeLogic : MonoBehaviour, useAbility
 {
-    [SerializeField] BulletSO waterGrenade;
     [SerializeField] float abilityDuration;
+    [SerializeField] int waterGrendadeBulletIndex;
 
     private playerShooting PS;
     private Transform player;
-    private BulletSO defaultAltBullet;
+    private int currentBulletIndex;
     public void useAbility(Transform transform, bool abilityUsed)
     {
         if (!abilityUsed) return;
         player = transform;
         PS = transform.gameObject.GetComponent<playerShooting>();
-        defaultAltBullet = PS.altBulletSO;
-        PS.changeAltBullet(waterGrenade);
+        currentBulletIndex = PS.currentAltBulletSoIndex;
+        PS.changeBulletServerRpc(false, waterGrendadeBulletIndex);
         Invoke(nameof(resetBullet), abilityDuration);
     }
 
@@ -23,7 +23,7 @@ public class waterGrenadeLogic : MonoBehaviour, useAbility
 
     private void resetBullet()
     {
-        PS.changeAltBullet(defaultAltBullet);
+        PS.changeBulletServerRpc(false, currentBulletIndex);
     }
 
 }
