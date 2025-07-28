@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent), typeof(Animator), typeof(MonsterStatManager))]
+[RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
 public class MonsterMovementController : NetworkBehaviour
 {
     public const string WALK_ANIMATION_VARIABLE = "walk";
@@ -26,7 +26,6 @@ public class MonsterMovementController : NetworkBehaviour
     private Animator _monsterAnimator;
 
     private RandomPathGenerator _pathGenerator;
-    private MonsterStatManager _monsterStatManager;
 
     public Vector3 CurrentDestination { get; private set; }
 
@@ -41,9 +40,8 @@ public class MonsterMovementController : NetworkBehaviour
         _monsterAgent = GetComponent<NavMeshAgent>();
         _monsterAnimator = GetComponent<Animator>();
         _pathGenerator = new RandomPathGenerator(transform, _minMovementRadius, _maxMovementRadius, _radiusDecreaseRate);
-        _monsterStatManager = GetComponent<MonsterStatManager>();
-        _monsterAgent.speed = _monsterStatManager.MovementSpeed;
-        _monsterAgent.angularSpeed = _monsterStatManager.TurningSpeed;
+        _monsterAgent.speed = EnemyStatManager.MovementSpeed;
+        _monsterAgent.angularSpeed = EnemyStatManager.TurningSpeed;
     }
 
     public void UpdateWalkAnimation(bool isWalking)

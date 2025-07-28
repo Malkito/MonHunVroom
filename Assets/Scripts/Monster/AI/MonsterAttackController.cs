@@ -4,7 +4,6 @@ using LordBreakerX.States;
 using Unity.Netcode;
 using UnityEngine;
 
-[RequireComponent(typeof(MonsterStatManager))]
 public class MonsterAttackController : AttackController
 {
     [SerializeField]
@@ -27,8 +26,6 @@ public class MonsterAttackController : AttackController
 
     private StateMachineNetworked _machine;
 
-    private MonsterStatManager _monsterStatManager;
-
     public Timer PlayerAttackTimer { get { return _playerAttackTimer; } }
 
     public override void OnNetworkSpawn()
@@ -37,7 +34,6 @@ public class MonsterAttackController : AttackController
         _machine = GetComponent<StateMachineNetworked>();
         _playerAttackTimer = new Timer(_timeBetweenPlayerAttacks);
         _playerAttackTimer.OnTimerFinished += () => { _machine.ChangeStateWhen(MonsterStates.TARGET_PLAYER, () => !IsAttacking && !IsRequestingAttack); };
-        _monsterStatManager = GetComponent<MonsterStatManager>();
     }
 
     //------------------------------
@@ -58,7 +54,7 @@ public class MonsterAttackController : AttackController
         int randomEyeIndex = Random.Range(0, _eyes.Length);
         Vector3 eyePosition = _eyes[randomEyeIndex].position;
 
-        Laser.CreateLaser(prefab, gameObject, eyePosition, attackPosition, _monsterStatManager);
+        Laser.CreateLaser(prefab, gameObject, eyePosition, attackPosition);
     }
 
     [ClientRpc(RequireOwnership = false)]
