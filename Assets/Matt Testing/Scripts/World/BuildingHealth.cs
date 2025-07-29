@@ -33,6 +33,7 @@ public class BuildingHealth : NetworkBehaviour, dealDamage
         mat = GetComponent<MeshRenderer>().material;
         currentHealth = maxHealth;
         
+
     }
 
     public void increaseFireNumber() // Called from fire bullets

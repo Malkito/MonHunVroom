@@ -1,6 +1,8 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
+
 
 namespace LordBreakerX.Health
 {
@@ -29,6 +31,13 @@ namespace LordBreakerX.Health
         private UnityEvent _onDeathClientSide = new UnityEvent();
 
         private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
+
+        [HideInInspector] public float numOfFireOnMonster;
+
+        private Coroutine damageOverTimeCoroutineHolder;
+
+        [SerializeField]
+        private SkinnedMeshRenderer mat;
 
         public override void OnNetworkSpawn()
         {
@@ -84,14 +93,64 @@ namespace LordBreakerX.Health
             }
         }
 
+        private void Update()
+        {
+            if (numOfFireOnMonster > 0)
+            {
+                if(damageOverTimeCoroutineHolder != null)
+                {
+                    return;
+                }
+                damageOverTimeCoroutineHolder = StartCoroutine(damageOverTimeCoroutine(numOfFireOnMonster, 1));
+
+            }
+            else
+            {
+                stopDamageOverTime();
+            }           
+        }
+
+        private IEnumerator damageOverTimeCoroutine(float damagePerTick, float burnInterval)
+        {
+            float elapsedTime = 0f;
+            while(elapsedTime < burnInterval)
+            {
+                yield return new WaitForSeconds(1f);
+                dealDamage(damagePerTick, Color.red, gameObject);
+                //StartCoroutine(flashDamageColor(Color.red, 0.1f));
+                elapsedTime += 1f;
+            }
+
+            damageOverTimeCoroutineHolder = null;
+        }
+
+        private void stopDamageOverTime()
+        {
+            if (damageOverTimeCoroutineHolder != null)
+            {
+                StopCoroutine(damageOverTimeCoroutineHolder);
+                damageOverTimeCoroutineHolder = null;
+            }
+        }
+
+
+        private IEnumerator flashDamageColor(Color flashColor, float flashTime) // flashes the color of hte object when it takes damage
+        {
+            Color baseMat = mat.materials[0].color;
+            mat.materials[0].color = flashColor;
+            yield return new WaitForSeconds(flashTime);
+            mat.materials[0].color = baseMat;
+        }
+
         public void increaseFireNumber()
         {
+            numOfFireOnMonster++;
             
         }
 
         public void decreaseFireNumber()
         {
-            
+            numOfFireOnMonster--;
         }
     }
 }

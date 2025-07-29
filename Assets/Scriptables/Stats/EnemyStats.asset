@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: EnemyStats
   m_EditorClassIdentifier: 
   _maxHealth:
-    _id: maxHealth
-    _statType: 1
-    _value: 0
+    _statType: 0
+    _value: 1000
     _minValue: 100
     _maxValue: 400
     _curveValue:
@@ -43,7 +42,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _movementSpeed:
-    _id: movementSpeed
     _statType: 1
     _value: 0
     _minValue: 14
@@ -73,7 +71,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _turningSpeed:
-    _id: turningSpeed
     _statType: 0
     _value: 120
     _minValue: 0
@@ -103,7 +100,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _laserEyesDamage:
-    _id: laserEyesDamage
     _statType: 1
     _value: 0
     _minValue: 50
@@ -133,7 +129,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _laserEyesSpeed:
-    _id: laserEyesSpeed
     _statType: 0
     _value: 20
     _minValue: 0
@@ -163,7 +158,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _stompDamage:
-    _id: stompDamage
     _statType: 1
     _value: 0
     _minValue: 50
@@ -193,7 +187,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _stompRadius:
-    _id: stompRadius
     _statType: 1
     _value: 0
     _minValue: 5
@@ -223,7 +216,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _tailSwipeDamage:
-    _id: tailswipeDamage
     _statType: 1
     _value: 0
     _minValue: 50
