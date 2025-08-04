@@ -58,4 +58,16 @@ public class EnemyStats : StatHolder
         };
         return stats;
     }
+
+    private void OnValidate()
+    {
+        _maxHealth.OnValidation();
+        _movementSpeed.OnValidation();
+        _turningSpeed.OnValidation();
+        _laserEyesDamage.OnValidation();
+        _laserEyesSpeed.OnValidation();
+        _stompDamage.OnValidation();
+        _stompRadius.OnValidation();
+        _tailSwipeDamage.OnValidation();
+    }
 }
