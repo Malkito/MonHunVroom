@@ -1,12 +1,15 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Netcode;
 
-public class respawnManager : MonoBehaviour
+public class respawnManager : NetworkBehaviour
 {
     
     [SerializeField] private GameObject[] respawnPoints;
     private static respawnManager instance;
     [SerializeField] private float respawnTime;
+    private int numberOfPlayersDead;
+    private bool serverStarted;
 
 
     public static respawnManager Instance
@@ -29,12 +32,24 @@ public class respawnManager : MonoBehaviour
 
     void Start()
     {
-        getSpawnPoints();      
+        getSpawnPoints();
+    }
+
+ 
+
+    private void Update()
+    {
+        if (numberOfPlayersDead == NetworkManager.Singleton.ConnectedClients.Count && NetworkManager.Singleton.IsServer)
+        {
+            gameLost();
+        }
     }
 
 
     public IEnumerator StartSpawnPlayer(Transform player)
     {
+        numberOfPlayersDead++;
+
         Rigidbody rb = player.gameObject.GetComponent<Rigidbody>();
         playerMovement movement = player.GetComponent<playerMovement>();
         playerUpgradeManager upgrade = player.GetComponent<playerUpgradeManager>();
@@ -53,7 +68,10 @@ public class respawnManager : MonoBehaviour
 
         yield return new WaitForSeconds(respawnTime);
 
-        respawnPlayer(player);
+        if(numberOfPlayersDead != NetworkManager.Singleton.ConnectedClients.Count)
+        {
+            respawnPlayer(player);
+        }
 
     } 
 
@@ -70,6 +88,9 @@ public class respawnManager : MonoBehaviour
         upgrade.canUseUpgrade = true;
         shooting.canShoot = true;
         health.canTakeDamage = true;
+
+        numberOfPlayersDead--;
+
     }
 
     private void getSpawnPoints()
@@ -82,5 +103,11 @@ public class respawnManager : MonoBehaviour
 
         }
     }
+
+    private void gameLost()
+    {
+        GameStateManager.Instance.setNewState(GameStateManager.State.GameOver);
+    }
+
 
 }

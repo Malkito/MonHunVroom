@@ -63,6 +63,7 @@ namespace LordBreakerX.Health
                 if (newValue <= 0)
                 {
                     _onDeathClientSide.Invoke();
+                    GameStateManager.Instance.setNewState(GameStateManager.State.RoundWon);
                 }
             }
         }
@@ -89,6 +90,7 @@ namespace LordBreakerX.Health
                 if (_currentHealth.Value <= 0)
                 {
                     _onDeathServerSide.Invoke();
+                    GameStateManager.Instance.setNewState(GameStateManager.State.RoundWon);
                 }
             }
         }
