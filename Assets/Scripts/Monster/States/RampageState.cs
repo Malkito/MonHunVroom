@@ -1,6 +1,5 @@
 using LordBreakerX.Attributes;
 using LordBreakerX.States;
-using LordBreakerX.Utilities.AI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -41,6 +40,12 @@ public class RampageState : BaseState
     public override void Enter()
     {
         StartRandomAttack();
+    }
+
+    public override void Exit()
+    {
+        _monsterAttack.RequestStopAttack();
+        _monsterMovement.StopMovement();
     }
 
     public override void Update()
@@ -86,8 +91,11 @@ public class RampageState : BaseState
         if (elements.Count > 0)
         {
             int randomIndex = Random.Range(0, elements.Count);
-            _monsterAttack.TargetProvider.SetTarget(elements[randomIndex].transform, StateObject.transform.position);
-            _monsterAttack.RequestStartAttack();
+            if (Machine.IsCurrentState(MonsterStates.RAMPAGE))
+            {
+                _monsterAttack.TargetProvider.SetTarget(elements[randomIndex].transform, StateObject.transform.position);
+                _monsterAttack.RequestStartAttack();
+            }
             return true;
         }
 
