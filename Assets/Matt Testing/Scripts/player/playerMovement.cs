@@ -10,7 +10,7 @@ public class playerMovement : NetworkBehaviour
 
     [Header("Turret Rotation")]
     [SerializeField] private GameObject torso; // Top half of player
-    [SerializeField] private float rotateSpeed;
+
 
     [Header("Camera")]
     [SerializeField] private CinemachineCamera cam;

@@ -51,19 +51,12 @@ public class respawnManager : NetworkBehaviour
         numberOfPlayersDead++;
 
         Rigidbody rb = player.gameObject.GetComponent<Rigidbody>();
-        playerMovement movement = player.GetComponent<playerMovement>();
-        playerUpgradeManager upgrade = player.GetComponent<playerUpgradeManager>();
-        playerShooting shooting = player.GetComponent<playerShooting>();
-        playerHealth health = player.GetComponent<playerHealth>();
 
-        health.currentHealth = health.maxHealth;
+        setRefrencesAndActions(player, false);
+
 
         rb.linearVelocity = new Vector3(0,0,0);
 
-        movement.canMove = false;
-        upgrade.canUseUpgrade = false;
-        shooting.canShoot = false;
-        health.canTakeDamage = false;
 
 
         yield return new WaitForSeconds(respawnTime);
@@ -78,16 +71,9 @@ public class respawnManager : NetworkBehaviour
     public void respawnPlayer(Transform player)
     {
         StopCoroutine(StartSpawnPlayer(player));
-        playerMovement movement = player.GetComponent<playerMovement>();
-        playerUpgradeManager upgrade = player.GetComponent<playerUpgradeManager>();
-        playerShooting shooting = player.GetComponent<playerShooting>();
-        playerHealth health = player.GetComponent<playerHealth>();
+        setRefrencesAndActions(player, true);
         player.transform.position = respawnPoints[Random.Range(0, respawnPoints.Length)].transform.position;
         ///Move Camera
-        movement.canMove = true;
-        upgrade.canUseUpgrade = true;
-        shooting.canShoot = true;
-        health.canTakeDamage = true;
 
         numberOfPlayersDead--;
 
@@ -107,6 +93,26 @@ public class respawnManager : NetworkBehaviour
     private void gameLost()
     {
         GameStateManager.Instance.setNewState(GameStateManager.State.GameOver);
+    }
+
+
+
+    private void setRefrencesAndActions(Transform player, bool setBool)
+    {
+        tankMovement movement = player.GetComponent<tankMovement>();
+        tankCameraMovement TankCam = player.GetComponent<tankCameraMovement>();
+        playerUpgradeManager upgrade = player.GetComponent<playerUpgradeManager>();
+        playerShooting shooting = player.GetComponent<playerShooting>();
+        playerHealth health = player.GetComponent<playerHealth>();
+        player.transform.position = respawnPoints[Random.Range(0, respawnPoints.Length)].transform.position;
+        ///Move Camera
+        movement.canMove = setBool;
+        upgrade.canUseUpgrade = setBool;
+        shooting.canShoot = setBool;
+        health.canTakeDamage = setBool;
+        TankCam.canMove = setBool;
+
+        health.currentHealth = health.maxHealth;
     }
 
 

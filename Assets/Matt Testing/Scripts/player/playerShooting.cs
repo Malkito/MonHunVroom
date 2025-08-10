@@ -43,9 +43,11 @@ public class playerShooting : NetworkBehaviour
     public bool canShoot;
     public float damageDealt;
     [SerializeField] public BulletSO[] bulletSOarray;
+    private Rigidbody tankRB;
 
     private void Start()
     {
+        tankRB = gameObject.GetComponent<Rigidbody>();
         canShoot = true;
         MaintimeBetweenShots = bulletSOarray[currentMainBulletSoIndex].minTimeBetweenShots;
         altTimeBetweenShots = bulletSOarray[currentAltBulletSoIndex].minTimeBetweenShots;
@@ -103,6 +105,8 @@ public class playerShooting : NetworkBehaviour
         NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>();
         networkProjectile.Spawn(true);
 
+        applyRecoil(bulletSOarray[BulletIndex].recoilForce);
+
         if (projectile.gameObject.TryGetComponent(out bullet bullet))
         {
             bullet.setDamageOrigin(gameObject);
@@ -112,6 +116,15 @@ public class playerShooting : NetworkBehaviour
         if (currentBarrelNum == 0) { currentBarrelNum = 1; }
         else { currentBarrelNum = 0; }
     }
+
+    private void applyRecoil(float recoilForce)
+    {
+        Vector3 backforce = -mainBarrelEnds[0].transform.forward * recoilForce;
+        Vector3 upforce = Vector3.up * (recoilForce / 2);
+
+        tankRB.AddForce(backforce + upforce, ForceMode.VelocityChange);
+    }
+
 
 
     public void altShoot(int BulletIndex)
@@ -125,6 +138,8 @@ public class playerShooting : NetworkBehaviour
 
         NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>();
         networkProjectile.Spawn(true);
+
+        applyRecoil(bulletSOarray[BulletIndex].recoilForce);
 
         if (projectile.gameObject.TryGetComponent(out bullet bullet))
         {
