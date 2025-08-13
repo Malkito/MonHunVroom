@@ -28,6 +28,7 @@ public class playerShooting : NetworkBehaviour
     private float MaintimeBetweenShots;
     private int currentBarrelNum;
     [SerializeField] bool onlyOneBarrel;
+    [HideInInspector] public bool bigShotLoaded;
 
     [Header("Alt Attack")]
     public int currentAltBulletSoIndex;
@@ -44,6 +45,7 @@ public class playerShooting : NetworkBehaviour
     public float damageDealt;
     [SerializeField] public BulletSO[] bulletSOarray;
     private Rigidbody tankRB;
+
 
     private void Start()
     {
@@ -110,6 +112,12 @@ public class playerShooting : NetworkBehaviour
         if (projectile.gameObject.TryGetComponent(out bullet bullet))
         {
             bullet.setDamageOrigin(gameObject);
+        }
+
+        if(BulletIndex == 0 && bigShotLoaded)
+        {
+            projectile.GetComponent<defaultBullet>().isBigShot = true;
+            bigShotLoaded = false;
         }
 
         Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);

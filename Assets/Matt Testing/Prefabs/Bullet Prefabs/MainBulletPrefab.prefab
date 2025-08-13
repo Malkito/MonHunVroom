@@ -152,6 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletData: {fileID: 11400000, guid: 9b56692c8011c784e916d91c5a410be7, type: 2}
+  isBigShot: 0
+  bigShotDamageMulti: 2
 --- !u!114 &8494352272647936155
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
 
-public class waterBullet : NetworkBehaviour
+public class waterBullet : NetworkBehaviour, bullet
 {
     //Goes onto water Bullet prefab, checks if it collides with anything, then instantiates the particle system
     //Particle system has putOutFire script to check collsions with fire
@@ -10,10 +10,17 @@ public class waterBullet : NetworkBehaviour
     [SerializeField] private float waterDuration;
     [SerializeField] private GameObject waterSplash;
     [SerializeField] private float sphereSize;
+    [SerializeField] BulletSO bulletData;
+    private GameObject BulletDamageOrigin;
+
 
     private void OnCollisionEnter(Collision collision)
     {
         OnCollisionServerRpc();
+        if (collision.gameObject.TryGetComponent(out dealDamage healthScript))
+        {
+            healthScript.dealDamage(bulletData.bulletDamage, Color.green, BulletDamageOrigin); // deals damage if collides with something that can be damaged
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -29,6 +36,11 @@ public class waterBullet : NetworkBehaviour
         {
             Destroy(fireOBj);
         }
+    }
+
+    public void setDamageOrigin(GameObject damageOrigin)
+    {
+        BulletDamageOrigin = damageOrigin;
     }
 
 

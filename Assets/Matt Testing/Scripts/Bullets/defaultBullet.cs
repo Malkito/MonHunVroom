@@ -15,12 +15,19 @@ public class defaultBullet : MonoBehaviour, bullet
 
     private GameObject BulletDamageOrigin;
     [SerializeField] private BulletSO bulletData; // The deafault bullet data, set in inspector
+    public bool isBigShot;
+    [SerializeField] private float bigShotDamageMulti;
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.TryGetComponent(out dealDamage healthScript))
         {
-            healthScript.dealDamage(bulletData.bulletDamage, Color.gray, BulletDamageOrigin); // deals damage if collides with something that can be damaged
+            float damage = bulletData.bulletDamage;
+
+            if (isBigShot) {
+                damage *= bigShotDamageMulti;
+            }
+            healthScript.dealDamage(damage, Color.gray, BulletDamageOrigin); // deals damage if collides with something that can be damaged
         }
     }
 
