@@ -30,7 +30,7 @@ namespace LordBreakerX.Health
         [Tooltip("Invoked when the health reaches zero or below.")]
         private UnityEvent _onDeathClientSide = new UnityEvent();
 
-        private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
+        [SerializeField] private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
         [HideInInspector] public float numOfFireOnMonster;
 
