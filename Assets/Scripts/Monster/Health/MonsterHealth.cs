@@ -77,6 +77,7 @@ namespace LordBreakerX.Health
         {
             if (IsServer)
             {
+                /*
                 float clampedAmount = Mathf.Clamp(damageDealt, 0, _currentHealth.Value);
 
                 _currentHealth.Value -= clampedAmount;
@@ -86,6 +87,16 @@ namespace LordBreakerX.Health
                     HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, clampedAmount, 0, damageOrigin);
                     _onHealthChangedServerSide.Invoke(healthInfo);
                 }
+                */
+
+                // changed to allow the water grenade deal "negative Damage" to heal
+
+                _currentHealth.Value -= damageDealt;
+
+                HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, damageDealt, 0, damageOrigin);
+
+                _onHealthChangedServerSide.Invoke(healthInfo);
+
 
                 if (_currentHealth.Value <= 0)
                 {

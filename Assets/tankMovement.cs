@@ -5,6 +5,7 @@ public class tankMovement : NetworkBehaviour
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private GameObject tankBase;
 
     private Rigidbody rb;
 
@@ -15,6 +16,7 @@ public class tankMovement : NetworkBehaviour
 
     void Start()
     {
+
         rb = gameObject.GetComponent<Rigidbody>();
         canMove = true;
     }

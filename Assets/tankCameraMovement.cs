@@ -43,13 +43,18 @@ public class tankCameraMovement : NetworkBehaviour
         rotatioBarrelEnds();
     }
 
+
+    private void LateUpdate()
+    {
+        if (!IsOwner) return;
+        if (!canMove) return;
+    }
+
     private void rotateTurretHead()
     {
+        Vector3 baseEular = gameObject.transform.eulerAngles;
 
-        Vector3 baserEuler = gameObject.transform.rotation.eulerAngles;
-
-        turretHead.transform.rotation = Quaternion.Euler(baserEuler.x, cam.GetComponent<CinemachineOrbitalFollow>().HorizontalAxis.Value, baserEuler.z); // reads the horizontal axis of the camera and rotates the top hlaf of player accordingly
-
+        turretHead.transform.localRotation = Quaternion.Euler(baseEular.x, cam.GetComponent<CinemachineOrbitalFollow>().HorizontalAxis.Value, baseEular.z);
     }
 
     private void rotatioBarrelEnds()
