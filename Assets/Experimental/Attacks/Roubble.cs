@@ -16,14 +16,17 @@ public class Roubble : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public Roubble CreateRouble(Vector3 startPosition, float strength)
+    public Roubble CreateRouble(Vector3 startPosition, float minStrength, float maxStrength)
     {
         Roubble roubbleCopy = Instantiate(this, startPosition, Quaternion.identity);
 
         Rigidbody roubleBody = roubbleCopy.GetComponent<Rigidbody>();
 
-        Vector3 randomForce = Random.insideUnitSphere * strength;
-        randomForce = new Vector3(randomForce.x, strength, randomForce.z);
+        float verticalThrowStrength = Random.Range(minStrength, maxStrength);
+        float horizontalThrowSrength = Random.Range(minStrength, maxStrength);
+
+        Vector3 randomForce = Random.insideUnitSphere * horizontalThrowSrength;
+        randomForce = new Vector3(randomForce.x, verticalThrowStrength, randomForce.z);
 
         roubleBody.AddForce(randomForce, ForceMode.Force);
 

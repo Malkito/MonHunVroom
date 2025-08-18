@@ -14,7 +14,10 @@ public class UndergroundBarrageController : MonoBehaviour
     private float _reachDistance = 0.2f;
 
     [SerializeField]
-    private float _throwStrength = 100;
+    private float _minThrowSrength = 100;
+
+    [SerializeField]
+    private float _maxThrowSrength = 200;
 
     [SerializeField]
     private float _checkThrowRate = 2;
@@ -43,7 +46,7 @@ public class UndergroundBarrageController : MonoBehaviour
             float chance = Random.Range(1.0f, 100);
             if (chance <= _throwChance)
             {
-                _roubblePrefab.CreateRouble(transform.position, _throwStrength);
+                _roubblePrefab.CreateRouble(transform.position, _minThrowSrength, _maxThrowSrength);
             }
         }
 
