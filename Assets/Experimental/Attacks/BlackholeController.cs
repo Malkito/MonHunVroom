@@ -1,3 +1,4 @@
+using LordBreakerX.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +19,23 @@ public class BlackholeController : MonoBehaviour
     [Min(1)]
     private float _lifeSpan = 10f;
 
+    [SerializeField]
+    private float _moveSpeed = 5;
+
     private List<Rigidbody> _impactedRigs = new List<Rigidbody>();
+
+    private Vector3 _moveDirection;
+
+    private void Awake()
+    {
+        Vector2 random = Random.insideUnitCircle;
+        _moveDirection = new Vector3(random.x, 0, random.y);
+    }
+
+    private void Update()
+    {
+        transform.position += _moveDirection * _moveSpeed * Time.deltaTime;
+    }
 
     private void FixedUpdate()
     {
@@ -38,12 +55,13 @@ public class BlackholeController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.attachedRigidbody != null) _impactedRigs.Add(other.attachedRigidbody);
+        if (other.attachedRigidbody != null && !_ignoredLayers.Contains(other.gameObject.layer)) 
+            _impactedRigs.Add(other.attachedRigidbody);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.attachedRigidbody == null) return;
+        if (other.attachedRigidbody == null || _ignoredLayers.Contains(other.gameObject.layer)) return;
         
         Rigidbody rigidbody = other.attachedRigidbody;
 
@@ -55,6 +73,7 @@ public class BlackholeController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (_impactedRigs.Contains(other.attachedRigidbody)) _impactedRigs.Remove(other.attachedRigidbody);
+        if (_impactedRigs.Contains(other.attachedRigidbody)) 
+            _impactedRigs.Remove(other.attachedRigidbody);
     }
 }

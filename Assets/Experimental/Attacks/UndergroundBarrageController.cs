@@ -20,10 +20,16 @@ public class UndergroundBarrageController : MonoBehaviour
     private float _maxThrowSrength = 200;
 
     [SerializeField]
-    private float _checkThrowRate = 2;
+    private float _minThrowRate = 2;
+
+    [SerializeField]
+    private float _maxThrowRate = 5;
 
     [SerializeField]
     private float _throwChance = 65;
+
+    [SerializeField]
+    private int _maxThrowAmount = 3;
 
     [SerializeField]
     private Roubble _roubblePrefab;
@@ -33,7 +39,12 @@ public class UndergroundBarrageController : MonoBehaviour
     private void Awake()
     {
         SetRandomDestination();
-        _throwDelay = _checkThrowRate;
+        ResetThrowDelay();
+    }
+
+    private void ResetThrowDelay()
+    {
+        _throwDelay = Random.Range(_minThrowRate, _maxThrowRate);
     }
 
     private void Update()
@@ -42,11 +53,15 @@ public class UndergroundBarrageController : MonoBehaviour
 
         if (_throwDelay <= 0)
         {
-            _throwDelay = _checkThrowRate;
-            float chance = Random.Range(1.0f, 100);
-            if (chance <= _throwChance)
+            ResetThrowDelay();
+
+            for (int x = 0; x < _maxThrowAmount; x++) 
             {
-                _roubblePrefab.CreateRouble(transform.position, _minThrowSrength, _maxThrowSrength);
+                float chance = Random.Range(1.0f, 100);
+                if (chance <= _throwChance)
+                {
+                    _roubblePrefab.CreateRouble(transform.position, _minThrowSrength, _maxThrowSrength);
+                }
             }
         }
 
