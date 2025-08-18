@@ -46,6 +46,8 @@ public class playerShooting : NetworkBehaviour
     [SerializeField] public BulletSO[] bulletSOarray;
     private Rigidbody tankRB;
 
+    [SerializeField] private ParticleSystem muzzleFlash;
+
 
     private void Start()
     {
@@ -99,7 +101,7 @@ public class playerShooting : NetworkBehaviour
     private void shoot(int BulletIndex) // the main shooting function. bulelt index refrences the position in static bullet array. The reason for the int is so that server RPCs can take the bullet as an aguement
     {
         //Play sound
-        //play muzzle flash
+        muzzleFlash.Play();
 
         if (onlyOneBarrel)
         {
