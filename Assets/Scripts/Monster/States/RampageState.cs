@@ -52,7 +52,7 @@ public class RampageState : BaseState
     {
         _monsterAttack.PlayerAttackTimer.Update();
 
-        if (!_monsterAttack.IsAttacking && !_monsterAttack.IsRequestingAttack)
+        if (!_monsterAttack.IsAttacking)
         {
             Machine.RequestChangeState(MonsterStates.WANDER);
         }
@@ -65,7 +65,7 @@ public class RampageState : BaseState
 
         if (chance <= _damageableTargetingChance && TryTargetDamageable()) return;
 
-        _monsterAttack.RequestAttackRandomPosition(StateObject.transform.position, _attackRadius);
+        _monsterAttack.RequestRandomAttack();
     }
 
     private bool TryTargetDamageable()

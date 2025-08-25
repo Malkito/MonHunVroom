@@ -1,35 +1,37 @@
+using LordBreakerX.AttackSystem;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Monster/Attacks/Tail Swipe")]
-public class TailSwipeAttack : Attack
+public class TailSwipeAttack : ScriptableAttack
 {
     private const string TAIL_SWIPE_ANIMATION = "tail swipe";
 
-    [SerializeField]
-    [Header("Properties")]
-    [Min(0)]
-    private float _maxTailSwipeDistance = 1;
-
-    private Animator _animator;
-    private MonsterMovementController _movementController;
-
-    protected override void OnInilization(GameObject controlledObject)
+    public override void OnStart(AttackController attackHandler)
     {
-        _animator = controlledObject.GetComponent<Animator>();
-        _movementController = controlledObject.GetComponent<MonsterMovementController>();
+        attackHandler.Movement.UpdateWalkAnimation(false);
+        attackHandler.Movement.StopMovement();
+        attackHandler.Animator.Play(TAIL_SWIPE_ANIMATION);
     }
 
-    public override void OnStart()
+    public override AttackProgress GetAttackProgress(AttackController attackHandler)
     {
-        _movementController.UpdateWalkAnimation(false);
-
-        _movementController.StopMovement();
-        _animator.Play(TAIL_SWIPE_ANIMATION);
+        if (HasAnimationFinished(attackHandler.Animator)) return AttackProgress.FinishedAttack;
+        else return AttackProgress.Attacking;
     }
 
-    public override bool CanFinishAttack()
+    private bool HasAnimationFinished(Animator animator)
     {
-        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         return !stateInfo.IsName(TAIL_SWIPE_ANIMATION);
     }
+
+    public override void OnStop(AttackController attackHandler) { }
+
+    public override void OnAttackFixedUpdate(AttackController attackHandler) { }
+
+    public override void OnAttackUpdate(AttackController attackHandler) { }
+
+    public override void OnPreperationFixedUpdate(AttackController attackHandler) { }
+
+    public override void OnPreperationUpdate(AttackController attackHandler) { }
 }

@@ -1,11 +1,14 @@
 using LordBreakerX.Attributes;
 using LordBreakerX.Health;
 using LordBreakerX.States;
+using LordBreakerX.AttackSystem;
 using Unity.Netcode;
 using UnityEngine;
 
 public class MonsterAttackController : AttackController
 {
+    #region Variables
+
     [SerializeField]
     [RequiredField]
     [Header("Laser Eyes")]
@@ -26,19 +29,22 @@ public class MonsterAttackController : AttackController
 
     private StateMachineNetworked _machine;
 
+    #endregion
+
     public Timer PlayerAttackTimer { get { return _playerAttackTimer; } }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         _machine = GetComponent<StateMachineNetworked>();
+
         _playerAttackTimer = new Timer(_timeBetweenPlayerAttacks);
-        _playerAttackTimer.OnTimerFinished += () => { _machine.ChangeStateWhen(MonsterStates.TARGET_PLAYER, () => !IsAttacking && !IsRequestingAttack); };
+        _playerAttackTimer.OnTimerFinished += () => { 
+            _machine.RequestChangeState(MonsterStates.TARGET_PLAYER); 
+        };
     }
 
-    //------------------------------
-    // Laser Eyes Methods
-    //------------------------------
+    #region Laser Eyes Logic
 
     public void RequestShootLaser(Laser prefab, Vector3 attackPosition)
     {
@@ -63,9 +69,9 @@ public class MonsterAttackController : AttackController
         if (!IsHost || !IsServer) ShootLaser(_laserPrefab, attackPosition);
     }
 
-    //-------------------------------------
-    // Targeting Player Methods
-    //-------------------------------------
+    #endregion
+
+    #region Targetting Player Logic
 
     public void OnMonsterHealthChanged(HealthInfo healthInfo)
     {
@@ -88,5 +94,7 @@ public class MonsterAttackController : AttackController
         if (target == null)  TargetProvider.SetTargetPosition(transform.position);
         else TargetProvider.SetTarget(target.transform, transform.position);
     }
+
+    #endregion
 }
 
