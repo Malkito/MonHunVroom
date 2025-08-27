@@ -12,7 +12,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private Button startGameButton;
     [SerializeField] private Button levelSelectButton;
     [SerializeField] private GameObject levelSelect;
- 
+    [SerializeField] private GameObject quitButton;
     public void StartGame()
     {
         if (isDay)
@@ -27,9 +27,9 @@ public class MainMenuManager : MonoBehaviour
 
     public void goToLevelSelect()
     {
-        levelSelectButton.interactable = false;
+        levelSelectButton.gameObject.SetActive(false);
         levelSelect.SetActive(true);
-
+        quitButton.gameObject.SetActive(false);
     }
 
 
@@ -77,7 +77,13 @@ public class MainMenuManager : MonoBehaviour
     }
 
 
-    
+    public void backButton()
+    {
+        quitButton.gameObject.SetActive(true);
+        levelSelect.SetActive(false);
+        levelSelectButton.gameObject.SetActive(true);
+
+    }
 
 
 
