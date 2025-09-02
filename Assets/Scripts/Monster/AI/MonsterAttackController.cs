@@ -91,7 +91,7 @@ public class MonsterAttackController : AttackController
 
         GameObject target = _recentDamageTable.GetMostDamageTarget();
 
-        if (target == null)  TargetProvider.SetTargetPosition(transform.position);
+        if (target == null)  TargetProvider.SetTarget(transform.position);
         else TargetProvider.SetTarget(target.transform, transform.position);
     }
 

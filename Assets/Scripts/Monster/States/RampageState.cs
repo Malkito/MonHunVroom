@@ -109,7 +109,7 @@ public class RampageState : BaseState
             dealDamage damageable = collider.GetComponent<dealDamage>();
             _damageables.Add(collider, damageable);
         }
-        return _damageables[collider] != null && !collider.CompareTag(_monsterTag) && _monsterAttack.TargetProvider.IsValidTarget(collider.transform, StateObject.transform.position);
+        return _damageables[collider] != null && !collider.CompareTag(_monsterTag) && _monsterAttack.TargetProvider.IsValidTarget(StateObject.transform.position);
     }
 
     public override void OnGizmosSelected()

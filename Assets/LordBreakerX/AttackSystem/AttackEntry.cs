@@ -6,17 +6,17 @@ namespace LordBreakerX.AttackSystem
     public struct AttackEntry
     {
         [SerializeField]
-        private ScriptableAttack _attack;
+        private AttackCreator _attack;
 
         [SerializeField]
         [Min(1)]
         private int _weight;
 
-        public ScriptableAttack Attack { get => _attack; }
+        public AttackCreator Attack { get => _attack; }
 
         public int Weight { get => _weight; }
 
-        public AttackEntry(ScriptableAttack attack, int weight)
+        public AttackEntry(AttackCreator attack, int weight)
         {
             _attack = attack;
             _weight = weight;

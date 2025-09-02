@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57979d11a518f224a8f291e52afe76ff, type: 3}
   m_Name: Main Table
   m_EditorClassIdentifier: 
-  _selectCondition: {fileID: 0}
-  _attacks:
-  - _attack: {fileID: 11400000, guid: af3a43b02ca168c48a4b5cb2776b6780, type: 2}
-    _weight: 200
-  - _attack: {fileID: 11400000, guid: 41c106974b0b5634aa538df93fd308bf, type: 2}
+  _objectEntries:
+  - _prefab: {fileID: 11400000, guid: 4cc58811997848142a76d0287706c159, type: 2}
+    _weight: 1
+  - _prefab: {fileID: 11400000, guid: 795fd2f0e08f8a64cbb8bce7fc17f85b, type: 2}
+    _weight: 25
+  - _prefab: {fileID: 11400000, guid: cd765c14475a6444fa3e9dc1bed52e49, type: 2}
     _weight: 100

@@ -2,101 +2,88 @@ using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
 using UnityEngine;
 
-//[CreateAssetMenu(menuName = "Monster/Attacks/Stomp")]
-//public class StompAttack : ScriptableAttack
-//{
-//    private static readonly Color STOMP_FLASH_COLOR = Color.red;
+[System.Serializable]
+public class StompAttack : Attack
+{
+    private static readonly Color STOMP_FLASH_COLOR = Color.red;
 
-//    private const string STARTING_MONSTER_TAG = "Monster";
+    private const string STARTING_MONSTER_TAG = "Monster";
 
-//    [SerializeField]
-//    [Header("Properties")]
-//    [Min(0)]
-//    private float _maxStompDistance = 1.2f;
+    [SerializeField]
+    [Header("Properties")]
+    [Min(0)]
+    private float _maxStompDistance = 1.2f;
 
-//    [SerializeField]
-//    [TagDropdown]
-//    private string _monsterTag = STARTING_MONSTER_TAG;
+    [SerializeField]
+    [TagDropdown]
+    private string _monsterTag = STARTING_MONSTER_TAG;
 
-//    [SerializeField]
-//    private PrefabInstance<ParticleSystem> _stompEffect;
+    [SerializeField]
+    private PrefabInstance<ParticleSystem> _stompEffect;
 
-//    public override void OnUpdate()
-//    {
-//        Vector3 targetPosition = OffsettedTargetPosition;
+    private bool _finishedAttack;
 
-//        _movementController.ChangeDestination(targetPosition);
+    private MonsterMovementController _monsterMovement;
 
-//        Vector3 checkTargetPosition = new Vector3(targetPosition.x, AttackHandler.transform.position.y, targetPosition.z);
+    public StompAttack(AttackController controller, StompAttack stomp) : base(controller)
+    {
+        _maxStompDistance = stomp._maxStompDistance;
+        _monsterTag = stomp._monsterTag;
+        _stompEffect = stomp._stompEffect;
+        _finishedAttack = false;
+        _monsterMovement = controller.GetComponent<MonsterMovementController>();
+    }
 
-//        if (Vector3.Distance(AttackHandler.transform.position, checkTargetPosition) <= _maxStompDistance)
-//        {
-//            _movementController.StopMovement();
-//            Stomp();
-//            _finishedAttack = true;
-//            _movementController.UpdateWalkAnimation(false);
-//        }
-//    }
+    public override void OnStart()
+    {
+        _monsterMovement.UpdateWalkAnimation(true);
+    }
 
-//    public override bool CanFinishAttack()
-//    {
-//        return _finishedAttack;
-//    }
+    public override void OnStop()
+    {
+        _finishedAttack = false;
+        _monsterMovement.StopMovement();
+    }
 
-//    public override void OnStop()
-//    {
-//        _finishedAttack = false;
-//        _movementController.StopMovement();
-//    }
+    public override bool HasAttackFinished()
+    {
+        return _finishedAttack;
+    }
 
-//    public void Stomp()
-//    {
-//        _stompEffect.GetOrCreateInstance(AttackHandler.transform.position, AttackHandler.transform).Play();
+    public void Stomp()
+    {
+        _stompEffect.GetOrCreateInstance(Controller.transform.position, Controller.transform).Play();
 
-//        Collider[] hits = Physics.OverlapSphere(AttackHandler.transform.position, EnemyStatManager.StompRadius);
+        Collider[] hits = Physics.OverlapSphere(Controller.transform.position, EnemyStatManager.StompRadius);
 
-//        foreach (Collider hit in hits)
-//        {
-//            if (!hit.CompareTag(_monsterTag))
-//            {
-//                dealDamage damage = hit.gameObject.GetComponent<dealDamage>();
-//                if (damage != null) damage.dealDamage(EnemyStatManager.StompDamage, STOMP_FLASH_COLOR, AttackHandler.gameObject);
-//            }
-//        }
-//    }
+        foreach (Collider hit in hits)
+        {
+            if (!hit.CompareTag(_monsterTag))
+            {
+                dealDamage damage = hit.gameObject.GetComponent<dealDamage>();
+                if (damage != null) 
+                    damage.dealDamage(EnemyStatManager.StompDamage, STOMP_FLASH_COLOR, Controller.gameObject);
+            }
+        }
+    }
 
-//    public override void OnStart(AttackController attackHandler)
-//    {
-//        attackHandler.Movement.UpdateWalkAnimation(true);
-//    }
+    public override void OnAttackUpdate()
+    {
+        Vector3 targetPosition = OffsettedTargetPosition;
 
-//    public override void OnStop(AttackController attackHandler)
-//    {
+        _monsterMovement.ChangeDestination(targetPosition);
 
-//    }
+        Vector3 checkTargetPosition = new Vector3(targetPosition.x, Controller.transform.position.y, targetPosition.z);
 
-//    public override void OnAttackFixedUpdate(AttackController attackHandler)
-//    {
-//        throw new System.NotImplementedException();
-//    }
+        if (Vector3.Distance(Controller.transform.position, checkTargetPosition) <= _maxStompDistance)
+        {
+            _monsterMovement.StopMovement();
+            Stomp();
+            _finishedAttack = true;
+            _monsterMovement.UpdateWalkAnimation(false);
+        }
+    }
 
-//    public override void OnAttackUpdate(AttackController attackHandler)
-//    {
-//        throw new System.NotImplementedException();
-//    }
+    public override void OnAttackFixedUpdate() { }
 
-//    public override void OnPreperationFixedUpdate(AttackController attackHandler)
-//    {
-//        throw new System.NotImplementedException();
-//    }
-
-//    public override void OnPreperationUpdate(AttackController attackHandler)
-//    {
-//        throw new System.NotImplementedException();
-//    }
-
-//    public override AttackProgress GetAttackProgress(AttackController attackHandler)
-//    {
-//        throw new System.NotImplementedException();
-//    }
-//}
+}

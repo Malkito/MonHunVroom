@@ -17,34 +17,30 @@ public class TargetResolver
 
     public bool HasTarget { get => _targetTransform != null; }
 
-    /// <summary>
-    ///  Set the target using the transform of the target and a fallback position in case the target transform is null.
-    /// </summary>
+    public TargetOffsetter CurrentOffsetter { get { return _targetOffsetters[_targetTransform]; } }
+
     public void SetTarget(Transform targetTransform, Vector3 fallbackPosition) 
     {
         _targetTransform = targetTransform;
+
+        if (targetTransform != null && !_targetOffsetters.ContainsKey(targetTransform)) 
+            _targetOffsetters[targetTransform] = new TargetOffsetter(_targetTransform, _offset);
+
         _fallbackPosition = fallbackPosition;
     }
 
-    /// <summary>
-    /// Sets the target position. This will set the target transform to null automatically
-    /// </summary>
-    public void SetTargetPosition(Vector3 targetPosition)
+    public void SetTarget(Vector3 targetPosition)
     {
-        _targetTransform = null;
-        _fallbackPosition = targetPosition;
+        SetTarget(null, targetPosition);
     }
 
-    /// <summary>
-    /// Gets the target position using either an transform of the fallback position.
-    /// </summary>
-    public Vector3 GetTargetPosiiton()
+    public Vector3 GetPosiiton()
     {
         if (HasTarget) return _targetTransform.position;
         return _fallbackPosition;
     }
 
-    public Vector3 GetOffsettedTargetPosition(Vector3 startPosition)
+    public Vector3 GetOffsettedPosition(Vector3 startPosition)
     {
         if (HasTarget) return GetTransformOffset(startPosition);
         return _fallbackPosition;
@@ -52,32 +48,16 @@ public class TargetResolver
 
     private Vector3 GetTransformOffset(Vector3 startPosition)
     {
-        TargetOffsetter offsetter = GetTargetOffsetter(_targetTransform);
-
-        if (!offsetter.HasOffset) return _targetTransform.position;
-
-        return offsetter.GetOffsettedPosition(startPosition);
+        if (!CurrentOffsetter.HasOffset) return _targetTransform.position;
+        return CurrentOffsetter.GetOffsettedPosition(startPosition);
     }
 
-    private TargetOffsetter GetTargetOffsetter(Transform checkTransform) 
+    public bool IsValidTarget(Vector3 startPosition)
     {
-        if (_targetOffsetters.ContainsKey(checkTransform))
-        {
-            return _targetOffsetters[checkTransform];
-        }
-        else
-        {
-            TargetOffsetter offsetter = new TargetOffsetter(checkTransform, _offset);
-            _targetOffsetters.Add(checkTransform, offsetter);
-            return offsetter;
-        }
+        return CurrentOffsetter.IsValidTarget(startPosition);
     }
 
-    public bool IsValidTarget(Transform checkTransform, Vector3 startPosition)
-    {
-        TargetOffsetter targetOffsetter = GetTargetOffsetter(checkTransform);
-        return targetOffsetter.IsValidTarget(startPosition);
-    }
+    #region Drawing
 
     public void DrawTarget(Vector3 startPosition)
     {
@@ -89,22 +69,22 @@ public class TargetResolver
             return;
         }
 
-        TargetOffsetter offsetter = GetTargetOffsetter(_targetTransform);
-
-        if (!offsetter.HasOffset)
+        if (!CurrentOffsetter.HasOffset)
         {
             DrawPosition(_targetTransform.position);
             return;
         }
 
-        offsetter.DrawPoints(startPosition);
+        CurrentOffsetter.DrawPoints(startPosition);
 
         Gizmos.color = startColor;
     }
 
-    private void DrawPosition(Vector3 position)
+    private void DrawPosition(Vector3 startPosition)
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(position, 0.1f);
+        Gizmos.DrawSphere(startPosition, 0.1f);
     }
+
+    #endregion
 }
