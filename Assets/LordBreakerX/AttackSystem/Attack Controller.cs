@@ -1,4 +1,5 @@
 using LordBreakerX.Utilities.AI;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -36,6 +37,8 @@ namespace LordBreakerX.AttackSystem
         public Attack ActiveAttack { get => _activeAttack; }
 
         public TargetResolver TargetProvider { get { return _provider; } }
+
+        public bool RequestingAttack { get; private set; }
 
         #endregion
 
@@ -83,11 +86,11 @@ namespace LordBreakerX.AttackSystem
 
         private void StartAttack()
         {
-
             if (IsAttacking || _attackTable == null) return;
 
-            AttackCreator attackFactory = _attackTable.GetRandomObject();
-            _activeAttack = attackFactory.Create(this);
+            AttackCreator creator = _attackTable.GetRandomObject();
+            _activeAttack = creator.Create(this);
+            Debug.Log($"{creator} -- {creator.Create(this)}");
             _activeAttack.OnStart();
         }
 
@@ -101,14 +104,25 @@ namespace LordBreakerX.AttackSystem
         {
             if (!IsServer) return;
 
+            StartCoroutine(FindingAttackPosition());
+        }
+
+        private IEnumerator FindingAttackPosition()
+        {
+            RequestingAttack = true;
             Vector2 random = Random.insideUnitCircle * _randomAttackRadius;
             Vector3 attackPosition = new Vector3(random.x, transform.position.y, random.y);
 
-            if (RandomPathGenerator.IsPathValid(new NavMeshPath(), transform.position, attackPosition))
+            while (!RandomPathGenerator.IsPathValid(new NavMeshPath(), transform.position, attackPosition))
             {
-                _provider.SetTarget(attackPosition);
-                RequestStartAttack();
+                random = Random.insideUnitCircle * _randomAttackRadius;
+                attackPosition = new Vector3(random.x, transform.position.y, random.y);
+                yield return null;
             }
+
+            _provider.SetTarget(attackPosition);
+            RequestStartAttack();
+            RequestingAttack = false;
         }
 
         #endregion

@@ -19,11 +19,11 @@ public class TargetResolver
 
     public TargetOffsetter CurrentOffsetter { get { return _targetOffsetters[_targetTransform]; } }
 
-    public void SetTarget(Transform targetTransform, Vector3 fallbackPosition) 
+    public void SetTarget(Transform targetTransform, Vector3 fallbackPosition)
     {
         _targetTransform = targetTransform;
 
-        if (targetTransform != null && !_targetOffsetters.ContainsKey(targetTransform)) 
+        if (targetTransform != null && !_targetOffsetters.ContainsKey(targetTransform))
             _targetOffsetters[targetTransform] = new TargetOffsetter(_targetTransform, _offset);
 
         _fallbackPosition = fallbackPosition;
@@ -54,7 +54,7 @@ public class TargetResolver
 
     public bool IsValidTarget(Vector3 startPosition)
     {
-        return CurrentOffsetter.IsValidTarget(startPosition);
+        return _targetTransform == null || CurrentOffsetter.IsValidTarget(startPosition);
     }
 
     #region Drawing
