@@ -35,19 +35,19 @@ public class DeathBomb : MonoBehaviour
             dealDamage damageable = collider.GetComponent<dealDamage>();
 
             float distance = Vector3.Distance(collider.transform.position, transform.position);
+            float attackPercentage = Percentage.Reverse(distance, 0, _explosionRadius);
 
             if (rigid != null)
             {
                 Vector3 direction = collider.transform.position - transform.position;
-                float forcePercentage = PercentageUtility.InvertedPercentageNormalized(distance, 0, _explosionRadius);
-                float force = PercentageUtility.MapNormalizedPercentage(forcePercentage, _minForce, _maxForce);
+                
+                float force = Percentage.MapToFloat(attackPercentage, _minForce, _maxForce);
                 rigid.AddForce(direction * force, ForceMode.Force);
             }
 
             if (damageable != null)
             {
-                float damagePercentage = PercentageUtility.InvertedPercentageNormalized(distance, 0, _explosionRadius);
-                float damage = PercentageUtility.MapNormalizedPercentage(damagePercentage, _minDamage, _maxDamage);
+                float damage = Percentage.MapToFloat(attackPercentage, _minDamage, _maxDamage);
                 damageable.dealDamage(damage, Color.red, gameObject);
             }
         }

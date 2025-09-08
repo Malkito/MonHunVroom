@@ -1,8 +1,6 @@
-using LordBreakerX.Utilities.AI;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace LordBreakerX.AttackSystem
 {
@@ -14,29 +12,21 @@ namespace LordBreakerX.AttackSystem
         private AttackTable _attackTable;
 
         [SerializeField]
-        private float _targetOffset;
-
-        [SerializeField]
         private float _randomAttackRadius = 30;
 
         private Attack _activeAttack;
 
-        private TargetResolver _provider;
+        private AttackTarget _target = new AttackTarget();
 
         #endregion
 
         #region Properties
 
+        public AttackTarget Target { get { return _target; } }
+
         public bool IsAttacking { get { return _activeAttack != null; } }
 
-        public bool HasTarget { get => _provider.HasTarget; }
-
-        public Vector3 TargetPosition { get => _provider.GetPosiiton(); }
-        public Vector3 OffsettedTargetPosition { get => _provider.GetOffsettedPosition(transform.position); }
-
         public Attack ActiveAttack { get => _activeAttack; }
-
-        public TargetResolver TargetProvider { get { return _provider; } }
 
         public bool RequestingAttack { get; private set; }
 
@@ -50,8 +40,7 @@ namespace LordBreakerX.AttackSystem
             {
                 RequestActiveAttackServerRpc();
             }
-
-            _provider = new TargetResolver(_targetOffset);
+            _attackTable.Initlize();
         }
 
         #region Attack Updating Logic
@@ -88,9 +77,7 @@ namespace LordBreakerX.AttackSystem
         {
             if (IsAttacking || _attackTable == null) return;
 
-            AttackCreator creator = _attackTable.GetRandomObject();
-            _activeAttack = creator.Create(this);
-            Debug.Log($"{creator} -- {creator.Create(this)}");
+            _activeAttack = _attackTable.GetRandomAttack(this);
             _activeAttack.OnStart();
         }
 
@@ -113,14 +100,14 @@ namespace LordBreakerX.AttackSystem
             Vector2 random = Random.insideUnitCircle * _randomAttackRadius;
             Vector3 attackPosition = new Vector3(random.x, transform.position.y, random.y);
 
-            while (!RandomPathGenerator.IsPathValid(new NavMeshPath(), transform.position, attackPosition))
+            while (!NavMeshUtility.IsPathValid(transform.position, attackPosition))
             {
                 random = Random.insideUnitCircle * _randomAttackRadius;
                 attackPosition = new Vector3(random.x, transform.position.y, random.y);
                 yield return null;
             }
 
-            _provider.SetTarget(attackPosition);
+            _target.Set(attackPosition);
             RequestStartAttack();
             RequestingAttack = false;
         }
@@ -160,18 +147,6 @@ namespace LordBreakerX.AttackSystem
                 StartAttackClientRpc();
             }
         }
-
-        #region Drawing
-
-        private void OnDrawGizmos()
-        {
-            if (_provider != null)
-            {
-                _provider.DrawTarget(transform.position);
-            }
-        }
-
-        #endregion
 
     }
 }

@@ -4,8 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = MonsterStates.WANDER, menuName = MonsterStates.CreatePaths.WANDER)]
 public class WanderState : BaseState
 {
-    private const float CHANGE_DESTINATION_THRESHOLD = 1.2f;
-
     [SerializeField]
     [Min(0f)]
     private float _timeBetweenRandomAttacks = 10;
@@ -43,15 +41,6 @@ public class WanderState : BaseState
     {
         _monsterAttack.PlayerAttackTimer.Update();
         _randomAttackTimer.Update();
-
-        if (!CanChangeDestination()) 
-            return;
-
-        _monsterMovement.SetRandomDestination();
-    }
-
-    private bool CanChangeDestination()
-    {
-        return Vector3.Distance(StateObject.transform.position, _monsterMovement.CurrentDestination) <= CHANGE_DESTINATION_THRESHOLD;
+        _monsterMovement.Wander();
     }
 }

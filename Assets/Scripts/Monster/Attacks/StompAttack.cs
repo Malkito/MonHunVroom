@@ -25,18 +25,25 @@ public class StompAttack : Attack
 
     private MonsterMovementController _monsterMovement;
 
-    public StompAttack(AttackController controller, StompAttack stomp) : base(controller)
+    public override void OnInitilize(AttackController attackController)
     {
-        _maxStompDistance = stomp._maxStompDistance;
-        _monsterTag = stomp._monsterTag;
-        _stompEffect = stomp._stompEffect;
         _finishedAttack = false;
-        _monsterMovement = controller.GetComponent<MonsterMovementController>();
+        _monsterMovement = attackController.GetComponent<MonsterMovementController>();
+    }
+
+    public override Attack Copy(AttackController attackController)
+    {
+        StompAttack stomp = new StompAttack();
+        stomp._maxStompDistance = _maxStompDistance;
+        stomp._monsterTag = _monsterTag;
+        stomp._stompEffect = _stompEffect;
+        return stomp;
     }
 
     public override void OnStart()
     {
         _monsterMovement.UpdateWalkAnimation(true);
+        _monsterMovement.StopMovement();
     }
 
     public override void OnStop()
@@ -50,7 +57,22 @@ public class StompAttack : Attack
         return _finishedAttack;
     }
 
-    public void Stomp()
+    public override void OnAttackUpdate()
+    {
+        _monsterMovement.ChangeDestination(TargetPosition);
+
+        Vector3 currentPosition = Controller.transform.position;
+
+        if (_monsterMovement.ReachedDestination())
+        {
+            _monsterMovement.StopMovement();
+            PreformStomp();
+            _finishedAttack = true;
+            _monsterMovement.UpdateWalkAnimation(false);
+        }
+    }
+
+    public void PreformStomp()
     {
         _stompEffect.GetOrCreateInstance(Controller.transform.position, Controller.transform).Play();
 
@@ -61,29 +83,10 @@ public class StompAttack : Attack
             if (!hit.CompareTag(_monsterTag))
             {
                 dealDamage damage = hit.gameObject.GetComponent<dealDamage>();
-                if (damage != null) 
+                if (damage != null)
                     damage.dealDamage(EnemyStatManager.StompDamage, STOMP_FLASH_COLOR, Controller.gameObject);
             }
         }
     }
-
-    public override void OnAttackUpdate()
-    {
-        Vector3 targetPosition = OffsettedTargetPosition;
-
-        _monsterMovement.ChangeDestination(targetPosition);
-
-        Vector3 checkTargetPosition = new Vector3(targetPosition.x, Controller.transform.position.y, targetPosition.z);
-
-        if (Vector3.Distance(Controller.transform.position, checkTargetPosition) <= _maxStompDistance)
-        {
-            _monsterMovement.StopMovement();
-            Stomp();
-            _finishedAttack = true;
-            _monsterMovement.UpdateWalkAnimation(false);
-        }
-    }
-
-    public override void OnAttackFixedUpdate() { }
 
 }

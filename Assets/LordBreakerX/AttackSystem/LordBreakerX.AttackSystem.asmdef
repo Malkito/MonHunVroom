@@ -1,0 +1,17 @@
+{
+    "name": "LordBreakerX.AttackSystem",
+    "rootNamespace": "LordBreakerX.AttackSystem",
+    "references": [
+        "GUID:1491147abca9d7d4bb7105af628b223e",
+        "GUID:dc5013669c25c0b4ea39210dfbb35251"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

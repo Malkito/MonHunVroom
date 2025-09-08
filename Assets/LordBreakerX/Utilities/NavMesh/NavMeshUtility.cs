@@ -19,4 +19,15 @@ public static class NavMeshUtility
             return currentPosition;
         }
     }
+
+    public static bool IsPathValid(Vector3 startPosition, Vector3 targetPosition)
+    {
+        NavMeshPath path = new NavMeshPath();
+
+        if (NavMesh.CalculatePath(startPosition, targetPosition, NavMesh.AllAreas, path))
+        {
+            return path.status == NavMeshPathStatus.PathComplete;
+        }
+        return false;
+    }
 }

@@ -30,19 +30,6 @@ public class LaserEyes : Attack
 
     private MonsterMovementController _monsterMovement;
 
-    public LaserEyes(AttackController controller, LaserEyes laserEyes) : base(controller)
-    {
-        _duration = laserEyes._duration;
-        _attackRate = laserEyes._attackRate;
-        _maxAttackDistance = laserEyes._maxAttackDistance;
-        _laser = laserEyes._laser;
-
-        _monsterAttack = controller.GetComponent<MonsterAttackController>();
-        _monsterMovement = controller.GetComponent<MonsterMovementController>();
-        _attackTimer = new Timer(_attackRate);
-        _attackTimer.OnTimerFinished += () => _monsterAttack.RequestShootLaser(_laser, TargetPosition);
-    }
-
     public override bool HasAttackFinished()
     {
         return _durationLeft <= 0;
@@ -55,15 +42,15 @@ public class LaserEyes : Attack
 
     public override void OnAttackUpdate()
     {
-        if (Vector3.Distance(_monsterAttack.transform.position, OffsettedTargetPosition) > _maxAttackDistance)
+        if (Vector3.Distance(_monsterAttack.transform.position, TargetPosition) > _maxAttackDistance)
         {
             _monsterMovement.UpdateWalkAnimation(true);
-            _monsterMovement.ChangeDestination(OffsettedTargetPosition);
+            _monsterMovement.ChangeDestination(TargetPosition);
         }
         else if (IsBehindObject())
         {
             _monsterMovement.UpdateWalkAnimation(true);
-            _monsterMovement.ChangeDestination(OffsettedTargetPosition);
+            _monsterMovement.ChangeDestination(TargetPosition);
         }
         else
         {
@@ -89,5 +76,23 @@ public class LaserEyes : Attack
         Vector3 directionToTarget = (TargetPosition - _monsterAttack.transform.position).normalized;
         float dot = Vector3.Dot(_monsterAttack.transform.forward, directionToTarget);
         return dot < 0;
+    }
+
+    public override Attack Copy(AttackController attackController)
+    {
+        LaserEyes attack = new LaserEyes();
+        attack._duration = _duration;
+        attack._attackRate = _attackRate;
+        attack._maxAttackDistance = _maxAttackDistance;
+        attack._laser = _laser;
+        return attack;
+    }
+
+    public override void OnInitilize(AttackController attackController)
+    {
+        _monsterAttack = attackController.GetComponent<MonsterAttackController>();
+        _monsterMovement = attackController.GetComponent<MonsterMovementController>();
+        _attackTimer = new Timer(_attackRate);
+        _attackTimer.OnTimerFinished += () => _monsterAttack.RequestShootLaser(_laser, TargetPosition);
     }
 }

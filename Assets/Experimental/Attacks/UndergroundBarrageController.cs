@@ -1,4 +1,3 @@
-using LordBreakerX.Utilities.AI;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -76,7 +75,7 @@ public class UndergroundBarrageController : MonoBehaviour
         Vector3 randomPosition = NavMeshUtility.GetRandomPosition(transform.position, _wanderRadius);
         var path = new NavMeshPath();
 
-        if (RandomPathGenerator.IsPathValid(path, transform.position, randomPosition))
+        if (NavMeshUtility.IsPathValid(transform.position, randomPosition))
         {
             _agent.SetDestination(randomPosition);
         }
