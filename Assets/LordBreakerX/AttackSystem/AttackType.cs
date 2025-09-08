@@ -4,5 +4,7 @@ public enum AttackType
 {
     LaserEyes,
     StompAttack,
-    TailSwipe
+    TailSwipe,
+    Blackhole,
+    Underground
 }

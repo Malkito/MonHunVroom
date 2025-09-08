@@ -1,5 +1,6 @@
 using LordBreakerX.Utilities;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class BlackholeController : MonoBehaviour

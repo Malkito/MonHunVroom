@@ -14,9 +14,20 @@ public class MonsterMovementController : NetworkBehaviour
     [SerializeField]
     private float _reachedDestinationDistance = 0.2f;
 
+    [SerializeField]
+    private ParticleSystem _undergroundParticle;
+
+    [SerializeField]
+    private Transform _model;
+
+    [SerializeField]
+    private Collider _collider;
+
     private NavMeshAgent _monsterAgent;
 
     private Animator _monsterAnimator;
+
+    public ParticleSystem UndergroundParticle { get => _undergroundParticle; }
 
     public override void OnNetworkSpawn()
     {
@@ -40,20 +51,27 @@ public class MonsterMovementController : NetworkBehaviour
         ChangeDestination(transform.position);
     }
 
-    public void Wander()
+    public bool Wander()
     {
         if (ReachedDestination())
         {
-            Vector2 random = Random.insideUnitCircle * _wanderRadius;
-            Vector3 position = new Vector3(random.x, transform.position.y, random.y);
-
-            _monsterAgent.SetDestination(position);
+            Vector3 randomPosition = NavMeshUtility.GetRandomPosition(transform.position, _wanderRadius);
+            _monsterAgent.SetDestination(randomPosition);
+            return true;
         }
+        return false;
+    }
+
+    public void SetUnderground(bool isUnderground)
+    {
+        _collider.enabled = !isUnderground;
+        _model.gameObject.SetActive(!isUnderground);
     }
 
     public bool ReachedDestination()
     {
-        return Vector3.Distance(_monsterAgent.destination, transform.position) <= _reachedDestinationDistance;
+        Vector3 destination = new Vector3(_monsterAgent.destination.x, transform.position.y, _monsterAgent.destination.z);
+        return Vector3.Distance(destination, transform.position) <= _reachedDestinationDistance;
     }
 
     public void ChangeDestination(Vector3 destination)

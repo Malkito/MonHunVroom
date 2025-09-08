@@ -22,3 +22,15 @@ MonoBehaviour:
     _monsterTag: Monster
     _stompEffect:
       _sourcePrefab: {fileID: 7120335522972623030, guid: b5e382e08ccf104429536df1696470c2, type: 3}
+  _blackholeTemplate:
+    _prefab: {fileID: 4245827291734076512, guid: 4d0abd93a7b08d04a9699d63870ebb8f, type: 3}
+    _spawnOffset: {x: 0, y: 5, z: 0}
+  _undergroundAttackTemplate:
+    _minThrowSrength: 400
+    _maxThrowSrength: 750
+    _minThrowRate: 2
+    _maxThrowRate: 5
+    _throwChance: 55
+    _maxThrowAmount: 3
+    _roubblePrefab: {fileID: 2432418284738977681, guid: 9c5b117e70a85ba41a8470680b1fa9a9, type: 3}
+    _attackDuration: 10

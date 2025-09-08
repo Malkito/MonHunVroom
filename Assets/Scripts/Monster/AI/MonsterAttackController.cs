@@ -91,7 +91,8 @@ public class MonsterAttackController : AttackController
 
         GameObject target = _recentDamageTable.GetMostDamageTarget();
 
-        Target.Set(target.transform, transform.position);
+        if (target != null) Target.Set(target.transform, transform.position);
+        else Target.Set(transform.position);
     }
 
     #endregion

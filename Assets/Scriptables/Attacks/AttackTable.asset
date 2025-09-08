@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackFactory: {fileID: 11400000, guid: d20dc6b36693be9459a2e36606f50f47, type: 2}
   _objectEntries:
-  - _type: 0
+  - _type: 4
+    _weight: 100
+  - _type: 3
     _weight: 100

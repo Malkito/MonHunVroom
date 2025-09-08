@@ -39,12 +39,10 @@ public class RampageState : BaseState
     public override void Enter()
     {
         _monsterAttack.RequestRandomAttack();
-        Debug.Log("Entered Rampage");
     }
 
     public override void Exit()
     {
-        Debug.Log("Exited Rampage");
         _monsterAttack.RequestStopAttack();
         _monsterMovement.StopMovement();
     }
@@ -55,8 +53,7 @@ public class RampageState : BaseState
 
         if (!_monsterAttack.IsAttacking && !_monsterAttack.RequestingAttack)
         {
-            _monsterAttack.RequestRandomAttack();
-            //Machine.RequestChangeState(MonsterStates.WANDER);
+            Machine.RequestChangeState(MonsterStates.WANDER);
         }
     }
 
