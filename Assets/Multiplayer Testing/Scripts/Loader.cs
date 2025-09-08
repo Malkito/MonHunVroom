@@ -16,6 +16,8 @@ public class Loader : MonoBehaviour
         LobbyScene,
         CharacterSelect,
         MainScene,
+        DayGameScene,
+        NightGameScene
 
     }
 

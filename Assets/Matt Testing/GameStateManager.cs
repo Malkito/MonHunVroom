@@ -44,8 +44,8 @@ public class GameStateManager : NetworkBehaviour
     }
 
     private void Start()
-    {
-        turnOffLoseUIClientRpc();
+    {  
+       // turnOffLoseUIClientRpc();
         CurrentState = State.GamePlaying;
     }
 

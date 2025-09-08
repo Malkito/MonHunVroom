@@ -5,7 +5,7 @@ using Unity.Netcode;
 public class respawnManager : NetworkBehaviour
 {
     
-    [SerializeField] private GameObject[] respawnPoints;
+    public GameObject[] respawnPoints;
     private static respawnManager instance;
     [SerializeField] private float respawnTime;
     private int numberOfPlayersDead;

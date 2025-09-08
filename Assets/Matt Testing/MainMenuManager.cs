@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-public class MainMenuManager : MonoBehaviour
+using Unity.Netcode;
+public class MainMenuManager : NetworkBehaviour
 {
 
 
@@ -17,11 +18,11 @@ public class MainMenuManager : MonoBehaviour
     {
         if (isDay)
         {
-            SceneManager.LoadScene(1);
+            Loader.LoadNetwork(Loader.Scene.DayGameScene);
         }
         else
         {
-            SceneManager.LoadScene(2);
+            Loader.LoadNetwork(Loader.Scene.NightGameScene);
         }
     }
 
