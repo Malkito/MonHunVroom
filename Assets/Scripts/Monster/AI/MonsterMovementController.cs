@@ -1,3 +1,4 @@
+using LordBreakerX.Utilities;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -48,18 +49,15 @@ public class MonsterMovementController : NetworkBehaviour
 
     public void StopMovement()
     {
-        ChangeDestination(transform.position);
+        _monsterAgent.StopAgent();
     }
 
-    public bool Wander()
+    public void Wander()
     {
-        if (ReachedDestination())
+        if (ReachedDestination() && IsServer)
         {
-            Vector3 randomPosition = NavMeshUtility.GetRandomPosition(transform.position, _wanderRadius);
-            _monsterAgent.SetDestination(randomPosition);
-            return true;
+            _monsterAgent.SetRandomDestination(_wanderRadius);
         }
-        return false;
     }
 
     public void SetUnderground(bool isUnderground)
@@ -70,8 +68,7 @@ public class MonsterMovementController : NetworkBehaviour
 
     public bool ReachedDestination()
     {
-        Vector3 destination = new Vector3(_monsterAgent.destination.x, transform.position.y, _monsterAgent.destination.z);
-        return Vector3.Distance(destination, transform.position) <= _reachedDestinationDistance;
+        return _monsterAgent.ReachedDestination(_reachedDestinationDistance);
     }
 
     public void ChangeDestination(Vector3 destination)

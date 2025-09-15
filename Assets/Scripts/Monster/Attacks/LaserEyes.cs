@@ -88,7 +88,7 @@ public class LaserEyes : Attack
         return attack;
     }
 
-    public override void OnInitilize(AttackController attackController)
+    protected override void OnInitilize(AttackController attackController)
     {
         _monsterAttack = attackController.GetComponent<MonsterAttackController>();
         _monsterMovement = attackController.GetComponent<MonsterMovementController>();

@@ -29,7 +29,7 @@ public class TailSwipe : Attack
 
     public override void OnAttackUpdate() { }
 
-    public override void OnInitilize(AttackController attackController)
+    protected override void OnInitilize(AttackController attackController)
     {
         _monsterMovement = attackController.GetComponent<MonsterMovementController>();
         _animator = attackController.GetComponent<Animator>();

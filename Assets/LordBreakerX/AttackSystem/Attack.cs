@@ -21,7 +21,7 @@ namespace LordBreakerX.AttackSystem
 
         public abstract Attack Copy(AttackController attackController);
 
-        public virtual void OnInitilize(AttackController attackController) { }
+        protected virtual void OnInitilize(AttackController attackController) { }
 
         public virtual void OnAttackFixedUpdate() { }
 

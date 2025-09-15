@@ -1,3 +1,4 @@
+using LordBreakerX.Utilities;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace LordBreakerX.AttackSystem
         #region Variables
 
         [SerializeField]
-        private AttackTable _attackTable;
+        private ScriptableAttackTable _attackTable;
 
         [SerializeField]
         private float _randomAttackRadius = 30;
@@ -40,7 +41,6 @@ namespace LordBreakerX.AttackSystem
             {
                 RequestActiveAttackServerRpc();
             }
-            _attackTable.Initlize();
         }
 
         #region Attack Updating Logic

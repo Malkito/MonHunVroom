@@ -1,4 +1,4 @@
-using LordBreakerX.Utilities.Math;
+using LordBreakerX.Utilities;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;

@@ -1,4 +1,4 @@
-using LordBreakerX.Utilities.Math;
+using LordBreakerX.Utilities;
 using UnityEngine;
 
 namespace LordBreakerX.Stats
@@ -30,7 +30,7 @@ namespace LordBreakerX.Stats
             return _statType switch
             {
                 StatType.Static => _value,
-                StatType.Range => Percentage.MapToFloat(percentage, _minValue, _maxValue),
+                StatType.Range => Percentage.MapToNumber(percentage, _minValue, _maxValue),
                 StatType.Curve => _curveValue.Evaluate(percentage / 100),
                 _ => 0,
             };

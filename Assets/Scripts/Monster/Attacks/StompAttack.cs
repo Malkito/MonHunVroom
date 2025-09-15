@@ -25,7 +25,7 @@ public class StompAttack : Attack
 
     private MonsterMovementController _monsterMovement;
 
-    public override void OnInitilize(AttackController attackController)
+    protected override void OnInitilize(AttackController attackController)
     {
         _finishedAttack = false;
         _monsterMovement = attackController.GetComponent<MonsterMovementController>();

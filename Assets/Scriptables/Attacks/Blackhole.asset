@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77d32831157084b46904874fbbbe296a, type: 3}
-  m_Name: AttackTable
+  m_Script: {fileID: 11500000, guid: 51e785ad8ce7ad2449757ea94b0a8b21, type: 3}
+  m_Name: Blackhole
   m_EditorClassIdentifier: 
-  _weightedEntries:
-  - _value: {fileID: 11400000, guid: 165a0ed1d10558e429d03c1ee5ed126b, type: 2}
-    _weight: 100
+  _attackTemplate:
+    _prefab: {fileID: 4245827291734076512, guid: 4d0abd93a7b08d04a9699d63870ebb8f, type: 3}
+    _spawnOffset: {x: 0, y: 10, z: 0}
