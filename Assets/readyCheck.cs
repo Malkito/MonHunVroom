@@ -30,6 +30,8 @@ public class readyCheck : NetworkBehaviour
             readyCheckImages[numOfPlayers].gameObject.SetActive(true);
             numOfPlayers++;
         }
+
+        GameStateManager.Instance.setNewState(GameStateManager.State.WaitingToStart);
     }
 
 
@@ -52,6 +54,7 @@ public class readyCheck : NetworkBehaviour
     {
         readyCheckImages[numOfPlayersReady].color = Color.green;
         numOfPlayersReady++;
+        print("Ready server pressed Client RPC ran");
     }
 
     private void spawnPlayers()
@@ -63,7 +66,15 @@ public class readyCheck : NetworkBehaviour
             GameObject player = Instantiate(playerPrefabs, spawnPoint);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(client.ClientId, true);
         }
+        turnOffReadyUIClientRpc();
         playersSpawned = true;
+        GameStateManager.Instance.setNewState(GameStateManager.State.GamePlaying);
+
+    }
+
+    [ClientRpc]
+    private void turnOffReadyUIClientRpc()
+    {
         readyCanvas.SetActive(false);
     }
 

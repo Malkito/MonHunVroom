@@ -3,11 +3,8 @@ using Unity.Netcode;
 public class createPlayerUI : NetworkBehaviour
 {
     [SerializeField] private GameObject HUD;
-    public override void OnNetworkSpawn()
+    private void Start()
     {
-        base.OnNetworkSpawn();
-
-        if (!IsOwner || !IsLocalPlayer) return;
-        HUD.SetActive(true);
+        if (IsLocalPlayer) HUD.SetActive(true);
     }
 }

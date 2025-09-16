@@ -46,7 +46,6 @@ public class GameStateManager : NetworkBehaviour
     private void Start()
     {  
        // turnOffLoseUIClientRpc();
-        CurrentState = State.GamePlaying;
     }
 
     private void Update()
@@ -54,18 +53,8 @@ public class GameStateManager : NetworkBehaviour
         switch (CurrentState)
         {
             case State.WaitingToStart:
-                waitingToStartTimer -= Time.deltaTime;
-                if(waitingToStartTimer <0f)
-                {
-                    CurrentState = State.CountdownToStart;
-                }
                 break;
             case State.CountdownToStart:
-                countdownToStartTimer -= Time.deltaTime;
-                if (countdownToStartTimer < 0f)
-                {
-                    CurrentState = State.GamePlaying;
-                }
                 break;
             case State.GamePlaying:
                 break;
