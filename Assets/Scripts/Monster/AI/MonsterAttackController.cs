@@ -23,6 +23,10 @@ public class MonsterAttackController : AttackController
     [Min(0f)]
     private float _timeBetweenPlayerAttacks = 30;
 
+    [Header("Flying Properties")]
+    [SerializeField]
+    private Transform _model;
+
     private DamageTable _recentDamageTable = new DamageTable();
 
     private Timer _playerAttackTimer;
@@ -32,6 +36,8 @@ public class MonsterAttackController : AttackController
     #endregion
 
     public Timer PlayerAttackTimer { get { return _playerAttackTimer; } }
+
+    public Transform Model { get { return _model; } }
 
     public override void OnNetworkSpawn()
     {

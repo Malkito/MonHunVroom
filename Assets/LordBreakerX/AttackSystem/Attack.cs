@@ -8,6 +8,8 @@ namespace LordBreakerX.AttackSystem
 
         public Vector3 TargetPosition { get => Controller.Target.TargetPosition; }
 
+        public Vector3 StartPosition { get => Controller.transform.position; }
+
         public void Initilize(AttackController attackController)
         {
             Controller = attackController;
