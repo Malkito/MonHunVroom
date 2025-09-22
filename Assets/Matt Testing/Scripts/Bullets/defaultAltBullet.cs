@@ -22,10 +22,8 @@ public class defaultAltBullet : NetworkBehaviour, bullet
     {
         DealDamageToArea();
 
-        GameObject explosionParticle = Instantiate(explosion.gameObject, transform.position, Quaternion.identity);  // starts the particles
-        Destroy(explosionParticle, explosion.main.duration); // gets rid of particles after the duration
-
-        Destroy(gameObject);
+        spawnExplosionParticlesServerRpc();
+        destroyBulletServerRpc();
     }
 
     public void setDamageOrigin(GameObject damageOrigin)
@@ -33,19 +31,36 @@ public class defaultAltBullet : NetworkBehaviour, bullet
         BulletDamageOrigin = damageOrigin;
     }
 
-    private void DealDamageToArea() 
+    [ServerRpc(RequireOwnership = false)]
+    private void spawnExplosionParticlesServerRpc()
+    {
+
+        GameObject explosionParticle = Instantiate(explosion.gameObject, transform.position, Quaternion.identity);  // starts the particles
+        NetworkObject NetOBJ = explosionParticle.GetComponent<NetworkObject>();
+        NetOBJ.Spawn();
+
+
+        Destroy(explosionParticle, explosion.main.duration); // gets rid of particles after the duration
+    }
+
+
+    private void DealDamageToArea()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, damageRadius); // gets all the colliders in the area
-
-
-        foreach (Collider col in hitColliders) 
+        foreach (Collider col in hitColliders)
         {
-            if(col.gameObject.TryGetComponent(out dealDamage healthScript)) // for each collider, checks if the object can be damaged
+            if (col.gameObject.TryGetComponent(out dealDamage healthScript)) // for each collider, checks if the object can be damaged
             {
                 healthScript.dealDamage(bulletData.bulletDamage, Color.grey, BulletDamageOrigin); // damages the objects
             }
-
         }
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void destroyBulletServerRpc()
+    {
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmos()

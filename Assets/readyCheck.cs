@@ -11,7 +11,7 @@ public class readyCheck : NetworkBehaviour
     private int numOfPlayersReady;
     [SerializeField] GameObject playerPrefabs;
     private bool playersSpawned;
-
+    private int spawnIndex;
 
 
     private void Awake()
@@ -20,9 +20,10 @@ public class readyCheck : NetworkBehaviour
             readyPressed();
         });
     }
-
     void Start()
     {
+        shuffleSpawnPoints();
+        spawnIndex = 0;
         playersSpawned = false;
         numOfPlayers = 0;
         foreach(NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
@@ -33,8 +34,6 @@ public class readyCheck : NetworkBehaviour
 
         GameStateManager.Instance.setNewState(GameStateManager.State.WaitingToStart);
     }
-
-
     private void Update()
     {
         if(numOfPlayersReady == NetworkManager.Singleton.ConnectedClientsIds.Count && !playersSpawned)
@@ -42,7 +41,6 @@ public class readyCheck : NetworkBehaviour
             spawnPlayers();
         }
     }
-
     private void readyPressed()
     {
         readyButton.interactable = false;
@@ -62,10 +60,14 @@ public class readyCheck : NetworkBehaviour
 
         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
         {
-            Transform spawnPoint = respawnManager.Instance.respawnPoints[Random.Range(0, respawnManager.Instance.respawnPoints.Length)].transform;
+           
+            Transform spawnPoint = respawnManager.Instance.respawnPoints[spawnIndex].transform;
             GameObject player = Instantiate(playerPrefabs, spawnPoint);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(client.ClientId, true);
+            spawnIndex++;
         }
+
+
         turnOffReadyUIClientRpc();
         playersSpawned = true;
         GameStateManager.Instance.setNewState(GameStateManager.State.GamePlaying);
@@ -76,6 +78,18 @@ public class readyCheck : NetworkBehaviour
     private void turnOffReadyUIClientRpc()
     {
         readyCanvas.SetActive(false);
+    }
+
+    private void shuffleSpawnPoints()
+    {
+        for (int i = 0; i < respawnManager.Instance.respawnPoints.Length; i++)
+        {
+            int randomIndex = Random.Range(i, respawnManager.Instance.respawnPoints.Length);
+
+            GameObject temp = respawnManager.Instance.respawnPoints[i];
+            respawnManager.Instance.respawnPoints[i] = respawnManager.Instance.respawnPoints[randomIndex];
+            respawnManager.Instance.respawnPoints[randomIndex] = temp;
+        }
     }
 
 

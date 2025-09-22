@@ -11,9 +11,11 @@ public class MainMenuManager : NetworkBehaviour
     [SerializeField] private Light directionalLights;
     [SerializeField] private GameObject[] streetLights;
     [SerializeField] private Button startGameButton;
-    [SerializeField] private Button levelSelectButton;
-    [SerializeField] private GameObject levelSelect;
+    [SerializeField] private Button goToLobby;
+    [SerializeField] private GameObject lobbyCreation;
     [SerializeField] private GameObject quitButton;
+    [SerializeField] private GameObject levelSelect;
+
     public void StartGame()
     {
         if (isDay)
@@ -28,8 +30,8 @@ public class MainMenuManager : NetworkBehaviour
 
     public void goToLevelSelect()
     {
-        levelSelectButton.gameObject.SetActive(false);
-        levelSelect.SetActive(true);
+        goToLobby.gameObject.SetActive(false);
+        lobbyCreation.SetActive(true);
         quitButton.gameObject.SetActive(false);
     }
 
@@ -81,8 +83,16 @@ public class MainMenuManager : NetworkBehaviour
     public void backButton()
     {
         quitButton.gameObject.SetActive(true);
-        levelSelect.SetActive(false);
-        levelSelectButton.gameObject.SetActive(true);
+        lobbyCreation.SetActive(false);
+        goToLobby.gameObject.SetActive(true);
+
+    }
+
+
+
+    public void spawnlevelSelect()
+    {
+        levelSelect.SetActive(true);
 
     }
 

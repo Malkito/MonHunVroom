@@ -8,7 +8,7 @@ public class rearLights : NetworkBehaviour
 
     void Update()
     {
-        if (!IsOwner) return;
+        if (!IsLocalPlayer) return;
 
         Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
         if (inputVector.y < 0)

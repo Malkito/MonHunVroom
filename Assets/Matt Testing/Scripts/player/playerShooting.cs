@@ -101,7 +101,7 @@ public class playerShooting : NetworkBehaviour
     private void shoot(int BulletIndex) // the main shooting function. bulelt index refrences the position in static bullet array. The reason for the int is so that server RPCs can take the bullet as an aguement
     {
         //Play sound
-        muzzleFlash.Play();
+        muzzleFlashClientRpc();
 
         if (onlyOneBarrel)
         {
@@ -120,7 +120,7 @@ public class playerShooting : NetworkBehaviour
         networkProjectile.Spawn(true);
 
         //applies the recoil to the tank
-        applyRecoil(bulletSOarray[BulletIndex].recoilForce);
+        applyRecoilClientRpc(bulletSOarray[BulletIndex].recoilForce);
 
 
         //gets the bullet script to assign the damage origin once the bullet deals damage to something
@@ -140,14 +140,19 @@ public class playerShooting : NetworkBehaviour
         Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);
     }
 
-    
     //Applies a force to the tank, based on the recoild force on the specified bulelt index 
-    private void applyRecoil(float recoilForce)
+    [ClientRpc]
+    private void applyRecoilClientRpc(float recoilForce)
     {
+        if (!IsOwner) return;
         Vector3 backforce = -mainBarrelEnds[0].transform.forward * recoilForce;
         Vector3 upforce = Vector3.up * (recoilForce / 2);
-
         tankRB.AddForce(backforce + upforce, ForceMode.VelocityChange);
+    }
+    [ClientRpc]
+    private void muzzleFlashClientRpc()
+    {
+        muzzleFlash.Play();
     }
 
 
@@ -158,6 +163,8 @@ public class playerShooting : NetworkBehaviour
         //Play sound
         //play muzzle flash
 
+        muzzleFlashClientRpc();
+
         // spawn the game object projectile related to the bullet index num
         GameObject projectile = Instantiate(bulletSOarray[BulletIndex].bulletPrefab, altBarrelEnd.transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
@@ -167,7 +174,7 @@ public class playerShooting : NetworkBehaviour
         networkProjectile.Spawn(true);
 
         //applies the recoil to the tank
-        applyRecoil(bulletSOarray[BulletIndex].recoilForce);
+        applyRecoilClientRpc(bulletSOarray[BulletIndex].recoilForce);
 
 
         //gets the bullet script to assign the damage origin once the bullet deals damage to something

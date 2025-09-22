@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Netcode;
 
-public class noGravityLogic : MonoBehaviour, useAbility
+public class noGravityLogic : NetworkBehaviour, useAbility
 {
     [SerializeField] private float floatTime;
     [SerializeField] private float floatForce;
@@ -13,7 +14,7 @@ public class noGravityLogic : MonoBehaviour, useAbility
     public void useAbility(Transform transform, bool abilityUsed)
     {
         if (!abilityUsed) return;
-        startFloating();
+        startFloatingClientRpc();
     }
 
 
@@ -21,7 +22,7 @@ public class noGravityLogic : MonoBehaviour, useAbility
     {
         if(elapsedTime >= floatTime)
         {
-            stopFloating();
+            stopFloatingClientRpc();
         }
         elapsedTime += Time.deltaTime;
     }
@@ -49,5 +50,16 @@ public class noGravityLogic : MonoBehaviour, useAbility
         }
     }
 
+    [ClientRpc]
+    private void startFloatingClientRpc()
+    {
+        startFloating();
+    }
+
+    [ClientRpc]
+    private void stopFloatingClientRpc()
+    {
+        stopFloating();
+    }
 
 }

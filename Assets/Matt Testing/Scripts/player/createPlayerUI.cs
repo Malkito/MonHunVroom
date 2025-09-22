@@ -5,6 +5,10 @@ public class createPlayerUI : NetworkBehaviour
     [SerializeField] private GameObject HUD;
     private void Start()
     {
-        if (IsLocalPlayer) HUD.SetActive(true);
+        if (IsLocalPlayer)
+        {
+            HUD.SetActive(true);
+            print("Hud activated");
+        }
     }
 }
