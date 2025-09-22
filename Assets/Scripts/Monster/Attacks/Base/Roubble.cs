@@ -1,3 +1,4 @@
+using LordBreakerX.Attributes;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -5,6 +6,16 @@ public class Roubble : MonoBehaviour
 {
     [SerializeField]
     private float _lifeSpan = 10;
+
+    [SerializeField]
+    private Rigidbody _rigidbody;
+
+    [SerializeField]
+    private float _damageOnImpact;
+
+    [SerializeField]
+    [TagDropdown]
+    private string _monsterTag = "Monster";
 
     private void Awake()
     {
@@ -16,20 +27,22 @@ public class Roubble : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public Roubble CreateRouble(Vector3 startPosition, float minStrength, float maxStrength)
+    public Roubble CreateRouble(Vector3 startPosition, ThrowStrength throwStrength)
     {
         Roubble roubbleCopy = Instantiate(this, startPosition, Quaternion.identity);
 
-        Rigidbody roubleBody = roubbleCopy.GetComponent<Rigidbody>();
+        Vector3 throwForce = throwStrength.GetForce();
 
-        float verticalThrowStrength = Random.Range(minStrength, maxStrength);
-        float horizontalThrowSrength = Random.Range(minStrength, maxStrength);
-
-        Vector3 randomForce = Random.insideUnitSphere * horizontalThrowSrength;
-        randomForce = new Vector3(randomForce.x, verticalThrowStrength, randomForce.z);
-
-        roubleBody.AddForce(randomForce, ForceMode.Force);
+        roubbleCopy._rigidbody.AddForce(throwForce, ForceMode.Force);
 
         return roubbleCopy;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(_monsterTag)) return;
+
+        dealDamage damageable = other.GetComponent<dealDamage>();
+        if (damageable != null) damageable.dealDamage(_damageOnImpact, Color.red, gameObject);
     }
 }

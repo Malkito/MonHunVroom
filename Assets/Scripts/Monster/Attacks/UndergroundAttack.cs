@@ -1,4 +1,5 @@
 using LordBreakerX.AttackSystem;
+using LordBreakerX.Utilities;
 using UnityEngine;
 
 [System.Serializable]
@@ -32,23 +33,59 @@ public class UndergroundAttack : Attack
     [SerializeField]
     private Roubble _roubblePrefab;
 
+    [Header("Time Properties")]
     [SerializeField]
     private float _attackDuration;
 
-    private float _throwDelay;
-
-    private float _durationLeft;
-
     private MonsterMovementController _monsterMovement;
+
+    private Timer _throwAttemptTimer;
+    private Timer _durationTimer;
+
+    public override void OnStart()
+    {
+        _monsterMovement.UpdateWalkAnimation(true);
+        _monsterMovement.SetUnderground(true);
+        ResetThrowDelay();
+        _durationTimer.Reset();
+    }
+
+    private void ResetThrowDelay()
+    {
+        float throwDelay = Random.Range(_minThrowRate, _maxThrowRate);
+        _throwAttemptTimer.SetDuration(throwDelay);
+    }
+
+    public override void OnStop()
+    {
+        _monsterMovement.UpdateWalkAnimation(false);
+        _monsterMovement.SetUnderground(false);
+    }
+
 
     protected override void OnInitilize(AttackController attackController)
     {
         _monsterMovement = attackController.GetComponent<MonsterMovementController>();
+        _durationTimer = new Timer(_attackDuration);
+        _throwAttemptTimer = new Timer();
+        _throwAttemptTimer.OnTimerFinished += AttemptThrow;
+    }
+
+    private void AttemptThrow()
+    {
+        ResetThrowDelay();
+        Probability.PerformChanceRolls(_maxThrowAmount, _throwChance, OnSucessfulThrow);
+    }
+
+    private void OnSucessfulThrow()
+    {
+        ThrowStrength throwStrength = new ThrowStrength(_minThrowSrength, _maxThrowSrength);
+        _roubblePrefab.CreateRouble(Controller.transform.position, throwStrength);
     }
 
     public override bool HasAttackFinished()
     {
-        return _durationLeft <= 0;
+        return _durationTimer.IsComplete;
     }
 
     public override Attack Copy(AttackController attackController)
@@ -65,45 +102,11 @@ public class UndergroundAttack : Attack
         return attack;
     }
 
-    public override void OnStart()
-    {
-        _monsterMovement.UpdateWalkAnimation(true);
-        _monsterMovement.SetUnderground(true);
-        _durationLeft = _attackDuration;
-        ResetThrowDelay();
-    }
-
-    private void ResetThrowDelay()
-    {
-        _throwDelay = Random.Range(_minThrowRate, _maxThrowRate);
-    }
-
-    public override void OnStop()
-    {
-        _monsterMovement.UpdateWalkAnimation(false);
-        _monsterMovement.SetUnderground(false);
-    }
-
     public override void OnAttackUpdate()
     {
         _monsterMovement.Wander();
 
-        _throwDelay -= Time.deltaTime;
-        _durationLeft -= Time.deltaTime;
-
-        if (_throwDelay <= 0)
-        {
-            ResetThrowDelay();
-
-            for (int x = 0; x < _maxThrowAmount; x++)
-            {
-                float chance = Random.Range(1.0f, 100);
-                if (chance <= _throwChance)
-                {
-                    _roubblePrefab.CreateRouble(Controller.transform.position, _minThrowSrength, _maxThrowSrength);
-                }
-            }
-        }
+        _throwAttemptTimer.Update();
+        _durationTimer.Update(false);
     }
-
 }

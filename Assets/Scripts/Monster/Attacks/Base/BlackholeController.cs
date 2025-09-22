@@ -1,6 +1,6 @@
 using LordBreakerX.Utilities;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
 public class BlackholeController : MonoBehaviour
@@ -23,41 +23,42 @@ public class BlackholeController : MonoBehaviour
     [SerializeField]
     private float _moveSpeed = 5;
 
-    private List<Rigidbody> _impactedRigs = new List<Rigidbody>();
+    [SerializeField]
+    [Min(0f)]
+    private float _damagePerSecond = 2;
 
     private Vector3 _moveDirection;
 
-    private void Awake()
+    private List<Rigidbody> _bodies = new List<Rigidbody>();
+
+    private void Start()
     {
-        Vector2 random = Random.insideUnitCircle;
-        _moveDirection = new Vector3(random.x, 0, random.y);
+        StartCoroutine(DealDamageOverTime());
     }
 
     private void Update()
     {
         transform.position += _moveDirection * _moveSpeed * Time.deltaTime;
+        _lifeSpan -= Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
-        _lifeSpan -= Time.fixedDeltaTime;
-
         if (_lifeSpan <= 0)
         {
-            foreach (var body in _impactedRigs) 
+            if (_bodies.Count > 0)
             {
-                body.linearVelocity = Vector3.zero;
-                body.AddForce(Random.insideUnitSphere * _pushStrength * body.mass, ForceMode.Force);
+                foreach (var body in _bodies)
+                {
+                    if (body == null) continue;
+
+                    body.linearVelocity = Vector3.zero;
+                    body.AddForce(Random.insideUnitSphere * _pushStrength * body.mass, ForceMode.Force);
+                }
             }
 
             Destroy(gameObject);
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.attachedRigidbody != null && !_ignoredLayers.Contains(other.gameObject.layer)) 
-            _impactedRigs.Add(other.attachedRigidbody);
     }
 
     private void OnTriggerStay(Collider other)
@@ -72,9 +73,50 @@ public class BlackholeController : MonoBehaviour
         rigidbody.AddForce(direction *  gForce, ForceMode.Acceleration);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.attachedRigidbody != null) _bodies.Add(other.attachedRigidbody);
+    }
+
     private void OnTriggerExit(Collider other)
     {
-        if (_impactedRigs.Contains(other.attachedRigidbody)) 
-            _impactedRigs.Remove(other.attachedRigidbody);
+        if (other.attachedRigidbody != null && _bodies.Contains(other.attachedRigidbody)) _bodies.Remove(other.attachedRigidbody);
+    }
+
+    public BlackholeController Clone(Vector3 position, Vector3 moveDirection)
+    {
+        BlackholeController clonedBlackhole = Instantiate(this, position, Quaternion.identity);
+        clonedBlackhole._moveDirection = moveDirection;
+        return clonedBlackhole;
+    }
+
+    public BlackholeController Clone(Vector3 position)
+    {
+        Vector2 random = Random.insideUnitCircle;
+        return Clone(position, new Vector3(random.x, 0, random.y));
+    }
+
+    private IEnumerator DealDamageOverTime()
+    {
+        WaitForSeconds second = new WaitForSeconds(1);
+        Dictionary<Rigidbody, dealDamage> damageRegistry = new Dictionary<Rigidbody, dealDamage>();
+
+        while (true)
+        {
+            if (_bodies.Count > 0)
+            {
+                foreach (Rigidbody rigidbody in _bodies)
+                {
+                    if (!damageRegistry.ContainsKey(rigidbody))
+                    {
+                        damageRegistry.Add(rigidbody, rigidbody.GetComponent<dealDamage>());
+                    }
+
+                    damageRegistry[rigidbody]?.dealDamage(_damagePerSecond, Color.red, gameObject);
+                }
+            }
+
+            yield return second;
+        }
     }
 }

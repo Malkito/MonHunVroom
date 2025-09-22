@@ -69,7 +69,7 @@ namespace LordBreakerX.Utilities
             return new Vector4(xyzValues.x, xyzValues.y, xyzValues.z, w);
         }
 
-        public static Color  MapToColor(float percentage, Color minValue, Color maxValue)
+        public static Color MapToColor(float percentage, Color minValue, Color maxValue)
         {
             float red = MapToNumber(percentage, minValue.r, maxValue.r);
             float green = MapToNumber(percentage, minValue.g, maxValue.g);

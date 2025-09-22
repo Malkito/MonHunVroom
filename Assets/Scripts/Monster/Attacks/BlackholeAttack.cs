@@ -32,7 +32,7 @@ public class BlackholeAttack : Attack
         if (_currentBlackhole == null)
         {
             Vector3 position = Controller.transform.position + _spawnOffset;
-            _currentBlackhole = GameObject.Instantiate(_prefab, position, Quaternion.identity);
+            _currentBlackhole = _prefab.Clone(position);
         }
     }
 

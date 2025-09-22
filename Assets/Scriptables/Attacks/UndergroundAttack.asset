@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: UndergroundAttack
   m_EditorClassIdentifier: 
   _attackTemplate:
-    _minThrowSrength: 100
-    _maxThrowSrength: 200
+    _minThrowSrength: 500
+    _maxThrowSrength: 1000
     _minThrowRate: 2
     _maxThrowRate: 5
     _throwChance: 65

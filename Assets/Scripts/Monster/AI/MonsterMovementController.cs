@@ -64,6 +64,7 @@ public class MonsterMovementController : NetworkBehaviour
     {
         _collider.enabled = !isUnderground;
         _model.gameObject.SetActive(!isUnderground);
+        _undergroundParticle.gameObject.SetActive(isUnderground);
     }
 
     public bool ReachedDestination()

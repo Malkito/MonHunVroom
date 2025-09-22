@@ -15,9 +15,18 @@ public class Timer
 
     public bool IsComplete { get { return _elapsedTime >= _durationSeconds; } }
 
+    public Timer() 
+    {
+    }
+
     public Timer(float durationSeconds)
     {
-        _durationSeconds = durationSeconds;
+        SetDuration(durationSeconds);
+    }
+
+    public void SetDuration(float duration)
+    {
+        _durationSeconds = Mathf.Max(duration, 0);
         Reset();
     }
 
@@ -26,21 +35,14 @@ public class Timer
         _elapsedTime = 0f;
     }
 
-    public void Update(float timeSinceLastStep)
+    public void Update(bool resetOnComplete = true)
     {
+        _elapsedTime += Time.deltaTime;
+
         if (IsComplete)
         {
             OnTimerFinished?.Invoke();
-            Reset();
+            if (resetOnComplete) Reset();
         }
-        else
-        {
-            _elapsedTime += timeSinceLastStep;
-        }
-    }
-
-    public void Update()
-    {
-        Update(Time.deltaTime);
     }
 }

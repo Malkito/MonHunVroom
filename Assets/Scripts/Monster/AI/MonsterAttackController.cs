@@ -45,9 +45,6 @@ public class MonsterAttackController : AttackController
         _machine = GetComponent<StateMachineNetworked>();
 
         _playerAttackTimer = new Timer(_timeBetweenPlayerAttacks);
-        _playerAttackTimer.OnTimerFinished += () => { 
-            _machine.RequestChangeState(MonsterStates.TARGET_PLAYER); 
-        };
     }
 
     #region Laser Eyes Logic
