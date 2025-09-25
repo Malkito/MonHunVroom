@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51e785ad8ce7ad2449757ea94b0a8b21, type: 3}
+  m_Name: Blackhole
+  m_EditorClassIdentifier: 
+  _attackTemplate:
+    _prefab: {fileID: 4245827291734076512, guid: 4d0abd93a7b08d04a9699d63870ebb8f, type: 3}
+    _spawnOffset: {x: 0, y: 10, z: 0}

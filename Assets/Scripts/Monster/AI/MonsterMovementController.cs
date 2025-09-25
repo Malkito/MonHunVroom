@@ -1,5 +1,4 @@
-using LordBreakerX.Utilities.AI;
-using System.Collections;
+using LordBreakerX.Utilities;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,35 +10,31 @@ public class MonsterMovementController : NetworkBehaviour
 
     [SerializeField]
     [Header("Wandering Properties")]
-    [Min(1)]
-    private float _minMovementRadius;
+    private float _wanderRadius;
 
     [SerializeField]
-    [Min(1)]
-    private float _maxMovementRadius;
+    private float _reachedDestinationDistance = 0.2f;
 
     [SerializeField]
-    [Range(0, 1)]
-    private float _radiusDecreaseRate = 0.01f;
+    private ParticleSystem _undergroundParticle;
+
+    [SerializeField]
+    private Transform _model;
+
+    [SerializeField]
+    private Collider _collider;
 
     private NavMeshAgent _monsterAgent;
+
     private Animator _monsterAnimator;
 
-    private RandomPathGenerator _pathGenerator;
-
-    public Vector3 CurrentDestination { get; private set; }
-
-    private void OnValidate()
-    {
-        _minMovementRadius = Mathf.Clamp(_minMovementRadius, 1, _maxMovementRadius);
-    }
+    public ParticleSystem UndergroundParticle { get => _undergroundParticle; }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         _monsterAgent = GetComponent<NavMeshAgent>();
         _monsterAnimator = GetComponent<Animator>();
-        _pathGenerator = new RandomPathGenerator(transform, _minMovementRadius, _maxMovementRadius, _radiusDecreaseRate);
         _monsterAgent.speed = EnemyStatManager.MovementSpeed;
         _monsterAgent.angularSpeed = EnemyStatManager.TurningSpeed;
     }
@@ -54,21 +49,27 @@ public class MonsterMovementController : NetworkBehaviour
 
     public void StopMovement()
     {
-        ChangeDestination(transform.position);
+        _monsterAgent.StopAgent();
     }
 
-    public void SetRandomDestination()
+    public void Wander()
     {
-        if (_pathGenerator == null) _pathGenerator = new RandomPathGenerator(transform, _minMovementRadius, _maxMovementRadius, _radiusDecreaseRate);
-        if (IsServer && !_pathGenerator.IsFindingPath) StartCoroutine(DetermineTargetPosition());
+        if (ReachedDestination() && IsServer)
+        {
+            _monsterAgent.SetRandomDestination(_wanderRadius);
+        }
     }
 
-    private IEnumerator DetermineTargetPosition()
+    public void SetUnderground(bool isUnderground)
     {
-        yield return _pathGenerator.FindReachablePath();
+        _collider.enabled = !isUnderground;
+        _model.gameObject.SetActive(!isUnderground);
+        _undergroundParticle.gameObject.SetActive(isUnderground);
+    }
 
-        _monsterAgent.SetPath(_pathGenerator.GeneratedPath);
-        CurrentDestination = _monsterAgent.destination;
+    public bool ReachedDestination()
+    {
+        return _monsterAgent.ReachedDestination(_reachedDestinationDistance);
     }
 
     public void ChangeDestination(Vector3 destination)
@@ -76,7 +77,6 @@ public class MonsterMovementController : NetworkBehaviour
         if (IsServer)
         {
             _monsterAgent.SetDestination(destination);
-            CurrentDestination = destination;
         }
     }
 }

@@ -2,7 +2,6 @@ using LordBreakerX.Attributes;
 using LordBreakerX.States;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = MonsterStates.RAMPAGE, menuName = MonsterStates.CreatePaths.RAMPAGE)]
 public class RampageState : BaseState
@@ -39,7 +38,7 @@ public class RampageState : BaseState
 
     public override void Enter()
     {
-        StartRandomAttack();
+        _monsterAttack.RequestRandomAttack();
     }
 
     public override void Exit()
@@ -52,64 +51,10 @@ public class RampageState : BaseState
     {
         _monsterAttack.PlayerAttackTimer.Update();
 
-        if (!_monsterAttack.IsAttacking && !_monsterAttack.IsRequestingAttack)
+        if (!_monsterAttack.IsAttacking && !_monsterAttack.RequestingAttack)
         {
             Machine.RequestChangeState(MonsterStates.WANDER);
         }
-    }
-
-    private void StartRandomAttack()
-    {
-        Vector3 start = StateObject.transform.position;
-        float chance = Random.Range(0.0f, 100.0f);
-
-        if (chance <= _damageableTargetingChance && TryTargetDamageable()) return;
-
-        _monsterAttack.RequestAttackRandomPosition(StateObject.transform.position, _attackRadius);
-    }
-
-    private bool TryTargetDamageable()
-    {
-        List<Collider> validDamageables = new List<Collider>();
-
-        Collider[] overlapColliders = Physics.OverlapSphere(StateObject.transform.position, _attackRadius);
-
-        NavMeshPath path = new NavMeshPath();
-
-        foreach (Collider protentialDamageable in overlapColliders)
-        {
-            if (IsValidDamageable(protentialDamageable, path))
-            {
-                validDamageables.Add(protentialDamageable);
-            }
-        }
-        return ChooseRandomTarget(validDamageables);
-    }
-
-    private bool ChooseRandomTarget(List<Collider> elements)
-    {
-        if (elements.Count > 0)
-        {
-            int randomIndex = Random.Range(0, elements.Count);
-            if (Machine.IsCurrentState(MonsterStates.RAMPAGE))
-            {
-                _monsterAttack.TargetProvider.SetTarget(elements[randomIndex].transform, StateObject.transform.position);
-                _monsterAttack.RequestStartAttack();
-            }
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool IsValidDamageable(Collider collider, NavMeshPath path)
-    {
-        if (!_damageables.ContainsKey(collider))
-        {
-            dealDamage damageable = collider.GetComponent<dealDamage>();
-            _damageables.Add(collider, damageable);
-        }
-        return _damageables[collider] != null && !collider.CompareTag(_monsterTag) && _monsterAttack.TargetProvider.IsValidTarget(collider.transform, StateObject.transform.position);
     }
 
     public override void OnGizmosSelected()

@@ -36,7 +36,7 @@ public class TargetPlayerState : BaseState
         _monsterAttack.UpdateTarget();
         _monsterAttack.ResetDamageTable();
 
-        if (!_monsterAttack.HasTarget) _machine.RequestChangeState(MonsterStates.WANDER);
+        if (!_monsterAttack.Target.IsTargettingObject) _machine.RequestChangeState(MonsterStates.WANDER);
     }
 
     public override void Exit()

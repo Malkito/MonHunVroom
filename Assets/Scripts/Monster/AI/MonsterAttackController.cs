@@ -1,11 +1,14 @@
 using LordBreakerX.Attributes;
 using LordBreakerX.Health;
 using LordBreakerX.States;
+using LordBreakerX.AttackSystem;
 using Unity.Netcode;
 using UnityEngine;
 
 public class MonsterAttackController : AttackController
 {
+    #region Variables
+
     [SerializeField]
     [RequiredField]
     [Header("Laser Eyes")]
@@ -20,25 +23,31 @@ public class MonsterAttackController : AttackController
     [Min(0f)]
     private float _timeBetweenPlayerAttacks = 30;
 
+    [Header("Flying Properties")]
+    [SerializeField]
+    private Transform _model;
+
     private DamageTable _recentDamageTable = new DamageTable();
 
     private Timer _playerAttackTimer;
 
     private StateMachineNetworked _machine;
 
+    #endregion
+
     public Timer PlayerAttackTimer { get { return _playerAttackTimer; } }
+
+    public Transform Model { get { return _model; } }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         _machine = GetComponent<StateMachineNetworked>();
+
         _playerAttackTimer = new Timer(_timeBetweenPlayerAttacks);
-        _playerAttackTimer.OnTimerFinished += () => { _machine.ChangeStateWhen(MonsterStates.TARGET_PLAYER, () => !IsAttacking && !IsRequestingAttack); };
     }
 
-    //------------------------------
-    // Laser Eyes Methods
-    //------------------------------
+    #region Laser Eyes Logic
 
     public void RequestShootLaser(Laser prefab, Vector3 attackPosition)
     {
@@ -63,9 +72,9 @@ public class MonsterAttackController : AttackController
         if (!IsHost || !IsServer) ShootLaser(_laserPrefab, attackPosition);
     }
 
-    //-------------------------------------
-    // Targeting Player Methods
-    //-------------------------------------
+    #endregion
+
+    #region Targetting Player Logic
 
     public void OnMonsterHealthChanged(HealthInfo healthInfo)
     {
@@ -85,8 +94,10 @@ public class MonsterAttackController : AttackController
 
         GameObject target = _recentDamageTable.GetMostDamageTarget();
 
-        if (target == null)  TargetProvider.SetTargetPosition(transform.position);
-        else TargetProvider.SetTarget(target.transform, transform.position);
+        if (target != null) Target.Set(target.transform, transform.position);
+        else Target.Set(transform.position);
     }
+
+    #endregion
 }
 

@@ -1,0 +1,42 @@
+using LordBreakerX.AttackSystem;
+using UnityEngine;
+
+public class TailSwipe : Attack
+{
+    private const string TAIL_SWIPE_ANIMATION = "tail swipe";
+
+    private MonsterMovementController _monsterMovement;
+
+    private Animator _animator;
+
+    public override void OnStart()
+    {
+        _monsterMovement.UpdateWalkAnimation(false);
+        _monsterMovement.StopMovement();
+        _animator.Play(TAIL_SWIPE_ANIMATION);
+    }
+
+    public override bool HasAttackFinished()
+    {
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        return !stateInfo.IsName(TAIL_SWIPE_ANIMATION);
+    }
+
+
+    public override void OnStop() { }
+
+    public override void OnAttackFixedUpdate() { }
+
+    public override void OnAttackUpdate() { }
+
+    protected override void OnInitilize(AttackController attackController)
+    {
+        _monsterMovement = attackController.GetComponent<MonsterMovementController>();
+        _animator = attackController.GetComponent<Animator>();
+    }
+
+    public override Attack Copy(AttackController attackController)
+    {
+        return new TailSwipe();
+    }
+}

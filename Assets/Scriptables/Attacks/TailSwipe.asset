@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61d9aad809a6e494c99e6fb6655b3d35, type: 3}
+  m_Script: {fileID: 11500000, guid: 38748c65fdb416d41af6ed8c30a69631, type: 3}
   m_Name: TailSwipe
   m_EditorClassIdentifier: 
-  _id: TailSwipe
-  _randomPositionRange: 20
-  _maxTailSwipeDistance: 2

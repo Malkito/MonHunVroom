@@ -1,0 +1,18 @@
+{
+    "name": "LordBreakerX.Attributes.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:835ec6f28ebae01458026d8549fbe417"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
