@@ -27,6 +27,12 @@ public class BlackholeController : MonoBehaviour
     [Min(0f)]
     private float _damagePerSecond = 2;
 
+    [SerializeField]
+    private float _playerPullSpeed = 10;
+
+    [SerializeField]
+    private LayerMask _playerLayer;
+
     private Vector3 _moveDirection;
 
     private List<Rigidbody> _bodies = new List<Rigidbody>();
@@ -53,7 +59,7 @@ public class BlackholeController : MonoBehaviour
                     if (body == null) continue;
 
                     body.linearVelocity = Vector3.zero;
-                    body.AddForce(Random.insideUnitSphere * _pushStrength * body.mass, ForceMode.Force);
+                    body.AddForce(Random.insideUnitSphere * _pushStrength, ForceMode.Force);
                 }
             }
 
@@ -64,13 +70,19 @@ public class BlackholeController : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (other.attachedRigidbody == null || _ignoredLayers.Contains(other.gameObject.layer)) return;
-        
-        Rigidbody rigidbody = other.attachedRigidbody;
 
-        float gravityIntensity = Vector3.Distance(transform.position, other.transform.position) / 1;
-        Vector3 direction = (transform.position - rigidbody.transform.position).normalized;
-        float gForce = gravityIntensity * _pullStrength * rigidbody.mass * Time.smoothDeltaTime;
-        rigidbody.AddForce(direction *  gForce, ForceMode.Acceleration);
+        if (_playerLayer.Contains(other.gameObject.layer))
+        {
+            Rigidbody rigidbody = other.attachedRigidbody;
+            Vector3 direction = (transform.position - rigidbody.transform.position).normalized;
+            rigidbody.AddForce(direction * _pullStrength, ForceMode.Impulse);
+        }
+        else
+        {
+            Rigidbody rigidbody = other.attachedRigidbody;
+            Vector3 direction = (transform.position - rigidbody.transform.position).normalized;
+            rigidbody.AddForce(direction * _pullStrength, ForceMode.Acceleration);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

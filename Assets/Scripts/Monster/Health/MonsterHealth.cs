@@ -67,11 +67,6 @@ namespace LordBreakerX.Health
             }
         }
 
-        public void TestDealDamage(GameObject damageSouce)
-        {
-            dealDamage(1000, Color.red, damageSouce);
-        }
-
         public void dealDamage(float damageDealt, Color flashColor, GameObject damageOrigin)
         {
             if (IsServer)

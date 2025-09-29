@@ -1,4 +1,6 @@
 using LordBreakerX.AttackSystem;
+using LordBreakerX.Attributes;
+using LordBreakerX.Health;
 using LordBreakerX.Utilities;
 using UnityEngine;
 
@@ -19,12 +21,26 @@ public class DeathBomb : Attack
     [SerializeField]
     private float _maxDamage;
 
+    [SerializeField]
+    [Header("Monster Properties")]
+    [TagDropdown]
+    private string _monsterTag = "Monster";
+
+    private MonsterHealth _health;
+
+    protected override void OnInitilize(AttackController attackController)
+    {
+        _health = attackController.GetComponent<MonsterHealth>();
+    }
+
     public override void OnStart()
     {
         Collider[] colliders = Physics.OverlapSphere(StartPosition, _explosionRadius);
 
         foreach (Collider collider in colliders)
         {
+            if (collider.CompareTag(_monsterTag)) continue;
+
             Rigidbody rigid = collider.GetComponent<Rigidbody>();
             dealDamage damageable = collider.GetComponent<dealDamage>();
 
@@ -34,10 +50,9 @@ public class DeathBomb : Attack
 
             if (rigid != null)
             {
-                Vector3 direction = collider.transform.position - StartPosition;
-
+                Vector3 direction = (collider.transform.position - StartPosition).normalized;
                 float force = Percentage.MapToNumber(attackPercentage, NO_EFFECT, _maxForce);
-                rigid.AddForce(direction * force, ForceMode.Force);
+                rigid.AddForce(direction * force * rigid.mass, ForceMode.Force);
             }
 
             if (damageable != null)
@@ -46,6 +61,8 @@ public class DeathBomb : Attack
                 damageable.dealDamage(damage, Color.red, Controller.gameObject);
             }
         }
+
+        _health.dealDamage(100000, Color.red, _health.gameObject);
     }
 
     public override Attack Copy(AttackController attackController)
