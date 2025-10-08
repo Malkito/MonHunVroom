@@ -1,23 +1,17 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class upgradeRandomPosition : MonoBehaviour
+public class upgradeRandomPosition : NetworkBehaviour
 {
 
     [SerializeField] private Transform[] spawnpoints;
     [SerializeField] private GameObject[] upgrades;
 
-    void Start()
+
+    private void Start()
     {
-        shuffleUpgradeArray();
-
-        for(int i = 0; i < upgrades.Length; i++)
-        {
-            upgrades[i].transform.position = spawnpoints[i].position;
-        }
+        spawnUpgradesServerRpc();
     }
-
-
-
     private void shuffleUpgradeArray()
     {
         for (int i = 0; i < upgrades.Length; i++)
@@ -29,4 +23,16 @@ public class upgradeRandomPosition : MonoBehaviour
             upgrades[randomIndex] = temp;
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void spawnUpgradesServerRpc()
+    {
+        shuffleUpgradeArray();
+
+        for (int i = 0; i < upgrades.Length; i++)
+        {
+            upgrades[i].transform.position = spawnpoints[i].position;
+        }
+    }
+
 }

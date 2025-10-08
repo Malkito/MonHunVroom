@@ -57,6 +57,13 @@ public class GameInput : MonoBehaviour
         return abilityThreeInputPressed;
     }
 
+    public bool getJumpInput()
+    {
+        bool jumpInputPressed = playerInputActions.Player.Jump.IsPressed();
+        return jumpInputPressed;
+
+    }
+
     private void Update()
     {
 

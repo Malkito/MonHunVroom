@@ -8570,8 +8570,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a1d45100c92bd4fbba21002a06f8c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stability: 1
-  speed: 7
+  stability: 40
+  speed: 50
 --- !u!64 &3837357519394282913
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8625,7 +8625,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e325d21be9837eb49aaf4a6c12fb52cc, type: 2}
+  - {fileID: 2100000, guid: c8872de99bf6922469f494a22f4a8b89, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

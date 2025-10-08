@@ -14,7 +14,7 @@ public class GameStateManager : NetworkBehaviour
         RoundWon
     }
 
-    private State CurrentState;
+    public State CurrentState;
 
     [SerializeField] private float waitingToStartTimer;
     [SerializeField] private float countdownToStartTimer;
@@ -59,7 +59,8 @@ public class GameStateManager : NetworkBehaviour
             case State.GamePlaying:
                 break;
             case State.GameOver:
-                spawnLoseUIClientRpc();
+                resetSceneServerRpc();
+                //spawnLoseUIClientRpc();
                 break;
             case State.RoundWon:
                 monDeathLoot.spawnobjects();
@@ -74,6 +75,14 @@ public class GameStateManager : NetworkBehaviour
     {
         CurrentState = newState;
     }
+
+
+    [ServerRpc]
+    private void resetSceneServerRpc()
+    {
+        Loader.LoadNetwork(Loader.Scene.DayGameScene);
+    }
+
 
     [ClientRpc]
     private void spawnLoseUIClientRpc()
