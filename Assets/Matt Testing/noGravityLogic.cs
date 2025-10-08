@@ -22,7 +22,7 @@ public class noGravityLogic : NetworkBehaviour, useAbility
     {
         if(elapsedTime >= floatTime)
         {
-            stopFloatingClientRpc();
+            stopFloatingClientRpc(); 
         }
         elapsedTime += Time.deltaTime;
     }

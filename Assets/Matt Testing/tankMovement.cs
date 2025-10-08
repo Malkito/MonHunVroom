@@ -28,13 +28,12 @@ public class tankMovement : NetworkBehaviour
         if (!IsOwner) return;
         if (!canMove) return;
 
-        print("Is grounded: " + isGrounded);
-
-        if (!isGrounded) return;
-
-        Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
-        forwardAndBackMovemnet(inputVector.y);
-        rotateBody(inputVector.x);
+        if (isGrounded || transform.position.y > 180)
+        {
+            Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
+            forwardAndBackMovemnet(inputVector.y);
+            rotateBody(inputVector.x);
+        }
     }
 
     private void rotateBody(float inputVector)

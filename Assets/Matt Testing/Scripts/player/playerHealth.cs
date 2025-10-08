@@ -92,7 +92,7 @@ public class playerHealth : MonoBehaviour, dealDamage
     public void dealDamage(float damage, Color flashColor, GameObject damageOrigin)
     {
         if (!canTakeDamage) return;
-        StartCoroutine(FlashDamageColor(flashColor, mat));
+        //StartCoroutine(FlashDamageColor(flashColor, mat));
         currentHealth -= damage;
     }
 

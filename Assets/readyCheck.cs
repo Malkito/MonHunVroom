@@ -12,6 +12,11 @@ public class readyCheck : NetworkBehaviour
     [SerializeField] GameObject playerPrefabs;
     private bool playersSpawned;
     private int spawnIndex;
+    [SerializeField] Animator ac;
+    private bool ready;
+    [SerializeField] private Material[] tankColors;
+    [SerializeField] private GameObject[] playerObjects;
+    private int colorindex;
 
 
     private void Awake()
@@ -22,7 +27,6 @@ public class readyCheck : NetworkBehaviour
     }
     void Start()
     {
-        shuffleSpawnPoints();
         spawnIndex = 0;
         playersSpawned = false;
         numOfPlayers = 0;
@@ -36,6 +40,14 @@ public class readyCheck : NetworkBehaviour
     }
     private void Update()
     {
+
+        if (GameInput.instance.getJumpInput() && !ready)
+        {
+            readyPressed();
+            ready = true;
+        }
+
+
         if(numOfPlayersReady == NetworkManager.Singleton.ConnectedClientsIds.Count && !playersSpawned)
         {
             spawnPlayers();
@@ -50,47 +62,61 @@ public class readyCheck : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void readyPressedServerRpc()
     {
-        readyCheckImages[numOfPlayersReady].color = Color.green;
+        readyCheckImagesClientRpc();
         numOfPlayersReady++;
         print("Ready server pressed Client RPC ran");
     }
 
+    [ClientRpc]
+    private void readyCheckImagesClientRpc()
+    {
+        readyCheckImages[numOfPlayersReady].color = Color.green;
+    }
+
     private void spawnPlayers()
     {
+        ac.SetBool("GameStarting", true);
 
         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
         {
            
             Transform spawnPoint = respawnManager.Instance.respawnPoints[spawnIndex].transform;
             GameObject player = Instantiate(playerPrefabs, spawnPoint);
+
+
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(client.ClientId, true);
             spawnIndex++;
         }
 
-
+        setPlayerColorsClientRpc();
         turnOffReadyUIClientRpc();
+
         playersSpawned = true;
+
         GameStateManager.Instance.setNewState(GameStateManager.State.GamePlaying);
 
     }
-
     [ClientRpc]
     private void turnOffReadyUIClientRpc()
     {
         readyCanvas.SetActive(false);
     }
 
-    private void shuffleSpawnPoints()
+    [ClientRpc]
+    private void setPlayerColorsClientRpc()
     {
-        for (int i = 0; i < respawnManager.Instance.respawnPoints.Length; i++)
+        foreach (var playerObj in FindObjectsByType<NetworkObject>(FindObjectsSortMode.None))
         {
-            int randomIndex = Random.Range(i, respawnManager.Instance.respawnPoints.Length);
-
-            GameObject temp = respawnManager.Instance.respawnPoints[i];
-            respawnManager.Instance.respawnPoints[i] = respawnManager.Instance.respawnPoints[randomIndex];
-            respawnManager.Instance.respawnPoints[randomIndex] = temp;
+            if (playerObj.CompareTag("Player"))
+            {
+                MeshRenderer[] meshes = playerObj.GetComponentsInChildren<MeshRenderer>();
+                foreach (MeshRenderer mesh in meshes)
+                {
+                    mesh.materials[0] = tankColors[colorindex];
+                }
+                print("COLOR INDEX " + colorindex);
+                colorindex++;
+            }
         }
     }
-
-
 }
