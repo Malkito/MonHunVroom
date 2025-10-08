@@ -25,15 +25,14 @@ public class StompAttack : Attack
 
     private MonsterMovementController _monsterMovement;
 
-    protected override void OnInitilize(AttackController attackController)
+    public StompAttack(AttackController controller) : base(controller)
     {
-        _finishedAttack = false;
-        _monsterMovement = attackController.GetComponent<MonsterMovementController>();
+        _monsterMovement = controller.GetComponent<MonsterMovementController>();
     }
 
-    public override Attack Copy(AttackController attackController)
+    public override Attack Clone(AttackController attackController)
     {
-        StompAttack stomp = new StompAttack();
+        StompAttack stomp = new StompAttack(attackController);
         stomp._maxStompDistance = _maxStompDistance;
         stomp._monsterTag = _monsterTag;
         stomp._stompEffect = _stompEffect;
@@ -59,7 +58,7 @@ public class StompAttack : Attack
 
     public override void OnAttackUpdate()
     {
-        _monsterMovement.ChangeDestination(TargetPosition);
+        _monsterMovement.ChangeDestination(GetTargetPosition());
 
         Vector3 currentPosition = Controller.transform.position;
 

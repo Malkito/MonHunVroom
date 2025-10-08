@@ -9,6 +9,12 @@ public class TailSwipe : Attack
 
     private Animator _animator;
 
+    public TailSwipe(AttackController controller) : base(controller)
+    {
+        _monsterMovement = controller.GetComponent<MonsterMovementController>();
+        _animator = controller.GetComponent<Animator>();
+    }
+
     public override void OnStart()
     {
         _monsterMovement.UpdateWalkAnimation(false);
@@ -29,14 +35,8 @@ public class TailSwipe : Attack
 
     public override void OnAttackUpdate() { }
 
-    protected override void OnInitilize(AttackController attackController)
+    public override Attack Clone(AttackController attackController)
     {
-        _monsterMovement = attackController.GetComponent<MonsterMovementController>();
-        _animator = attackController.GetComponent<Animator>();
-    }
-
-    public override Attack Copy(AttackController attackController)
-    {
-        return new TailSwipe();
+        return new TailSwipe(attackController);
     }
 }

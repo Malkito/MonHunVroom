@@ -44,6 +44,13 @@ public class FlyingAttack : Attack
 
     private Attack _subAttack;
 
+    public FlyingAttack(AttackController controller) : base(controller)
+    {
+        _controller = controller.GetComponent<MonsterAttackController>();
+        _movementController = controller.GetComponent<MonsterMovementController>();
+        _animator = controller.GetComponent<Animator>();
+    }
+
     public override bool HasAttackFinished()
     {
         return _currentDuration <= 0;
@@ -56,16 +63,8 @@ public class FlyingAttack : Attack
         _flightTime = Random.Range(0, _maxHeightTime);
     }
 
-    protected override void OnInitilize(AttackController attackController)
-    {
-        _controller = attackController.GetComponent<MonsterAttackController>();
-        _movementController = attackController.GetComponent<MonsterMovementController>();
-        _animator = attackController.GetComponent<Animator>();
-    }
-
     public override void OnStart()
     {
-        _animator.enabled = false;
         RandomFlightHeight();
         _currentDuration = _duration;
         //_subAttack = _attackTable.GetRandomAttack(_controller);
@@ -73,7 +72,6 @@ public class FlyingAttack : Attack
 
     public override void OnStop()
     {
-        _animator.enabled = true;
         _controller.Model.transform.position = _controller.transform.position;
     }
 
@@ -92,9 +90,9 @@ public class FlyingAttack : Attack
             _movementController.Wander();
     }
 
-    public override Attack Copy(AttackController attackController)
+    public override Attack Clone(AttackController attackController)
     {
-        FlyingAttack copy = new FlyingAttack();
+        FlyingAttack copy = new FlyingAttack(attackController);
         copy._minHeight = _minHeight;
         copy._maxHeight = _maxHeight;
         copy._flySpeed = _flySpeed;

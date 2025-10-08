@@ -14,14 +14,14 @@ public class BlackholeAttack : Attack
 
     private MonsterMovementController _monsterMovement;
 
-    protected override void OnInitilize(AttackController attackController)
+    public BlackholeAttack(AttackController controller) : base(controller)
     {
-        _monsterMovement = attackController.GetComponent<MonsterMovementController>();
+        _monsterMovement = controller.GetComponent<MonsterMovementController>();
     }
 
-    public override Attack Copy(AttackController attackController)
+    public override Attack Clone(AttackController attackController)
     {
-        BlackholeAttack attack = new BlackholeAttack();
+        BlackholeAttack attack = new BlackholeAttack(attackController);
         attack._prefab = _prefab;
         attack._spawnOffset = _spawnOffset;
         return attack;

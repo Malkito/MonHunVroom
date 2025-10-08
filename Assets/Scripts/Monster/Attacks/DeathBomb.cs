@@ -28,14 +28,16 @@ public class DeathBomb : Attack
 
     private MonsterHealth _health;
 
-    protected override void OnInitilize(AttackController attackController)
+    public DeathBomb(AttackController controller) : base(controller)
     {
-        _health = attackController.GetComponent<MonsterHealth>();
+        _health = controller.GetComponent<MonsterHealth>();
     }
 
     public override void OnStart()
     {
-        Collider[] colliders = Physics.OverlapSphere(StartPosition, _explosionRadius);
+        Vector3 startPosition = GetStartPosition();
+
+        Collider[] colliders = Physics.OverlapSphere(startPosition, _explosionRadius);
 
         foreach (Collider collider in colliders)
         {
@@ -44,13 +46,13 @@ public class DeathBomb : Attack
             Rigidbody rigid = collider.GetComponent<Rigidbody>();
             dealDamage damageable = collider.GetComponent<dealDamage>();
 
-            float distance = Vector3.Distance(collider.transform.position, StartPosition);
+            float distance = Vector3.Distance(collider.transform.position, startPosition);
             float attackPercentage = Percentage.Create(distance, 0, _explosionRadius);
             attackPercentage = Percentage.Reverse(attackPercentage);
 
             if (rigid != null)
             {
-                Vector3 direction = (collider.transform.position - StartPosition).normalized;
+                Vector3 direction = (collider.transform.position - startPosition).normalized;
                 float force = Percentage.MapToNumber(attackPercentage, NO_EFFECT, _maxForce);
                 rigid.AddForce(direction * force * rigid.mass, ForceMode.Force);
             }
@@ -65,9 +67,9 @@ public class DeathBomb : Attack
         _health.dealDamage(100000, Color.red, _health.gameObject);
     }
 
-    public override Attack Copy(AttackController attackController)
+    public override Attack Clone(AttackController attackController)
     {
-        DeathBomb copy = new DeathBomb();
+        DeathBomb copy = new DeathBomb(attackController);
         copy._explosionRadius = _explosionRadius;
         copy._maxForce = _maxForce;
         copy._maxDamage = _maxDamage;

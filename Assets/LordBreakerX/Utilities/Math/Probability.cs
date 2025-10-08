@@ -11,6 +11,9 @@ namespace LordBreakerX.Utilities
 
         public static bool IsSuccessful(float chance)
         {
+            if (chance == MIN_CHANCE) return false;
+            if (chance == MAX_CHANCE) return true;
+
             float clampedChance = Mathf.Clamp(chance, MIN_CHANCE, MAX_CHANCE);
             return Random.Range(MIN_CHANCE, MAX_CHANCE) <= clampedChance;
         }

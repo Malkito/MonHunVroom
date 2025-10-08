@@ -12,27 +12,17 @@ namespace LordBreakerX.AttackSystem
 
         public bool IsTargettingObject { get => _targetTransform != null; }
 
-        public Vector3 TargetPosition
-        {
-            get
-            {
-                if (IsTargettingObject) return _targetTransform.position;
-                return _fallbackPosition;
-            }
-        }
-
         public void Set(Transform targetTransform, Vector3 fallbackPosition)
         {
             _targetTransform = targetTransform;
-
-            if (IsTargettingObject && !_colliderRegistry.ContainsKey(_targetTransform))
-            {
-                Collider collider = _targetTransform.GetComponent<Collider>();
-                if (collider != null)
-                    _colliderRegistry[_targetTransform] = collider;
-            }
-
             _fallbackPosition = fallbackPosition;
+
+            if (!IsTargettingObject || _colliderRegistry.ContainsKey(_targetTransform)) return;
+
+            if (_targetTransform.TryGetComponent<Collider>(out Collider targetCollider))
+            {
+                _colliderRegistry[_targetTransform] = targetCollider;
+            }
         }
 
         public void Set(Vector3 targetPosition)
@@ -42,12 +32,16 @@ namespace LordBreakerX.AttackSystem
 
         public Vector3 GetCenteredTargetPosition()
         {
-            if (IsTargettingObject && _colliderRegistry.ContainsKey(_targetTransform))
-            {
-                Collider collider = _colliderRegistry[_targetTransform];
-                return collider.bounds.center;
-            }
+            if (!IsTargettingObject) return _fallbackPosition;
+            if (!_colliderRegistry.ContainsKey(_targetTransform)) return _targetTransform.position;
 
+            Collider collider = _colliderRegistry[_targetTransform];
+            return collider.bounds.center;
+        }
+
+        public Vector3 GetTargetPosition()
+        {
+            if (IsTargettingObject) return _targetTransform.position;
             return _fallbackPosition;
         }
     }
