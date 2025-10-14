@@ -1938,7 +1938,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e325d21be9837eb49aaf4a6c12fb52cc, type: 2}
+  - {fileID: 2100000, guid: c8872de99bf6922469f494a22f4a8b89, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8156,6 +8156,7 @@ GameObject:
   - component: {fileID: 3837357519394282913}
   - component: {fileID: 8584485710005155835}
   - component: {fileID: 1286881386455511969}
+  - component: {fileID: 6357376609551406754}
   m_Layer: 0
   m_Name: PlayerTank
   m_TagString: Player
@@ -8647,6 +8648,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6357376609551406754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd2983d918875bc4d95597aaedfbb028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  PlayerMaterials:
+  - {fileID: 2100000, guid: c8872de99bf6922469f494a22f4a8b89, type: 2}
+  - {fileID: 2100000, guid: e325d21be9837eb49aaf4a6c12fb52cc, type: 2}
+  - {fileID: 2100000, guid: de376f6c54eb9c64f9631569a842db39, type: 2}
+  - {fileID: 2100000, guid: ddc891378dd2789489754d7d228fa313, type: 2}
+  renderers:
+  - {fileID: 1286881386455511969}
+  - {fileID: 680456139037839715}
+  - {fileID: 51350824789483242}
 --- !u!1 &8318903014039618707
 GameObject:
   m_ObjectHideFlags: 0
@@ -9323,7 +9346,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e325d21be9837eb49aaf4a6c12fb52cc, type: 2}
+  - {fileID: 2100000, guid: c8872de99bf6922469f494a22f4a8b89, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

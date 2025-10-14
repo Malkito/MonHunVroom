@@ -7,7 +7,6 @@ public class GameInput : MonoBehaviour
     public static GameInput instance { get; private set; }
 
 
-
     private void Awake()
     {
         instance = this;

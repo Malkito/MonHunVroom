@@ -9,6 +9,7 @@ TagManager:
   - Fire
   - energySphere
   - Monster
+  - Upgrade
   layers:
   - Default
   - TransparentFX

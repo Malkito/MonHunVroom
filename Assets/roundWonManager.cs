@@ -8,10 +8,17 @@ public class roundWonManager : NetworkBehaviour
     private int playersReadyForNextRound;
     private NetworkObject playerNetOBJ;
     private GameObject playerObj;
+    private SphereCollider coli;
 
+
+    private void Awake()
+    {
+        coli = gameObject.GetComponent<SphereCollider>();
+    }
     private void Start()
     {
         playersReadyForNextRound = 0;
+        coli.enabled = false;
     }
 
     void Update()
@@ -26,6 +33,7 @@ public class roundWonManager : NetworkBehaviour
     private void TurnOnRoundWOnPortalClientRpc()
     {
         nextRoundPortal.SetActive(true);
+        coli.enabled = true;
     }
 
 

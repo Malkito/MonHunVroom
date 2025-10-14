@@ -12,12 +12,10 @@ public class readyCheck : NetworkBehaviour
     [SerializeField] GameObject playerPrefabs;
     private bool playersSpawned;
     private int spawnIndex;
-    [SerializeField] Animator ac;
     private bool ready;
     [SerializeField] private Material[] tankColors;
     [SerializeField] private GameObject[] playerObjects;
-    private int colorindex;
-
+    //[SerializeField] Animator ac;
 
     private void Awake()
     {
@@ -47,8 +45,8 @@ public class readyCheck : NetworkBehaviour
             ready = true;
         }
 
-
-        if(numOfPlayersReady == NetworkManager.Singleton.ConnectedClientsIds.Count && !playersSpawned)
+        if (NetworkManager.Singleton == null) return;
+        if (numOfPlayersReady == NetworkManager.Singleton.ConnectedClientsIds.Count && !playersSpawned)
         {
             spawnPlayers();
         }
@@ -75,7 +73,7 @@ public class readyCheck : NetworkBehaviour
 
     private void spawnPlayers()
     {
-        ac.SetBool("GameStarting", true);
+       // ac.SetBool("GameStarting", true);
 
         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
         {
@@ -87,8 +85,6 @@ public class readyCheck : NetworkBehaviour
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(client.ClientId, true);
             spawnIndex++;
         }
-
-        setPlayerColorsClientRpc();
         turnOffReadyUIClientRpc();
 
         playersSpawned = true;
@@ -100,23 +96,5 @@ public class readyCheck : NetworkBehaviour
     private void turnOffReadyUIClientRpc()
     {
         readyCanvas.SetActive(false);
-    }
-
-    [ClientRpc]
-    private void setPlayerColorsClientRpc()
-    {
-        foreach (var playerObj in FindObjectsByType<NetworkObject>(FindObjectsSortMode.None))
-        {
-            if (playerObj.CompareTag("Player"))
-            {
-                MeshRenderer[] meshes = playerObj.GetComponentsInChildren<MeshRenderer>();
-                foreach (MeshRenderer mesh in meshes)
-                {
-                    mesh.materials[0] = tankColors[colorindex];
-                }
-                print("COLOR INDEX " + colorindex);
-                colorindex++;
-            }
-        }
     }
 }

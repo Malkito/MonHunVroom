@@ -14,6 +14,8 @@ public class upgradeRandomPosition : NetworkBehaviour
     }
     private void shuffleUpgradeArray()
     {
+        upgrades = GameObject.FindGameObjectsWithTag("Upgrade");
+
         for (int i = 0; i < upgrades.Length; i++)
         {
             int randomIndex = Random.Range(i, upgrades.Length);

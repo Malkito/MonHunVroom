@@ -4,62 +4,73 @@ using Unity.Netcode;
 
 public class noGravityLogic : NetworkBehaviour, useAbility
 {
-    [SerializeField] private float floatTime;
+    [Header("Ability Settings")]
     [SerializeField] private float floatForce;
-    private Rigidbody[] rigidBodies;
-    private float elapsedTime;
-    [SerializeField] private float torqueStrentgh;
-    private bool floating;
+    [SerializeField] private float rotationSpeed;
+
+    [SerializeField] private float effectDuration;
+    private bool isEffectActive = false;
 
     public void useAbility(Transform transform, bool abilityUsed)
     {
         if (!abilityUsed) return;
-        startFloatingClientRpc();
+        if (isEffectActive) return;
+
+        isEffectActive = true;
+        ActivateAbilityServerRpc();
     }
 
-
-    private void Update()
+    [ServerRpc(RequireOwnership = false)]
+    private void ActivateAbilityServerRpc()
     {
-        if(elapsedTime >= floatTime)
-        {
-            stopFloatingClientRpc(); 
-        }
-        elapsedTime += Time.deltaTime;
+        // Notify all clients to run the effect
+        ActivateAbilityClientRpc();
     }
 
-    private void startFloating()
+    [ClientRpc]
+    private void ActivateAbilityClientRpc()
     {
-        elapsedTime = 0;
-        rigidBodies = FindObjectsByType<Rigidbody>(FindObjectsSortMode.None);
-        foreach (Rigidbody rb in rigidBodies)
+        StartCoroutine(ApplyFloatEffect());
+    }
+
+    private IEnumerator ActivateEffectRoutine()
+    {
+        yield return StartCoroutine(ApplyFloatEffect());
+    }
+
+    private IEnumerator ApplyFloatEffect()
+    {
+        Rigidbody[] allRigidbodies = FindObjectsOfType<Rigidbody>();
+
+        // Disable gravity and add random rotation/float
+        foreach (Rigidbody rb in allRigidbodies)
         {
             rb.useGravity = false;
+
+            // Random rotation direction
+            Vector3 randomTorque = new Vector3(
+                Random.Range(-1f, 1f),
+                Random.Range(-1f, 1f),
+                Random.Range(-1f, 1f)
+            ) * rotationSpeed;
+
+            // Apply slight upward force
             rb.AddForce(Vector3.up * floatForce, ForceMode.VelocityChange);
-            Vector3 randomTorque = new Vector3(Random.Range(-1f, 1f),Random.Range(-1f, 1f),Random.Range(-1f, 1f)).normalized * torqueStrentgh;
+
+            // Add torque for random spinning
             rb.AddTorque(randomTorque, ForceMode.VelocityChange);
-        }
-    }
+        }  
 
-    private void stopFloating()
-    {
-        elapsedTime = 0;
-        rigidBodies = FindObjectsByType<Rigidbody>(FindObjectsSortMode.None);
-        foreach (Rigidbody rb in rigidBodies)
+        // Keep floating for the effect duration
+        yield return new WaitForSeconds(effectDuration);
+
+        // Re-enable gravity
+        foreach (Rigidbody rb in allRigidbodies)
         {
-            rb.useGravity = true;
+            if (rb != null)
+                rb.useGravity = true;
         }
-    }
 
-    [ClientRpc]
-    private void startFloatingClientRpc()
-    {
-        startFloating();
+        isEffectActive = false;
     }
-
-    [ClientRpc]
-    private void stopFloatingClientRpc()
-    {
-        stopFloating();
-    }
-
 }
