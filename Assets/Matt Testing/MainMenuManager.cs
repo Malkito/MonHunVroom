@@ -4,70 +4,34 @@ using UnityEngine.UI;
 using Unity.Netcode;
 public class MainMenuManager : NetworkBehaviour
 {
-
-
-    private bool isDay;
-    [SerializeField] Material[] skyBoxMats;
-    [SerializeField] private Light directionalLights;
-    [SerializeField] private GameObject[] streetLights;
     [SerializeField] private Button startGameButton;
     [SerializeField] private Button goToLobby;
     [SerializeField] private GameObject lobbyCreation;
     [SerializeField] private GameObject quitButton;
     [SerializeField] private GameObject levelSelect;
 
+    private void Awake()
+    {
+        goToLobby.onClick.AddListener(() =>
+        {
+            goToLevelSelect();
+        });
+    }
+
     public void StartGame()
     {
-        if (isDay)
-        {
-            Loader.LoadNetwork(Loader.Scene.DayGameScene);
-        }
-        else
-        {
-            Loader.LoadNetwork(Loader.Scene.NightGameScene);
-        }
+        Loader.LoadNetwork(Loader.Scene.DayGameScene);
     }
+
+
 
     public void goToLevelSelect()
     {
+        print("Button being pressed");
         goToLobby.gameObject.SetActive(false);
         lobbyCreation.SetActive(true);
         quitButton.gameObject.SetActive(false);
     }
-
-
-    public void setDay()
-    {
-        isDay = true;
-        RenderSettings.skybox = skyBoxMats[0];
-
-        RenderSettings.ambientLight = Color.grey;
-
-
-        foreach (GameObject streetLight in streetLights)
-        {
-            streetLight.SetActive(false);
-        }
-
-        startGameButton.interactable = true;
-
-
-    }
-
-    public void setNight()
-    {
-        isDay = false;
-        RenderSettings.skybox = skyBoxMats[1];
-
-        RenderSettings.ambientLight = Color.black;
-
-        foreach (GameObject streetLight in streetLights)
-        {
-            streetLight.SetActive(true);
-        }
-        startGameButton.interactable = true;
-    }
-
 
     public void exitGame() 
     {
@@ -93,7 +57,6 @@ public class MainMenuManager : NetworkBehaviour
     public void spawnlevelSelect()
     {
         levelSelect.SetActive(true);
-
     }
 
 

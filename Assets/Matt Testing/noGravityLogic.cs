@@ -9,38 +9,51 @@ public class noGravityLogic : NetworkBehaviour, useAbility
     [SerializeField] private float rotationSpeed;
 
     [SerializeField] private float effectDuration;
-    private bool isEffectActive = false;
+    private bool isEffectActive;
+
+    private void Start()
+    {
+        isEffectActive = false;
+    }
 
     public void useAbility(Transform transform, bool abilityUsed)
     {
         if (!abilityUsed) return;
-        if (isEffectActive) return;
 
-        isEffectActive = true;
-        ActivateAbilityServerRpc();
+        if (!isEffectActive)
+        {
+            print("1");
+            ApplyFloatEffect();
+        }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void ActivateAbilityServerRpc()
+    /*
+    [ClientRpc]
+    private void ActivateAbilityClientRpcc()
     {
+        print("2");
         // Notify all clients to run the effect
         ActivateAbilityClientRpc();
+    }
+    */
+
+    private void Update()
+    {
+        print(isEffectActive);
     }
 
     [ClientRpc]
     private void ActivateAbilityClientRpc()
     {
+        print("2");
         StartCoroutine(ApplyFloatEffect());
-    }
-
-    private IEnumerator ActivateEffectRoutine()
-    {
-        yield return StartCoroutine(ApplyFloatEffect());
     }
 
     private IEnumerator ApplyFloatEffect()
     {
-        Rigidbody[] allRigidbodies = FindObjectsOfType<Rigidbody>();
+        print("3");
+        isEffectActive = true;
+        Rigidbody[] allRigidbodies = FindObjectsByType<Rigidbody>(FindObjectsSortMode.None);
 
         // Disable gravity and add random rotation/float
         foreach (Rigidbody rb in allRigidbodies)

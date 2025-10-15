@@ -8556,7 +8556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 2000
-  rotationSpeed: 45
+  rotationSpeed: 90
   canMove: 0
   groundCheck: {fileID: 3415987852756546517}
 --- !u!114 &7547834820336501301
