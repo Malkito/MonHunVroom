@@ -13,7 +13,7 @@ public class LaserEyes : Attack
     [SerializeField]
     [Header("Attacking Properties")]
     [Min(0)]
-    private float _attackRate = 0.5f;
+    private float _attackRate = 0.1f;
 
     [SerializeField]
     [Min(0)]
@@ -36,7 +36,7 @@ public class LaserEyes : Attack
         _monsterAttack = controller.GetComponent<MonsterAttackController>();
         _monsterMovement = controller.GetComponent<MonsterMovementController>();
         _attackTimer = new Timer(_attackRate);
-        _attackTimer.OnTimerFinished += () => _monsterAttack.RequestShootLaser(_laser, GetTargetPosition());
+        _attackTimer.OnTimerFinished += () => _monsterAttack.RequestShootLaser(_laser, GetCenteredTargetPosition());
     }
 
     public override bool HasAttackFinished()

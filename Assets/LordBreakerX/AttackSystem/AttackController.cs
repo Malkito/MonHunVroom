@@ -21,7 +21,7 @@ namespace LordBreakerX.AttackSystem
 
         private WeightTable<Attack> _internalAttackTable;
 
-        private List<TargetPlayer> _targetPlayers = new List<TargetPlayer>();
+        private List<AttackablePlayer> _attackablePlayers = new List<AttackablePlayer>();
 
         public Vector3 TargetPosition { get => _target.GetTargetPosition(); }
 
@@ -62,16 +62,17 @@ namespace LordBreakerX.AttackSystem
             }
 
             NetworkObject playerObject = NetworkManager.Singleton.ConnectedClients[clientID].PlayerObject;
-            _targetPlayers.Add(new TargetPlayer(playerObject, clientID));
+            AttackablePlayer player = new AttackablePlayer(playerObject, clientID);
+            _attackablePlayers.Add(player);
         }
 
         private void OnClientDisconnected(ulong clientID)
         {
-            TargetPlayer player = TargetPlayer.GetPlayerWithID(clientID, _targetPlayers);
+            AttackablePlayer attackablePlayer = AttackablePlayer.GetPlayerEntryWithID(clientID, _attackablePlayers);
 
-            if (player != null) 
+            if (attackablePlayer != null) 
             {
-                _targetPlayers.Remove(player);
+                _attackablePlayers.Remove(attackablePlayer);
             }
         }
 
@@ -131,12 +132,12 @@ namespace LordBreakerX.AttackSystem
 
         public virtual void AttackRandomPlayer()
         {
-            if (_targetPlayers.Count == 0) return;
+            if (_attackablePlayers.Count <= 0) return;
 
-            int randomPlayerIndex = Random.Range(0, _targetPlayers.Count);
-            _target.Set(_targetPlayers[randomPlayerIndex].PlayerTransform, transform.position);
+            int randomPlayerIndex = Random.Range(0, _attackablePlayers.Count);
+            AttackablePlayer player = _attackablePlayers[randomPlayerIndex];
 
-            Debug.Log($"{_targetPlayers[randomPlayerIndex]} -- {_targetPlayers[randomPlayerIndex]}");
+            _target.Set(player.PlayerTransform, transform.position);
 
             StartRandomAttack();
         }

@@ -10,11 +10,25 @@ namespace LordBreakerX.Tables
         private readonly List<WeightedEntry<T>> _weightedEntries = new List<WeightedEntry<T>>();
 
 
-        private readonly int _totalWeight;
+        private int _totalWeight;
+
+        public bool HasEntries { get { return _weightedEntries.Count > 0; } }
+
+        public IReadOnlyList<WeightedEntry<T>> WeightedEntries { get { return _weightedEntries; } }
 
         public WeightTable(List<WeightedEntry<T>> weightedEntries) 
         {
             _weightedEntries = weightedEntries;
+            UpdateTotalWeight();
+        }
+
+        public WeightTable()
+        {
+
+        }
+
+        private void UpdateTotalWeight()
+        {
             _totalWeight = 0;
 
             foreach (WeightedEntry<T> entry in _weightedEntries)
@@ -38,6 +52,38 @@ namespace LordBreakerX.Tables
                 weight -= entry.Weight;
             }
             return null;
+        }
+
+        public void AddEntry(WeightedEntry<T> weightedEntry)
+        {
+            if (_weightedEntries.Contains(weightedEntry)) return;
+
+            _weightedEntries.Add(weightedEntry);
+            UpdateTotalWeight();
+        }
+
+        public void RemoveEntry(WeightedEntry<T> weightedEntry)
+        {
+            if (!_weightedEntries.Contains(weightedEntry)) return;
+
+            _weightedEntries.Remove(weightedEntry);
+            UpdateTotalWeight();
+        }
+
+        public void RemoveEntry(T entryValue)
+        {
+            WeightedEntry<T> entryToRemove = null;
+
+            foreach(WeightedEntry<T> entry in _weightedEntries)
+            {
+                if (entry.Value == entryValue)
+                {
+                    entryToRemove = entry;
+                    break;
+                }
+            }
+
+            if (entryToRemove != null) RemoveEntry(entryToRemove);
         }
 
         protected virtual void OnEntrySelected(T value) { }

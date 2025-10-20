@@ -9,17 +9,13 @@ public class AttackState : BaseState
     [Range(0.0f, 100.0f)]
     private float _playerAttackChance = 80.0f;
 
-    [SerializeField]
-    [Range(0.0f, 100.0f)]
-    private float _targetLargestThreatChance = 20.0f;
+    //[SerializeField]
+    //[Range(0.0f, 100.0f)]
+    //private float _targetLargestThreatChance = 20.0f;
 
     [SerializeField]
     [Min(0.0f)]
     private float _attackRadius = 30.0f;
-
-    [SerializeField]
-    [Range(0.0f, 360.0f)]
-    private float _stateDuration = 30.0f;
 
     public override string ID => MonsterStates.ATTACK;
 
@@ -29,6 +25,15 @@ public class AttackState : BaseState
     protected override void OnInitilization()
     {
         _monsterAttack = StateObject.GetComponent<MonsterAttackController>();
+        _monsterMovement = StateObject.GetComponent<MonsterMovementController>();
+    }
+
+    public override void Update()
+    {
+        if (!_monsterAttack.IsAttacking)
+        {
+            Machine.RequestChangeState(MonsterStates.WANDER);
+        }
     }
 
     public override void Enter()

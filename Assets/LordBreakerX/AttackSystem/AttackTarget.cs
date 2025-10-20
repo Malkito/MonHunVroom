@@ -8,7 +8,7 @@ namespace LordBreakerX.AttackSystem
         private Transform _targetTransform;
         private Vector3 _fallbackPosition;
 
-        private Dictionary<Transform, Collider> _colliderRegistry;
+        private Dictionary<Transform, Collider> _colliderRegistry = new Dictionary<Transform, Collider>();
 
         public bool IsTargettingObject { get => _targetTransform != null; }
 

@@ -13,6 +13,13 @@ public class DeathBomb : Attack
     [Min(0)]
     private float _explosionRadius;
 
+    [SerializeField]
+    [Range(0, 100)]
+    private float _reachedTargetPercentage = 50;
+
+    [SerializeField]
+    private float _timeBeforeExplosion = 3;
+
     [Header("Forces Properties")]
     [SerializeField]
     private float _maxForce;
@@ -27,13 +34,56 @@ public class DeathBomb : Attack
     private string _monsterTag = "Monster";
 
     private MonsterHealth _health;
+    private MonsterMovementController _movement;
+    private MonsterAttackController _attack;
+
+    private float _reachedDistance;
+
+    private bool _attackComplete;
+
+    private bool _exploding;
+
+    private Timer _explodeTimer;
 
     public DeathBomb(AttackController controller) : base(controller)
     {
         _health = controller.GetComponent<MonsterHealth>();
+        _movement = controller.GetComponent<MonsterMovementController>();
+        _attack = controller.GetComponent<MonsterAttackController>();
+        _explodeTimer = new Timer(_timeBeforeExplosion);
+        _explodeTimer.OnTimerFinished += Explode;
     }
 
     public override void OnStart()
+    {
+        _attackComplete = false;
+        _reachedDistance = Percentage.MapToNumber(_reachedTargetPercentage, 0, _explosionRadius);
+        _explodeTimer.Reset();
+    }
+
+    public override void OnStop()
+    {
+        _attack.StopEffect(MonsterAttackEffect.PreparingDeathBomb);
+    }
+
+    public override void OnAttackUpdate()
+    {
+        if (_exploding) return;
+
+        if (_movement.ReachedDestination(_reachedDistance))
+        {
+            _movement.StopMovement();
+            _movement.UpdateWalkAnimation(false);
+            _explodeTimer.Update();
+            _attack.PlayEffect(MonsterAttackEffect.PreparingDeathBomb);
+        }else
+        {
+            Vector3 targetPosition = GetTargetPosition();
+            _movement.ChangeDestination(targetPosition);
+        }
+    }
+
+    private void Explode()
     {
         Vector3 startPosition = GetStartPosition();
 
@@ -64,7 +114,14 @@ public class DeathBomb : Attack
             }
         }
 
-        _health.dealDamage(100000, Color.red, _health.gameObject);
+        _health.dealDamage(999999, Color.red, _health.gameObject);
+
+        _attackComplete = true;
+    }
+
+    public override bool HasAttackFinished()
+    {
+        return _attackComplete;
     }
 
     public override Attack Clone(AttackController attackController)
@@ -75,4 +132,5 @@ public class DeathBomb : Attack
         copy._maxDamage = _maxDamage;
         return copy;
     }
+
 }

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: AttackTable
   m_EditorClassIdentifier: 
   _weightedEntries:
-  - _value: {fileID: 11400000, guid: ee0a0c152fe49b6408f8d33453666fdc, type: 2}
+  - _value: {fileID: 11400000, guid: a3d87cc8cd769ea41841664f01d33501, type: 2}
     _weight: 100

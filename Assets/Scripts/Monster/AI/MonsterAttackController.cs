@@ -26,6 +26,10 @@ public class MonsterAttackController : AttackController
     [SerializeField]
     private Transform _model;
 
+    [Header("Death Bomb Properties")]
+    [SerializeField]
+    private ParticleSystem _preparingExplosionEffect;
+
     private DamageTable _recentDamageTable = new DamageTable();
 
     public Transform Model { get { return _model; } }
@@ -65,5 +69,31 @@ public class MonsterAttackController : AttackController
     {
         if (IsServer) 
             _recentDamageTable.ResetTable();
+    }
+
+    public void PlayEffect(MonsterAttackEffect effectType)
+    {
+        switch(effectType)
+        {
+            case MonsterAttackEffect.PreparingDeathBomb:
+                _preparingExplosionEffect.gameObject.SetActive(true);
+                break;
+        }
+    }
+
+    public void AdjustExplosionEffectRadius(float radius)
+    {
+        ParticleSystem.ShapeModule shape = _preparingExplosionEffect.shape;
+        shape.radius = radius;
+    }
+
+    public void StopEffect(MonsterAttackEffect effectType)
+    {
+        switch (effectType)
+        {
+            case MonsterAttackEffect.PreparingDeathBomb:
+                _preparingExplosionEffect.gameObject.SetActive(false);
+                break;
+        }
     }
 }
