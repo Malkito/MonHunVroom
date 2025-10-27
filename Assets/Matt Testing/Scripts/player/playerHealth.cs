@@ -22,6 +22,7 @@ public class playerHealth : MonoBehaviour, dealDamage
     [Header("Other")]
     [SerializeField] private float numOfFiresOnHealth;
     [SerializeField] private Material mat;
+    [SerializeField] private GameObject deathUI;
 
     public bool canTakeDamage;
 

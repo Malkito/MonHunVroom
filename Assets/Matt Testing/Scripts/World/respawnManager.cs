@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
+using UnityEngine.UI;
+using TMPro;
 
 public class respawnManager : NetworkBehaviour
 {
@@ -8,21 +10,13 @@ public class respawnManager : NetworkBehaviour
     public GameObject[] respawnPoints;
     private static respawnManager instance;
     [SerializeField] private float respawnTime;
+    private int countdownTime;
     private int numberOfPlayersDead;
-    private bool serverStarted;
 
+    [SerializeField] private TMP_Text countdownText;
+    private Coroutine countdownCoroutine;
 
-    public static respawnManager Instance
-    {
-        get
-        {
-            if(instance == null)
-            {
-                Debug.LogError(message: "RespawnManager is null");
-            }
-            return instance;
-        }
-    }
+    [SerializeField] private GameObject deathUI;
 
     private void Awake()
     {
@@ -32,10 +26,23 @@ public class respawnManager : NetworkBehaviour
 
     void Start()
     {
+        countdownTime = Mathf.RoundToInt(respawnTime);
         getSpawnPoints();
     }
 
- 
+
+    public static respawnManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                Debug.LogError(message: "RespawnManager is null");
+            }
+            return instance;
+        }
+    }
+
 
     private void Update()
     {
@@ -46,28 +53,50 @@ public class respawnManager : NetworkBehaviour
         }
     }
 
+    private void StartCountdown(int seconds)
+    {
+        deathUI.SetActive(true);
+
+        if (countdownCoroutine != null)
+            StopCoroutine(countdownCoroutine);
+
+        countdownCoroutine = StartCoroutine(CountdownRoutine(seconds));
+    }
+    private IEnumerator CountdownRoutine(int seconds)
+    {
+        int timeLeft = seconds;
+        while (timeLeft > 0)
+        {
+            countdownText.text = timeLeft.ToString();
+            yield return new WaitForSeconds(1f);
+            timeLeft--;
+        }
+        countdownText.text = "0";
+    }
+
+
+
 
     public IEnumerator StartSpawnPlayer(Transform player)
     {
         numberOfPlayersDead++;
-
         Rigidbody rb = player.gameObject.GetComponent<Rigidbody>();
-
         setRefrencesAndActions(player, false);
-
-
         rb.linearVelocity = new Vector3(0,0,0);
 
+        deathUI = FindChildByTag(player, "RespawnUI");
+        Transform textOBJ = deathUI.transform.Find("Number");
+        countdownText = textOBJ.gameObject.GetComponent<TMP_Text>();                                              
+        StartCountdown(countdownTime);
 
 
         yield return new WaitForSeconds(respawnTime);
-
-        if(numberOfPlayersDead != NetworkManager.Singleton.ConnectedClients.Count)
+        if (numberOfPlayersDead != NetworkManager.Singleton.ConnectedClients.Count)
         {
             respawnPlayer(player);
+            deathUI.SetActive(false);
         }
-
-    } 
+    }
 
     public void respawnPlayer(Transform player)
     {
@@ -77,7 +106,22 @@ public class respawnManager : NetworkBehaviour
         ///Move Camera
 
         numberOfPlayersDead--;
+    }
 
+    private GameObject FindChildByTag(Transform parent, string tag)  
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.CompareTag(tag))
+                return child.gameObject;
+
+            // Recursively search nested children
+            GameObject found = FindChildByTag(child, tag);
+            if (found != null)
+                return found;
+        }
+
+        return null;
     }
 
     private void getSpawnPoints()
@@ -87,7 +131,6 @@ public class respawnManager : NetworkBehaviour
         for (int i = 0; i < childCount; i++)
         {
             respawnPoints[i] = transform.GetChild(i).gameObject;
-
         }
     }
 
@@ -106,7 +149,6 @@ public class respawnManager : NetworkBehaviour
         playerShooting shooting = player.GetComponent<playerShooting>();
         playerHealth health = player.GetComponent<playerHealth>();
         player.transform.position = respawnPoints[Random.Range(0, respawnPoints.Length)].transform.position;
-        ///Move Camera
         movement.canMove = setBool;
         upgrade.canUseUpgrade = setBool;
         shooting.canShoot = setBool;

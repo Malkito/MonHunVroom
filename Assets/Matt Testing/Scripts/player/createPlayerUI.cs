@@ -8,7 +8,6 @@ public class createPlayerUI : NetworkBehaviour
         if (IsLocalPlayer)
         {
             HUD.SetActive(true);
-            print("Hud activated");
         }
     }
 }

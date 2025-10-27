@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.Multiplayer.Widgets;
-using Unity.Services.Multiplayer;
 
 public class sessionConnecting : MonoBehaviour
 {

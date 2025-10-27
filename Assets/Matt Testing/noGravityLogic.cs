@@ -9,49 +9,61 @@ public class noGravityLogic : NetworkBehaviour, useAbility
     [SerializeField] private float rotationSpeed;
 
     [SerializeField] private float effectDuration;
-    private bool isEffectActive;
+    private float elapsedTime;
+    [SerializeField] private bool isEffectActive;
 
     private void Start()
     {
         isEffectActive = false;
+        //startEffectBool = false;
     }
 
     public void useAbility(Transform transform, bool abilityUsed)
     {
         if (!abilityUsed) return;
+        print("Ability used");
+        //startEffect();
+        startEffectServerRpc();
 
-        if (!isEffectActive)
-        {
-            print("1");
-            ApplyFloatEffect();
-        }
-    }
 
-    /*
-    [ClientRpc]
-    private void ActivateAbilityClientRpcc()
-    {
-        print("2");
-        // Notify all clients to run the effect
-        ActivateAbilityClientRpc();
     }
-    */
 
     private void Update()
     {
-        print(isEffectActive);
+        print("isEffectActive: " + isEffectActive);
+
+        if (isEffectActive)
+        {
+            print("Elapsed Time: " + elapsedTime);
+            elapsedTime += Time.deltaTime;
+        }
+
+        if (elapsedTime >= effectDuration)
+        {
+            //endEffect();
+            endEffectServerRpc();
+        }
+
     }
 
-    [ClientRpc]
-    private void ActivateAbilityClientRpc()
+
+    [ServerRpc(RequireOwnership = false)]
+    private void startEffectServerRpc()
     {
-        print("2");
-        StartCoroutine(ApplyFloatEffect());
+        startEffect();
     }
 
-    private IEnumerator ApplyFloatEffect()
+
+    [ServerRpc(RequireOwnership = false)]
+    private void endEffectServerRpc()
     {
-        print("3");
+        endEffect();
+    }
+    private void startEffect()
+    {
+        if (isEffectActive) return;
+
+        elapsedTime = 0;
         isEffectActive = true;
         Rigidbody[] allRigidbodies = FindObjectsByType<Rigidbody>(FindObjectsSortMode.None);
 
@@ -72,11 +84,12 @@ public class noGravityLogic : NetworkBehaviour, useAbility
 
             // Add torque for random spinning
             rb.AddTorque(randomTorque, ForceMode.VelocityChange);
-        }  
+        }
+    }
 
-        // Keep floating for the effect duration
-        yield return new WaitForSeconds(effectDuration);
-
+    private void endEffect()
+    {
+        Rigidbody[] allRigidbodies = FindObjectsByType<Rigidbody>(FindObjectsSortMode.None);
         // Re-enable gravity
         foreach (Rigidbody rb in allRigidbodies)
         {

@@ -73,4 +73,4 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   floatForce: 5
   rotationSpeed: 5
-  effectDuration: 5
+  effectDuration: 4

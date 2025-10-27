@@ -12,12 +12,14 @@ public class airStrikeMissle : NetworkBehaviour
 
 
 
-    private void OnCollisionEnter()
+    private void OnCollisionEnter(Collision other)
     {
+        if (!other.gameObject.CompareTag("Ground")) return;
+
         Collider[] collidersInRange = Physics.OverlapSphere(transform.position, explsionRadius);
         foreach (Collider col in collidersInRange)
         {
-            if(col.CompareTag("Monster") || col.CompareTag("Player"))
+            if(col.CompareTag("Monster"))
             {
                 if(col.gameObject.TryGetComponent(out dealDamage healthScript))
                 {
@@ -32,7 +34,7 @@ public class airStrikeMissle : NetworkBehaviour
                 Vector3 launchDirection = (rb.transform.position - transform.position).normalized;
                 float distance = Vector3.Distance(rb.transform.position, transform.position);
                 //print("Name: " + rb.name + " Distance: " + Vector3.Distance(rb.transform.position, transform.position) + " Foce Applied: " + (launchDirection * (explosonFore - distance)));
-                rb.AddForce(launchDirection * (explosonFore - distance), ForceMode.Impulse);
+                rb.AddForce(launchDirection * (explosonFore - distance), ForceMode.VelocityChange);
             }
         }
         destroyMissleServerRpc();

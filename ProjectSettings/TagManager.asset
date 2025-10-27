@@ -10,6 +10,7 @@ TagManager:
   - energySphere
   - Monster
   - Upgrade
+  - RespawnUI
   layers:
   - Default
   - TransparentFX
