@@ -102,8 +102,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e8c962615f72b4d84ca84f6f364b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  repulsionRadius: 50
-  repulsionForce: 2000
+  repulsionRadius: 25
+  repulsionForce: 300
 --- !u!54 &335615999429944670
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -30,7 +30,7 @@ namespace LordBreakerX.Health
         [Tooltip("Invoked when the health reaches zero or below.")]
         private UnityEvent _onDeathClientSide = new UnityEvent();
 
-        private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
+        [SerializeField] private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
 
         [HideInInspector] public float numOfFireOnMonster;
 
@@ -67,6 +67,7 @@ namespace LordBreakerX.Health
                 if (newValue <= 0)
                 {
                     _onDeathClientSide.Invoke();
+                    GameStateManager.Instance.setNewState(GameStateManager.State.RoundWon);
                 }
             }
         }
@@ -75,6 +76,7 @@ namespace LordBreakerX.Health
         {
             if (IsServer)
             {
+                /*
                 float clampedAmount = Mathf.Clamp(damageDealt, 0, _currentHealth.Value);
 
                 _currentHealth.Value -= clampedAmount;
@@ -84,10 +86,21 @@ namespace LordBreakerX.Health
                     HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, clampedAmount, 0, damageOrigin);
                     _onHealthChangedServerSide.Invoke(healthInfo);
                 }
+                */
+
+                // changed to allow the water grenade deal "negative Damage" to heal
+
+                _currentHealth.Value -= damageDealt;
+
+                HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, damageDealt, 0, damageOrigin);
+
+                _onHealthChangedServerSide.Invoke(healthInfo);
+
 
                 if (_currentHealth.Value <= 0)
                 {
                     _onDeathServerSide.Invoke();
+                    GameStateManager.Instance.setNewState(GameStateManager.State.RoundWon);
                 }
             }
         }

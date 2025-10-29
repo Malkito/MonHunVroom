@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth:
     _statType: 0
-    _value: 1000
+    _value: 50
     _minValue: 100
     _maxValue: 400
     _curveValue:
@@ -44,8 +44,8 @@ MonoBehaviour:
   _movementSpeed:
     _statType: 1
     _value: 0
-    _minValue: 14
-    _maxValue: 25
+    _minValue: 25
+    _maxValue: 50
     _curveValue:
       serializedVersion: 2
       m_Curve:
@@ -72,7 +72,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   _turningSpeed:
     _statType: 0
-    _value: 120
+    _value: 170
     _minValue: 0
     _maxValue: 0
     _curveValue:
@@ -130,7 +130,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   _laserEyesSpeed:
     _statType: 0
-    _value: 20
+    _value: 50
     _minValue: 0
     _maxValue: 0
     _curveValue:
@@ -189,8 +189,8 @@ MonoBehaviour:
   _stompRadius:
     _statType: 1
     _value: 0
-    _minValue: 5
-    _maxValue: 10
+    _minValue: 10
+    _maxValue: 15
     _curveValue:
       serializedVersion: 2
       m_Curve:

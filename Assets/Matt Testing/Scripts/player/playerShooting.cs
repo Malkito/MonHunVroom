@@ -28,6 +28,7 @@ public class playerShooting : NetworkBehaviour
     private float MaintimeBetweenShots;
     private int currentBarrelNum;
     [SerializeField] bool onlyOneBarrel;
+    [HideInInspector] public bool bigShotLoaded;
 
     [Header("Alt Attack")]
     public int currentAltBulletSoIndex;
@@ -43,9 +44,14 @@ public class playerShooting : NetworkBehaviour
     public bool canShoot;
     public float damageDealt;
     [SerializeField] public BulletSO[] bulletSOarray;
+    private Rigidbody tankRB;
+
+    [SerializeField] private ParticleSystem muzzleFlash;
+
 
     private void Start()
     {
+        tankRB = gameObject.GetComponent<Rigidbody>();
         canShoot = true;
         MaintimeBetweenShots = bulletSOarray[currentMainBulletSoIndex].minTimeBetweenShots;
         altTimeBetweenShots = bulletSOarray[currentAltBulletSoIndex].minTimeBetweenShots;
@@ -57,18 +63,24 @@ public class playerShooting : NetworkBehaviour
 
         if (!canShoot) return;
 
+        // checks if the main attack (Left click) input and if enough time between shots has elapsed
         if (GameInput.instance.getAttackInput() && MaintimeBetweenShots > bulletSOarray[currentMainBulletSoIndex].minTimeBetweenShots)
         {
             shootServerRPC(currentMainBulletSoIndex);
             MaintimeBetweenShots = 0;
         }
+
+        // checks if the alt attack (Right click) input and if enough time between shots has elapsed
         if (GameInput.instance.getAltAttackInput() && altTimeBetweenShots > bulletSOarray[currentAltBulletSoIndex].minTimeBetweenShots)
         {
             AltShootServerRPC(currentAltBulletSoIndex);
             altTimeBetweenShots = 0;
         }
+
+        
         altTimeBetweenShots += Time.deltaTime;
         MaintimeBetweenShots += Time.deltaTime;
+
         currentMainBuleltTest.text = bulletSOarray[currentMainBulletSoIndex].name;
         currentAltBuleltTest.text = bulletSOarray[currentAltBulletSoIndex].name;
     }
@@ -86,56 +98,100 @@ public class playerShooting : NetworkBehaviour
         altShoot(bulletIndex);
     }
 
-    private void shoot(int BulletIndex)
+    private void shoot(int BulletIndex) // the main shooting function. bulelt index refrences the position in static bullet array. The reason for the int is so that server RPCs can take the bullet as an aguement
     {
         //Play sound
-        //play muzzle flash
+        muzzleFlashClientRpc();
 
         if (onlyOneBarrel)
         {
             currentBarrelNum = 0;
         }
 
-        GameObject projectile = Instantiate(bulletSOarray[BulletIndex].bulletPrefab, mainBarrelEnds[currentBarrelNum].transform.position, transform.rotation);
+        // spawn the game object projectile related to the bullet index num
+        GameObject projectile = Instantiate(bulletSOarray[BulletIndex].bulletPrefab, mainBarrelEnds[currentBarrelNum].transform.position, transform.rotation); 
+
+        // launches the projectile on teh correct direction
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.linearVelocity = mainBarrelEnds[currentBarrelNum].transform.forward * bulletSOarray[BulletIndex].bulletSpeed;
 
-        NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>();
+        //spawns the bullet across the network
+        NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>(); 
         networkProjectile.Spawn(true);
 
+        //applies the recoil to the tank
+        applyRecoilClientRpc(bulletSOarray[BulletIndex].recoilForce);
+
+
+        //gets the bullet script to assign the damage origin once the bullet deals damage to something
         if (projectile.gameObject.TryGetComponent(out bullet bullet))
         {
             bullet.setDamageOrigin(gameObject);
         }
 
+        //if the bullet is the default bullet and the player has collected a "big shot" multplies the damage on the bullet.
+        if(BulletIndex == 0 && bigShotLoaded)
+        {
+            projectile.GetComponent<defaultBullet>().isBigShot = true;
+            bigShotLoaded = false;
+        }
+
+        //Destroy the projectile 
         Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);
-        if (currentBarrelNum == 0) { currentBarrelNum = 1; }
-        else { currentBarrelNum = 0; }
+    }
+
+    //Applies a force to the tank, based on the recoild force on the specified bulelt index 
+    [ClientRpc]
+    private void applyRecoilClientRpc(float recoilForce)
+    {
+        if (!IsOwner) return;
+        Vector3 backforce = -mainBarrelEnds[0].transform.forward * recoilForce;
+        Vector3 upforce = Vector3.up * (recoilForce / 2);
+        tankRB.AddForce(backforce + upforce, ForceMode.VelocityChange);
+    }
+    [ClientRpc]
+    private void muzzleFlashClientRpc()
+    {
+        muzzleFlash.Play();
     }
 
 
-    public void altShoot(int BulletIndex)
+
+    public void altShoot(int BulletIndex) // Similar to the shoot function
     {
 
         //Play sound
         //play muzzle flash
 
+        muzzleFlashClientRpc();
+
+        // spawn the game object projectile related to the bullet index num
         GameObject projectile = Instantiate(bulletSOarray[BulletIndex].bulletPrefab, altBarrelEnd.transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
+        //spawns the bullet across the network
         NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>();
         networkProjectile.Spawn(true);
 
+        //applies the recoil to the tank
+        applyRecoilClientRpc(bulletSOarray[BulletIndex].recoilForce);
+
+
+        //gets the bullet script to assign the damage origin once the bullet deals damage to something
         if (projectile.gameObject.TryGetComponent(out bullet bullet))
         {
             bullet.setDamageOrigin(gameObject);
         }
+
+
         rb.linearVelocity = mainBarrelEnds[0].forward * bulletSOarray[BulletIndex].bulletSpeed;
+
+        //Destroy the projectile after 
         Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);
 
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc(RequireOwnership = false)] //changes the bullet type, un-used for the moment
     public void changeBulletServerRpc(bool changeMainBullet, int NewBulletSOindex)
     {
         if(changeMainBullet)

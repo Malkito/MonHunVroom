@@ -7,7 +7,6 @@ public class GameInput : MonoBehaviour
     public static GameInput instance { get; private set; }
 
 
-
     private void Awake()
     {
         instance = this;
@@ -55,6 +54,13 @@ public class GameInput : MonoBehaviour
     {
         bool abilityThreeInputPressed = playerInputActions.Player.Sprint.IsPressed();
         return abilityThreeInputPressed;
+    }
+
+    public bool getJumpInput()
+    {
+        bool jumpInputPressed = playerInputActions.Player.Jump.IsPressed();
+        return jumpInputPressed;
+
     }
 
     private void Update()

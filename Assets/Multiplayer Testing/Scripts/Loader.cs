@@ -14,8 +14,10 @@ public class Loader : MonoBehaviour
         MainMenu,
         PVPScene,
         LobbyScene,
-        CharacterSelcet,
+        CharacterSelect,
         MainScene,
+        DayGameScene,
+        NightGameScene
 
     }
 

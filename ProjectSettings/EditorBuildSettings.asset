@@ -12,14 +12,26 @@ EditorBuildSettings:
     path: Assets/Matt Testing/Scenes/MainMenu.unity
     guid: 8305bb31608d78249bcaabf5d359f83d
   - enabled: 1
-    path: Assets/Matt Testing/Scenes/GameScene.unity
+    path: Assets/Matt Testing/Scenes/DayGameScene.unity
     guid: 9e8f4597e07c67f438b8e83004010d1c
+  - enabled: 1
+    path: Assets/Matt Testing/Scenes/NightGameScene.unity
+    guid: fde5bff8e0db50d45ba9c5f9506b00ed
+  - enabled: 1
+    path: Assets/Matt Testing/Scenes/LobbyScene.unity
+    guid: 49615e8fb85db494ab65cf8706a48bc9
   - enabled: 0
     path: Assets/Scenes/NewNateTesting.unity
     guid: 9994bfabf11bfeb43912c12126ed825c
   - enabled: 0
     path: Assets/Matt Testing/Scenes/MonsterPlayerGameScene.unity
     guid: 8e3ad9a0d9d3f5a4399ffd24ec1de4ba
+  - enabled: 1
+    path: Assets/Matt Testing/Scenes/CharacterSelect.unity
+    guid: 34d5559c9b462bf4f9121a26267b32ae
+  - enabled: 1
+    path: Assets/Widgets/Scenes/WidgetsQuickstart.unity
+    guid: 5f8dfccf52cc83a489de9a7e3a1a7b3f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -8,4 +8,5 @@ public class BulletSO : ScriptableObject
     public float bulletLifetime;
     public float bulletDamage;
     public float minTimeBetweenShots;
+    public float recoilForce;
 }

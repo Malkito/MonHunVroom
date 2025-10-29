@@ -17,3 +17,4 @@ MonoBehaviour:
   bulletLifetime: 20
   bulletDamage: 0
   minTimeBetweenShots: 2
+  recoilForce: 15
