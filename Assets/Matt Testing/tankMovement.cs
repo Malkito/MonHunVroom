@@ -28,7 +28,7 @@ public class tankMovement : NetworkBehaviour
         if (!IsOwner) return;
         if (!canMove) return;
 
-        if (isGrounded || transform.position.y > 180)
+        if (isGrounded)
         {
             Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
             forwardAndBackMovemnet(inputVector.y);

@@ -22,8 +22,9 @@ public class noGravityLogic : NetworkBehaviour, useAbility
     {
         if (!abilityUsed) return;
         print("Ability used");
-        //startEffect();
-        startEffectServerRpc();
+        isEffectActive = true;
+        startEffect();
+        //startEffectServerRpc();
 
 
     }
@@ -40,31 +41,17 @@ public class noGravityLogic : NetworkBehaviour, useAbility
 
         if (elapsedTime >= effectDuration)
         {
-            //endEffect();
-            endEffectServerRpc();
+            endEffect();
+            //endEffectServerRpc();
         }
 
     }
 
-
-    [ServerRpc(RequireOwnership = false)]
-    private void startEffectServerRpc()
-    {
-        startEffect();
-    }
-
-
-    [ServerRpc(RequireOwnership = false)]
-    private void endEffectServerRpc()
-    {
-        endEffect();
-    }
     private void startEffect()
     {
         if (isEffectActive) return;
 
         elapsedTime = 0;
-        isEffectActive = true;
         Rigidbody[] allRigidbodies = FindObjectsByType<Rigidbody>(FindObjectsSortMode.None);
 
         // Disable gravity and add random rotation/float
@@ -98,5 +85,22 @@ public class noGravityLogic : NetworkBehaviour, useAbility
         }
 
         isEffectActive = false;
+    }
+
+
+
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void startEffectServerRpc()
+    {
+        startEffect();
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void endEffectServerRpc()
+    {
+        endEffect();
     }
 }
