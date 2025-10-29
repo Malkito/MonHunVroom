@@ -10,7 +10,7 @@ namespace LordBreakerX.AttackSystem
         [SerializeField]
         private List<WeightedEntry<AttackCreator>> _weightedEntries = new List<WeightedEntry<AttackCreator>>();
 
-        public WeightTable<Attack> CreateTable(AttackController controller)
+        public AttackTable CreateTable(AttackController controller)
         {
             List<WeightedEntry<Attack>> entries = new List<WeightedEntry<Attack>>();
 
@@ -20,7 +20,7 @@ namespace LordBreakerX.AttackSystem
                 entries.Add(new WeightedEntry<Attack>(attack, creatorEntry.Weight));
             }
 
-            return new WeightTable<Attack>(entries);
+            return new AttackTable(entries);
         }
 
     }

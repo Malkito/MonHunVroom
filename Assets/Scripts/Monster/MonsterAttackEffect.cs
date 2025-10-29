@@ -1,4 +1,5 @@
 public enum MonsterAttackEffect
 {
-    PreparingDeathBomb
+    PreparingDeathBomb,
+    Stomp
 }

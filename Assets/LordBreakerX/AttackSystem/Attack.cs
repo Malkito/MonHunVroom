@@ -23,6 +23,8 @@ namespace LordBreakerX.AttackSystem
 
         public virtual bool HasAttackFinished() { return true; }
 
+        public virtual bool CanUseAttack() { return true; }
+
         public Vector3 GetTargetPosition()
         {
             return Controller.TargetPosition;

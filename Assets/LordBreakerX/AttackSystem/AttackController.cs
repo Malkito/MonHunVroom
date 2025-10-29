@@ -85,8 +85,8 @@ namespace LordBreakerX.AttackSystem
         {
             if (_activeAttack == null || !IsServer) return;
 
-            if (_activeAttack.HasAttackFinished()) StopAttack();
-            else _activeAttack.OnAttackUpdate();
+            _activeAttack.OnAttackUpdate();
+            if (_activeAttack != null && _activeAttack.HasAttackFinished()) StopAttack();
         }
 
         private void FixedUpdate()

@@ -20,11 +20,16 @@ public class DeathBomb : Attack
     [SerializeField]
     private float _timeBeforeExplosion = 3;
 
-    [Header("Forces Properties")]
+    [SerializeField]
+    [Header("Activation Requirements")]
+    [Range(0, 100)]
+    private float _healthPercentageThreshold = 25.0f;
+
+    [Header("Forces")]
     [SerializeField]
     private float _maxForce;
 
-    [Header("Damage Properties")]
+    [Header("Damage")]
     [SerializeField]
     private float _maxDamage;
 
@@ -85,6 +90,8 @@ public class DeathBomb : Attack
 
     private void Explode()
     {
+        _exploding = true;
+
         Vector3 startPosition = GetStartPosition();
 
         Collider[] colliders = Physics.OverlapSphere(startPosition, _explosionRadius);
@@ -93,18 +100,17 @@ public class DeathBomb : Attack
         {
             if (collider.CompareTag(_monsterTag)) continue;
 
-            Rigidbody rigid = collider.GetComponent<Rigidbody>();
             dealDamage damageable = collider.GetComponent<dealDamage>();
 
             float distance = Vector3.Distance(collider.transform.position, startPosition);
             float attackPercentage = Percentage.Create(distance, 0, _explosionRadius);
             attackPercentage = Percentage.Reverse(attackPercentage);
 
-            if (rigid != null)
+            if (collider.attachedRigidbody != null)
             {
                 Vector3 direction = (collider.transform.position - startPosition).normalized;
                 float force = Percentage.MapToNumber(attackPercentage, NO_EFFECT, _maxForce);
-                rigid.AddForce(direction * force * rigid.mass, ForceMode.Force);
+                collider.attachedRigidbody.AddForce(direction * force * collider.attachedRigidbody.mass, ForceMode.Force);
             }
 
             if (damageable != null)
@@ -122,6 +128,12 @@ public class DeathBomb : Attack
     public override bool HasAttackFinished()
     {
         return _attackComplete;
+    }
+
+    public override bool CanUseAttack()
+    {
+        float healthPercentage = Percentage.Create(_health.CurrentHealth, 0, _health.MaxHealth);
+        return healthPercentage <= _healthPercentageThreshold;
     }
 
     public override Attack Clone(AttackController attackController)

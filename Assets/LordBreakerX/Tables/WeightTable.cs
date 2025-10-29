@@ -27,21 +27,28 @@ namespace LordBreakerX.Tables
 
         }
 
-        private void UpdateTotalWeight()
+        protected virtual void UpdateTotalWeight()
         {
             _totalWeight = 0;
+            List<WeightedEntry<T>> entries = GetEntries(); 
 
-            foreach (WeightedEntry<T> entry in _weightedEntries)
+            foreach (WeightedEntry<T> entry in entries)
             {
                 _totalWeight += entry.Weight;
             }
         }
 
-        public T GetRandomEntry()
+        public virtual List<WeightedEntry<T>> GetEntries()
+        {
+            return _weightedEntries;
+        }
+
+        public virtual T GetRandomEntry()
         {
             int weight = Random.Range(0, _totalWeight + 1);
+            List<WeightedEntry<T>> entries = GetEntries();
 
-            foreach (WeightedEntry<T> entry in _weightedEntries)
+            foreach (WeightedEntry<T> entry in entries)
             {
                 if (weight <= entry.Weight)
                 {

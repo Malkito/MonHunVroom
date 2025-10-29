@@ -26,10 +26,14 @@ public class MonsterAttackController : AttackController
     [SerializeField]
     private Transform _model;
 
-    [Header("Death Bomb Properties")]
+    [Header("Particles Properties")]
     [SerializeField]
     private ParticleSystem _preparingExplosionEffect;
 
+    [SerializeField]
+    private ParticleSystem _stompEffect;
+
+    [SerializeField]
     private DamageTable _recentDamageTable = new DamageTable();
 
     public Transform Model { get { return _model; } }
@@ -76,7 +80,10 @@ public class MonsterAttackController : AttackController
         switch(effectType)
         {
             case MonsterAttackEffect.PreparingDeathBomb:
-                _preparingExplosionEffect.gameObject.SetActive(true);
+                _preparingExplosionEffect.Play();
+                break;
+            case MonsterAttackEffect.Stomp:
+                _stompEffect.Play();
                 break;
         }
     }
@@ -92,7 +99,10 @@ public class MonsterAttackController : AttackController
         switch (effectType)
         {
             case MonsterAttackEffect.PreparingDeathBomb:
-                _preparingExplosionEffect.gameObject.SetActive(false);
+                _preparingExplosionEffect.Stop();
+                break;
+            case MonsterAttackEffect.Stomp:
+                _stompEffect.Stop();
                 break;
         }
     }
