@@ -1,3 +1,4 @@
+using LordBreakerX.States;
 using LordBreakerX.Utilities;
 using Unity.Netcode;
 using UnityEngine;
@@ -70,6 +71,11 @@ public class MonsterMovementController : NetworkBehaviour
     public bool ReachedDestination()
     {
         return _monsterAgent.ReachedDestination(_reachedDestinationDistance);
+    }
+
+    public bool ReachedDestination(float reachedDistance)
+    {
+        return _monsterAgent.ReachedDestination(reachedDistance);
     }
 
     public void ChangeDestination(Vector3 destination)

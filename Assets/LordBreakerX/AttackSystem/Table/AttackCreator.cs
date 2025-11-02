@@ -9,7 +9,7 @@ namespace LordBreakerX.AttackSystem
 
         public override Attack Create(AttackController controller)
         {
-            return _attackTemplate.Copy(controller);
+            return _attackTemplate.Clone(controller);
         }
     }
 

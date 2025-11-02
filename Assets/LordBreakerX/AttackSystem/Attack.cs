@@ -6,24 +6,12 @@ namespace LordBreakerX.AttackSystem
     {
         public AttackController Controller { get; private set; }
 
-        public Vector3 TargetPosition { get => Controller.Target.TargetPosition; }
-
-        public Vector3 StartPosition { get => Controller.transform.position; }
-
-        public void Initilize(AttackController attackController)
+        public Attack(AttackController controller)
         {
-            Controller = attackController;
-            OnInitilize(attackController);
+            Controller = controller;
         }
 
-        public Vector3 GetCenteredTargetPosition()
-        {
-            return Controller.Target.GetCenteredTargetPosition();
-        }
-
-        public abstract Attack Copy(AttackController attackController);
-
-        protected virtual void OnInitilize(AttackController attackController) { }
+        public abstract Attack Clone(AttackController controller);
 
         public virtual void OnAttackFixedUpdate() { }
 
@@ -34,6 +22,23 @@ namespace LordBreakerX.AttackSystem
         public virtual void OnStop() { }
 
         public virtual bool HasAttackFinished() { return true; }
+
+        public virtual bool CanUseAttack() { return true; }
+
+        public Vector3 GetTargetPosition()
+        {
+            return Controller.TargetPosition;
+        }
+
+        public Vector3 GetCenteredTargetPosition()
+        {
+            return Controller.CenteredTargetPosition;
+        }
+
+        public Vector3 GetStartPosition()
+        {
+            return Controller.transform.position;
+        }
 
     }
 }

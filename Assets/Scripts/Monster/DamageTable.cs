@@ -5,6 +5,8 @@ public class DamageTable
 { 
     private Dictionary<GameObject, float> _damageRegistry = new Dictionary<GameObject, float>();
 
+    public bool HasDamage { get { return _damageRegistry.Count > 0; } }
+
     public void ResetTable()
     {
         _damageRegistry.Clear();

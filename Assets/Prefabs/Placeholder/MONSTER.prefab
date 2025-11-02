@@ -24,12 +24,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 124409167705023941}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.099, y: 2.244, z: 0.7742}
+  m_LocalRotation: {x: 0.50000054, y: -0.49999946, z: -0.49999946, w: 0.50000054}
+  m_LocalPosition: {x: -0.7742001, y: -0.099001765, z: 1.0318838}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6242554899666415213}
+  m_Father: {fileID: 5117707857534904387}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &127325116085280867
 GameObject:
@@ -895,6 +895,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6024415203304745589}
+  - {fileID: 6470862850078915577}
+  - {fileID: 2800058689913966554}
   m_Father: {fileID: 6242554899666415213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4032026594062682808
@@ -1028,12 +1030,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4806566269441155891}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.108, y: 2.244, z: 0.7742}
+  m_LocalRotation: {x: 0.50000054, y: -0.49999946, z: -0.49999946, w: 0.50000054}
+  m_LocalPosition: {x: -0.7742002, y: 0.10799801, z: 1.0318838}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6242554899666415213}
+  m_Father: {fileID: 5117707857534904387}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4843082677433569527
 GameObject:
@@ -1606,8 +1608,6 @@ Transform:
   m_Children:
   - {fileID: 5117707857534904387}
   - {fileID: 6099964927278686785}
-  - {fileID: 6470862850078915577}
-  - {fileID: 2800058689913966554}
   - {fileID: 5395024121735250116}
   - {fileID: 1363310882119796856}
   m_Father: {fileID: 0}
@@ -1650,9 +1650,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _minMovementRadius: 20
-  _maxMovementRadius: 70
-  _radiusDecreaseRate: 0.001
+  _wanderRadius: 0
+  _reachedDestinationDistance: 0.2
+  _undergroundParticle: {fileID: 0}
+  _model: {fileID: 0}
+  _collider: {fileID: 0}
 --- !u!114 &5008790797301554141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1666,15 +1668,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _attackTables:
-  - {fileID: 11400000, guid: 7cc6879e5e373684390d33670bdd4ee5, type: 2}
-  _fallbackTable: {fileID: 11400000, guid: 04d6458c86e36dc4f8ec3644a0f5984c, type: 2}
-  _targetOffset: 1
+  _attackTable: {fileID: 0}
+  _randomAttackRadius: 30
   _eyes:
   - {fileID: 6470862850078915577}
   - {fileID: 2800058689913966554}
   _laserPrefab: {fileID: 1795866302372145853, guid: e9c596d46fdb0e64ba1d5ab34e791042, type: 3}
   _timeBetweenPlayerAttacks: 30
+  _model: {fileID: 0}
+  _preparingExplosionEffect: {fileID: 0}
 --- !u!95 &60298490284039638
 Animator:
   serializedVersion: 7
@@ -1714,7 +1716,7 @@ MonoBehaviour:
   _statesToRegister:
   - {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
   - {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
-  - {fileID: 11400000, guid: 3c855a30e1e2a95409219fdb212bf7d3, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 24d15b4f5d9c66f409d5cb0499c2a268, type: 2}
 --- !u!114 &5801573790735762100
 MonoBehaviour:
@@ -1789,6 +1791,8 @@ MonoBehaviour:
   _onDeathClientSide:
     m_PersistentCalls:
       m_Calls: []
+  numOfFireOnMonster: 0
+  mat: {fileID: 0}
 --- !u!136 &2779705014451557940
 CapsuleCollider:
   m_ObjectHideFlags: 0

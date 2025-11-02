@@ -27,7 +27,7 @@ public class WanderState : BaseState
 
     private void StartRandomAttack()
     {
-        if (_monsterMovement != null) Machine.RequestChangeState(MonsterStates.RAMPAGE);
+        if (_monsterMovement != null) Machine.RequestChangeState(MonsterStates.ATTACK);
     }
 
     public override void Enter()
@@ -39,7 +39,6 @@ public class WanderState : BaseState
 
     public override void Update()
     {
-        _monsterAttack.PlayerAttackTimer.Update();
         _randomAttackTimer.Update();
         _monsterMovement.Wander();
     }

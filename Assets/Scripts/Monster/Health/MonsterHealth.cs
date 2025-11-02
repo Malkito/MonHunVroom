@@ -39,13 +39,17 @@ namespace LordBreakerX.Health
         [SerializeField]
         private SkinnedMeshRenderer mat;
 
+        public float CurrentHealth { get { return _currentHealth.Value; } }
+        
+        public float MaxHealth { get { return EnemyStatManager.MaxHealth; } }
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
             if (IsServer)
             {
-                _currentHealth.Value = EnemyStatManager.MaxHealth;
+                _currentHealth.Value = MaxHealth;
                 HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, 0, 0, null);
                 _onHealthChangedServerSide.Invoke(healthInfo);
             }
@@ -66,11 +70,6 @@ namespace LordBreakerX.Health
                     GameStateManager.Instance.setNewState(GameStateManager.State.RoundWon);
                 }
             }
-        }
-
-        public void TestDealDamage(GameObject damageSouce)
-        {
-            dealDamage(1000, Color.red, damageSouce);
         }
 
         public void dealDamage(float damageDealt, Color flashColor, GameObject damageOrigin)

@@ -42,6 +42,14 @@ public class UndergroundAttack : Attack
     private Timer _throwAttemptTimer;
     private Timer _durationTimer;
 
+    public UndergroundAttack(AttackController controller) : base(controller)
+    {
+        _monsterMovement = controller.GetComponent<MonsterMovementController>();
+        _durationTimer = new Timer(_attackDuration);
+        _throwAttemptTimer = new Timer();
+        _throwAttemptTimer.OnTimerFinished += AttemptThrow;
+    }
+
     public override void OnStart()
     {
         _monsterMovement.UpdateWalkAnimation(true);
@@ -62,15 +70,6 @@ public class UndergroundAttack : Attack
         _monsterMovement.SetUnderground(false);
     }
 
-
-    protected override void OnInitilize(AttackController attackController)
-    {
-        _monsterMovement = attackController.GetComponent<MonsterMovementController>();
-        _durationTimer = new Timer(_attackDuration);
-        _throwAttemptTimer = new Timer();
-        _throwAttemptTimer.OnTimerFinished += AttemptThrow;
-    }
-
     private void AttemptThrow()
     {
         ResetThrowDelay();
@@ -88,9 +87,9 @@ public class UndergroundAttack : Attack
         return _durationTimer.IsComplete;
     }
 
-    public override Attack Copy(AttackController attackController)
+    public override Attack Clone(AttackController attackController)
     {
-        UndergroundAttack attack = new UndergroundAttack();
+        UndergroundAttack attack = new UndergroundAttack(attackController);
         attack._minThrowSrength = _minThrowSrength;
         attack._maxThrowSrength = _maxThrowSrength;
         attack._minThrowRate = _minThrowRate;

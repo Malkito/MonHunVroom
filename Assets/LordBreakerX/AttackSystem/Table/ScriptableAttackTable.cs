@@ -1,22 +1,28 @@
 using LordBreakerX.Tables;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LordBreakerX.AttackSystem
 {
     [CreateAssetMenu(menuName = "Attack System/Table")]
-    public class ScriptableAttackTable : ScriptableWeightTable<AttackCreator>
+    public class ScriptableAttackTable : ScriptableObject
     {
-        public override WeightTable<AttackCreator> CreateTable()
+        [SerializeField]
+        private List<WeightedEntry<AttackCreator>> _weightedEntries = new List<WeightedEntry<AttackCreator>>();
+
+        public AttackTable CreateTable(AttackController controller)
         {
-            return base.CreateTable();
+            List<WeightedEntry<Attack>> entries = new List<WeightedEntry<Attack>>();
+
+            foreach (WeightedEntry<AttackCreator> creatorEntry in _weightedEntries)
+            {
+                Attack attack = creatorEntry.Value.Create(controller);
+                entries.Add(new WeightedEntry<Attack>(attack, creatorEntry.Weight));
+            }
+
+            return new AttackTable(entries);
         }
 
-        public Attack GetRandomAttack(AttackController controller)
-        {
-            Attack attack = GetRandomEntry().Create(controller);
-            attack.Initilize(controller);
-            return attack;
-        }
     }
 
 }

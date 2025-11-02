@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackTemplate:
     _explosionRadius: 50
+    _reachedTargetPercentage: 50
+    _timeBeforeExplosion: 5
+    _healthPercentageThreshold: 25
     _maxForce: 2000
     _maxDamage: 100
+    _monsterTag: Monster

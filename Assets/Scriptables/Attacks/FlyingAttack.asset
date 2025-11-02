@@ -18,3 +18,4 @@ MonoBehaviour:
     _flySpeed: 1
     _duration: 10
     _maxHeightTime: 3
+    _scriptableAttackTable: {fileID: 11400000, guid: daf2e1b5335aa16489256a7d4eb9d3b8, type: 2}

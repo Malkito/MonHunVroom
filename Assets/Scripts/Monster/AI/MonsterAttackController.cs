@@ -1,14 +1,13 @@
+using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
 using LordBreakerX.Health;
-using LordBreakerX.States;
-using LordBreakerX.AttackSystem;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class MonsterAttackController : AttackController
 {
-    #region Variables
-
     [SerializeField]
     [RequiredField]
     [Header("Laser Eyes")]
@@ -27,27 +26,19 @@ public class MonsterAttackController : AttackController
     [SerializeField]
     private Transform _model;
 
+    [Header("Particles Properties")]
+    [SerializeField]
+    private ParticleSystem _preparingExplosionEffect;
+
+    [SerializeField]
+    private ParticleSystem _stompEffect;
+
+    [SerializeField]
     private DamageTable _recentDamageTable = new DamageTable();
-
-    private Timer _playerAttackTimer;
-
-    private StateMachineNetworked _machine;
-
-    #endregion
-
-    public Timer PlayerAttackTimer { get { return _playerAttackTimer; } }
 
     public Transform Model { get { return _model; } }
 
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-        _machine = GetComponent<StateMachineNetworked>();
-
-        _playerAttackTimer = new Timer(_timeBetweenPlayerAttacks);
-    }
-
-    #region Laser Eyes Logic
+    public bool HasTrackedDamage { get { return _recentDamageTable.HasDamage; } }
 
     public void RequestShootLaser(Laser prefab, Vector3 attackPosition)
     {
@@ -72,10 +63,6 @@ public class MonsterAttackController : AttackController
         if (!IsHost || !IsServer) ShootLaser(_laserPrefab, attackPosition);
     }
 
-    #endregion
-
-    #region Targetting Player Logic
-
     public void OnMonsterHealthChanged(HealthInfo healthInfo)
     {
         if (IsServer)
@@ -88,16 +75,35 @@ public class MonsterAttackController : AttackController
             _recentDamageTable.ResetTable();
     }
 
-    public void UpdateTarget()
+    public void PlayEffect(MonsterAttackEffect effectType)
     {
-        if (!IsServer) return;
-
-        GameObject target = _recentDamageTable.GetMostDamageTarget();
-
-        if (target != null) Target.Set(target.transform, transform.position);
-        else Target.Set(transform.position);
+        switch(effectType)
+        {
+            case MonsterAttackEffect.PreparingDeathBomb:
+                _preparingExplosionEffect.Play();
+                break;
+            case MonsterAttackEffect.Stomp:
+                _stompEffect.Play();
+                break;
+        }
     }
 
-    #endregion
-}
+    public void AdjustExplosionEffectRadius(float radius)
+    {
+        ParticleSystem.ShapeModule shape = _preparingExplosionEffect.shape;
+        shape.radius = radius;
+    }
 
+    public void StopEffect(MonsterAttackEffect effectType)
+    {
+        switch (effectType)
+        {
+            case MonsterAttackEffect.PreparingDeathBomb:
+                _preparingExplosionEffect.Stop();
+                break;
+            case MonsterAttackEffect.Stomp:
+                _stompEffect.Stop();
+                break;
+        }
+    }
+}

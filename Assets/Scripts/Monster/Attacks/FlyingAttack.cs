@@ -1,4 +1,5 @@
 using LordBreakerX.AttackSystem;
+using LordBreakerX.Tables;
 using UnityEngine;
 
 [System.Serializable]
@@ -28,7 +29,7 @@ public class FlyingAttack : Attack
 
     [Header("Secondary Attack Properties")]
     [SerializeField]
-    private ScriptableAttackTable _attackTable;
+    private ScriptableAttackTable _scriptableAttackTable;
 
     private MonsterAttackController _controller;
 
@@ -42,7 +43,16 @@ public class FlyingAttack : Attack
 
     private Animator _animator;
 
+
+    private WeightTable<Attack> _internalAttackTable = new WeightTable<Attack>();
     private Attack _subAttack;
+
+    public FlyingAttack(AttackController controller) : base(controller)
+    {
+        _controller = controller.GetComponent<MonsterAttackController>();
+        _movementController = controller.GetComponent<MonsterMovementController>();
+        _animator = controller.GetComponent<Animator>();
+    }
 
     public override bool HasAttackFinished()
     {
@@ -56,25 +66,22 @@ public class FlyingAttack : Attack
         _flightTime = Random.Range(0, _maxHeightTime);
     }
 
-    protected override void OnInitilize(AttackController attackController)
-    {
-        _controller = attackController.GetComponent<MonsterAttackController>();
-        _movementController = attackController.GetComponent<MonsterMovementController>();
-        _animator = attackController.GetComponent<Animator>();
-    }
-
     public override void OnStart()
     {
         _animator.enabled = false;
+
         RandomFlightHeight();
         _currentDuration = _duration;
-        //_subAttack = _attackTable.GetRandomAttack(_controller);
+        _subAttack = _internalAttackTable.GetRandomEntry();
+
+        _subAttack.OnStart();
     }
 
     public override void OnStop()
     {
-        _animator.enabled = true;
         _controller.Model.transform.position = _controller.transform.position;
+        _subAttack.OnStop();
+        _animator.enabled = true;
     }
 
     public override void OnAttackUpdate()
@@ -90,15 +97,24 @@ public class FlyingAttack : Attack
         }
 
             _movementController.Wander();
+
+        _subAttack.OnAttackUpdate();
     }
 
-    public override Attack Copy(AttackController attackController)
+    public override void OnAttackFixedUpdate()
     {
-        FlyingAttack copy = new FlyingAttack();
+        _subAttack.OnAttackFixedUpdate();
+    }
+
+    public override Attack Clone(AttackController attackController)
+    {
+        FlyingAttack copy = new FlyingAttack(attackController);
         copy._minHeight = _minHeight;
         copy._maxHeight = _maxHeight;
         copy._flySpeed = _flySpeed;
         copy._duration = _duration;
+        copy._scriptableAttackTable = _scriptableAttackTable;
+        copy._internalAttackTable = _scriptableAttackTable.CreateTable(attackController);
         return copy;
     }
 }
