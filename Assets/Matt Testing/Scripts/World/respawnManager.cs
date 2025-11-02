@@ -148,7 +148,7 @@ public class respawnManager : NetworkBehaviour
         playerUpgradeManager upgrade = player.GetComponent<playerUpgradeManager>();
         playerShooting shooting = player.GetComponent<playerShooting>();
         playerHealth health = player.GetComponent<playerHealth>();
-        player.transform.position = respawnPoints[Random.Range(0, respawnPoints.Length)].transform.position;
+
         movement.canMove = setBool;
         upgrade.canUseUpgrade = setBool;
         shooting.canShoot = setBool;

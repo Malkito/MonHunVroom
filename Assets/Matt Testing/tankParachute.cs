@@ -4,7 +4,7 @@ using Unity.Netcode;
 
 public class tankParachute : NetworkBehaviour
 {
-    public bool parachuteActive;
+    private bool parachuteActive;
     [SerializeField] private GameObject parachute;
     [SerializeField] private Rigidbody rb;
 
@@ -17,22 +17,7 @@ public class tankParachute : NetworkBehaviour
         {
             activateParachute();
         }
-
-
     }
-
-    private void activateParachute()
-    {
-        parachute.SetActive(true);
-        rb.linearDamping = 0.2f;
-    }
-
-    private void deactivateParachute()
-    {
-        parachute.SetActive(false);
-        rb.linearDamping = 0;
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -41,6 +26,17 @@ public class tankParachute : NetworkBehaviour
         }
     }
 
+    private void activateParachute()
+    {
+        parachute.SetActive(true);
+        rb.linearDamping = 0.2f;
+        parachuteActive = true;
+    }
 
-
+    private void deactivateParachute()
+    {
+        parachute.SetActive(false);
+        rb.linearDamping = 0;
+        parachuteActive = false;
+    }
 }

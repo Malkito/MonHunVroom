@@ -13,6 +13,9 @@ public class monsterDeathLootDrop : NetworkBehaviour
 
 
 
+   // [ClientRpc]
+
+
     public void spawnobjects()
     {
         if (objectsSpawned) return;
