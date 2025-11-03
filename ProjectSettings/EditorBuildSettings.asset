@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Widgets/Scenes/WidgetsQuickstart.unity
     guid: 5f8dfccf52cc83a489de9a7e3a1a7b3f
+  - enabled: 1
+    path: Assets/Scenes/MonsterScene.unity
+    guid: c9c7772bc2b86044b90261eeade3fc15
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

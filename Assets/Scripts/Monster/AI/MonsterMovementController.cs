@@ -1,5 +1,6 @@
 using LordBreakerX.States;
 using LordBreakerX.Utilities;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -23,11 +24,16 @@ public class MonsterMovementController : NetworkBehaviour
     private Transform _model;
 
     [SerializeField]
+    private Transform _monsterTransform;
+
+    [SerializeField]
     private Collider _collider;
 
     private NavMeshAgent _monsterAgent;
 
     private Animator _monsterAnimator;
+
+    private float _monsterStartHeight;
 
     public ParticleSystem UndergroundParticle { get => _undergroundParticle; }
 
@@ -38,6 +44,7 @@ public class MonsterMovementController : NetworkBehaviour
         _monsterAnimator = GetComponent<Animator>();
         _monsterAgent.speed = EnemyStatManager.MovementSpeed;
         _monsterAgent.angularSpeed = EnemyStatManager.TurningSpeed;
+        _monsterStartHeight = _monsterTransform.localPosition.y;
     }
 
     public void UpdateWalkAnimation(bool isWalking)
@@ -85,4 +92,24 @@ public class MonsterMovementController : NetworkBehaviour
             _monsterAgent.SetDestination(destination);
         }
     }
+
+    public void Fly(float flyHeight, float flySpeed)
+    {
+        Vector3 flyPosition = new Vector3(_monsterTransform.position.x, flyHeight, _monsterTransform.position.z);
+        _monsterTransform.position = Vector3.MoveTowards(_monsterTransform.position, flyPosition, flySpeed * Time.deltaTime);
+    }
+
+    public bool IsFlying(float flyHeight)
+    {
+        Vector3 flyPosition = new Vector3(_monsterTransform.position.x, flyHeight, _monsterTransform.position.z);
+        return Vector3.Distance(_monsterTransform.position, flyPosition) <= 0.2f;
+    }
+
+    public void LandFromFlight() 
+    {
+        Vector3 monsterPosition = _monsterTransform.localPosition;
+        Vector3 stopPosition = new Vector3(monsterPosition.x, _monsterStartHeight, monsterPosition.y);
+        _monsterTransform.localPosition = stopPosition;
+    }
+
 }

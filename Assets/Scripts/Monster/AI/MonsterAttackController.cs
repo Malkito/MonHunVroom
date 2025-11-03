@@ -1,8 +1,6 @@
 using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
 using LordBreakerX.Health;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -22,10 +20,6 @@ public class MonsterAttackController : AttackController
     [Min(0f)]
     private float _timeBetweenPlayerAttacks = 30;
 
-    [Header("Flying Properties")]
-    [SerializeField]
-    private Transform _model;
-
     [Header("Particles Properties")]
     [SerializeField]
     private ParticleSystem _preparingExplosionEffect;
@@ -35,8 +29,6 @@ public class MonsterAttackController : AttackController
 
     [SerializeField]
     private DamageTable _recentDamageTable = new DamageTable();
-
-    public Transform Model { get { return _model; } }
 
     public bool HasTrackedDamage { get { return _recentDamageTable.HasDamage; } }
 

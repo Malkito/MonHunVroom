@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: FlyingAttack
   m_EditorClassIdentifier: 
   _attackTemplate:
-    _minHeight: 10
-    _maxHeight: 20
-    _flySpeed: 1
-    _duration: 10
-    _maxHeightTime: 3
+    _flightHeight: 10
+    _flySpeed: 2
+    _landSpeed: 2
+    _attackDuration: 10
     _scriptableAttackTable: {fileID: 11400000, guid: daf2e1b5335aa16489256a7d4eb9d3b8, type: 2}
