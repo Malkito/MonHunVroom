@@ -1624,7 +1624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1230923820
+  GlobalObjectIdHash: 3572859796
   InScenePlacedSourceGlobalObjectIdHash: 4133430296
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1653,8 +1653,8 @@ MonoBehaviour:
   _wanderRadius: 0
   _reachedDestinationDistance: 0.2
   _undergroundParticle: {fileID: 0}
-  _model: {fileID: 0}
-  _collider: {fileID: 0}
+  _model: {fileID: 6242554899666415213}
+  _collider: {fileID: 2779705014451557940}
 --- !u!114 &5008790797301554141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1675,8 +1675,9 @@ MonoBehaviour:
   - {fileID: 2800058689913966554}
   _laserPrefab: {fileID: 1795866302372145853, guid: e9c596d46fdb0e64ba1d5ab34e791042, type: 3}
   _timeBetweenPlayerAttacks: 30
-  _model: {fileID: 0}
+  _model: {fileID: 6242554899666415213}
   _preparingExplosionEffect: {fileID: 0}
+  _stompEffect: {fileID: 0}
 --- !u!95 &60298490284039638
 Animator:
   serializedVersion: 7
@@ -1791,6 +1792,8 @@ MonoBehaviour:
   _onDeathClientSide:
     m_PersistentCalls:
       m_Calls: []
+  _currentHealth:
+    m_InternalValue: 100
   numOfFireOnMonster: 0
   mat: {fileID: 0}
 --- !u!136 &2779705014451557940

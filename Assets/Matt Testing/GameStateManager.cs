@@ -57,6 +57,7 @@ public class GameStateManager : NetworkBehaviour
             case State.CountdownToStart:
                 break;
             case State.GamePlaying:
+                GameInput.instance.enableOrDisablePlayerAction(true);
                 break;
             case State.GameOver:
                 resetSceneServerRpc();
@@ -80,6 +81,7 @@ public class GameStateManager : NetworkBehaviour
     [ServerRpc]
     private void resetSceneServerRpc()
     {
+        //PlayerInputActions.Player.Disable();
         Loader.LoadNetwork(Loader.Scene.DayGameScene);
     }
 

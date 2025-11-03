@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class fireManager : MonoBehaviour
+public class fireManager : NetworkBehaviour
 {
 
     //Created when a fire bulelt hits an object
@@ -8,14 +9,11 @@ public class fireManager : MonoBehaviour
     //If the fireEffect this script is attached to is destroyed, either by water or the duration, decrease the number of fires
 
 
-    private GameObject parent;
-
-    public GameObject ObjectOrigin;
+    public GameObject objectFireIsAttachedTo;
 
     private void Start()
     {
-        parent = transform.parent.gameObject;
-        if (parent.TryGetComponent(out dealDamage healthScript)){
+        if (objectFireIsAttachedTo.TryGetComponent(out dealDamage healthScript)){
             healthScript.increaseFireNumber();
         }
     }
@@ -23,11 +21,30 @@ public class fireManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        parent = transform.parent.gameObject;
-        if (parent.TryGetComponent(out dealDamage healthScript))
+        if (objectFireIsAttachedTo == null) return;
+        if (objectFireIsAttachedTo.TryGetComponent(out dealDamage healthScript))
         {
             healthScript.decreaseFireNumber();
         }
     }
+
+    private void Update()
+    {
+        if(objectFireIsAttachedTo = null)
+        {
+            destroyFireServerRpc();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void destroyFireServerRpc()
+    {
+        Destroy(gameObject);
+    }
+
+
+
+
+
 
 }

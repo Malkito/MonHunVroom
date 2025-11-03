@@ -63,9 +63,15 @@ public class GameInput : MonoBehaviour
 
     }
 
-    private void Update()
+    public void enableOrDisablePlayerAction(bool enableOrDisable)
     {
-
-
+        if (enableOrDisable)
+        {
+            playerInputActions.Player.Enable();
+        }
+        else
+        {
+            playerInputActions.Player.Disable();
+        }
     }
 }
