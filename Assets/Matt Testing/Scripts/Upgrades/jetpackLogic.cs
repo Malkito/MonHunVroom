@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class jetpackLogic : MonoBehaviour, useAbility
 {
@@ -10,13 +10,18 @@ public class jetpackLogic : MonoBehaviour, useAbility
     private float currentHoverCharge = 500;
 
     private bool canHover;
-
+    private Slider JetpackSlider;
+    private Transform JetpackSliderMeterUI;
 
     public void useAbility(Transform transform, bool abilityPressed)
     {
         Rigidbody rb = transform.GetComponent<Rigidbody>();
 
-        if(currentHoverCharge <= 0)
+        JetpackSliderMeterUI = FindFireUI(transform, "JetPackMeter");
+        JetpackSliderMeterUI.gameObject.SetActive(true);
+        JetpackSlider = JetpackSliderMeterUI.GetChild(0).GetComponent<Slider>();
+
+        if (currentHoverCharge <= 0)
         {
             currentHoverCharge = 0;
             canHover = false;
@@ -27,11 +32,11 @@ public class jetpackLogic : MonoBehaviour, useAbility
             isHovering(rb);
         }
         else
-        {
-            
+        {  
             isNotHovering();
             print("Not hovering");
         }
+        JetpackSlider.value = currentHoverCharge / maxHoverCharge;
     }
 
     private void isHovering(Rigidbody rb)
@@ -46,4 +51,20 @@ public class jetpackLogic : MonoBehaviour, useAbility
         if (currentHoverCharge >= (currentHoverCharge * 0.2)) canHover = true;
         if (currentHoverCharge >= maxHoverCharge) currentHoverCharge = maxHoverCharge;
     }
+
+
+    private Transform FindFireUI(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name)
+                return child;
+
+            Transform found = FindFireUI(child, name);
+            if (found != null)
+                return found;
+        }
+        return null;
+    }
+
 }

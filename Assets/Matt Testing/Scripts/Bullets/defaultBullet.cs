@@ -10,7 +10,7 @@ public interface dealDamage //Anything that needs to take damage inherites from 
     public void decreaseFireNumber();
 }
 
-public class defaultBullet : MonoBehaviour, bullet
+public class defaultBullet : NetworkBehaviour, bullet
 {
 
     private GameObject BulletDamageOrigin;
@@ -29,8 +29,14 @@ public class defaultBullet : MonoBehaviour, bullet
             }
             healthScript.dealDamage(damage, Color.gray, BulletDamageOrigin); // deals damage if collides with something that can be damaged
         }
+        destroyBulletServerRpc();
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void destroyBulletServerRpc()
+    {
+        Destroy(gameObject);
+    } 
 
     public void setDamageOrigin(GameObject damageOrigin)
     {

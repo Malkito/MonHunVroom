@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverForce: 15
-  hoverChargeDeplationRate: 60
+  hoverChargeDeplationRate: 150
   hoverChargeRegenAmout: 40
 --- !u!114 &-5492991516151708472
 MonoBehaviour:

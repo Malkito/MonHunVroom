@@ -89,7 +89,9 @@ public class readyCheck : NetworkBehaviour
 
         playersSpawned = true;
 
-        GameStateManager.Instance.setNewState(GameStateManager.State.GamePlaying);
+        setGameStateClientRpc();
+
+
 
     }
     [ClientRpc]
@@ -97,4 +99,11 @@ public class readyCheck : NetworkBehaviour
     {
         readyCanvas.SetActive(false);
     }
+
+    [ClientRpc]
+    private void setGameStateClientRpc()
+    {
+        GameStateManager.Instance.setNewState(GameStateManager.State.GamePlaying);
+    }
+
 }

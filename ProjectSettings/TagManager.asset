@@ -11,6 +11,7 @@ TagManager:
   - Monster
   - Upgrade
   - RespawnUI
+  - FireMeter
   layers:
   - Default
   - TransparentFX
