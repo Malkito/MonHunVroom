@@ -42,7 +42,7 @@ public class fireManager : NetworkBehaviour
 
     private void Update()
     {
-        if(objectFireIsAttachedTo = null)
+        if(objectFireIsAttachedTo == null)
         {
             destroyFireServerRpc();
         }

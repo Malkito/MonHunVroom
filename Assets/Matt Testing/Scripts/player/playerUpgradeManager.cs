@@ -62,6 +62,8 @@ public class playerUpgradeManager : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+        SpawnUpgradeLogicOBJServerRPC(upgradeArrayIndex);
+
         if (currentUpgradeCount < currentUpgrades.Length) // if the number of upgrades is less than the max allowed
         {      
             
@@ -106,7 +108,6 @@ public class playerUpgradeManager : NetworkBehaviour
             //newUpgrade.transform.SetParent(upgradePlaceHolders[2]);
 
         }
-        SpawnUpgradeLogicOBJServerRPC(upgradeArrayIndex);
     }
 
 

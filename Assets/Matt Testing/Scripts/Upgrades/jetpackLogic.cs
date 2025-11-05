@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
+using System.Collections;
 
 public class jetpackLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onUpgradeDropped
 {
@@ -17,6 +18,10 @@ public class jetpackLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onU
     private GameObject hatOBj;
 
     private Animator ac;
+
+    private void Awake()
+    {
+    }
 
     public void useAbility(Transform transform, bool abilityPressed)
     {
@@ -42,18 +47,31 @@ public class jetpackLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onU
 
     public void onUpgradePickedup(Transform player)
     {
-        JetpackSliderMeterUI = FindFireUI(player, "JetPackMeter");
+        JetpackSliderMeterUI = FindChild(player, "JetPackMeter");
         JetpackSliderMeterUI.gameObject.SetActive(true);
         JetpackSlider = JetpackSliderMeterUI.GetChild(0).GetComponent<Slider>();
-        hatOBj = FindFireUI(player, "HeliHat").gameObject;
-        enableDisableHatClientRpc(true);
+        /*
+        hatOBj = FindChild(player, "HeliHat").gameObject;
+        StartCoroutine(deylatHatEnable());
         ac = hatOBj.GetComponent<Animator>();
+        */
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void enableDisableHatServerRpc(bool enableDisable)
+    {
+        hatOBj.SetActive(enableDisable);
+    }
+
 
     public void onUpgradeDropped(Transform player)
     {
         JetpackSliderMeterUI.gameObject.SetActive(false);
-        enableDisableHatClientRpc(false);
+        /*
+        enableDisableHatServerRpc(false);
+        gameObject.GetComponent<NetworkObject>().Despawn();
+        */
+
     }
 
     private void isHovering(Rigidbody rb)
@@ -71,21 +89,16 @@ public class jetpackLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onU
         ac.SetBool("IsHovering", false);
     }
 
-    [ClientRpc]
-    private void enableDisableHatClientRpc(bool enableDisable)
-    {
-        hatOBj.SetActive(enableDisable);
-    }
 
 
-    private Transform FindFireUI(Transform parent, string name)
+    private Transform FindChild(Transform parent, string name)
     {
         foreach (Transform child in parent)
         {
             if (child.name == name)
                 return child;
 
-            Transform found = FindFireUI(child, name);
+            Transform found = FindChild(child, name);
             if (found != null)
                 return found;
         }

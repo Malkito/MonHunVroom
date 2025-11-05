@@ -52,10 +52,10 @@ public class fireBullet : NetworkBehaviour, bullet
     private void spawnfireServerRPC()
     {
         GameObject fire = Instantiate(fireEffect, transform.position, Quaternion.Euler(-90, 0, 0)); // creates the fire object
-        fire.GetComponent<fireManager>().objectFireIsAttachedTo = collisionTransform.gameObject;
-
         NetworkObject fireNetOBj = fire.GetComponent<NetworkObject>();
         fireNetOBj.Spawn();
+        fire.GetComponent<fireManager>().objectFireIsAttachedTo = collisionTransform.gameObject;
+
 
 
 

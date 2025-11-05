@@ -686,7 +686,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c0f1eeb54dcba364da6c651bddec2f24, type: 2}
   - {fileID: 11400000, guid: c0f1eeb54dcba364da6c651bddec2f24, type: 2}
   - {fileID: 11400000, guid: 67f08d7d03c844049bf8c7193921c61a, type: 2}
-  fireRate: 1
+  fireRate: 3
   barrelEnd: {fileID: 495791370891123973}
   turretOwner: {fileID: 0}
 --- !u!114 &-66503015405270582
