@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth:
     _statType: 0
-    _value: 500
+    _value: 1800
     _minValue: 100
     _maxValue: 400
     _curveValue:

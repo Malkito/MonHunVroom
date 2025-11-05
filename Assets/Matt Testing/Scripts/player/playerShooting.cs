@@ -45,6 +45,7 @@ public class playerShooting : NetworkBehaviour
     public float damageDealt;
     [SerializeField] public BulletSO[] bulletSOarray;
     private Rigidbody tankRB;
+    [SerializeField] private Image bigShotUI;
 
     [SerializeField] private ParticleSystem muzzleFlash;
 
@@ -83,6 +84,14 @@ public class playerShooting : NetworkBehaviour
 
         currentMainBuleltTest.text = bulletSOarray[currentMainBulletSoIndex].name;
         currentAltBuleltTest.text = bulletSOarray[currentAltBulletSoIndex].name;
+
+        if (bigShotLoaded)
+        {
+            Color color = bigShotUI.color;
+            color.a = 1f;
+            bigShotUI.color = color;
+        }
+
     }
 
 
@@ -134,6 +143,9 @@ public class playerShooting : NetworkBehaviour
         {
             projectile.GetComponent<defaultBullet>().isBigShot = true;
             bigShotLoaded = false;
+            Color color = bigShotUI.color;
+            color.a = 0.5f;
+            bigShotUI.color = color;
         }
 
         //Destroy the projectile 
