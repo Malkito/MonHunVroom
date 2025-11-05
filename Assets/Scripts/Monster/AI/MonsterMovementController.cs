@@ -1,3 +1,4 @@
+using LordBreakerX.Health;
 using LordBreakerX.States;
 using LordBreakerX.Utilities;
 using System.Collections;
@@ -34,6 +35,8 @@ public class MonsterMovementController : NetworkBehaviour
     private Animator _monsterAnimator;
 
     private float _monsterStartHeight;
+
+    private MonsterHealth _health;
 
     public ParticleSystem UndergroundParticle { get => _undergroundParticle; }
 
@@ -110,6 +113,15 @@ public class MonsterMovementController : NetworkBehaviour
         Vector3 monsterPosition = _monsterTransform.localPosition;
         Vector3 stopPosition = new Vector3(monsterPosition.x, _monsterStartHeight, monsterPosition.y);
         _monsterTransform.localPosition = stopPosition;
+    }
+
+    public MonsterHealth GetMonsterHealth()
+    {
+        if (_health == null)
+        {
+            _health = _monsterTransform.GetComponent<MonsterHealth>();
+        }
+        return _health;
     }
 
 }

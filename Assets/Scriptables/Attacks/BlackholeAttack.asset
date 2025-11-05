@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51e785ad8ce7ad2449757ea94b0a8b21, type: 3}
-  m_Name: Blackhole
+  m_Name: BlackholeAttack
   m_EditorClassIdentifier: 
   _attackTemplate:
     _prefab: {fileID: 4245827291734076512, guid: 4d0abd93a7b08d04a9699d63870ebb8f, type: 3}

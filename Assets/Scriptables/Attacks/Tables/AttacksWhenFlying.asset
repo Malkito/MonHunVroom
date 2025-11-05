@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: AttacksWhenFlying
   m_EditorClassIdentifier: 
   _weightedEntries:
-  - _value: {fileID: 11400000, guid: ee0a0c152fe49b6408f8d33453666fdc, type: 2}
+  - _value: {fileID: 11400000, guid: 3fea172be1dea4b498ff01e2d4303884, type: 2}
+    _weight: 100
+  - _value: {fileID: 11400000, guid: 49649795fdf7b604eaa6399dab698081, type: 2}
+    _weight: 100
+  - _value: {fileID: 11400000, guid: 38a6f19c15d01f244b75b60d8e0bdf9d, type: 2}
     _weight: 100

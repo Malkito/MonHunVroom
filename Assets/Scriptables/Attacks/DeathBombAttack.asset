@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af90afbe3e336644cb7b60371a241f20, type: 3}
-  m_Name: DeathBomb
+  m_Name: DeathBombAttack
   m_EditorClassIdentifier: 
   _attackTemplate:
     _explosionRadius: 50

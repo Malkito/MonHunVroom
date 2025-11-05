@@ -52,8 +52,8 @@ public class DeathBomb : Attack
 
     public DeathBomb(AttackController controller) : base(controller)
     {
-        _health = controller.GetComponent<MonsterHealth>();
         _movement = controller.GetComponent<MonsterMovementController>();
+        _health = _movement.GetMonsterHealth();
         _attack = controller.GetComponent<MonsterAttackController>();
         _explodeTimer = new Timer(_timeBeforeExplosion);
         _explodeTimer.OnTimerFinished += Explode;

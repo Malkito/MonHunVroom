@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d84e49c4b12f0c4681d6a163987158a, type: 3}
-  m_Name: LaserEyes
+  m_Script: {fileID: 11500000, guid: 5af5af60c48400f4b95f4d6956395600, type: 3}
+  m_Name: StompAttack
   m_EditorClassIdentifier: 
   _attackTemplate:
-    _duration: 10
-    _attackRate: 0.15
-    _maxAttackDistance: 30
-    _laser: {fileID: 1795866302372145853, guid: e9c596d46fdb0e64ba1d5ab34e791042, type: 3}
+    _maxStompDistance: 15
+    _monsterTag: Monster
+    _stompPushForce: 2000

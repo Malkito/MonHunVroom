@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: AllAttacks
   m_EditorClassIdentifier: 
   _weightedEntries:
-  - _value: {fileID: 11400000, guid: 165a0ed1d10558e429d03c1ee5ed126b, type: 2}
+  - _value: {fileID: 11400000, guid: 3fea172be1dea4b498ff01e2d4303884, type: 2}
     _weight: 100
-  - _value: {fileID: 11400000, guid: e6b5141fe901df940b923f854c98d9e4, type: 2}
+  - _value: {fileID: 11400000, guid: 49649795fdf7b604eaa6399dab698081, type: 2}
     _weight: 100
-  - _value: {fileID: 11400000, guid: ee0a0c152fe49b6408f8d33453666fdc, type: 2}
+  - _value: {fileID: 11400000, guid: 38a6f19c15d01f244b75b60d8e0bdf9d, type: 2}
     _weight: 100
-  - _value: {fileID: 11400000, guid: 82ce18fa38b75434fb11549eba231d46, type: 2}
+  - _value: {fileID: 11400000, guid: 08e25a44571428f4687bfeec8682b818, type: 2}
     _weight: 100
-  - _value: {fileID: 11400000, guid: d68ab3b530d446646b8b69bb9dc08eca, type: 2}
+  - _value: {fileID: 11400000, guid: 7568ebdb3ae3a0344bef2bc177e754e4, type: 2}
     _weight: 100
-  - _value: {fileID: 11400000, guid: 92926bef985859c4fafd51580d60f214, type: 2}
+  - _value: {fileID: 11400000, guid: 122546b4090a44748a1aa7ac7295cd92, type: 2}
     _weight: 100
-  - _value: {fileID: 11400000, guid: 92926bef985859c4fafd51580d60f214, type: 2}
-    _weight: 100
+  - _value: {fileID: 11400000, guid: 1718cb4caed420a49b9370908b847c05, type: 2}
+    _weight: 1

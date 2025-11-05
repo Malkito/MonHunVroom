@@ -392,6 +392,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3157384207156744822}
   - component: {fileID: 2310815709147791629}
+  - component: {fileID: 2431937649860221070}
+  - component: {fileID: 7782683101210868578}
   m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
@@ -417,16 +419,113 @@ Transform:
   - {fileID: 6470862850078915577}
   - {fileID: 2800058689913966554}
   - {fileID: 6099964927278686785}
-  - {fileID: 5395024121735250116}
   - {fileID: 1363310882119796856}
-  - {fileID: 6571442681510845708}
-  - {fileID: 7902029469226449919}
   - {fileID: 461179841963631219}
   - {fileID: 3347444227231346253}
   - {fileID: 5855975887735322922}
   m_Father: {fileID: 6242554899666415213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2310815709147791629
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857611360790739109}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.4833694
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2557336, z: 0}
+--- !u!114 &2431937649860221070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857611360790739109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab32ce152a318d84aaa9b6db19afaee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  _onHealthChangedServerSide:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5008790797301554141}
+        m_TargetAssemblyTypeName: MonsterAttackController, Assembly-CSharp
+        m_MethodName: OnMonsterHealthChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6636841421706184745}
+        m_TargetAssemblyTypeName: TestMonsterHUD, Assembly-CSharp
+        m_MethodName: OnHealthChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onHealthChangedClientSide:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6636841421706184745}
+        m_TargetAssemblyTypeName: TestMonsterHUD, Assembly-CSharp
+        m_MethodName: OnHealthChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onDeathServerSide:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2192117877491711739}
+        m_TargetAssemblyTypeName: LordBreakerX.States.StateMachineNetworked, LordBreakerX.States
+        m_MethodName: RequestChangeState
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
+          m_ObjectArgumentAssemblyTypeName: LordBreakerX.States.BaseState, LordBreakerX.States
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onDeathClientSide:
+    m_PersistentCalls:
+      m_Calls: []
+  _currentHealth:
+    m_InternalValue: 100
+  numOfFireOnMonster: 0
+  mat: {fileID: 1770131436353006553}
+--- !u!136 &7782683101210868578
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5409,7 +5508,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0.45999998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6571442681510845708}
   m_Father: {fileID: 3157384207156744822}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5682,16 +5782,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3610067264396518657}
-  m_LocalRotation: {x: -0, y: -0.99998045, z: -0, w: 0.006260218}
-  m_LocalPosition: {x: 0, y: 0, z: 0.4599996}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3157384207156744822}
+  m_Children:
+  - {fileID: 7902029469226449919}
+  m_Father: {fileID: 1363310882119796856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.010000478, y: 2.9900002}
+  m_AnchoredPosition: {x: 0, y: 0.4699998}
   m_SizeDelta: {x: 3.0384002, y: 0.43319988}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4315835204232585680
@@ -5819,16 +5920,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4032026594062682808}
-  m_LocalRotation: {x: -0, y: -0.99998045, z: -0, w: 0.006260218}
-  m_LocalPosition: {x: 0, y: 0, z: 0.4599996}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3157384207156744822}
+  m_Father: {fileID: 6571442681510845708}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.009999827, y: 2.9900002}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 3.0384002, y: 0.43319988}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8041718831139432170
@@ -5964,118 +6065,6 @@ Transform:
   - {fileID: 6468541419286368700}
   m_Father: {fileID: 3144293733767574825}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4939659200982271622
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5395024121735250116}
-  - component: {fileID: 7466778536219411463}
-  - component: {fileID: 2770750126585724197}
-  - component: {fileID: 2731720043088793575}
-  m_Layer: 8
-  m_Name: WithinBoxTest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5395024121735250116
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4939659200982271622}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.0360001, z: -1.5500005}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3157384207156744822}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7466778536219411463
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4939659200982271622}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &2770750126585724197
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4939659200982271622}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2731720043088793575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4939659200982271622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 787574584
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 0
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
 --- !u!1 &4964656050217329060
 GameObject:
   m_ObjectHideFlags: 0
@@ -11363,7 +11352,6 @@ GameObject:
   - component: {fileID: 5008790797301554141}
   - component: {fileID: 60298490284039638}
   - component: {fileID: 2192117877491711739}
-  - component: {fileID: 5801573790735762100}
   - component: {fileID: 7254253223198287580}
   - component: {fileID: 1310162042727867752}
   m_Layer: 6
@@ -11402,7 +11390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1618838313
+  GlobalObjectIdHash: 4133430296
   InScenePlacedSourceGlobalObjectIdHash: 4133430296
   DeferredDespawnTick: 0
   Ownership: 1
@@ -11433,7 +11421,7 @@ MonoBehaviour:
   _undergroundParticle: {fileID: 2121309019862115605}
   _model: {fileID: 6099964927278686785}
   _monsterTransform: {fileID: 3157384207156744822}
-  _collider: {fileID: 2310815709147791629}
+  _collider: {fileID: 7782683101210868578}
 --- !u!114 &5008790797301554141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11496,83 +11484,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
   - {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
   - {fileID: 11400000, guid: 24d15b4f5d9c66f409d5cb0499c2a268, type: 2}
---- !u!114 &5801573790735762100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7549028244194166420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab32ce152a318d84aaa9b6db19afaee3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  _onHealthChangedServerSide:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5008790797301554141}
-        m_TargetAssemblyTypeName: MonsterAttackController, Assembly-CSharp
-        m_MethodName: OnMonsterHealthChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6636841421706184745}
-        m_TargetAssemblyTypeName: TestMonsterHUD, Assembly-CSharp
-        m_MethodName: OnHealthChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onHealthChangedClientSide:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6636841421706184745}
-        m_TargetAssemblyTypeName: TestMonsterHUD, Assembly-CSharp
-        m_MethodName: OnHealthChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onDeathServerSide:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2192117877491711739}
-        m_TargetAssemblyTypeName: LordBreakerX.States.StateMachineNetworked, LordBreakerX.States
-        m_MethodName: RequestChangeState
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
-          m_ObjectArgumentAssemblyTypeName: LordBreakerX.States.BaseState, LordBreakerX.States
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onDeathClientSide:
-    m_PersistentCalls:
-      m_Calls: []
-  _currentHealth:
-    m_InternalValue: 100
-  numOfFireOnMonster: 0
-  mat: {fileID: 1770131436353006553}
 --- !u!195 &7254253223198287580
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using LordBreakerX.Tables;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace LordBreakerX.AttackSystem
 {
@@ -16,6 +17,8 @@ namespace LordBreakerX.AttackSystem
         {
             UpdateUseableAttacks();
             UpdateTotalWeight();
+
+            Debug.Log("UseableAttacks: " + _useableAttacks.Count);
 
             return base.GetRandomEntry();
         }
