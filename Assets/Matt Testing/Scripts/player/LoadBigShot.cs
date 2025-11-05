@@ -9,7 +9,9 @@ public class LoadBigShot : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<playerShooting>().bigShotLoaded = true;
+            playerShooting ps = other.GetComponent<playerShooting>();
+            if (ps.bigShotLoaded) return;
+            ps.bigShotLoaded = true;
             destroyObjectClientRpc();
         }
     }

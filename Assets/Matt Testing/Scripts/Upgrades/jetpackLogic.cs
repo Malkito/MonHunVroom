@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class jetpackLogic : MonoBehaviour, useAbility
+public class jetpackLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onUpgradeDropped
 {
     [SerializeField] private float hoverForce;
     [SerializeField] static float maxHoverCharge = 500;
@@ -13,13 +14,13 @@ public class jetpackLogic : MonoBehaviour, useAbility
     private Slider JetpackSlider;
     private Transform JetpackSliderMeterUI;
 
+    private GameObject hatOBj;
+
+    private Animator ac;
+
     public void useAbility(Transform transform, bool abilityPressed)
     {
         Rigidbody rb = transform.GetComponent<Rigidbody>();
-
-        JetpackSliderMeterUI = FindFireUI(transform, "JetPackMeter");
-        JetpackSliderMeterUI.gameObject.SetActive(true);
-        JetpackSlider = JetpackSliderMeterUI.GetChild(0).GetComponent<Slider>();
 
         if (currentHoverCharge <= 0)
         {
@@ -39,10 +40,27 @@ public class jetpackLogic : MonoBehaviour, useAbility
         JetpackSlider.value = currentHoverCharge / maxHoverCharge;
     }
 
+    public void onUpgradePickedup(Transform player)
+    {
+        JetpackSliderMeterUI = FindFireUI(player, "JetPackMeter");
+        JetpackSliderMeterUI.gameObject.SetActive(true);
+        JetpackSlider = JetpackSliderMeterUI.GetChild(0).GetComponent<Slider>();
+        hatOBj = FindFireUI(player, "HeliHat").gameObject;
+        enableDisableHatClientRpc(true);
+        ac = hatOBj.GetComponent<Animator>();
+    }
+
+    public void onUpgradeDropped(Transform player)
+    {
+        JetpackSliderMeterUI.gameObject.SetActive(false);
+        enableDisableHatClientRpc(false);
+    }
+
     private void isHovering(Rigidbody rb)
     {
         currentHoverCharge -= Time.deltaTime * hoverChargeDeplationRate;
         rb.AddForce(Vector3.up * hoverForce, ForceMode.Acceleration);
+        ac.SetBool("IsHovering", true);
     }
 
     private void isNotHovering()
@@ -50,6 +68,13 @@ public class jetpackLogic : MonoBehaviour, useAbility
         currentHoverCharge += Time.deltaTime * hoverChargeRegenAmout;
         if (currentHoverCharge >= (currentHoverCharge * 0.2)) canHover = true;
         if (currentHoverCharge >= maxHoverCharge) currentHoverCharge = maxHoverCharge;
+        ac.SetBool("IsHovering", false);
+    }
+
+    [ClientRpc]
+    private void enableDisableHatClientRpc(bool enableDisable)
+    {
+        hatOBj.SetActive(enableDisable);
     }
 
 

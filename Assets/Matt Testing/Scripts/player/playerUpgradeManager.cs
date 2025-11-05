@@ -18,6 +18,16 @@ interface useAbility
     public void useAbility(Transform position, bool abilityPressed);
 }
 
+interface onUpgradeDropped
+{
+    public void onUpgradeDropped(Transform player);
+}
+
+interface onUpgradePickedup
+{
+    public void onUpgradePickedup(Transform player);
+}
+
 
 public class playerUpgradeManager : NetworkBehaviour
 {
@@ -56,12 +66,23 @@ public class playerUpgradeManager : NetworkBehaviour
         {      
             
             currentUpgrades[currentUpgradeCount] = upgradeArray[upgradeArrayIndex]; // adds the upgrade to the oppropiate postion
+
+            if (currentUpgrades[currentUpgradeCount].logicScriptObject.TryGetComponent(out onUpgradePickedup onUpgradePickedup))
+            {
+                onUpgradePickedup.onUpgradePickedup(transform);
+            }
+
+
             currentUpgradeCount++; //increse the number of upgrades the player has
         }
         else // if the numebr of upgrades is max, shuffles the upgrades forward on spot, then drops the "oldest" upgrade
         {
             spawnUpgradePickUpServerRpc();
 
+            if(currentUpgrades[0].logicScriptObject.TryGetComponent(out onUpgradeDropped onUpgradeDropped))
+            {
+                onUpgradeDropped.onUpgradeDropped(transform);
+            }
 
             currentUpgrades[0] = currentUpgrades[1]; // shuffles upgrade in second pos to first pos
             abilityOneCooldown = abilityTwoCooldown;
@@ -92,7 +113,11 @@ public class playerUpgradeManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void spawnUpgradePickUpServerRpc()
     {
+
+
         GameObject pickUpObject = Instantiate(currentUpgrades[0].pickupObject, transform.position, Quaternion.identity); // drops the "oldest upgrade"
+
+
 
         upgradePickUp upgradePickUpScrit = pickUpObject.GetComponent<upgradePickUp>(); // sets certain conditons on the upgrade pick up script to ensure that no "pick up loops" occor. Pick up loops being when the upgrades are constanly switching,picking up and dropping
         

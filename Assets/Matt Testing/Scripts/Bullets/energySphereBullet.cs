@@ -48,7 +48,7 @@ public class energySphereBullet : NetworkBehaviour, bullet
         {
             for (int i = 0; i < numberOfBullets; i++) //runs the spawn fire bullet function the determinted number of times
             {
-                spawnAndLaunchFire();
+                spawnAndLaunchServerRpc();
             }
 
             Destroy(gameObject);
@@ -83,6 +83,12 @@ public class energySphereBullet : NetworkBehaviour, bullet
         BulletDamageOrigin = damageOrigin;
     }
 
+
+    [ServerRpc(RequireOwnership = false)]
+    private void spawnAndLaunchServerRpc()
+    {
+        spawnAndLaunchFire();
+    }
 
     private void spawnAndLaunchFire() // spawns a singlar fire bullet on sphere, picks a random direction then shoots the bullet with a randomized speed
     {

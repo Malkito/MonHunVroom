@@ -1,6 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
-public class airStrikeLogic : NetworkBehaviour, useAbility
+public class airStrikeLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onUpgradeDropped
 {
     [SerializeField] private playerShooting PS;
     [SerializeField] private int bulletSOIndex;
@@ -11,4 +11,21 @@ public class airStrikeLogic : NetworkBehaviour, useAbility
         PS.AltShootServerRPC(bulletSOIndex);
         print("Air strike used");      
     }
+
+    public void onUpgradePickedup(Transform player)
+    {
+
+    }
+
+    public void onUpgradeDropped(Transform player)
+    {
+
+    }
+
+
+
+
+
+
+
 }

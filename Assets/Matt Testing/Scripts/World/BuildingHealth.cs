@@ -12,7 +12,7 @@ public class BuildingHealth : NetworkBehaviour, dealDamage
     /// </summary>
 
 
-    [SerializeField] private float maxHealth;
+    public float maxHealth;
     public float currentHealth;
 
 
@@ -103,7 +103,7 @@ public class BuildingHealth : NetworkBehaviour, dealDamage
         {
             yield return new WaitForSeconds(1f);
             currentHealth -= damagePerTick;
-            StartCoroutine(flashDamageColor(Color.red));
+            flashDamageColorClientRpc();
             elapsedTIme += 1f;
         }
         dotCoroutine = null;
@@ -115,6 +115,12 @@ public class BuildingHealth : NetworkBehaviour, dealDamage
         mat.color = flashColor;
         yield return new WaitForSeconds(flashTIme);
         mat.color = baseMat;
+    }
+
+    [ClientRpc]
+    private void flashDamageColorClientRpc()
+    {
+        StartCoroutine(flashDamageColor(Color.red));
     }
 
 }

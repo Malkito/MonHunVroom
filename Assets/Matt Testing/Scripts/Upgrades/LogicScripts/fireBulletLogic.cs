@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine.UI;
 
 
-public class fireBulletLogic : NetworkBehaviour, useAbility
+public class fireBulletLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onUpgradeDropped
 {
 
     [SerializeField] private float maxCharge;
@@ -21,14 +21,6 @@ public class fireBulletLogic : NetworkBehaviour, useAbility
     public void useAbility(Transform transform, bool abilityPressed)
     {
         PS = transform.gameObject.GetComponent<playerShooting>();
-
-        fireMeterUI = FindFireUI(transform, "FireMeter");
-        fireMeterUI.gameObject.SetActive(true);
-        fireSlider = fireMeterUI.GetChild(0).GetComponent<Slider>();
-
-
-
-
         if (currentCharge <= 0)
         {
             currentCharge = 0;
@@ -54,12 +46,21 @@ public class fireBulletLogic : NetworkBehaviour, useAbility
             isNotfiring();
             print(currentCharge);
         }
-
-
-
         fireSlider.value = currentCharge / maxCharge;
-       
     }
+
+    public void onUpgradePickedup(Transform player)
+    {
+        fireMeterUI = FindFireUI(player, "FireMeter");
+        fireMeterUI.gameObject.SetActive(true);
+        fireSlider = fireMeterUI.GetChild(0).GetComponent<Slider>();
+    }
+
+    public void onUpgradeDropped(Transform player)
+    {
+        fireMeterUI.gameObject.SetActive(false);
+    }
+
 
 
     private void isNotfiring()
@@ -82,6 +83,12 @@ public class fireBulletLogic : NetworkBehaviour, useAbility
                 return found;
         }
         return null;
+
+    }
+
+
+    private void onUpgradeDrop()
+    {
 
     }
 

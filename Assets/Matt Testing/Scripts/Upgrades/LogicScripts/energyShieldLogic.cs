@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class energyShieldLogic : NetworkBehaviour, useAbility
+public class energyShieldLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onUpgradeDropped
 {
 
     [SerializeField] private GameObject shieldObject;
@@ -26,5 +26,17 @@ public class energyShieldLogic : NetworkBehaviour, useAbility
         Shield.transform.SetParent(spawnLocal);
         Destroy(Shield, 10);
     }
+
+
+    public void onUpgradePickedup(Transform player)
+    {
+
+    }
+
+    public void onUpgradeDropped(Transform player)
+    {
+
+    }
+
 
 }
