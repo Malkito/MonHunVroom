@@ -17,6 +17,8 @@ public class readyCheck : NetworkBehaviour
     [SerializeField] private GameObject[] playerObjects;
     //[SerializeField] Animator ac;
 
+    [SerializeField] private Transform[] respawnPoints;
+
     private void Awake()
     {
         readyButton.onClick.AddListener(() => {
@@ -78,7 +80,7 @@ public class readyCheck : NetworkBehaviour
         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
         {
            
-            Transform spawnPoint = respawnManager.Instance.respawnPoints[spawnIndex].transform;
+            Transform spawnPoint = respawnPoints[spawnIndex];
             GameObject player = Instantiate(playerPrefabs, spawnPoint);
 
 

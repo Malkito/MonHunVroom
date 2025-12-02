@@ -4,75 +4,90 @@ using TMPro;
 
 public class feedbackUI : MonoBehaviour
 {
-    [SerializeField] private Image abilityOne;
-    [SerializeField] private Image abilityTwo;
-    [SerializeField] private Image abilityThree;
+    [Header("Ability Icons")]
+    [SerializeField] private Image abilityOneIcon;
+    [SerializeField] private Image abilityTwoIcon;
+    [SerializeField] private Image abilityThreeIcon;
 
+    [Header("Ability Text Labels")]
     [SerializeField] private TMP_Text abilityOneName;
     [SerializeField] private TMP_Text abilityTwoName;
     [SerializeField] private TMP_Text abilityThreeName;
 
-
+    [Header("References")]
     [SerializeField] private playerUpgradeManager playerUpgradeManager;
 
+    private readonly Color activeColor = Color.green;
+    private readonly Color inactiveColor = Color.red;
+
+    private readonly Color cooldownColor = new Color(1, 1, 1, 0.5f);
+    private readonly Color readyColor = new Color(1, 1, 1, 1);
 
     void Update()
     {
-        if (GameInput.instance.getAbilityOneInput())
-        {
-            abilityOne.color = Color.green;
-        }
-        else
-        {
-            abilityOne.color = Color.red;
-        }
+        if (playerUpgradeManager == null)
+            return;
 
-        if (GameInput.instance.getAbilityTwoInput())
-        {
-            abilityTwo.color = Color.green;
-        }
-        else
-        {
-            abilityTwo.color = Color.red;
-        }
+        UpdateAbilityInputs();
+        UpdateAbilityNames();
+        UpdateCooldownVisuals();
+    }
 
-        if (GameInput.instance.getAbilityThreeInput())
-        {
-            abilityThree.color = Color.green;
-        }
-        else
-        {
-            abilityThree.color = Color.red;
-        }
+    // -------------------------------------------------------------
+    // Shows if the ability button is being pressed
+    // -------------------------------------------------------------
+    private void UpdateAbilityInputs()
+    {
+        abilityOneIcon.color = GameInput.instance.getAbilityOneInput() ? activeColor : inactiveColor;
+        abilityTwoIcon.color = GameInput.instance.getAbilityTwoInput() ? activeColor : inactiveColor;
+        abilityThreeIcon.color = GameInput.instance.getAbilityThreeInput() ? activeColor : inactiveColor;
+    }
 
-        if (playerUpgradeManager.currentUpgrades[0] != null) abilityOneName.text = playerUpgradeManager.currentUpgrades[0].name;
-        if (playerUpgradeManager.currentUpgrades[1] != null) abilityTwoName.text = playerUpgradeManager.currentUpgrades[1].name;
-        if (playerUpgradeManager.currentUpgrades[2] != null) abilityThreeName.text = playerUpgradeManager.currentUpgrades[2].name;
-
-        if (playerUpgradeManager.abilityOneCooldown > 0) {
-            abilityOneName.color = new Color(1, 1, 1, 0.5f);
-        }
+    // -------------------------------------------------------------
+    // Shows ability names from equipped upgrades
+    // -------------------------------------------------------------
+    private void UpdateAbilityNames()
+    {
+        // Slot 1
+        if (playerUpgradeManager.equipped[0] != null &&
+            playerUpgradeManager.equipped[0].definition != null)
+            abilityOneName.text = playerUpgradeManager.equipped[0].definition.name;
         else
-        {
-            abilityOneName.color = new Color(1, 1, 1, 1);
-        }
+            abilityOneName.text = "None";
 
-        if (playerUpgradeManager.abilityTwoCooldown > 0)
-        {
-            abilityTwoName.color = new Color(1, 1, 1, 0.5f);
-        }
+        // Slot 2
+        if (playerUpgradeManager.equipped[1] != null &&
+            playerUpgradeManager.equipped[1].definition != null)
+            abilityTwoName.text = playerUpgradeManager.equipped[1].definition.name;
         else
-        {
-            abilityTwoName.color = new Color(1, 1, 1, 1);
-        }
+            abilityTwoName.text = "None";
 
-        if (playerUpgradeManager.abilityThreeCooldown > 0)
-        {
-            abilityThreeName.color = new Color(1, 1, 1, 0.5f);
-        }
+        // Slot 3
+        if (playerUpgradeManager.equipped[2] != null &&
+            playerUpgradeManager.equipped[2].definition != null)
+            abilityThreeName.text = playerUpgradeManager.equipped[2].definition.name;
         else
-        {
-            abilityThreeName.color = new Color(1, 1, 1, 1);
-        }
+            abilityThreeName.text = "None";
+    }
+
+    // -------------------------------------------------------------
+    // Fades out ability name colors when they are on cooldown
+    // -------------------------------------------------------------
+    private void UpdateCooldownVisuals()
+    {
+        // Ability slot 1 cooldown
+        abilityOneName.color = playerUpgradeManager.abilityOneCooldown > 0
+            ? cooldownColor
+            : readyColor;
+
+        // Ability slot 2 cooldown
+        abilityTwoName.color = playerUpgradeManager.abilityTwoCooldown > 0
+            ? cooldownColor
+            : readyColor;
+
+        // Ability slot 3 cooldown
+        abilityThreeName.color = playerUpgradeManager.abilityThreeCooldown > 0
+            ? cooldownColor
+            : readyColor;
     }
 }

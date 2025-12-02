@@ -12,7 +12,7 @@ public class upgradePickUp : NetworkBehaviour
     /// </summary>
 
 
-    public UpgradeScriptableOBJ objToPickUp;
+    public PowerUpBase objToPickUp;
     [HideInInspector] public bool canBePickedUp;
     [HideInInspector] public bool dropped = false;
     [HideInInspector] public GameObject playerThatPickedUpUpgrade;
@@ -33,7 +33,7 @@ public class upgradePickUp : NetworkBehaviour
             playerThatPickedUpUpgrade = other.gameObject; // Unique identifier used for the grapple hook upgrade
 
             playerUpgradeManager playerUpgradeManager = other.GetComponent<playerUpgradeManager>();
-            playerUpgradeManager.addToPlayerUpgrades(objectArrayIndex); // Makes the upgrde avaible to the player
+            playerUpgradeManager.AddToPlayerUpgrades(objectArrayIndex); // Makes the upgrde avaible to the player
             print("Added upgrade to array");
             destroyPickUpClientRpc();
         }

@@ -6,13 +6,13 @@ public class GameInput : MonoBehaviour
 
     public static GameInput instance { get; private set; }
 
-
     private void Awake()
     {
         instance = this;
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
     }
+
 
     public Vector2 getMovementInputNormalized()
     {
@@ -32,6 +32,7 @@ public class GameInput : MonoBehaviour
         bool altAttackingInputPressed = playerInputActions.Player.AltAttack.IsPressed();
         return altAttackingInputPressed;
     }
+    
     public bool getAbilityOneInput()
     {
         bool abilityOneInputPressed = playerInputActions.Player.Ability1.IsPressed();
@@ -49,6 +50,7 @@ public class GameInput : MonoBehaviour
         bool abilityThreeInputPressed = playerInputActions.Player.Ability3.IsPressed();
         return abilityThreeInputPressed;
     }
+    
 
     public bool getSprintInput()
     {

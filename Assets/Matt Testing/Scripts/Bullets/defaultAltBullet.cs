@@ -14,9 +14,12 @@ public class defaultAltBullet : NetworkBehaviour, bullet
 
     [SerializeField] private BulletSO bulletData; // Alt bulelt data, set in inspector
     [SerializeField] private float damageRadius; // the radius of the damage, set in inspector
-    [SerializeField] ParticleSystem explosion; // paritcle system
+    [SerializeField] GameObject explosion; // paritcle system
 
     private GameObject BulletDamageOrigin;
+
+    [SerializeField] private float explosonForce;
+
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -35,24 +38,43 @@ public class defaultAltBullet : NetworkBehaviour, bullet
     private void spawnExplosionParticlesServerRpc()
     {
 
-        GameObject explosionParticle = Instantiate(explosion.gameObject, transform.position, Quaternion.identity);  // starts the particles
+        GameObject explosionParticle = Instantiate(explosion, transform.position, Quaternion.identity);  // starts the particles
         NetworkObject NetOBJ = explosionParticle.GetComponent<NetworkObject>();
         NetOBJ.Spawn();
 
 
-        Destroy(explosionParticle, explosion.main.duration); // gets rid of particles after the duration
+        Destroy(explosionParticle, 1); // gets rid of particles after the duration
     }
 
 
     private void DealDamageToArea()
     {
+        print("Colliders hit");
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, damageRadius); // gets all the colliders in the area
         foreach (Collider col in hitColliders)
         {
-            if (col.gameObject.TryGetComponent(out dealDamage healthScript)) // for each collider, checks if the object can be damaged
+
+
+            if (col.gameObject.TryGetComponent(out dealDamage healthScript) && col.gameObject.TryGetComponent<BuildingHealth>(out BuildingHealth buildingHealth)) // for each collider, checks if the object can be damaged
             {
+
                 healthScript.dealDamage(bulletData.bulletDamage, Color.grey, BulletDamageOrigin); // damages the objects
+
+            }else if (col.gameObject.TryGetComponent(out dealDamage script))
+            {
+                script.dealDamage(bulletData.bulletDamage, Color.grey, BulletDamageOrigin); // damages the objects
             }
+            Rigidbody rb = col.gameObject.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 launchDirection = (rb.transform.position - transform.position).normalized;
+                float distance = Vector3.Distance(rb.transform.position, transform.position);
+                //print("Name: " + rb.name + " Distance: " + Vector3.Distance(rb.transform.position, transform.position) + " Foce Applied: " + (launchDirection * (explosonFore - distance)));
+                rb.AddForce(launchDirection * (explosonForce - distance), ForceMode.Impulse);
+            }
+
+
+
         }
     }
 

@@ -47,7 +47,8 @@ public class playerShooting : NetworkBehaviour
     private Rigidbody tankRB;
     [SerializeField] private Image bigShotUI;
 
-    [SerializeField] private ParticleSystem muzzleFlash;
+    [SerializeField] private ParticleSystem[] muzzleFlash;
+    [SerializeField] private ParticleSystem[] AltMuzzleFlash;
 
 
     private void Start()
@@ -110,7 +111,7 @@ public class playerShooting : NetworkBehaviour
     private void shoot(int BulletIndex) // the main shooting function. bulelt index refrences the position in static bullet array. The reason for the int is so that server RPCs can take the bullet as an aguement
     {
         //Play sound
-        muzzleFlashClientRpc();
+        muzzleFlashClientRpc(true);
 
         if (onlyOneBarrel)
         {
@@ -162,9 +163,22 @@ public class playerShooting : NetworkBehaviour
         tankRB.AddForce(backforce + upforce, ForceMode.VelocityChange);
     }
     [ClientRpc]
-    private void muzzleFlashClientRpc()
+    private void muzzleFlashClientRpc(bool isMainBullet)
     {
-        muzzleFlash.Play();
+        if (isMainBullet)
+        {
+            foreach (ParticleSystem muzzle in muzzleFlash)
+            {
+                muzzle.Play();
+            }
+        }
+        else
+        {
+            foreach (ParticleSystem muzzle in AltMuzzleFlash)
+            {
+                muzzle.Play();
+            }
+        }
     }
 
 
@@ -175,7 +189,7 @@ public class playerShooting : NetworkBehaviour
         //Play sound
         //play muzzle flash
 
-        muzzleFlashClientRpc();
+        muzzleFlashClientRpc(false);
 
         // spawn the game object projectile related to the bullet index num
         GameObject projectile = Instantiate(bulletSOarray[BulletIndex].bulletPrefab, altBarrelEnd.transform.position, transform.rotation);

@@ -101,8 +101,15 @@ namespace LordBreakerX.Health
                 {
                     _onDeathServerSide.Invoke();
                     GameStateManager.Instance.setNewState(GameStateManager.State.RoundWon);
+                    DespawnMonsterServerRpc();
                 }
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void DespawnMonsterServerRpc()
+        {
+            NetworkObject.Despawn();
         }
 
         private void Update()
@@ -156,13 +163,13 @@ namespace LordBreakerX.Health
 
         public void increaseFireNumber()
         {
-            numOfFireOnMonster++;
+            numOfFireOnMonster += 10;
             
         }
 
         public void decreaseFireNumber()
         {
-            numOfFireOnMonster--;
+            numOfFireOnMonster -= 10;
         }
     }
 }

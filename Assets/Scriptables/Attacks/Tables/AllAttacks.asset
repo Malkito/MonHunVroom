@@ -26,4 +26,4 @@ MonoBehaviour:
   - _value: {fileID: 11400000, guid: 122546b4090a44748a1aa7ac7295cd92, type: 2}
     _weight: 100
   - _value: {fileID: 11400000, guid: 1718cb4caed420a49b9370908b847c05, type: 2}
-    _weight: 1
+    _weight: 100

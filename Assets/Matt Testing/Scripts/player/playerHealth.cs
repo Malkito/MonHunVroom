@@ -33,21 +33,16 @@ public class playerHealth : MonoBehaviour, dealDamage
     }
     public void increaseFireNumber()
     {
-        numOfFiresOnHealth++;
+        numOfFiresOnHealth += 10;
     }
 
     public void decreaseFireNumber()
     {
-        numOfFiresOnHealth--;
+        numOfFiresOnHealth -= 10;
     }
     // Update is called once per frame
     void Update()
     {
-        if (currentHealth <= 0)
-        {
-            print("Helth has hit 0");
-            StartCoroutine(respawnManager.Instance.StartSpawnPlayer(transform));
-        }
 
         if (numOfFiresOnHealth > 0)
         {

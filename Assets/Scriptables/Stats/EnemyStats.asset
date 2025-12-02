@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth:
     _statType: 0
-    _value: 1800
+    _value: 3500
     _minValue: 100
     _maxValue: 400
     _curveValue:
@@ -102,8 +102,8 @@ MonoBehaviour:
   _laserEyesDamage:
     _statType: 1
     _value: 0
-    _minValue: 1
-    _maxValue: 3
+    _minValue: 50
+    _maxValue: 150
     _curveValue:
       serializedVersion: 2
       m_Curve:

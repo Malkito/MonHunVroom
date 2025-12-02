@@ -16,7 +16,7 @@ public class fireBulletLogic : NetworkBehaviour, useAbility, onUpgradePickedup, 
 
     [SerializeField] float timeBetweenShots;
     private Slider fireSlider;
-    private Transform fireMeterUI;
+    [SerializeField] private Transform fireMeterUI;
 
     public void useAbility(Transform transform, bool abilityPressed)
     {

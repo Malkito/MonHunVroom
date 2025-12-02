@@ -28,15 +28,23 @@ public class tankParachute : NetworkBehaviour
 
     private void activateParachute()
     {
-        parachute.SetActive(true);
+        activateParachuiteClientRpc(true);
         rb.linearDamping = 0.2f;
-        parachuteActive = true;
     }
 
     private void deactivateParachute()
     {
-        parachute.SetActive(false);
+        activateParachuiteClientRpc(false);
         rb.linearDamping = 0;
-        parachuteActive = false;
     }
+
+    [ClientRpc]
+    private void activateParachuiteClientRpc(bool active)
+    {
+        parachute.SetActive(active);
+        parachuteActive = active;
+
+    }
+
+
 }

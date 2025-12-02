@@ -1,108 +1,163 @@
 using UnityEngine;
-using UnityEngine.UI;
 using Unity.Netcode;
-using System.Collections;
+using UnityEngine.UI;
 
 public class jetpackLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onUpgradeDropped
 {
-    [SerializeField] private float hoverForce;
-    [SerializeField] static float maxHoverCharge = 500;
-    [SerializeField] private float hoverChargeDeplationRate;
-    [SerializeField] private float hoverChargeRegenAmout;
-    private float currentHoverCharge = 500;
+    [Header("Jetpack Settings")]
+    [SerializeField] private float hoverForce = 25f;
+    [SerializeField] private float maxFuel = 500f;
+    [SerializeField] private float fuelDrainRate = 70f;
+    [SerializeField] private float fuelRegenRate = 50f;
 
-    private bool canHover;
-    private Slider JetpackSlider;
-    private Transform JetpackSliderMeterUI;
+    private float currentFuel;
 
-    private GameObject hatOBj;
+    // Runtime state
+    private bool isPressingHover = false;
+    private Rigidbody playerRb;
+    private Animator hatAnimator;
+    private GameObject hatObject;
+    private Slider fuelSlider;
+    private Transform fuelUIRoot;
 
-    private Animator ac;
+    private Transform playerTransform;   // Given by upgrade manager
+
+    private bool initialized = false;
 
     private void Awake()
     {
+        currentFuel = maxFuel;
     }
 
-    public void useAbility(Transform transform, bool abilityPressed)
-    {
-        Rigidbody rb = transform.GetComponent<Rigidbody>();
-
-        if (currentHoverCharge <= 0)
-        {
-            currentHoverCharge = 0;
-            canHover = false;
-        }
-
-        if (abilityPressed && currentHoverCharge >= 0 && canHover)
-        {
-            isHovering(rb);
-        }
-        else
-        {  
-            isNotHovering();
-            print("Not hovering");
-        }
-        JetpackSlider.value = currentHoverCharge / maxHoverCharge;
-    }
-
+    // -------------------------------
+    //           SETUP
+    // -------------------------------
     public void onUpgradePickedup(Transform player)
     {
-        JetpackSliderMeterUI = FindChild(player, "JetPackMeter");
-        JetpackSliderMeterUI.gameObject.SetActive(true);
-        JetpackSlider = JetpackSliderMeterUI.GetChild(0).GetComponent<Slider>();
-        /*
-        hatOBj = FindChild(player, "HeliHat").gameObject;
-        StartCoroutine(deylatHatEnable());
-        ac = hatOBj.GetComponent<Animator>();
-        */
-    }
+        playerTransform = player;
+        playerRb = player.GetComponent<Rigidbody>();
 
-    [ServerRpc(RequireOwnership = false)]
-    private void enableDisableHatServerRpc(bool enableDisable)
-    {
-        hatOBj.SetActive(enableDisable);
-    }
+        // ----- Find hat -----
+        hatObject = FindChildRecursive(player, "HeliHat").gameObject;
+        hatAnimator = hatObject.GetComponent<Animator>();
 
+        // Turn hat ON for everyone
+        EnableHatServerRpc(true);
+
+        // ----- Find UI (owner only!) -----
+        if (IsOwner)
+        {
+            Transform playerUI = FindChildRecursive(player, "PlayerUI");
+            fuelUIRoot = FindChildRecursive(playerUI, "JetPackMeter");
+            fuelSlider = fuelUIRoot.GetChild(0).GetComponent<Slider>();
+            fuelUIRoot.gameObject.SetActive(true);
+        }
+
+        initialized = true;
+    }
 
     public void onUpgradeDropped(Transform player)
     {
-        JetpackSliderMeterUI.gameObject.SetActive(false);
-        /*
-        enableDisableHatServerRpc(false);
-        gameObject.GetComponent<NetworkObject>().Despawn();
-        */
+        if (IsOwner && fuelUIRoot != null)
+            fuelUIRoot.gameObject.SetActive(false);
 
+        EnableHatServerRpc(false);
+
+        // Despawn logic instance
+        NetworkObject.Despawn();
     }
 
-    private void isHovering(Rigidbody rb)
+    // -------------------------------
+    //        RPC SECTION
+    // -------------------------------
+    [ServerRpc(RequireOwnership = false)]
+    private void EnableHatServerRpc(bool enable)
     {
-        currentHoverCharge -= Time.deltaTime * hoverChargeDeplationRate;
-        rb.AddForce(Vector3.up * hoverForce, ForceMode.Acceleration);
-        ac.SetBool("IsHovering", true);
+        EnableHatClientRpc(enable);
     }
 
-    private void isNotHovering()
+    [ClientRpc]
+    private void EnableHatClientRpc(bool enable)
     {
-        currentHoverCharge += Time.deltaTime * hoverChargeRegenAmout;
-        if (currentHoverCharge >= (currentHoverCharge * 0.2)) canHover = true;
-        if (currentHoverCharge >= maxHoverCharge) currentHoverCharge = maxHoverCharge;
-        ac.SetBool("IsHovering", false);
+        if (hatObject != null)
+            hatObject.SetActive(enable);
     }
 
+    // -------------------------------
+    //        USE ABILITY
+    // -------------------------------
+    public void useAbility(Transform pos, bool abilityPressed)
+    {
+        if (!initialized) return;
 
+        if (abilityPressed && currentFuel > 0f)
+            isPressingHover = true;
+        else
+            isPressingHover = false;
 
-    private Transform FindChild(Transform parent, string name)
+        // Update UI only on owner
+        if (IsOwner && fuelSlider != null)
+            fuelSlider.value = currentFuel / maxFuel;
+    }
+
+    // -------------------------------
+    //        MAIN LOGIC
+    // -------------------------------
+    private void FixedUpdate()
+    {
+        if (!initialized) return;
+        if (playerRb == null) return;
+
+        if (isPressingHover)
+        {
+            print("is pressing hover: " + isPressingHover);
+            Hovering();
+        }
+        else
+        {
+            NotHovering();
+        }
+    }
+
+    private void Hovering()
+    {
+        if (currentFuel <= 0f)
+        {
+            currentFuel = 0f;
+            isPressingHover = false;
+            hatAnimator.SetBool("IsHovering", false);
+            return;
+        }
+
+        currentFuel -= Time.fixedDeltaTime * fuelDrainRate;
+        if (currentFuel < 0f) currentFuel = 0f;
+
+        playerRb.AddForce(Vector3.up * hoverForce, ForceMode.Acceleration);
+        hatAnimator.SetBool("IsHovering", true);
+    }
+
+    private void NotHovering()
+    {
+        currentFuel += Time.fixedDeltaTime * fuelRegenRate;
+        if (currentFuel > maxFuel) currentFuel = maxFuel;
+
+        hatAnimator.SetBool("IsHovering", false);
+    }
+
+    // -------------------------------
+    //     CHILD FINDING UTILITY
+    // -------------------------------
+    private Transform FindChildRecursive(Transform parent, string name)
     {
         foreach (Transform child in parent)
         {
             if (child.name == name)
                 return child;
 
-            Transform found = FindChild(child, name);
+            Transform found = FindChildRecursive(child, name);
             if (found != null)
                 return found;
         }
         return null;
     }
-
 }

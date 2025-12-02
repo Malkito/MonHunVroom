@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MonsterStats
   m_EditorClassIdentifier: 
   _maxHealth:
-    _statType: 1
-    _value: 0
+    _statType: 0
+    _value: 50
     _minValue: 100
     _maxValue: 400
     _curveValue:
