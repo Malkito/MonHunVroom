@@ -52,6 +52,7 @@ public class playerUpgradeManager : NetworkBehaviour
     private void Start()
     {
         abilityOneCooldown = abilityTwoCooldown = abilityThreeCooldown = 0f;
+        canUseUpgrade = true;
     }
 
     // --- Public API called by pickup scripts on the OWNER ---
@@ -161,10 +162,11 @@ public class playerUpgradeManager : NetworkBehaviour
     // --- Called by input loop on the owner (same pattern as before) ---
     private void Update()
     {
+
+
         if (!IsOwner) return;
 
         if (!canUseUpgrade) return;
-
 
         // countdowns
         abilityOneCooldown -= Time.deltaTime;
@@ -181,10 +183,10 @@ public class playerUpgradeManager : NetworkBehaviour
 
     private void HandleSlotInput(int slot, bool inputPressed, ref float abilityCooldown)
     {
+
         if (slot < 0 || slot >= equipped.Length) return;
 
         if (equipped[slot].definition == null) return; // no upgrade
-
         // ensure we have a runtime instance cached; attempt to refresh if missing
         if (equipped[slot].logicInstance == null)
         {

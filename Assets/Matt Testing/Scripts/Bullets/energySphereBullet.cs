@@ -34,6 +34,16 @@ public class energySphereBullet : NetworkBehaviour, bullet
 
     [SerializeField] float bulletSpawnRadius; // the radius the fire bullets spawn onto
 
+    [Header("Growth Settings")]
+    [SerializeField] private float delayBeforeGrowing;
+    [SerializeField] private float growSpeed; // units per second
+    private float maxScale;  // maximum uniform scale
+    [SerializeField] private float scaleIncrease;  // maximum uniform scale
+
+
+    private bool canGrow = false;
+
+
 
     public GameObject BulletDamageOrigin;
 
@@ -41,6 +51,39 @@ public class energySphereBullet : NetworkBehaviour, bullet
     {
         MeshRenderer = gameObject.GetComponent<MeshRenderer>();
     }
+
+    private void Start()
+    {
+        // Start the delayed growth
+        Invoke(nameof(StartGrowing), delayBeforeGrowing);
+
+        float percenatgeIncrease = scaleIncrease / 100;
+
+        maxScale = transform.localScale.x + (transform.localScale.x * percenatgeIncrease);
+        print(maxScale);
+
+    }
+    private void StartGrowing()
+    {
+        canGrow = true;
+    }
+
+    private void Update()
+    {
+        if (!canGrow) return;
+
+        // Current scale magnitude (assuming uniform scale)
+        float currentScale = transform.localScale.x;
+
+        if (currentScale < maxScale)
+        {
+            float newScale = currentScale + growSpeed * Time.deltaTime;
+            newScale = Mathf.Clamp(newScale, currentScale, maxScale);
+
+            transform.localScale = new Vector3(newScale, newScale, newScale);
+        }
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -103,6 +146,7 @@ public class energySphereBullet : NetworkBehaviour, bullet
             rb.AddForce(launchDirection * launchforce, ForceMode.Impulse); // launches the bullet in the set direction, with the set speed
         }
     }
+
 
 
     private void OnDrawGizmos()

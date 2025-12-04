@@ -30340,7 +30340,6 @@ GameObject:
   - component: {fileID: 4490827621989867219}
   - component: {fileID: 719806799820673398}
   - component: {fileID: 3321883224944682428}
-  - component: {fileID: 7476835520702792648}
   m_Layer: 0
   m_Name: WizardHat
   m_TagString: Untagged
@@ -30416,28 +30415,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7476835520702792648
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3826176500605355113}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5208879343037863941, guid: db3813fc641f04da9886d434d2a633ef, type: 3}
 --- !u!1 &3923008934396478062
 GameObject:
   m_ObjectHideFlags: 0

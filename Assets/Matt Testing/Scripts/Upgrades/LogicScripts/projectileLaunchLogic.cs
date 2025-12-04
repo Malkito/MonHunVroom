@@ -40,6 +40,7 @@ public class projectileLaunchLogic : NetworkBehaviour, useAbility, onUpgradePick
     // ---------------------------------------------------------
     public void useAbility(Transform playerTransform, bool abilityPressed)
     {
+        print("Use Ability Projectile start");
 
         if (!IsOwner)        // owner-only input
             return;
@@ -53,5 +54,8 @@ public class projectileLaunchLogic : NetworkBehaviour, useAbility, onUpgradePick
 
         // Fire on server
         shootingScript.AltShootServerRPC(bulletArrayIndex);
+
+        print("Use Ability Projectile luanch end");
+
     }
 }

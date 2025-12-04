@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 2283934875455759849}
   - component: {fileID: 5180764336759818586}
   - component: {fileID: 3133757884868867418}
+  - component: {fileID: -1319360396573884810}
   - component: {fileID: 725515936757205735}
   - component: {fileID: 5201999722457973142}
   - component: {fileID: 3490724769501684825}
-  - component: {fileID: -1319360396573884810}
   m_Layer: 0
   m_Name: EnergySphereBullet
   m_TagString: energySphere
@@ -112,6 +112,31 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-1319360396573884810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3621685748747441842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3031336023
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &725515936757205735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78a21e1d153c1f409aa867f198cd8fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   bulletSO: {fileID: 11400000, guid: c0f1eeb54dcba364da6c651bddec2f24, type: 2}
   numberOfBullets: 100
   fireMat: {fileID: 2100000, guid: 07b1b03196d1a9140b75cdc90a92fc72, type: 2}
@@ -131,6 +157,9 @@ MonoBehaviour:
   minLaucnhSpeed: 5
   maxLaucnhSpeed: 20
   bulletSpawnRadius: 5.81
+  delayBeforeGrowing: 1
+  growSpeed: 1
+  scaleIncrease: 50
   BulletDamageOrigin: {fileID: 0}
 --- !u!54 &5201999722457973142
 Rigidbody:
@@ -205,28 +234,3 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &-1319360396573884810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3621685748747441842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 0
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
