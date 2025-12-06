@@ -179,6 +179,7 @@ public class playerUpgradeManager : NetworkBehaviour
         HandleSlotInput(1, GameInput.instance.getAbilityTwoInput(), ref abilityTwoCooldown);
         // slot 2
         HandleSlotInput(2, GameInput.instance.getAbilityThreeInput(), ref abilityThreeCooldown);
+
     }
 
     private void HandleSlotInput(int slot, bool inputPressed, ref float abilityCooldown)

@@ -14,6 +14,7 @@ public class tankMovement : NetworkBehaviour
 
     private bool isGrounded;
 
+    [SerializeField] private float linerDampening;
 
     void Start()
     {
@@ -31,7 +32,10 @@ public class tankMovement : NetworkBehaviour
         if (isGrounded)
         {
             Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
+
+
             forwardAndBackMovemnet(inputVector.y);
+
             rotateBody(inputVector.x);
         }
     }
@@ -48,6 +52,16 @@ public class tankMovement : NetworkBehaviour
     private void forwardAndBackMovemnet(float inputVector)
     {
         rb.AddForce(gameObject.transform.forward * moveSpeed * inputVector);
+
+        if(inputVector == 0)
+        {
+            rb.linearDamping = linerDampening;
+
+        }
+        else
+        {
+            rb.linearDamping = 0;
+        }
     }
 
 

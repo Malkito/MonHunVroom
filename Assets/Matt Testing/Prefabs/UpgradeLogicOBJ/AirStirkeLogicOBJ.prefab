@@ -179,5 +179,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a9a3d1613d3654dbb3e4a450733606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PS: {fileID: 0}
-  bulletSOIndex: 5
+  ShowTopMostFoldoutHeaderGroup: 1
+  bulletArrayIndex: 5
