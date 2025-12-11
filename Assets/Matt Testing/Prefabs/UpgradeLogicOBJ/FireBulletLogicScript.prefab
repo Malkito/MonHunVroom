@@ -186,3 +186,4 @@ MonoBehaviour:
   bulletSoIndex: 4
   PS: {fileID: 0}
   timeBetweenShots: 0
+  fireMeterUI: {fileID: 0}

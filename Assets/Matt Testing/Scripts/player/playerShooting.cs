@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Netcode;
-
+using Unity.Cinemachine;
 
 
 interface bullet {
@@ -49,6 +49,8 @@ public class playerShooting : NetworkBehaviour
 
     [SerializeField] private ParticleSystem[] muzzleFlash;
     [SerializeField] private ParticleSystem[] AltMuzzleFlash;
+
+    [SerializeField] private CinemachineCamera cam;
 
 
     private void Start()
@@ -210,7 +212,7 @@ public class playerShooting : NetworkBehaviour
         }
 
 
-        rb.linearVelocity = mainBarrelEnds[0].forward * bulletSOarray[BulletIndex].bulletSpeed;
+        rb.linearVelocity = cam.transform.forward * bulletSOarray[BulletIndex].bulletSpeed;
 
         //Destroy the projectile after 
         Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);
@@ -234,7 +236,7 @@ public class playerShooting : NetworkBehaviour
     {
         Gizmos.color = Color.green;
         Vector3 start = mainBarrelEnds[0].position;
-        Vector3 end = start + mainBarrelEnds[0].transform.forward * 10;
+        Vector3 end = start + cam.transform.forward * 100;
         Gizmos.DrawLine(start, end);
 
     }

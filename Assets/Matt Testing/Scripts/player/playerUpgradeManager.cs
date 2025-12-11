@@ -135,7 +135,7 @@ public class playerUpgradeManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void SpawnUpgradePickupServerRpc(int slot)
     {
-        
+        print("Spawn upgradeServer pickup start");
         if (slot < 0 || slot >= equipped.Length) return;
 
         var def = equipped[slot].definition;
@@ -153,10 +153,12 @@ public class playerUpgradeManager : NetworkBehaviour
 
         var pickupScript = pickUpObject.GetComponent<upgradePickUp>();
         if (pickupScript != null)
-        {
+        {  
             pickupScript.canBePickedUp = false;
             pickupScript.dropped = true;
         }
+        print("Spawn upgradeServer pickup end");
+
     }
 
     // --- Called by input loop on the owner (same pattern as before) ---

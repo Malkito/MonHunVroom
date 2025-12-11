@@ -44,6 +44,17 @@ public class tankCameraMovement : NetworkBehaviour
         if (!IsOwner) return;
         if (!canMove) return;
 
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            // 'hit.point' is the world position where the ray hit an object
+            // You can use this for visual feedback or to determine where bullets should go
+        }
+
+
+
+
         rotateTurretHead();
         rotatioBarrelEnds();
     }
@@ -78,5 +89,15 @@ public class tankCameraMovement : NetworkBehaviour
             angle = Mathf.Clamp(angle, -maxAngle, maxAngle);
             turretBarrel.transform.localRotation = Quaternion.Euler(angle, turretBarrel.transform.rotation.y, turretBarrel.transform.rotation.z);// rotates the barrel ends based of the vertical axis of the camera
         }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        
+        Gizmos.color = Color.red;
+        Vector3 start = cam.transform.position;
+        Vector3 end = start + cam.transform.forward * 100;
+        Gizmos.DrawLine(start, end);
     }
 }

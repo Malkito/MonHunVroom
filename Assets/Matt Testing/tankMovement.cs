@@ -53,7 +53,7 @@ public class tankMovement : NetworkBehaviour
     {
         rb.AddForce(gameObject.transform.forward * moveSpeed * inputVector);
 
-        if(inputVector == 0)
+        if(inputVector == 0 && isGrounded)
         {
             rb.linearDamping = linerDampening;
 
