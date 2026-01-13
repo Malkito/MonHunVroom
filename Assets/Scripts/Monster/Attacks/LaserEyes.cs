@@ -17,6 +17,10 @@ public class LaserEyes : Attack
 
     [SerializeField]
     [Min(0)]
+    private float _minAttackDistance = 2.5f;
+
+    [SerializeField]
+    [Min(0)]
     private float _maxAttackDistance = 5.0f;
 
     [SerializeField]
@@ -30,6 +34,8 @@ public class LaserEyes : Attack
     private MonsterAttackController _monsterAttack;
 
     private MonsterMovementController _monsterMovement;
+
+    private float _attackDistance;
 
     public LaserEyes(AttackController controller) : base(controller)
     {
@@ -53,12 +59,8 @@ public class LaserEyes : Attack
     {
         Vector3 targetPosition = GetTargetPosition();
 
-        if (Vector3.Distance(_monsterAttack.transform.position, targetPosition) > _maxAttackDistance)
-        {
-            _monsterMovement.UpdateWalkAnimation(true);
-            _monsterMovement.ChangeDestination(targetPosition);
-        }
-        else if (IsBehindObject())
+        if (Vector3.Distance(_monsterAttack.transform.position, targetPosition) > _attackDistance
+            || IsBehindObject())
         {
             _monsterMovement.UpdateWalkAnimation(true);
             _monsterMovement.ChangeDestination(targetPosition);
@@ -75,6 +77,7 @@ public class LaserEyes : Attack
     public override void OnStart()
     {
         _durationLeft = _duration;
+        _attackDistance = Random.Range(_minAttackDistance, _maxAttackDistance);
     }
 
     public override void OnStop()
@@ -94,6 +97,7 @@ public class LaserEyes : Attack
         LaserEyes attack = new LaserEyes(attackController);
         attack._duration = _duration;
         attack._attackRate = _attackRate;
+        attack._minAttackDistance = _minAttackDistance;
         attack._maxAttackDistance = _maxAttackDistance;
         attack._laser = _laser;
         return attack;

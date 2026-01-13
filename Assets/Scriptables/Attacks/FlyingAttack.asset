@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackTemplate:
     _flightHeight: 10
-    _flySpeed: 2
+    _flySpeed: 4
     _attackDuration: 10
     _scriptableAttackTable: {fileID: 11400000, guid: daf2e1b5335aa16489256a7d4eb9d3b8, type: 2}

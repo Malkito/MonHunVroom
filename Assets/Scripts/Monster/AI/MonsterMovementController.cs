@@ -42,11 +42,11 @@ public class MonsterMovementController : NetworkBehaviour
     public Animator MonsterAnimator { get => _monsterAnimator; }
 
 
-    private void Update()
-    {
-        if (_monsterAgent != null) 
-            print("PS: "+ _monsterAgent.pathStatus + "Destination" + _monsterAgent.destination);
-    }
+    //private void Update()
+    //{
+    //    if (_monsterAgent != null) 
+    //        print("PS: "+ _monsterAgent.pathStatus + "Destination:" + _monsterAgent.destination);
+    //}
 
     private void OnDrawGizmos()
     {
@@ -80,6 +80,14 @@ public class MonsterMovementController : NetworkBehaviour
         if (ReachedDestination() && IsServer)
         {
             _monsterAgent.SetRandomDestination(_wanderRadius);
+        }
+    }
+
+    public void Wander(Vector3 middlePosition, float wanderRadius) 
+    {
+        if (ReachedDestination(wanderRadius) && IsServer) 
+        {
+            _monsterAgent.SetRandomDestination(middlePosition, wanderRadius);
         }
     }
 

@@ -59,8 +59,6 @@ public class BlackholeAttack : Attack
             if (_monsterMovement.ReachedDestination(_maxAttackDistance))
             {
                 Vector3 position = Controller.transform.position + _spawnOffset;
-                //Vector3 direction = position - targetPosition;
-                //direction = new Vector3(direction.x, 0, direction.z);
                 _currentBlackhole = _prefab.Clone(position);
                 _spawnedBlackhole = true;
             }
