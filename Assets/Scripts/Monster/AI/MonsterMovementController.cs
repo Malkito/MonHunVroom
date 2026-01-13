@@ -1,12 +1,10 @@
 using LordBreakerX.Health;
-using LordBreakerX.States;
 using LordBreakerX.Utilities;
-using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class MonsterMovementController : NetworkBehaviour
 {
     public const string WALK_ANIMATION_VARIABLE = "walk";
@@ -32,6 +30,7 @@ public class MonsterMovementController : NetworkBehaviour
 
     private NavMeshAgent _monsterAgent;
 
+    [SerializeField]
     private Animator _monsterAnimator;
 
     private float _monsterStartHeight;
@@ -40,11 +39,24 @@ public class MonsterMovementController : NetworkBehaviour
 
     public ParticleSystem UndergroundParticle { get => _undergroundParticle; }
 
+    public Animator MonsterAnimator { get => _monsterAnimator; }
+
+
+    private void Update()
+    {
+        if (_monsterAgent != null) 
+            print("PS: "+ _monsterAgent.pathStatus + "Destination" + _monsterAgent.destination);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(transform.position, 0.2f);
+    }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         _monsterAgent = GetComponent<NavMeshAgent>();
-        _monsterAnimator = GetComponent<Animator>();
         _monsterAgent.speed = EnemyStatManager.MovementSpeed;
         _monsterAgent.angularSpeed = EnemyStatManager.TurningSpeed;
         _monsterStartHeight = _monsterTransform.localPosition.y;

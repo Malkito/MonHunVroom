@@ -252,7 +252,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8109277429397480899}
-  - {fileID: 1298803556772315923}
   m_Father: {fileID: 6024415203304745589}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1612789476772620726
@@ -393,7 +392,7 @@ GameObject:
   - component: {fileID: 3157384207156744822}
   - component: {fileID: 2310815709147791629}
   - component: {fileID: 2431937649860221070}
-  - component: {fileID: 7782683101210868578}
+  - component: {fileID: 8816678903444224395}
   m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
@@ -525,29 +524,28 @@ MonoBehaviour:
     m_InternalValue: 100
   numOfFireOnMonster: 0
   mat: {fileID: 1770131436353006553}
---- !u!136 &7782683101210868578
-CapsuleCollider:
+--- !u!95 &8816678903444224395
+Animator:
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1857611360790739109}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2.4833694
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.2557336, z: 0}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bf6e1ecaee2ae5a46b759c1ee8c5865e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2238311498554305484
 GameObject:
   m_ObjectHideFlags: 0
@@ -11172,76 +11170,6 @@ Transform:
   - {fileID: 3144293733767574825}
   m_Father: {fileID: 3161626754765287235}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6940854525025393405
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1298803556772315923}
-  - component: {fileID: 7834767717668833826}
-  - component: {fileID: 3839476581492586298}
-  m_Layer: 6
-  m_Name: Tail Attack Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1298803556772315923
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6940854525025393405}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.000000014930036, y: -0.00000003188506, z: -0.08147719, w: 0.9966752}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 624099873964890699}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -9.347}
---- !u!114 &7834767717668833826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6940854525025393405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e23d3160c67826b42a4bf86e1e53e6d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _monsterAnimator: {fileID: 60298490284039638}
-  _monster: {fileID: 7549028244194166420}
-  _monsterTag: Monster
-  _launchPower: 50
---- !u!65 &3839476581492586298
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6940854525025393405}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.7767128, y: 0.4132268, z: 0.33739516}
-  m_Center: {x: -0.96807295, y: 0.011292705, z: -0.022673625}
 --- !u!1 &7092477737607681934
 GameObject:
   m_ObjectHideFlags: 0
@@ -11350,7 +11278,6 @@ GameObject:
   - component: {fileID: 2378797744660724832}
   - component: {fileID: 5039756964868264020}
   - component: {fileID: 5008790797301554141}
-  - component: {fileID: 60298490284039638}
   - component: {fileID: 2192117877491711739}
   - component: {fileID: 7254253223198287580}
   - component: {fileID: 1310162042727867752}
@@ -11390,7 +11317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4133430296
+  GlobalObjectIdHash: 1618838313
   InScenePlacedSourceGlobalObjectIdHash: 4133430296
   DeferredDespawnTick: 0
   Ownership: 1
@@ -11421,7 +11348,8 @@ MonoBehaviour:
   _undergroundParticle: {fileID: 2121309019862115605}
   _model: {fileID: 6099964927278686785}
   _monsterTransform: {fileID: 3157384207156744822}
-  _collider: {fileID: 7782683101210868578}
+  _collider: {fileID: 2310815709147791629}
+  _monsterAnimator: {fileID: 8816678903444224395}
 --- !u!114 &5008790797301554141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11441,31 +11369,8 @@ MonoBehaviour:
   - {fileID: 6470862850078915577}
   - {fileID: 2800058689913966554}
   _laserPrefab: {fileID: 1795866302372145853, guid: e9c596d46fdb0e64ba1d5ab34e791042, type: 3}
-  _timeBetweenPlayerAttacks: 30
   _preparingExplosionEffect: {fileID: 1533566495834788618}
   _stompEffect: {fileID: 438470993195604802}
---- !u!95 &60298490284039638
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7549028244194166420}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bf6e1ecaee2ae5a46b759c1ee8c5865e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2192117877491711739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11479,11 +11384,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _startingState: {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
+  _startingState: {fileID: 11400000, guid: a28244edb3250584aaf75f9a2a21a6fd, type: 2}
   _statesToRegister:
-  - {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
+  - {fileID: 11400000, guid: a28244edb3250584aaf75f9a2a21a6fd, type: 2}
   - {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
-  - {fileID: 11400000, guid: 24d15b4f5d9c66f409d5cb0499c2a268, type: 2}
+  - {fileID: 11400000, guid: 4d0b8e56d228b074ca3186c063f953ee, type: 2}
 --- !u!195 &7254253223198287580
 NavMeshAgent:
   m_ObjectHideFlags: 0

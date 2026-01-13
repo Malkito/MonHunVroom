@@ -14,16 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weightedEntries:
   - _value: {fileID: 11400000, guid: 3fea172be1dea4b498ff01e2d4303884, type: 2}
-    _weight: 100
+    _weight: 150
   - _value: {fileID: 11400000, guid: 49649795fdf7b604eaa6399dab698081, type: 2}
-    _weight: 100
+    _weight: 150
   - _value: {fileID: 11400000, guid: 38a6f19c15d01f244b75b60d8e0bdf9d, type: 2}
     _weight: 100
   - _value: {fileID: 11400000, guid: 08e25a44571428f4687bfeec8682b818, type: 2}
-    _weight: 100
+    _weight: 50
   - _value: {fileID: 11400000, guid: 7568ebdb3ae3a0344bef2bc177e754e4, type: 2}
-    _weight: 100
+    _weight: 150
   - _value: {fileID: 11400000, guid: 122546b4090a44748a1aa7ac7295cd92, type: 2}
     _weight: 100
-  - _value: {fileID: 11400000, guid: 1718cb4caed420a49b9370908b847c05, type: 2}
-    _weight: 1

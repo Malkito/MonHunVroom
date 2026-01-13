@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35700408f79c7ed48868f20141674bf9, type: 3}
   m_Name: Attack
   m_EditorClassIdentifier: 
-  _damageableTargetingChance: 100
-  _attackRadius: 60
-  _monsterTag: Monster
+  _minAttacksPerformed: 2
+  _maxAttacksPerformed: 3
+  _playerAttackChance: 100
+  _attackRadius: 25
+  _ignoredLayers:
+    serializedVersion: 2
+    m_Bits: 68

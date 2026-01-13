@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2300000}
   - component: {fileID: 210853475572907660}
   - component: {fileID: 3744366126438864065}
+  - component: {fileID: 3746751881880189577}
   m_Layer: 0
   m_Name: Building_Gas Station
   m_TagString: Untagged
@@ -132,3 +133,19 @@ MonoBehaviour:
   bulletSpawnRadius: 6
   numberOfBullets: 70
   explosionParticles: {fileID: 4190144640130084419, guid: e1d2fa3bb8a54f8428168dab7499ac03, type: 3}
+--- !u!208 &3746751881880189577
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 6.5000005, y: 3.9970002, z: 12.801001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.066, y: 3.9970002, z: 2.4290001}
+  m_TimeToStationary: 0.5

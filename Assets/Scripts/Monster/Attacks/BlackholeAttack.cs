@@ -10,9 +10,14 @@ public class BlackholeAttack : Attack
     [SerializeField]
     private Vector3 _spawnOffset = Vector3.up;
 
+    [SerializeField]
+    private float _maxAttackDistance;
+
     private BlackholeController _currentBlackhole;
 
     private MonsterMovementController _monsterMovement;
+
+    private bool _spawnedBlackhole = false;
 
     public BlackholeAttack(AttackController controller) : base(controller)
     {
@@ -24,16 +29,14 @@ public class BlackholeAttack : Attack
         BlackholeAttack attack = new BlackholeAttack(attackController);
         attack._prefab = _prefab;
         attack._spawnOffset = _spawnOffset;
+        attack._maxAttackDistance = _maxAttackDistance;
         return attack;
     }
 
     public override void OnStart()
     {
-        if (_currentBlackhole == null)
-        {
-            Vector3 position = Controller.transform.position + _spawnOffset;
-            _currentBlackhole = _prefab.Clone(position);
-        }
+        _spawnedBlackhole = false;
+        _currentBlackhole = null;
     }
 
     public override void OnStop()
@@ -43,11 +46,28 @@ public class BlackholeAttack : Attack
 
     public override bool HasAttackFinished()
     {
-        return _currentBlackhole == null;
+        return _currentBlackhole == null && _spawnedBlackhole;
     }
 
     public override void OnAttackUpdate()
     {
-        _monsterMovement.Wander();
+        if (!_spawnedBlackhole)
+        {
+            Vector3 targetPosition = GetTargetPosition();
+            _monsterMovement.ChangeDestination(targetPosition);
+
+            if (_monsterMovement.ReachedDestination(_maxAttackDistance))
+            {
+                Vector3 position = Controller.transform.position + _spawnOffset;
+                //Vector3 direction = position - targetPosition;
+                //direction = new Vector3(direction.x, 0, direction.z);
+                _currentBlackhole = _prefab.Clone(position);
+                _spawnedBlackhole = true;
+            }
+        }
+        else
+        {
+            _monsterMovement.Wander();
+        }
     }
 }
