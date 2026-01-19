@@ -102,11 +102,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ignoredLayers:
     serializedVersion: 2
-    m_Bits: 324
+    m_Bits: 68
   _pullStrength: 4500
   _pushStrength: 2000
   _lifeSpan: 10
-  _moveSpeed: 3
+  _moveSpeed: 2
+  _damagePerSecond: 2
+  _playerPullSpeed: 20
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!135 &683764447905927207
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -126,5 +131,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 6
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}

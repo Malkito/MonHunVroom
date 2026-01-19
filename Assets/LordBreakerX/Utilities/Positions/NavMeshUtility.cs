@@ -64,6 +64,12 @@ namespace LordBreakerX.Utilities
             agent.SetDestination(destination);
         }
 
+        public static void SetRandomDestination(this NavMeshAgent agent, Vector3 middlePoint, float radius, int areaMask = NavMesh.AllAreas) 
+        {
+            Vector3 destination = GetRandomPosition(middlePoint, radius, areaMask);
+            agent.SetDestination(destination);
+        }
+
         public static void StopAgent(this NavMeshAgent agent) 
         {
             agent.SetDestination(agent.transform.position);

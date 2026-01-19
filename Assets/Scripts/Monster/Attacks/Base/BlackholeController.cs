@@ -74,8 +74,7 @@ public class BlackholeController : MonoBehaviour
         if (_playerLayer.Contains(other.gameObject.layer))
         {
             Rigidbody rigidbody = other.attachedRigidbody;
-            Vector3 direction = (transform.position - rigidbody.transform.position).normalized;
-            rigidbody.AddForce(direction * _pullStrength, ForceMode.Impulse);
+            rigidbody.transform.position = Vector3.MoveTowards(rigidbody.transform.position, transform.position, 10 * Time.deltaTime);
         }
         else
         {
@@ -87,11 +86,13 @@ public class BlackholeController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (_ignoredLayers.Contains(other.gameObject.layer)) return;
         if (other.attachedRigidbody != null) _bodies.Add(other.attachedRigidbody);
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (_ignoredLayers.Contains(other.gameObject.layer)) return;
         if (other.attachedRigidbody != null && _bodies.Contains(other.attachedRigidbody)) _bodies.Remove(other.attachedRigidbody);
     }
 
@@ -119,6 +120,8 @@ public class BlackholeController : MonoBehaviour
             {
                 foreach (Rigidbody rigidbody in _bodies)
                 {
+                    if (rigidbody == null) continue;
+
                     if (!damageRegistry.ContainsKey(rigidbody))
                     {
                         damageRegistry.Add(rigidbody, rigidbody.GetComponent<dealDamage>());

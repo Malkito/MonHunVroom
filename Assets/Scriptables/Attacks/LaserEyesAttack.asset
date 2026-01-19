@@ -15,5 +15,6 @@ MonoBehaviour:
   _attackTemplate:
     _duration: 10
     _attackRate: 0.15
-    _maxAttackDistance: 30
+    _minAttackDistance: 30
+    _maxAttackDistance: 150
     _laser: {fileID: 1795866302372145853, guid: e9c596d46fdb0e64ba1d5ab34e791042, type: 3}

@@ -29,6 +29,8 @@ namespace LordBreakerX.AttackSystem
 
         public bool IsAttacking { get { return _activeAttack != null; } }
 
+        public AttackTarget Target { get => _target; }
+
 
         public override void OnNetworkSpawn()
         {

@@ -9,6 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38748c65fdb416d41af6ed8c30a69631, type: 3}
-  m_Name: TailSwipe
+  m_Script: {fileID: 11500000, guid: 77d32831157084b46904874fbbbe296a, type: 3}
+  m_Name: NateTesting
   m_EditorClassIdentifier: 
+  _weightedEntries:
+  - _value: {fileID: 11400000, guid: 38a6f19c15d01f244b75b60d8e0bdf9d, type: 2}
+    _weight: 100

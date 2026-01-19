@@ -12,11 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0298910a9b3cde42a8614ce201c7627, type: 3}
   m_Name: Wander
   m_EditorClassIdentifier: 
-  _id: Wander
-  _maxWanderRadius: 50
-  _minWanderRadius: 20
-  _radiusDecreaseAmount: 0.01
-  _minStopTime: 1
-  _maxStopTime: 2
-  _stopChance: 0.3
-  _timeBetweenRandomAttacks: 10
+  _timeBetweenRandomAttacks: 5

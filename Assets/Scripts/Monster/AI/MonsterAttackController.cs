@@ -1,6 +1,7 @@
 using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
 using LordBreakerX.Health;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -14,11 +15,6 @@ public class MonsterAttackController : AttackController
     [SerializeField]
     [RequiredField]
     private Laser _laserPrefab;
-
-    [Header("Targetting Player Properties")]
-    [SerializeField]
-    [Min(0f)]
-    private float _timeBetweenPlayerAttacks = 30;
 
     [Header("Particles Properties")]
     [SerializeField]
@@ -97,5 +93,27 @@ public class MonsterAttackController : AttackController
                 _stompEffect.Stop();
                 break;
         }
+    }
+
+    public bool AttackRandomObject(float targetRadius, LayerMask ignoreMask)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, targetRadius, ~ignoreMask, QueryTriggerInteraction.Ignore);
+        List<Transform> damageables = new List<Transform>();
+
+        foreach (var collider in colliders)
+        {
+            dealDamage healthScript = collider.GetComponent<dealDamage>();
+            if (healthScript != null) damageables.Add(collider.transform);
+        }
+
+        if (damageables.Count > 0)
+        {
+            int randomIndex = Random.Range(0, damageables.Count);
+            Transform randomDamageable = damageables[randomIndex];
+            Target.Set(randomDamageable, transform.position);
+            return true;
+        }
+
+        return false;
     }
 }

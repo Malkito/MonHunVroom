@@ -1,12 +1,12 @@
 using LordBreakerX.States;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = MonsterStates.WANDER, menuName = MonsterStates.CreatePaths.WANDER)]
+[CreateAssetMenu(fileName = MonsterStates.WANDER, menuName = "Monster/States/Wander State")]
 public class WanderState : BaseState
 {
     [SerializeField]
     [Min(0f)]
-    private float _timeBetweenRandomAttacks = 10;
+    private float _timeBetweenRandomAttacks = 5;
 
     private MonsterMovementController _monsterMovement;
     private MonsterAttackController _monsterAttack;
