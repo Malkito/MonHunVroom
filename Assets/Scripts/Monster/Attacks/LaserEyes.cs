@@ -78,6 +78,7 @@ public class LaserEyes : Attack
     {
         _durationLeft = _duration;
         _attackDistance = Random.Range(_minAttackDistance, _maxAttackDistance);
+        _monsterAttack.ChooseEye();
     }
 
     public override void OnStop()

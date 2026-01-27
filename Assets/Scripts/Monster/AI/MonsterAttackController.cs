@@ -26,7 +26,14 @@ public class MonsterAttackController : AttackController
     [SerializeField]
     private DamageTable _recentDamageTable = new DamageTable();
 
+    private Transform _currentEye;
+
     public bool HasTrackedDamage { get { return _recentDamageTable.HasDamage; } }
+
+    public void ChooseEye()
+    {
+        _currentEye = _eyes[Random.Range(0, _eyes.Length)];
+    }
 
     public void RequestShootLaser(Laser prefab, Vector3 attackPosition)
     {
@@ -39,8 +46,8 @@ public class MonsterAttackController : AttackController
 
     private void ShootLaser(Laser prefab, Vector3 attackPosition)
     {
-        int randomEyeIndex = Random.Range(0, _eyes.Length);
-        Vector3 eyePosition = _eyes[randomEyeIndex].position;
+        if (_currentEye == null) ChooseEye();
+        Vector3 eyePosition = _currentEye.position;
 
         Laser.CreateLaser(prefab, gameObject, eyePosition, attackPosition);
     }
