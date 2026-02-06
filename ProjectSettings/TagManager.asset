@@ -12,6 +12,7 @@ TagManager:
   - Upgrade
   - RespawnUI
   - FireMeter
+  - Bullet
   layers:
   - Default
   - TransparentFX
