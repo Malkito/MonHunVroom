@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LordBreakerX.AttackSystem
+namespace LordBreakerX.AttackSystemNew
 {
     public struct AttackNetworkContext
     {

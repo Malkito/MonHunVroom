@@ -12,6 +12,8 @@ namespace LordBreakerX.AttackSystem
 
         public bool IsTargettingObject { get => _targetTransform != null; }
 
+        public Transform TargetObject { get { return _targetTransform; } }
+
         public void Set(Transform targetTransform, Vector3 fallbackPosition)
         {
             _targetTransform = targetTransform;
