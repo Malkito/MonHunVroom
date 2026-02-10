@@ -2,8 +2,8 @@ using LordBreakerX.AttackSystem;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class BugAttack : Attack
+[CreateAssetMenu(menuName = "Attacks/Bug Attack")]
+public class BugAttack : ScriptableAttack
 {
     [Header("Sworm Properties")]
     [SerializeField]
@@ -15,40 +15,31 @@ public class BugAttack : Attack
     private float _spawnRadius = 5;
 
     [SerializeField]
-    [Min(0f)]
-    private float _attackDuration = 10;
+    [Min(1)]
+    private int _minSpawns = 1;
 
     [SerializeField]
     [Min(1)]
-    private int _minSworms = 1;
+    private int _maxSpawns = 1;
 
     [SerializeField]
     [Min(1)]
-    private int _maxSworms = 1;
+    private int _swormLimit;
 
     [Header("Prefab Properties")]
     [SerializeField]
     private BugSworm _swormPrefab;
 
-    private List<BugSworm> _activeSworms = new List<BugSworm>();
-    private float _durationLeft;
-
-    public BugAttack(AttackController controller) : base(controller)
+    public override void OnAttackStarted()
     {
-    }
-
-    public override void OnStart()
-    {
-        _durationLeft = _attackDuration;
-
-        int swormAmount = Random.Range(_minSworms, _maxSworms);
+        int swormAmount = Mathf.Clamp(Random.Range(_minSpawns, _maxSpawns), 0, _swormLimit - BugSworm.TotalSworms);
 
         for (int i = 0; i < swormAmount; i++) 
         {
             Vector3 spawnPosition = GetSpawnPosition();
 
-            BugSworm sworm = BugSworm.SpawnSworm(_swormPrefab, spawnPosition, Controller.Target);
-            _activeSworms.Add(sworm);
+            BugSworm sworm = BugSworm.SpawnSworm(_swormPrefab, spawnPosition, Target);
+            Controller.SpawnProjectile(sworm.gameObject);
         }
     }
 
@@ -59,40 +50,9 @@ public class BugAttack : Attack
         return position;
     }
 
-    public override void OnAttackUpdate()
+    public override bool CanUseAttack()
     {
-        Vector3 targetPosition = GetTargetPosition();
-
-        _durationLeft -= Time.deltaTime;
-        //foreach (BugSworm sworm in _activeSworms) 
-        //{
-        //    sworm.transform.position = Vector3.MoveTowards(sworm.transform.position, targetPosition, sworm.Speed * Time.deltaTime);
-        //}
+        return BugSworm.TotalSworms < _swormLimit;
     }
 
-    public override void OnStop()
-    {
-        foreach(BugSworm sworm in _activeSworms)
-        {
-            if (sworm != null) 
-                GameObject.Destroy(sworm.gameObject);
-        }
-        _activeSworms.Clear();
-    }
-
-    public override bool HasAttackFinished()
-    {
-        return _durationLeft <= 0;
-    }
-
-    public override Attack Clone(AttackController controller)
-    {
-        BugAttack attackInstance = new BugAttack(controller);
-        attackInstance._spawnRadius = _spawnRadius;
-        attackInstance._swormPrefab = _swormPrefab;
-        attackInstance._attackDuration = _attackDuration;
-        attackInstance._minSworms = _minSworms;
-        attackInstance._maxSworms = _maxSworms;
-        return attackInstance;
-    }
 }

@@ -2,7 +2,8 @@ using LordBreakerX.AttackSystem;
 using LordBreakerX.Utilities;
 using UnityEngine;
 
-public class ThrowAttack : Attack
+[CreateAssetMenu()]
+public class ThrowAttack : ScriptableAttack
 {
     [SerializeField]
     private LayerMask _ignoredLayers;
@@ -15,20 +16,17 @@ public class ThrowAttack : Attack
     [Min(0f)]
     private float _maxThrowDistance = 100f;
 
+    [SerializeField]
+    private float _maxPickupDistance = 100f;
+
     private GameObject _objectToThrow;
 
-    public ThrowAttack(AttackController controller) : base(controller)
-    {
-    }
+    private bool hasPickupObject;
 
-    public override Attack Clone(AttackController controller)
+    public override void OnAttackStarted()
     {
-        ThrowAttack clone = new ThrowAttack(controller);
-        return clone;
-    }
+        hasPickupObject = false;
 
-    public override void OnStart()
-    {
         // determines if throwing target
         if (Controller.Target.IsTargettingObject && Probability.IsSuccessful(_throwTargetChance))
         {

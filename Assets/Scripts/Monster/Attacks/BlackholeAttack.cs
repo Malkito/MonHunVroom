@@ -1,8 +1,8 @@
 using LordBreakerX.AttackSystem;
 using UnityEngine;
 
-[System.Serializable]
-public class BlackholeAttack : Attack
+[CreateAssetMenu()]
+public class BlackholeAttack : ScriptableAttack
 {
     [SerializeField]
     private BlackholeController _prefab;
@@ -19,27 +19,18 @@ public class BlackholeAttack : Attack
 
     private bool _spawnedBlackhole = false;
 
-    public BlackholeAttack(AttackController controller) : base(controller)
+    public override void OnAttackCreation()
     {
-        _monsterMovement = controller.GetComponent<MonsterMovementController>();
+        _monsterMovement = Controller.GetComponent<MonsterMovementController>();
     }
 
-    public override Attack Clone(AttackController attackController)
-    {
-        BlackholeAttack attack = new BlackholeAttack(attackController);
-        attack._prefab = _prefab;
-        attack._spawnOffset = _spawnOffset;
-        attack._maxAttackDistance = _maxAttackDistance;
-        return attack;
-    }
-
-    public override void OnStart()
+    public override void OnAttackStarted()
     {
         _spawnedBlackhole = false;
         _currentBlackhole = null;
     }
 
-    public override void OnStop()
+    public override void OnAttackStopped()
     {
         _monsterMovement.StopMovement();
     }
@@ -53,13 +44,14 @@ public class BlackholeAttack : Attack
     {
         if (!_spawnedBlackhole)
         {
-            Vector3 targetPosition = GetTargetPosition();
+            Vector3 targetPosition = Target.GetPosition();
             _monsterMovement.ChangeDestination(targetPosition);
 
             if (_monsterMovement.ReachedDestination(_maxAttackDistance))
             {
                 Vector3 position = Controller.transform.position + _spawnOffset;
                 _currentBlackhole = _prefab.Clone(position);
+                Controller.SpawnProjectile(_currentBlackhole.gameObject);
                 _spawnedBlackhole = true;
             }
         }

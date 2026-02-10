@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Rampage
   m_EditorClassIdentifier: 
   _attackPlayerDelay: 3
+  _changeTargetDelay: 2.5
   _playerAttackChance: 80
+  _randomTargetChance: 50
   _targetAttackRadius: 150
   _ignoredLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 68

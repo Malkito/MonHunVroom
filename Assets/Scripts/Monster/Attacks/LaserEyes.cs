@@ -1,9 +1,8 @@
 using LordBreakerX.AttackSystem;
-using TMPro;
 using UnityEngine;
 
-[System.Serializable]
-public class LaserEyes : Attack
+[CreateAssetMenu(menuName = "Attacks/Laser Eyes Attack")]
+public class LaserEyes : ScriptableAttack
 {
     [SerializeField]
     [Header("Timing Properties")]
@@ -37,12 +36,12 @@ public class LaserEyes : Attack
 
     private float _attackDistance;
 
-    public LaserEyes(AttackController controller) : base(controller)
+    public override void OnAttackCreation()
     {
-        _monsterAttack = controller.GetComponent<MonsterAttackController>();
-        _monsterMovement = controller.GetComponent<MonsterMovementController>();
+        _monsterAttack = Controller.GetComponent<MonsterAttackController>();
+        _monsterMovement = Controller.GetComponent<MonsterMovementController>();
         _attackTimer = new Timer(_attackRate);
-        _attackTimer.OnTimerFinished += () => _monsterAttack.RequestShootLaser(_laser, GetCenteredTargetPosition());
+        _attackTimer.OnTimerFinished += () => _monsterAttack.ShootLaser(_laser, Target.GetCenteredPosition());
     }
 
     public override bool HasAttackFinished()
@@ -56,7 +55,7 @@ public class LaserEyes : Attack
     }
     public override void OnAttackUpdate()
     {
-        Vector3 targetPosition = GetTargetPosition();
+        Vector3 targetPosition = Target.GetPosition();
 
         if (Vector3.Distance(_monsterAttack.transform.position, targetPosition) > _attackDistance
             || IsBehindObject())
@@ -73,33 +72,22 @@ public class LaserEyes : Attack
         }
     }
 
-    public override void OnStart()
+    public override void OnAttackStarted()
     {
         _durationLeft = _duration;
         _attackDistance = Random.Range(_minAttackDistance, _maxAttackDistance);
         _monsterAttack.ChooseEye();
     }
 
-    public override void OnStop()
+    public override void OnAttackStopped()
     {
         _attackTimer.Reset();
     }
 
     public bool IsBehindObject()
     {
-        Vector3 directionToTarget = (GetTargetPosition() - _monsterAttack.transform.position).normalized;
+        Vector3 directionToTarget = (Target.GetPosition() - _monsterAttack.transform.position).normalized;
         float dot = Vector3.Dot(_monsterAttack.transform.forward, directionToTarget);
         return dot < 0;
-    }
-
-    public override Attack Clone(AttackController attackController)
-    {
-        LaserEyes attack = new LaserEyes(attackController);
-        attack._duration = _duration;
-        attack._attackRate = _attackRate;
-        attack._minAttackDistance = _minAttackDistance;
-        attack._maxAttackDistance = _maxAttackDistance;
-        attack._laser = _laser;
-        return attack;
     }
 }

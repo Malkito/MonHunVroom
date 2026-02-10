@@ -1,12 +1,12 @@
 using LordBreakerX.AttackSystem;
-using System.Collections.Generic;
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class BugSworm : NetworkBehaviour
 {
+    public static int TotalSworms { get; private set; }
+
     [Header("Movement Properties")]
     [SerializeField]
     [Min(0f)]
@@ -23,11 +23,7 @@ public class BugSworm : NetworkBehaviour
     [Header("Damage Properties")]
     [SerializeField]
     [Min(0f)]
-    private float _damage = 1.0f;
-
-    [SerializeField]
-    [Min(0f)]
-    private float _timeBetweenDamage = 2.0f;
+    private float _damagePerSecond = 1.0f;
 
     [Header("Bug Properties")]
     [SerializeField]
@@ -44,10 +40,6 @@ public class BugSworm : NetworkBehaviour
 
     public float Speed { get; private set; }
 
-    private float _durationLeft = 0f;
-
-    private List<dealDamage> _attackTargets = new List<dealDamage>();
-
     private Vector3 _targetOffset;
     private AttackTarget _target;
 
@@ -61,7 +53,6 @@ public class BugSworm : NetworkBehaviour
     {
         Speed = Random.Range(_minMoveSpeed, _maxMoveSpeed);
 
-        _durationLeft -= _timeBetweenDamage;
         int bugsAmount = Random.Range(_minBugs, _maxBugs);
 
         for (int i = 0; i < bugsAmount; i++) 
@@ -70,22 +61,19 @@ public class BugSworm : NetworkBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        TotalSworms += 1;
+    }
+
+    private void OnDisable()
+    {
+        TotalSworms -= 1;
+    }
+
     private void Update()
     {
-        _durationLeft -= Time.deltaTime;
-
-        if (_durationLeft <= 0f)
-        {
-            foreach (var target in _attackTargets) 
-            {
-                target.dealDamage(_damage, Color.red, gameObject);
-            }
-
-            _durationLeft = _timeBetweenDamage;
-        }
-
-
-        Vector3 targetPosition = _target.GetCenteredTargetPosition() + _targetOffset;
+        Vector3 targetPosition = _target.GetCenteredPosition() + _targetOffset;
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
 
         if (AtTarget())
@@ -100,21 +88,14 @@ public class BugSworm : NetworkBehaviour
         {
             Destroy(gameObject);
         }
-
-
-        dealDamage damageable = other.GetComponent<dealDamage>();
-        if (damageable != null && !_attackTargets.Contains(damageable))
-        {
-            _attackTargets.Add(damageable);
-        }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         dealDamage damageable = other.GetComponent<dealDamage>();
-        if (damageable != null && _attackTargets.Contains(damageable))
+        if (damageable != null)
         {
-            _attackTargets.Remove(damageable);
+            damageable.dealDamage(_damagePerSecond * Time.deltaTime, Color.red, gameObject);
         }
     }
 
@@ -134,7 +115,7 @@ public class BugSworm : NetworkBehaviour
 
     private bool AtTarget(float maxDistance = 0.2f)
     {
-        Vector3 targetPosition = _target.GetCenteredTargetPosition() + _targetOffset;
+        Vector3 targetPosition = _target.GetCenteredPosition() + _targetOffset;
         return Vector3.Distance(transform.position, targetPosition) <= maxDistance;
     }
 }

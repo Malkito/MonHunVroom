@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace LordBreakerX.AttackSystem
 {
-    public class AttackTable : WeightTable<Attack>
+    public class AttackTable : WeightTable<ScriptableAttack>
     {
-        private List<WeightedEntry<Attack>> _useableAttacks = new List<WeightedEntry<Attack>>();
+        private List<WeightedEntry<ScriptableAttack>> _useableAttacks = new List<WeightedEntry<ScriptableAttack>>();
 
-        public AttackTable(List<WeightedEntry<Attack>> attackEntries) : base(attackEntries)
+        public AttackTable(List<WeightedEntry<ScriptableAttack>> attackEntries) : base(attackEntries)
         {
 
         }
 
-        public override Attack GetRandomEntry()
+        public override ScriptableAttack GetRandomEntry()
         {
             UpdateUseableAttacks();
             UpdateTotalWeight();
@@ -27,7 +27,7 @@ namespace LordBreakerX.AttackSystem
         {
             _useableAttacks.Clear();
 
-            foreach (WeightedEntry<Attack> attackEntry in WeightedEntries)
+            foreach (WeightedEntry<ScriptableAttack> attackEntry in WeightedEntries)
             {
                 if (attackEntry.Value.CanUseAttack())
                 {
@@ -36,7 +36,7 @@ namespace LordBreakerX.AttackSystem
             }
         }
 
-        public override List<WeightedEntry<Attack>> GetEntries()
+        public override List<WeightedEntry<ScriptableAttack>> GetEntries()
         {
             return _useableAttacks;
         }

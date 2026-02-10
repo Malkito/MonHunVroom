@@ -15,22 +15,21 @@ namespace LordBreakerX.AttackSystem
         [SerializeField]
         private float _randomAttackRadius = 30;
 
-        private Attack _activeAttack;
+        private ScriptableAttack _activeAttack;
 
         private AttackTarget _target = new AttackTarget();
 
-        private WeightTable<Attack> _internalAttackTable;
+        private WeightTable<ScriptableAttack> _internalAttackTable;
 
         private List<AttackablePlayer> _attackablePlayers = new List<AttackablePlayer>();
 
-        public Vector3 TargetPosition { get => _target.GetTargetPosition(); }
+        public Vector3 TargetPosition { get => _target.GetPosition(); }
 
-        public Vector3 CenteredTargetPosition { get => _target.GetCenteredTargetPosition(); }
+        public Vector3 CenteredTargetPosition { get => _target.GetCenteredPosition(); }
 
         public bool IsAttacking { get { return _activeAttack != null; } }
 
-        public AttackTarget Target { get => _target; }
-
+        public AttackTarget Target { get => _target; set => _target = value; }
 
         public override void OnNetworkSpawn()
         {
@@ -81,34 +80,38 @@ namespace LordBreakerX.AttackSystem
         private void Awake()
         {
             _internalAttackTable = _attackTable.CreateTable(this);
-        }
+        }   
 
         protected virtual void Update()
         {
             if (_activeAttack == null || !IsServer) return;
 
-            _activeAttack.OnAttackUpdate();
-            if (_activeAttack != null && _activeAttack.HasAttackFinished()) StopAttack();
+            if (_activeAttack.HasAttackFinished()) 
+                StopAttack();
+            else
+                _activeAttack.OnAttackUpdate();
+
         }
 
         private void FixedUpdate()
         {
             if (_activeAttack == null || !IsServer) return;
 
-            if (!_activeAttack.HasAttackFinished()) _activeAttack.OnAttackFixedUpdate();
+            if (!_activeAttack.HasAttackFinished()) 
+                _activeAttack.OnAttackFixedUpdate();
         }
 
-        private void StartAttack(Attack attack)
+        private void StartAttack(ScriptableAttack attack)
         {
             if (attack == null || IsAttacking || !IsServer) return;
 
             _activeAttack = attack;
-            _activeAttack.OnStart();
+            _activeAttack.OnAttackStarted();
         }
 
         private void StartRandomAttack()
         {
-            Attack randomAttack = _internalAttackTable.GetRandomEntry();
+            ScriptableAttack randomAttack = _internalAttackTable.GetRandomEntry();
             StartAttack(randomAttack);
         }
 
@@ -116,7 +119,7 @@ namespace LordBreakerX.AttackSystem
         {
             if (_activeAttack == null || !IsServer) return;
 
-            _activeAttack.OnStop();
+            _activeAttack.OnAttackStopped();
             _activeAttack = null;
         }
 
@@ -127,7 +130,7 @@ namespace LordBreakerX.AttackSystem
 
             if (NavMeshUtility.IsPathValid(transform.position, attackPosition))
             {
-                _target.Set(attackPosition);
+                _target = new AttackTarget(attackPosition);
                 StartRandomAttack();
             }
         }
@@ -139,9 +142,35 @@ namespace LordBreakerX.AttackSystem
             int randomPlayerIndex = Random.Range(0, _attackablePlayers.Count);
             AttackablePlayer player = _attackablePlayers[randomPlayerIndex];
 
-            _target.Set(player.PlayerTransform, transform.position);
+            _target = new AttackTarget(player.PlayerTransform, transform.position);
 
             StartRandomAttack();
+        }
+
+        public GameObject SpawnProjectile(GameObject prefab, Vector3 position, Quaternion rotation)
+        {
+            if (!IsServer) return null;
+
+            GameObject projectile = Instantiate(prefab, position, rotation);
+
+            SpawnProjectile(projectile);
+
+            return projectile;
+        }
+
+        public void SpawnProjectile(GameObject spawnedObject)
+        {
+            if (!IsServer) return;
+
+            NetworkObject networkInstance = spawnedObject.GetComponent<NetworkObject>();
+
+            if (networkInstance != null)
+                networkInstance.Spawn();
+
+#if UNITY_EDITOR
+            else
+                Debug.LogWarning("Projectile does not contain a network object so it can not be synced!");
+#endif
         }
 
     }
