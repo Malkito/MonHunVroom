@@ -3,6 +3,14 @@ using Unity.Netcode;
 
 public class tankMovement : NetworkBehaviour
 {
+
+    /// <summary>
+    /// 
+    /// The basic movement for the tank player. Script goes on player object
+    /// 
+    /// </summary>
+
+
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotationSpeed;
 
@@ -26,13 +34,14 @@ public class tankMovement : NetworkBehaviour
     //y = up and down
     private void FixedUpdate()
     {
-        if (!IsOwner) return;
-        if (!canMove) return;
+        if (!IsOwner) return; // Built in network check
 
-        if (isGrounded)
+        if (!canMove) return; // checks if the player can move. (Set to false when dead)
+
+        if (isGrounded) // ensures that inputs are only checked if the tank is on the ground
         {
-            Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
 
+            Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
 
             forwardAndBackMovemnet(inputVector.y);
 
@@ -65,6 +74,8 @@ public class tankMovement : NetworkBehaviour
     }
 
 
+
+    //Simple ground checks. 
 
     private void OnCollisionStay(Collision collision)
     {

@@ -17,8 +17,10 @@ public class playerShooting : NetworkBehaviour
     /// This script attached to the player
     /// and handles the bullet generation
     /// 
-    /// reads the main attack and Alt attack inputs and generates the appropriate bullet at the appropriate barrel ends
+    /// reads the Main attack and Alt attack inputs and generates the appropriate bullet at the appropriate barrel ends
     /// adds the speed in the forward direction
+    /// 
+    /// Handles Muzzle shot
     /// 
     /// </summary>
 
@@ -63,7 +65,7 @@ public class playerShooting : NetworkBehaviour
     }
     void Update()
     {
-        if (!IsOwner) return;
+        if (!IsOwner) return; // built in network check
 
         if (!canShoot) return;
 
@@ -81,14 +83,14 @@ public class playerShooting : NetworkBehaviour
             altTimeBetweenShots = 0;
         }
 
-        
+
         altTimeBetweenShots += Time.deltaTime;
         MaintimeBetweenShots += Time.deltaTime;
 
         currentMainBuleltTest.text = bulletSOarray[currentMainBulletSoIndex].name;
         currentAltBuleltTest.text = bulletSOarray[currentAltBulletSoIndex].name;
 
-        if (bigShotLoaded)
+        if (bigShotLoaded) // sets the big shot UI element to 
         {
             Color color = bigShotUI.color;
             color.a = 1f;
@@ -165,7 +167,9 @@ public class playerShooting : NetworkBehaviour
         tankRB.AddForce(backforce + upforce, ForceMode.VelocityChange);
     }
     [ClientRpc]
-    private void muzzleFlashClientRpc(bool isMainBullet)
+
+
+    private void muzzleFlashClientRpc(bool isMainBullet) // runs the correct particle system based on wheater the alt or main bullet has been fired.
     {
         if (isMainBullet)
         {

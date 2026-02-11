@@ -5,7 +5,13 @@ using TMPro;
 
 public class playerRespawn : MonoBehaviour
 {
-
+    /// <summary>
+    /// 
+    /// Handles the respawning for a player
+    /// 
+    /// When the health reaches 0, all input is ignored, then after a delay the player is moved to a random spawn location, input is resumed
+    /// 
+    /// </summary>
     private tankMovement movement;
     private tankCameraMovement TankCam;
     private playerUpgradeManager upgrade;
@@ -20,7 +26,7 @@ public class playerRespawn : MonoBehaviour
 
     [SerializeField] private float respawnTime;
 
-    public bool isDead;
+    public bool isDead; // public flag used for lose condition
 
     private int countdownTime;
 
@@ -30,6 +36,8 @@ public class playerRespawn : MonoBehaviour
 
     private void Awake()
     {
+
+        //sets player action refrecenes
         movement = gameObject.GetComponent<tankMovement>();
         TankCam = gameObject.GetComponent<tankCameraMovement>();
         upgrade = gameObject.GetComponent<playerUpgradeManager>();
@@ -57,16 +65,15 @@ public class playerRespawn : MonoBehaviour
     {
         Debug.Log("Start respawn");
         isDead = true;
-        setPlayerActions(false);
-        StartCoroutine(CountdownRoutine(countdownTime));
-        rb.linearVelocity = new Vector3(0, 0, 0);
+        setPlayerActions(false); // Stops the player actions
 
-        yield return new WaitForSeconds(respawnTime);
+        StartCoroutine(CountdownRoutine(countdownTime)); // activates the UI
+
+        rb.linearVelocity = new Vector3(0, 0, 0); // stops the player velocity
+
+        yield return new WaitForSeconds(respawnTime); // wait for respawn delay
 
         endRespawn();
-
-
-
     }
 
 
@@ -75,15 +82,15 @@ public class playerRespawn : MonoBehaviour
 
     private void endRespawn()
     {
-        setPlayerActions(true);
-        transform.position = respawnPoints[Random.Range(0, respawnPoints.Length)].transform.position;
-        deathUI.SetActive(false);
-        isDead = false;
+        setPlayerActions(true); //resuems player actions
+        transform.position = respawnPoints[Random.Range(0, respawnPoints.Length)].transform.position; // Moves the player to a respawn point
+        deathUI.SetActive(false); // de-activates the UI
+        isDead = false; 
     }
 
 
 
-    private void setPlayerActions(bool setBool)
+    private void setPlayerActions(bool setBool) //stops / restarts the player from being able to shoot, use upgrades, shoot, takening damage and movign 
     {
         movement.canMove = setBool;
         upgrade.canUseUpgrade = setBool;
@@ -109,7 +116,7 @@ public class playerRespawn : MonoBehaviour
     }
     */
 
-    private IEnumerator CountdownRoutine(int seconds)
+    private IEnumerator CountdownRoutine(int seconds) // Handles the Respawn countdown UI
     {
         print("Countdonw routiune working");
         deathUI.SetActive(true);

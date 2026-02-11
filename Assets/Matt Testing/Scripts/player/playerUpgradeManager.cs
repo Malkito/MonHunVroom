@@ -2,6 +2,57 @@ using UnityEngine;
 using Unity.Netcode;
 using System;
 
+/// <summary>
+/// 
+/// The Main Logic behind the use of upgrades
+/// 
+/// The player has 3 upgrade slots
+/// 
+/// Each slot stores: 
+///         - A ScriptableObject definition (UpgradeScriptableOBJ)
+///         - A spawned networked logic object
+///         - A cached useAbility interface
+///         - A cooldown timer
+///    
+/// 
+/// The Scritpable Objects Define:
+///     - Prefab for the Logic (logicScriptObject)
+///     - Pickup Prefab
+///     - Cooldown Value
+/// 
+/// Runtime Logic Objects:
+///     - Gameobejcts that have scripts of the logic of the upgrades (Example: where the jetpack logic of "Press Q and fly in the air" exists)
+///     - Are instaniated and spawned by the server
+///     - Are owned by the player
+///     - Implements the below interfaces:
+///         - UseAbility: takes in the input for the ability as an argument. If postiive, runs the upgrade logic
+///         - OnUpgradePickedUP: Runs when the upgrade is picked up. Usued for spawning various UI and cosmetics (Example: Fuel UI for the Jetpack)
+///         - OnUpgradeDropped: Runs when the upgrade is shuffled out and dropped. Used for de-activating various UI and cosmetics (Example: Ammo count UI for flamethrower upgrade)
+/// 
+/// 
+/// When the player runs into an upgrade pickup:
+/// 
+///     Pick up flow:
+///         - Owner calls AddToPlayerUpgrades()
+///         Server:
+///         - Finds free slot or shifts if full
+///         - Spawns the upgrade logic prefab
+///         - Assigns ownership of the upgrade logic prefab to the player
+///         Owner client:
+///         - Caches references
+///         - Resets cooldown
+///         - Calls OnUpgradePickedUp()
+///         
+/// 
+///     Slot Overflow: If the slots are full:
+///         - Oldest Upgrade (Slot 0) is dropped
+///         - the oldest upgrade pickup item is spawned 
+///         - Upgrades a shifted one down (slot 1 upgrade -> slot 0, slot 2 upgrade -> slot 1)
+///         - New upgrade goes into newly freed last slot
+///         
+/// 
+/// 
+/// </summary>
 // --- Interfaces required by logic scripts ---
 public interface useAbility
 {
