@@ -26,9 +26,6 @@ public class RampageState : BaseState
     [Min(0.0f)]
     private float _targetAttackRadius;
 
-    [SerializeField]
-    private LayerMask _ignoredLayers;
-
     public override string ID => MonsterStates.RAMPAGE;
 
     private MonsterAttackController _monsterAttack;
@@ -53,7 +50,7 @@ public class RampageState : BaseState
     {
         if (Probability.IsSuccessful(_randomTargetChance))
         {
-            _monsterAttack.AttackRandomObject(_targetAttackRadius, _ignoredLayers);
+            _monsterAttack.AttackRandomObject(_targetAttackRadius, _monsterAttack.IgnoredLayers);
         }
     }
 

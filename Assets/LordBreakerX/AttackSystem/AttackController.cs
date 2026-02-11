@@ -15,6 +15,9 @@ namespace LordBreakerX.AttackSystem
         [SerializeField]
         private float _randomAttackRadius = 30;
 
+        [SerializeField]
+        private LayerMask _ignoreLayers;
+
         private ScriptableAttack _activeAttack;
 
         private AttackTarget _target = new AttackTarget();
@@ -30,6 +33,8 @@ namespace LordBreakerX.AttackSystem
         public bool IsAttacking { get { return _activeAttack != null; } }
 
         public AttackTarget Target { get => _target; set => _target = value; }
+
+        public LayerMask IgnoredLayers { get => _ignoreLayers; }
 
         public override void OnNetworkSpawn()
         {
@@ -109,18 +114,18 @@ namespace LordBreakerX.AttackSystem
             _activeAttack.OnAttackStarted();
         }
 
-        private void StartRandomAttack()
-        {
-            ScriptableAttack randomAttack = _internalAttackTable.GetRandomEntry();
-            StartAttack(randomAttack);
-        }
-
         public void StopAttack()
         {
             if (_activeAttack == null || !IsServer) return;
 
             _activeAttack.OnAttackStopped();
             _activeAttack = null;
+        }
+
+        protected void StartRandomAttack()
+        {
+            ScriptableAttack randomAttack = _internalAttackTable.GetRandomEntry();
+            StartAttack(randomAttack);
         }
 
         public void AttackRandomPosition()
@@ -158,11 +163,11 @@ namespace LordBreakerX.AttackSystem
             return projectile;
         }
 
-        public void SpawnProjectile(GameObject spawnedObject)
+        public void SpawnProjectile(GameObject prefabInstance)
         {
             if (!IsServer) return;
 
-            NetworkObject networkInstance = spawnedObject.GetComponent<NetworkObject>();
+            NetworkObject networkInstance = prefabInstance.GetComponent<NetworkObject>();
 
             if (networkInstance != null)
                 networkInstance.Spawn();

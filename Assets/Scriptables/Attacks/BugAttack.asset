@@ -16,5 +16,7 @@ MonoBehaviour:
   _spawnRadius: 5
   _minSpawns: 3
   _maxSpawns: 6
-  _swormLimit: 8
+  _randomTargetChance: 40
+  _targetRadius: 150
+  _swormLimit: 15
   _swormPrefab: {fileID: 6451493559712478644, guid: 930482e4cc936704892e33c6e85f414c, type: 3}

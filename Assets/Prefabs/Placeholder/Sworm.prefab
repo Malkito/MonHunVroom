@@ -72,10 +72,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _minMoveSpeed: 3
-  _maxMoveSpeed: 7
-  _damage: 10
-  _timeBetweenDamage: 2
+  _minMoveSpeed: 5
+  _maxMoveSpeed: 9
+  _targetOffsetRadius: 10
+  _randomTargetRadius: 150
+  _ignoredLayers:
+    serializedVersion: 2
+    m_Bits: 68
+  _damagePerSecond: 1
   _minBugs: 15
   _maxBugs: 25
   _bugPrefab: {fileID: 7823856501853447344, guid: effcb93db2012a743b4c01fb219287cd, type: 3}

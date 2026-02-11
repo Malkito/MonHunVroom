@@ -37,7 +37,12 @@ public class BlackholeAttack : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _currentBlackhole == null && _spawnedBlackhole;
+        return _spawnedBlackhole;
+    }
+
+    public override bool CanUseAttack()
+    {
+        return _currentBlackhole == null;
     }
 
     public override void OnAttackUpdate()
@@ -54,10 +59,6 @@ public class BlackholeAttack : ScriptableAttack
                 Controller.SpawnProjectile(_currentBlackhole.gameObject);
                 _spawnedBlackhole = true;
             }
-        }
-        else
-        {
-            _monsterMovement.Wander();
         }
     }
 }

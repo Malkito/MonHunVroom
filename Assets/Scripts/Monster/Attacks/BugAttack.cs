@@ -1,5 +1,5 @@
 using LordBreakerX.AttackSystem;
-using System.Collections.Generic;
+using LordBreakerX.Utilities;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Bug Attack")]
@@ -22,6 +22,15 @@ public class BugAttack : ScriptableAttack
     [Min(1)]
     private int _maxSpawns = 1;
 
+    [Header("Random Target Properties")]
+    [SerializeField]
+    [Min(0)]
+    private float _randomTargetChance = 40.0f;
+
+    [SerializeField]
+    [Min(0)]
+    private float _targetRadius = 40;
+
     [SerializeField]
     [Min(1)]
     private int _swormLimit;
@@ -37,9 +46,18 @@ public class BugAttack : ScriptableAttack
         for (int i = 0; i < swormAmount; i++) 
         {
             Vector3 spawnPosition = GetSpawnPosition();
+            BugSworm sworm = null;
 
-            BugSworm sworm = BugSworm.SpawnSworm(_swormPrefab, spawnPosition, Target);
-            Controller.SpawnProjectile(sworm.gameObject);
+            if (Probability.IsSuccessful(_randomTargetChance))
+            {
+                AttackTarget randomTarget = TargetUtility.GetRandomTarget(Controller.gameObject, _targetRadius, Controller.IgnoredLayers);
+                sworm = BugSworm.SpawnSworm(_swormPrefab, spawnPosition, randomTarget);
+            }
+            else
+            {
+                sworm = BugSworm.SpawnSworm(_swormPrefab, spawnPosition, Target);
+            }
+                Controller.SpawnProjectile(sworm.gameObject);
         }
     }
 

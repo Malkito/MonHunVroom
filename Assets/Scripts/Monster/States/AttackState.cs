@@ -21,9 +21,6 @@ public class AttackState : BaseState
     [Min(0.0f)]
     private float _attackRadius = 30.0f;
 
-    [SerializeField]
-    private LayerMask _ignoredLayers;
-
     public override string ID => MonsterStates.ATTACK;
 
     private MonsterAttackController _monsterAttack;
@@ -53,7 +50,7 @@ public class AttackState : BaseState
     private void Attack() 
     {
         if (_isAttackingPlayers) _monsterAttack.AttackRandomPlayer();
-        else _monsterAttack.AttackRandomObject(_attackRadius, _ignoredLayers);
+        else _monsterAttack.AttackRandomObject(_attackRadius, _monsterAttack.IgnoredLayers);
     }
 
     public override void Exit()

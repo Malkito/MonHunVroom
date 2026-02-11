@@ -1,6 +1,5 @@
 using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterAttackController : AttackController
@@ -35,47 +34,13 @@ public class MonsterAttackController : AttackController
         }
     }
 
-    public bool AttackRandomObject(float targetRadius, LayerMask ignoreMask)
+    public void AttackRandomObject(float targetRadius, LayerMask ignoreMask)
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, targetRadius, ~ignoreMask, QueryTriggerInteraction.Ignore);
-        List<Transform> damageables = new List<Transform>();
+        Target = TargetUtility.GetRandomTarget(gameObject, targetRadius, ignoreMask);
 
-        foreach (var collider in colliders)
+        if (Target.GetPosition() != transform.position)
         {
-            dealDamage healthScript = collider.GetComponent<dealDamage>();
-            if (healthScript != null) damageables.Add(collider.transform);
+            StartRandomAttack();
         }
-
-        if (damageables.Count > 0)
-        {
-            int randomIndex = Random.Range(0, damageables.Count);
-            Transform randomDamageable = damageables[randomIndex];
-            Target = new AttackTarget(randomDamageable, transform.position);
-            return true;
-        }
-
-        return false;
     }
-
-    //public AttackTarget GetRandomTarget(float targetRadius, LayerMask ignoreMask)
-    //{
-    //    Collider[] colliders = Physics.OverlapSphere(transform.position, targetRadius, ~ignoreMask, QueryTriggerInteraction.Ignore);
-    //    List<Transform> damageables = new List<Transform>();
-
-    //    foreach (var collider in colliders)
-    //    {
-    //        dealDamage healthScript = collider.GetComponent<dealDamage>();
-    //        if (healthScript != null) damageables.Add(collider.transform);
-    //    }
-
-    //    if (damageables.Count > 0)
-    //    {
-    //        int randomIndex = Random.Range(0, damageables.Count);
-    //        Transform randomDamageable = damageables[randomIndex];
-    //        Target.Set(randomDamageable, transform.position);
-    //        return new AttackTarget();
-    //    }
-
-    //    return false;
-    //}
 }

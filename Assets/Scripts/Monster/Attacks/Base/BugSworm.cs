@@ -20,6 +20,13 @@ public class BugSworm : NetworkBehaviour
     [Min(0f)]
     private float _targetOffsetRadius = 10.0f;
 
+    [SerializeField]
+    [Min(0)]
+    private float _randomTargetRadius = 40;
+
+    [SerializeField]
+    private LayerMask _ignoredLayers;
+
     [Header("Damage Properties")]
     [SerializeField]
     [Min(0f)]
@@ -80,6 +87,11 @@ public class BugSworm : NetworkBehaviour
         {
             UpdateTargetOffset();
         }
+
+        if (!_target.IsTargettingObject)
+        {
+            _target = TargetUtility.GetRandomTarget(gameObject, _randomTargetRadius, _ignoredLayers);
+        } 
     }
 
     private void OnTriggerEnter(Collider other)

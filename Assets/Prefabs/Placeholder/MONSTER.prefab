@@ -6528,8 +6528,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _attackTable: {fileID: 11400000, guid: fee7fa33f8fd80742aea0c910b58e8ce, type: 2}
+  _attackTable: {fileID: 11400000, guid: 41204ac5619c8b64b99d1c69d1fceb28, type: 2}
   _randomAttackRadius: 30
+  _ignoreLayers:
+    serializedVersion: 2
+    m_Bits: 68
   _eyes:
   - {fileID: 6470862850078915577}
   - {fileID: 2800058689913966554}
