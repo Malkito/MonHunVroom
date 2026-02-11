@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 408f9740bba96ab49a08a0411aa85ae1, type: 3}
   m_Name: BugAttack
   m_EditorClassIdentifier: 
+  _maxSpawnDistance: 20
   _yOffset: 5
   _spawnRadius: 5
   _minSpawns: 3

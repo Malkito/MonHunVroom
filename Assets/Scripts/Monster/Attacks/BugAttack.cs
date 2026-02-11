@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Attacks/Bug Attack")]
 public class BugAttack : ScriptableAttack
 {
+    [SerializeField]
+    [Min(0f)]
+    private float _maxSpawnDistance = 30f;
+
     [Header("Sworm Properties")]
     [SerializeField]
     [Min(0)]
@@ -39,11 +43,44 @@ public class BugAttack : ScriptableAttack
     [SerializeField]
     private BugSworm _swormPrefab;
 
+    private bool _spawnedSworms = false;
+
+    private MonsterMovementController _monsterMovement;
+
+    public override void OnAttackCreation()
+    {
+        _monsterMovement = Controller.GetComponent<MonsterMovementController>();
+    }
+
     public override void OnAttackStarted()
+    {
+        _spawnedSworms = false;
+    }
+
+    public override bool HasAttackFinished()
+    {
+        return _spawnedSworms;
+    }
+
+    public override void OnAttackUpdate()
+    {
+        if (!_spawnedSworms)
+        {
+            Vector3 targetPosition = Target.GetPosition();
+            _monsterMovement.ChangeDestination(targetPosition);
+
+            if (_monsterMovement.ReachedDestination(_maxSpawnDistance))
+            {
+                SpawnSworms();
+            }
+        }
+    }
+
+    private void SpawnSworms()
     {
         int swormAmount = Mathf.Clamp(Random.Range(_minSpawns, _maxSpawns), 0, _swormLimit - BugSworm.TotalSworms);
 
-        for (int i = 0; i < swormAmount; i++) 
+        for (int i = 0; i < swormAmount; i++)
         {
             Vector3 spawnPosition = GetSpawnPosition();
             BugSworm sworm = null;
@@ -57,8 +94,10 @@ public class BugAttack : ScriptableAttack
             {
                 sworm = BugSworm.SpawnSworm(_swormPrefab, spawnPosition, Target);
             }
-                Controller.SpawnProjectile(sworm.gameObject);
+            Controller.SpawnProjectile(sworm.gameObject);
         }
+
+        _spawnedSworms = true;
     }
 
     private Vector3 GetSpawnPosition()

@@ -2,7 +2,8 @@ using LordBreakerX.AttackSystem;
 using LordBreakerX.Utilities;
 using UnityEngine;
 
-[CreateAssetMenu()]
+
+[CreateAssetMenu(menuName = "Attacks/Throw Attack")]
 public class ThrowAttack : ScriptableAttack
 {
     [SerializeField]
@@ -21,11 +22,10 @@ public class ThrowAttack : ScriptableAttack
 
     private GameObject _objectToThrow;
 
-    private bool hasPickupObject;
+    private AttackTarget _throwTarget;
 
     public override void OnAttackStarted()
     {
-        hasPickupObject = false;
 
         // determines if throwing target
         if (Controller.Target.IsTargettingObject && Probability.IsSuccessful(_throwTargetChance))

@@ -50,6 +50,7 @@ namespace LordBreakerX.Utilities
         public static bool ReachedDestination(this NavMeshAgent agent, float reachedDistance)
         {
             Vector3 destination = new Vector3(agent.destination.x, agent.transform.position.y, agent.destination.z);
+
             return Vector3.Distance(destination, agent.transform.position) <= reachedDistance;
         }
 
