@@ -41,13 +41,6 @@ public class MonsterMovementController : NetworkBehaviour
 
     public Animator MonsterAnimator { get => _monsterAnimator; }
 
-
-    //private void Update()
-    //{
-    //    if (_monsterAgent != null) 
-    //        print("PS: "+ _monsterAgent.pathStatus + "Destination:" + _monsterAgent.destination);
-    //}
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(transform.position, 0.2f);

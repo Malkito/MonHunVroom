@@ -4,8 +4,8 @@ using LordBreakerX.Health;
 using LordBreakerX.Utilities;
 using UnityEngine;
 
-[System.Serializable]
-public class DeathBomb : Attack
+[CreateAssetMenu(menuName = "Attacks/Death Bomb Attack")]
+public class DeathBomb : ScriptableAttack
 {
     private float NO_EFFECT = 0;
 
@@ -34,9 +34,14 @@ public class DeathBomb : Attack
     private float _maxDamage;
 
     [SerializeField]
-    [Header("Monster Properties")]
+    [Header("Tags")]
     [TagDropdown]
     private string _monsterTag = "Monster";
+
+    [Header("Effects")]
+    [SerializeField]
+    private ParticleInstance _deathEffect;
+
 
     private MonsterHealth _health;
     private MonsterMovementController _movement;
@@ -50,25 +55,25 @@ public class DeathBomb : Attack
 
     private Timer _explodeTimer;
 
-    public DeathBomb(AttackController controller) : base(controller)
+    public override void OnAttackCreation()
     {
-        _movement = controller.GetComponent<MonsterMovementController>();
+        _movement = Controller.GetComponent<MonsterMovementController>();
         _health = _movement.GetMonsterHealth();
-        _attack = controller.GetComponent<MonsterAttackController>();
+        _attack = Controller.GetComponent<MonsterAttackController>();
         _explodeTimer = new Timer(_timeBeforeExplosion);
         _explodeTimer.OnTimerFinished += Explode;
     }
 
-    public override void OnStart()
+    public override void OnAttackStarted()
     {
         _attackComplete = false;
         _reachedDistance = Percentage.MapToNumber(_reachedTargetPercentage, 0, _explosionRadius);
         _explodeTimer.Reset();
     }
 
-    public override void OnStop()
+    public override void OnAttackStopped()
     {
-        _attack.StopEffect(MonsterAttackEffect.PreparingDeathBomb);
+        _deathEffect.GetOrCreateInstance(Controller.transform).Stop();
     }
 
     public override void OnAttackUpdate()
@@ -80,10 +85,11 @@ public class DeathBomb : Attack
             _movement.StopMovement();
             _movement.UpdateWalkAnimation(false);
             _explodeTimer.Update();
-            _attack.PlayEffect(MonsterAttackEffect.PreparingDeathBomb);
-        }else
+            _deathEffect.GetOrCreateInstance(Controller.transform).Play();
+        }
+        else
         {
-            Vector3 targetPosition = GetTargetPosition();
+            Vector3 targetPosition = Target.GetPosition();
             _movement.ChangeDestination(targetPosition);
         }
     }
@@ -92,7 +98,7 @@ public class DeathBomb : Attack
     {
         _exploding = true;
 
-        Vector3 startPosition = GetStartPosition();
+        Vector3 startPosition = Position;
 
         Collider[] colliders = Physics.OverlapSphere(startPosition, _explosionRadius);
 
@@ -134,15 +140,6 @@ public class DeathBomb : Attack
     {
         float healthPercentage = Percentage.Create(_health.CurrentHealth, 0, _health.MaxHealth);
         return healthPercentage <= _healthPercentageThreshold;
-    }
-
-    public override Attack Clone(AttackController attackController)
-    {
-        DeathBomb copy = new DeathBomb(attackController);
-        copy._explosionRadius = _explosionRadius;
-        copy._maxForce = _maxForce;
-        copy._maxDamage = _maxDamage;
-        return copy;
     }
 
 }

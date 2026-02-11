@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4285974d081b29c429007b161d0da79e, type: 3}
+  m_Script: {fileID: 11500000, guid: b05a0f82ed8c58243b4f54c6c9e1edc6, type: 3}
   m_Name: FlyingAttack
   m_EditorClassIdentifier: 
-  _attackTemplate:
-    _flightHeight: 10
-    _flySpeed: 4
-    _attackDuration: 10
-    _scriptableAttackTable: {fileID: 11400000, guid: daf2e1b5335aa16489256a7d4eb9d3b8, type: 2}
+  _flightHeight: 10
+  _flySpeed: 4
+  _attackDuration: 10
+  _scriptableAttackTable: {fileID: 11400000, guid: daf2e1b5335aa16489256a7d4eb9d3b8, type: 2}

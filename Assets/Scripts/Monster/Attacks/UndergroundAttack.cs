@@ -2,8 +2,8 @@ using LordBreakerX.AttackSystem;
 using LordBreakerX.Utilities;
 using UnityEngine;
 
-[System.Serializable]
-public class UndergroundAttack : Attack
+[CreateAssetMenu()]
+public class UndergroundAttack : ScriptableAttack
 {
     [Header("Throw Properties")]
     [Min(1)]
@@ -42,20 +42,21 @@ public class UndergroundAttack : Attack
     private Timer _throwAttemptTimer;
     private Timer _durationTimer;
 
-    public UndergroundAttack(AttackController controller) : base(controller)
+    public override void OnAttackCreation()
     {
-        _monsterMovement = controller.GetComponent<MonsterMovementController>();
+        _monsterMovement = Controller.GetComponent<MonsterMovementController>();
         _durationTimer = new Timer(_attackDuration);
         _throwAttemptTimer = new Timer();
         _throwAttemptTimer.OnTimerFinished += AttemptThrow;
     }
 
-    public override void OnStart()
+    public override void OnAttackStarted()
     {
         _monsterMovement.UpdateWalkAnimation(true);
         _monsterMovement.SetUnderground(true);
         ResetThrowDelay();
         _durationTimer.Reset();
+        Debug.Log("Attack Started");
     }
 
     private void ResetThrowDelay()
@@ -64,10 +65,11 @@ public class UndergroundAttack : Attack
         _throwAttemptTimer.SetDuration(throwDelay);
     }
 
-    public override void OnStop()
+    public override void OnAttackStopped()
     {
         _monsterMovement.UpdateWalkAnimation(false);
         _monsterMovement.SetUnderground(false);
+        Debug.Log("Attack Ended");
     }
 
     private void AttemptThrow()
@@ -79,26 +81,13 @@ public class UndergroundAttack : Attack
     private void OnSucessfulThrow()
     {
         ThrowStrength throwStrength = new ThrowStrength(_minThrowSrength, _maxThrowSrength);
-        _roubblePrefab.CreateRouble(Controller.transform.position, throwStrength);
+        Roubble roubble = _roubblePrefab.CreateRouble(Controller.transform.position, throwStrength);
+        Controller.SpawnProjectile(roubble.gameObject);
     }
 
     public override bool HasAttackFinished()
     {
         return _durationTimer.IsComplete;
-    }
-
-    public override Attack Clone(AttackController attackController)
-    {
-        UndergroundAttack attack = new UndergroundAttack(attackController);
-        attack._minThrowSrength = _minThrowSrength;
-        attack._maxThrowSrength = _maxThrowSrength;
-        attack._minThrowRate = _minThrowRate;
-        attack._maxThrowRate = _maxThrowRate;
-        attack._throwChance = _throwChance;
-        attack._maxThrowAmount = _maxThrowAmount;
-        attack._roubblePrefab = _roubblePrefab;
-        attack._attackDuration = _attackDuration;
-        return attack;
     }
 
     public override void OnAttackUpdate()

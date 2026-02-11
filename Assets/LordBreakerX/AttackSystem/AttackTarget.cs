@@ -3,19 +3,22 @@ using UnityEngine;
 
 namespace LordBreakerX.AttackSystem
 {
-    public class AttackTarget
+    public struct AttackTarget
     {
         private Transform _targetTransform;
         private Vector3 _fallbackPosition;
 
-        private Dictionary<Transform, Collider> _colliderRegistry = new Dictionary<Transform, Collider>();
+        private Dictionary<Transform, Collider> _colliderRegistry;
 
         public bool IsTargettingObject { get => _targetTransform != null; }
 
-        public void Set(Transform targetTransform, Vector3 fallbackPosition)
+        public Transform TargetObject { get { return _targetTransform; } }
+
+        public AttackTarget(Transform targetTransform, Vector3 fallbackPosition)
         {
             _targetTransform = targetTransform;
             _fallbackPosition = fallbackPosition;
+            _colliderRegistry = new Dictionary<Transform, Collider>();
 
             if (!IsTargettingObject || _colliderRegistry.ContainsKey(_targetTransform)) return;
 
@@ -25,12 +28,12 @@ namespace LordBreakerX.AttackSystem
             }
         }
 
-        public void Set(Vector3 targetPosition)
+        public AttackTarget(Vector3 targetPosition) : this(null, targetPosition)
         {
-            Set(null, targetPosition);
+
         }
 
-        public Vector3 GetCenteredTargetPosition()
+        public Vector3 GetCenteredPosition()
         {
             if (!IsTargettingObject) return _fallbackPosition;
             if (!_colliderRegistry.ContainsKey(_targetTransform)) return _targetTransform.position;
@@ -39,7 +42,7 @@ namespace LordBreakerX.AttackSystem
             return collider.bounds.center;
         }
 
-        public Vector3 GetTargetPosition()
+        public Vector3 GetPosition()
         {
             if (IsTargettingObject) return _targetTransform.position;
             return _fallbackPosition;

@@ -67,7 +67,7 @@ public class Laser : NetworkBehaviour
         Destroy(gameObject, 1);
     }
 
-    public static void CreateLaser(Laser prefab, GameObject creator, Vector3 startPosition, Vector3 targetPosition)
+    public static Laser CreateLaser(Laser prefab, GameObject creator, Vector3 startPosition, Vector3 targetPosition)
     {
         Laser createdLaser = Instantiate(prefab, startPosition, Quaternion.identity);
         createdLaser._creator = creator;
@@ -75,5 +75,6 @@ public class Laser : NetworkBehaviour
         createdLaser.transform.LookAt(targetPosition, Vector3.up);
         createdLaser._damage = EnemyStatManager.LaserEyesDamage;
         createdLaser._speed = EnemyStatManager.LaserEyesSpeed;
+        return createdLaser;
     }
 }

@@ -2,15 +2,19 @@ using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
 using UnityEngine;
 
-[System.Serializable]
-public class StompAttack : Attack
+[CreateAssetMenu(menuName = "Attacks/Stomp Attack")]
+public class StompAttack : ScriptableAttack
 {
     private static readonly Color STOMP_FLASH_COLOR = Color.red;
 
     private const string STARTING_MONSTER_TAG = "Monster";
 
+    [Header("Physics")]
+    [Min(0)]
     [SerializeField]
-    [Header("Activation Requirements")]
+    private float _stompPushForce = 500f;
+
+    [SerializeField]
     [Min(0)]
     private float _maxStompDistance = 1.2f;
 
@@ -19,36 +23,29 @@ public class StompAttack : Attack
     [TagDropdown]
     private string _monsterTag = STARTING_MONSTER_TAG;
 
+    [Header("Effects")]
     [SerializeField]
-    private float _stompPushForce = 500f;
+    private ParticleInstance _stompEffect;
 
     private MonsterMovementController _monsterMovement;
 
     private MonsterAttackController _monsterAttack;
 
-
-    public StompAttack(AttackController controller) : base(controller)
+    public override void OnAttackCreation()
     {
-        _monsterMovement = controller.GetComponent<MonsterMovementController>();
-        _monsterAttack = controller.GetComponent<MonsterAttackController>();
+        _monsterMovement = Controller.GetComponent<MonsterMovementController>();
+        _monsterAttack = Controller.GetComponent<MonsterAttackController>();
+        
     }
 
-    public override Attack Clone(AttackController attackController)
-    {
-        StompAttack stomp = new StompAttack(attackController);
-        stomp._maxStompDistance = _maxStompDistance;
-        stomp._monsterTag = _monsterTag;
-        return stomp;
-    }
-
-    public override void OnStart()
+    public override void OnAttackStarted()
     {
         _monsterMovement.UpdateWalkAnimation(true);
     }
 
     public override void OnAttackUpdate()
     {
-        _monsterMovement.ChangeDestination(GetTargetPosition());
+        _monsterMovement.ChangeDestination(Target.GetPosition());
 
         Vector3 currentPosition = Controller.transform.position;
 
@@ -56,7 +53,8 @@ public class StompAttack : Attack
         {
             _monsterMovement.StopMovement();
             _monsterMovement.UpdateWalkAnimation(false);
-            _monsterAttack.PlayEffect(MonsterAttackEffect.Stomp);
+
+            _stompEffect.GetOrCreateInstance(Controller.transform).Play();
             PreformStomp();
         }
     }
@@ -74,20 +72,15 @@ public class StompAttack : Attack
 
             if (hit.attachedRigidbody != null) 
             {
-                Vector3 direction = (hit.transform.position - GetStartPosition()).normalized;
+                Vector3 direction = (hit.transform.position - Position).normalized;
                 hit.attachedRigidbody.AddForce(_stompPushForce * hit.attachedRigidbody.mass * direction, ForceMode.Force);
             }
         }
     }
 
-    public override void OnStop()
+    public override void OnAttackStopped()
     {
         _monsterMovement.StopMovement();
-    }
-
-    public override bool CanUseAttack()
-    {
-        return _monsterMovement.ReachedDestination(_maxStompDistance);
     }
 
     public override bool HasAttackFinished()

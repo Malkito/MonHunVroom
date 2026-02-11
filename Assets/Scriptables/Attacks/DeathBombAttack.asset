@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af90afbe3e336644cb7b60371a241f20, type: 3}
+  m_Script: {fileID: 11500000, guid: 146d4ba4cbd25934db065575473097e0, type: 3}
   m_Name: DeathBombAttack
   m_EditorClassIdentifier: 
-  _attackTemplate:
-    _explosionRadius: 50
-    _reachedTargetPercentage: 50
-    _timeBeforeExplosion: 5
-    _healthPercentageThreshold: 25
-    _maxForce: 2000
-    _maxDamage: 100
-    _monsterTag: Monster
+  _explosionRadius: 50
+  _reachedTargetPercentage: 50
+  _timeBeforeExplosion: 5
+  _healthPercentageThreshold: 25
+  _maxForce: 2000
+  _maxDamage: 100
+  _monsterTag: Monster
+  _deathEffect:
+    _effectPrefab: {fileID: 2032647702389050305, guid: 5e795633156635741b0fa110f7d4eedd, type: 3}

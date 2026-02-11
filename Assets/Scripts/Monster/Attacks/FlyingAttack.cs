@@ -2,8 +2,8 @@ using LordBreakerX.AttackSystem;
 using LordBreakerX.Tables;
 using UnityEngine;
 
-[System.Serializable]
-public class FlyingAttack : Attack
+[CreateAssetMenu(menuName = "Attacks/Flying Attack")]
+public class FlyingAttack : ScriptableAttack
 {
     [SerializeField]
     [Header("Flying Properties")]
@@ -27,12 +27,12 @@ public class FlyingAttack : Attack
 
     private float _currentDuration;
 
-    private WeightTable<Attack> _internalAttackTable = new WeightTable<Attack>();
-    private Attack _subAttack;
+    private WeightTable<ScriptableAttack> _internalAttackTable = new WeightTable<ScriptableAttack>();
+    private ScriptableAttack _subAttack;
 
-    public FlyingAttack(AttackController controller) : base(controller)
+    public override void OnAttackCreation()
     {
-        _movementController = controller.GetComponent<MonsterMovementController>();
+        _movementController = Controller.GetComponent<MonsterMovementController>();
     }
 
     public override bool HasAttackFinished()
@@ -40,17 +40,17 @@ public class FlyingAttack : Attack
         return _currentDuration <= 0;
     }
 
-    public override void OnStart()
+    public override void OnAttackStarted()
     {
         _currentDuration = _attackDuration;
         _subAttack = _internalAttackTable.GetRandomEntry();
 
-        _subAttack.OnStart();
+        _subAttack.OnAttackStarted();
     }
 
-    public override void OnStop()
+    public override void OnAttackStopped()
     {
-        _subAttack.OnStop();
+        _subAttack.OnAttackStopped();
         _movementController.LandFromFlight();
     }
 
@@ -76,17 +76,6 @@ public class FlyingAttack : Attack
     public override void OnAttackFixedUpdate()
     {
         _subAttack.OnAttackFixedUpdate();
-    }
-
-    public override Attack Clone(AttackController attackController)
-    {
-        FlyingAttack copy = new FlyingAttack(attackController);
-        copy._flightHeight = _flightHeight;
-        copy._flySpeed = _flySpeed;
-        copy._attackDuration = _attackDuration;
-        copy._scriptableAttackTable = _scriptableAttackTable;
-        copy._internalAttackTable = _scriptableAttackTable.CreateTable(attackController);
-        return copy;
     }
 
 }

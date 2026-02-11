@@ -8,16 +8,16 @@ namespace LordBreakerX.AttackSystem
     public class ScriptableAttackTable : ScriptableObject
     {
         [SerializeField]
-        private List<WeightedEntry<AttackCreator>> _weightedEntries = new List<WeightedEntry<AttackCreator>>();
+        private List<WeightedEntry<ScriptableAttack>> _weightedEntries = new List<WeightedEntry<ScriptableAttack>>();
 
         public AttackTable CreateTable(AttackController controller)
         {
-            List<WeightedEntry<Attack>> entries = new List<WeightedEntry<Attack>>();
+            List<WeightedEntry<ScriptableAttack>> entries = new List<WeightedEntry<ScriptableAttack>>();
 
-            foreach (WeightedEntry<AttackCreator> creatorEntry in _weightedEntries)
+            foreach (WeightedEntry<ScriptableAttack> creatorEntry in _weightedEntries)
             {
-                Attack attack = creatorEntry.Value.Create(controller);
-                entries.Add(new WeightedEntry<Attack>(attack, creatorEntry.Weight));
+                ScriptableAttack attack = ScriptableAttack.Clone(creatorEntry.Value, controller);
+                entries.Add(new WeightedEntry<ScriptableAttack>(attack, creatorEntry.Weight));
             }
 
             return new AttackTable(entries);
