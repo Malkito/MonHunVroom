@@ -43249,8 +43249,9 @@ GameObject:
   - component: {fileID: 6383207719736942468}
   - component: {fileID: 5086037589454759781}
   - component: {fileID: 7606277645741942883}
-  - component: {fileID: 5844322056726403099}
+  - component: {fileID: 86376576617243287}
   - component: {fileID: 4953262288513267542}
+  - component: {fileID: 5844322056726403099}
   - component: {fileID: 7547834820336501301}
   - component: {fileID: 3837357519394282913}
   - component: {fileID: 8584485710005155835}
@@ -43641,6 +43642,70 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   HUD: {fileID: 4021134492926437104}
+--- !u!114 &86376576617243287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013a856a076a1c640a73ed5037ccf4b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  canMove: 0
+  groundCheck: {fileID: 3415987852756546517}
+  linerDampening: 0
+  moveSpeed: 15
+  rotationSpeed: 720
+  minRotationSpeed: 90
+  maxRotationSpeed: 720
+  moveAngleThreshold: 5
+  cameraTransform: {fileID: 2770513277569699001}
+  rotationDampeningCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &4953262288513267542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be47dcd4604bfb545b7758bd132d9f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  moveSpeed: 2000
+  rotationSpeed: 90
+  canMove: 0
+  groundCheck: {fileID: 3415987852756546517}
+  linerDampening: 3
 --- !u!114 &5844322056726403099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43662,24 +43727,6 @@ MonoBehaviour:
   canMove: 0
   rotateSpeed: 0
   turretLookAt: {fileID: 3999413997270472255}
---- !u!114 &4953262288513267542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be47dcd4604bfb545b7758bd132d9f32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 2000
-  rotationSpeed: 90
-  canMove: 0
-  groundCheck: {fileID: 3415987852756546517}
-  linerDampening: 3
 --- !u!114 &7547834820336501301
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Unity.Netcode;
 using Unity.Cinemachine;
 public class NewTankMovement : NetworkBehaviour
@@ -10,10 +10,6 @@ public class NewTankMovement : NetworkBehaviour
     /// 
     /// </summary>
 
-
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float rotationSpeed;
-
     private Rigidbody rb;
 
     public bool canMove;
@@ -24,7 +20,27 @@ public class NewTankMovement : NetworkBehaviour
 
     [SerializeField] private float linerDampening;
 
-    [SerializeField] private CinemachineCamera camera;
+    [Header("Movement")]
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 720f; // degrees per second
+
+    [Header("Rotation")]
+    [SerializeField] private float minRotationSpeed = 90f;     // degrees per second
+    [SerializeField] private float maxRotationSpeed = 720f;    // degrees per second
+    [SerializeField] private float moveAngleThreshold = 5f;
+
+    [Header("References")]
+    [SerializeField] private Transform cameraTransform;
+
+    [Tooltip("0 = start of turn, 1 = end of turn")]
+    [SerializeField]
+    private AnimationCurve rotationDampeningCurve =
+       AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    private float totalTurnAngle;
+    private Quaternion targetRotation;
+    private Vector3 desiredMoveDirection;
+    private bool isTurning;
 
     void Start()
     {
@@ -44,15 +60,70 @@ public class NewTankMovement : NetworkBehaviour
         {
 
             Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
+            Move(inputVector);
 
         }
+
+
     }
 
-    private void move(Vector2 input)
+    public void Move(Vector2 input)
     {
-        
+        if (input.sqrMagnitude < 0.01f)
+            return;
 
+        // --- Camera-relative direction ---
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight = cameraTransform.right;
 
+        camForward.y = 0f;
+        camRight.y = 0f;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        desiredMoveDirection = (camForward * input.y + camRight * input.x).normalized;
+
+        targetRotation = Quaternion.LookRotation(desiredMoveDirection, Vector3.up);
+
+        float currentAngle = Quaternion.Angle(transform.rotation, targetRotation);
+
+        // Initialize turn if starting new direction
+        if (!isTurning)
+        {
+            totalTurnAngle = currentAngle;
+            isTurning = true;
+        }
+
+        if (currentAngle > 0.1f)
+        {
+            // Normalize turn progress (0 → 1)
+            float progress = 1f - Mathf.Clamp01(currentAngle / totalTurnAngle);
+
+            // Evaluate curve
+            float curveValue = rotationDampeningCurve.Evaluate(progress);
+
+            // Lerp between min and max rotation speed
+            float currentRotationSpeed = Mathf.Lerp(minRotationSpeed, maxRotationSpeed, curveValue);
+
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                targetRotation,
+                currentRotationSpeed * Time.deltaTime
+            );
+        }
+        else
+        {
+            isTurning = false;
+        }
+
+        // Move only when mostly facing direction
+        if (currentAngle <= moveAngleThreshold)
+        {
+            transform.position += desiredMoveDirection * moveSpeed * Time.deltaTime;
+        }
+
+        print("Current Angle: " + currentAngle);
     }
 
 
