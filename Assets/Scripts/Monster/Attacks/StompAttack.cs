@@ -47,9 +47,9 @@ public class StompAttack : ScriptableAttack
     {
         _monsterMovement.ChangeDestination(Target.GetPosition());
 
-        Vector3 currentPosition = Controller.transform.position;
+        Vector3 targetPosition = Target.GetPosition();
 
-        if (_monsterMovement.ReachedDestination(EnemyStatManager.StompRadius))
+        if (_monsterMovement.ReachedDestination(targetPosition, EnemyStatManager.StompRadius))
         {
             _monsterMovement.StopMovement();
             _monsterMovement.UpdateWalkAnimation(false);

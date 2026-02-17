@@ -9,6 +9,8 @@ namespace LordBreakerX.AttackSystem
         public AttackTarget Target { get => Controller.Target; }
         public Vector3 Position { get => Controller.transform.position; }
 
+        public LayerMask IgnoredLayers { get => Controller.IgnoredLayers; }
+
 
         public virtual void OnAttackCreation() 
         {

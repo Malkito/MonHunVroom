@@ -56,7 +56,6 @@ public class UndergroundAttack : ScriptableAttack
         _monsterMovement.SetUnderground(true);
         ResetThrowDelay();
         _durationTimer.Reset();
-        Debug.Log("Attack Started");
     }
 
     private void ResetThrowDelay()
@@ -69,7 +68,6 @@ public class UndergroundAttack : ScriptableAttack
     {
         _monsterMovement.UpdateWalkAnimation(false);
         _monsterMovement.SetUnderground(false);
-        Debug.Log("Attack Ended");
     }
 
     private void AttemptThrow()

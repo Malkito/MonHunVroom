@@ -90,7 +90,7 @@ public class BugSworm : NetworkBehaviour
 
         if (!_target.IsTargettingObject)
         {
-            _target = TargetUtility.GetRandomTarget(gameObject, _randomTargetRadius, _ignoredLayers);
+            _target = TargetUtility.GetRandomTarget(transform.position, _randomTargetRadius, _ignoredLayers);
         } 
     }
 

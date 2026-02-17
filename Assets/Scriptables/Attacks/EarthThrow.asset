@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77d32831157084b46904874fbbbe296a, type: 3}
-  m_Name: NateTesting
+  m_Script: {fileID: 11500000, guid: 23f7aca5207d95d44a6d9828996af8cf, type: 3}
+  m_Name: EarthThrow
   m_EditorClassIdentifier: 
-  _weightedEntries:
-  - _value: {fileID: 11400000, guid: 6a2789ca147f0f54690c52f7cf67ca04, type: 2}
-    _weight: 100
+  _maxThrowDistance: 60
+  _roublePrefab: {fileID: 2432418284738977681, guid: 9c5b117e70a85ba41a8470680b1fa9a9, type: 3}

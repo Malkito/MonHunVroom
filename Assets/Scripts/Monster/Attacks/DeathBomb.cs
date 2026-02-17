@@ -80,7 +80,9 @@ public class DeathBomb : ScriptableAttack
     {
         if (_exploding) return;
 
-        if (_movement.ReachedDestination(_reachedDistance))
+        Vector3 targetPosition = Target.GetPosition();
+
+        if (_movement.ReachedDestination(targetPosition, _reachedDistance))
         {
             _movement.StopMovement();
             _movement.UpdateWalkAnimation(false);
@@ -89,8 +91,8 @@ public class DeathBomb : ScriptableAttack
         }
         else
         {
-            Vector3 targetPosition = Target.GetPosition();
             _movement.ChangeDestination(targetPosition);
+            _movement.UpdateWalkAnimation(true);
         }
     }
 
@@ -129,6 +131,7 @@ public class DeathBomb : ScriptableAttack
         _health.dealDamage(999999, Color.red, _health.gameObject);
 
         _attackComplete = true;
+        _exploding = false;
     }
 
     public override bool HasAttackFinished()

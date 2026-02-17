@@ -101,6 +101,11 @@ public class MonsterMovementController : NetworkBehaviour
         return _monsterAgent.ReachedDestination(reachedDistance);
     }
 
+    public bool ReachedDestination(Vector3 destination, float maxDistance = 0.2f)
+    {
+        return Vector3.Distance(destination, transform.position) <= maxDistance;
+    }
+
     public void ChangeDestination(Vector3 destination)
     {
         if (IsServer)

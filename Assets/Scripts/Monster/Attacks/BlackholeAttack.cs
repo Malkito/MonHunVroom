@@ -52,7 +52,7 @@ public class BlackholeAttack : ScriptableAttack
             Vector3 targetPosition = Target.GetPosition();
             _monsterMovement.ChangeDestination(targetPosition);
 
-            if (_monsterMovement.ReachedDestination(_maxAttackDistance))
+            if (_monsterMovement.ReachedDestination(targetPosition, _maxAttackDistance))
             {
                 Vector3 position = Controller.transform.position + _spawnOffset;
                 _currentBlackhole = _prefab.Clone(position);

@@ -36,7 +36,7 @@ public class MonsterAttackController : AttackController
 
     public void AttackRandomObject(float targetRadius, LayerMask ignoreMask)
     {
-        Target = TargetUtility.GetRandomTarget(gameObject, targetRadius, ignoreMask);
+        Target = TargetUtility.GetRandomTarget(gameObject.transform.position, targetRadius, ignoreMask);
 
         if (Target.GetPosition() != transform.position)
         {
