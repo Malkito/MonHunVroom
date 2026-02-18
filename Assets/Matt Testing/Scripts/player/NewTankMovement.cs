@@ -21,30 +21,24 @@ public class NewTankMovement : NetworkBehaviour
     [SerializeField] private float linerDampening;
 
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float rotationSpeed = 720f; // degrees per second
+    [SerializeField] private float accelerationForce = 40f;
+    [SerializeField] private float maxSpeed = 6f;
 
     [Header("Rotation")]
-    [SerializeField] private float minRotationSpeed = 90f;     // degrees per second
-    [SerializeField] private float maxRotationSpeed = 720f;    // degrees per second
+    [SerializeField] private float minTurnTorque = 5f;
+    [SerializeField] private float maxTurnTorque = 40f;
     [SerializeField] private float moveAngleThreshold = 5f;
+    [SerializeField] private float maxConsideredAngle = 180f; // angle where torque peaks
 
     [Header("References")]
     [SerializeField] private Transform cameraTransform;
-
-    [Tooltip("0 = start of turn, 1 = end of turn")]
-    [SerializeField]
-    private AnimationCurve rotationDampeningCurve =
-       AnimationCurve.EaseInOut(0, 0, 1, 1);
-
-    private float totalTurnAngle;
-    private Quaternion targetRotation;
     private Vector3 desiredMoveDirection;
-    private bool isTurning;
 
-    void Start()
+    private void Awake()
     {
-        rb = gameObject.GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+
         canMove = true;
     }
 
@@ -52,6 +46,8 @@ public class NewTankMovement : NetworkBehaviour
     //y = up and down
     private void FixedUpdate()
     {
+        Debug.Log("Fixed update running");
+
         if (!IsOwner) return; // Built in network check
 
         if (!canMove) return; // checks if the player can move. (Set to false when dead)
@@ -82,48 +78,49 @@ public class NewTankMovement : NetworkBehaviour
         camForward.Normalize();
         camRight.Normalize();
 
-        desiredMoveDirection = (camForward * input.y + camRight * input.x).normalized;
+        Vector3 desiredDirection = (camForward * input.y + camRight * input.x).normalized;
 
-        targetRotation = Quaternion.LookRotation(desiredMoveDirection, Vector3.up);
+        Quaternion targetRotation = Quaternion.LookRotation(desiredDirection, Vector3.up);
 
-        float currentAngle = Quaternion.Angle(transform.rotation, targetRotation);
+        float angle = Quaternion.Angle(rb.rotation, targetRotation);
 
-        // Initialize turn if starting new direction
-        if (!isTurning)
+        // -------------------------
+        // Smooth Torque (stable)
+        // -------------------------
+        Vector3 cross = Vector3.Cross(transform.forward, desiredDirection);
+        float angleError = Mathf.Asin(Mathf.Clamp(cross.y, -1f, 1f));
+        // signed small-angle error in radians
+
+        float angularVelocityY = rb.angularVelocity.y;
+
+        // PD gains (tune these)
+        float kp = 40f;   // proportional (how strongly it corrects angle)
+        float kd = 8f;    // damping (prevents overshoot)
+
+        // PD control law
+        float torque = (kp * angleError) - (kd * angularVelocityY);
+
+        rb.AddTorque(Vector3.up * torque, ForceMode.Acceleration);
+        // -------------------------
+        // Acceleration Scales With Alignment
+        // -------------------------
+
+        Vector3 planarVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+
+        float speedInDesiredDirection = Vector3.Dot(planarVelocity, desiredDirection);
+
+        float alignment = Mathf.Clamp01(Vector3.Dot(transform.forward, desiredDirection));
+
+        float scaledAcceleration = accelerationForce * alignment;
+
+        // Only limit speed along the movement direction
+        if (speedInDesiredDirection < maxSpeed)
         {
-            totalTurnAngle = currentAngle;
-            isTurning = true;
+
+            rb.AddForce(desiredDirection * scaledAcceleration, ForceMode.Acceleration);
+
+
         }
-
-        if (currentAngle > 0.1f)
-        {
-            // Normalize turn progress (0 → 1)
-            float progress = 1f - Mathf.Clamp01(currentAngle / totalTurnAngle);
-
-            // Evaluate curve
-            float curveValue = rotationDampeningCurve.Evaluate(progress);
-
-            // Lerp between min and max rotation speed
-            float currentRotationSpeed = Mathf.Lerp(minRotationSpeed, maxRotationSpeed, curveValue);
-
-            transform.rotation = Quaternion.RotateTowards(
-                transform.rotation,
-                targetRotation,
-                currentRotationSpeed * Time.deltaTime
-            );
-        }
-        else
-        {
-            isTurning = false;
-        }
-
-        // Move only when mostly facing direction
-        if (currentAngle <= moveAngleThreshold)
-        {
-            transform.position += desiredMoveDirection * moveSpeed * Time.deltaTime;
-        }
-
-        print("Current Angle: " + currentAngle);
     }
 
 
@@ -146,4 +143,15 @@ public class NewTankMovement : NetworkBehaviour
             isGrounded = false;
         }
     }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+
+        Vector3 start = transform.position;
+        Vector3 end = start + desiredMoveDirection * 100;
+        Gizmos.DrawLine(start, end);
+    }
+
 }
