@@ -3,7 +3,7 @@ using LordBreakerX.Utilities;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Throw Attack")]
-public class ThrowAttack : ScriptableAttack
+public sealed class ThrowAttack : ScriptableAttack
 {
     [SerializeField]
     [Min(0f)]

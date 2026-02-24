@@ -3,7 +3,7 @@ using LordBreakerX.Utilities;
 using UnityEngine;
 
 [CreateAssetMenu()]
-public class UndergroundAttack : ScriptableAttack
+public sealed class UndergroundAttack : ScriptableAttack
 {
     [Header("Throw Properties")]
     [Min(1)]

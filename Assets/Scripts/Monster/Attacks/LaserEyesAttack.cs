@@ -2,7 +2,7 @@ using LordBreakerX.AttackSystem;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Laser Eyes Attack")]
-public class LaserEyesAttack : ScriptableAttack
+public sealed class LaserEyesAttack : ScriptableAttack
 {
     [SerializeField]
     [Header("Timing Properties")]

@@ -3,7 +3,7 @@ using LordBreakerX.Attributes;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Stomp Attack")]
-public class StompAttack : ScriptableAttack
+public sealed class StompAttack : ScriptableAttack
 {
     private static readonly Color STOMP_FLASH_COLOR = Color.red;
 

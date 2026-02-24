@@ -2,7 +2,7 @@ using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
 using UnityEngine;
 
-public class MonsterAttackController : AttackController
+public sealed class MonsterAttackController : AttackController
 {
     [SerializeField]
     [RequiredField]
@@ -27,6 +27,7 @@ public class MonsterAttackController : AttackController
         {
             if (_currentEye == null)
                 ChooseEye();
+
             Vector3 eyePosition = _currentEye.position;
 
             Laser laser = Laser.CreateLaser(prefab, gameObject, eyePosition, attackPosition);

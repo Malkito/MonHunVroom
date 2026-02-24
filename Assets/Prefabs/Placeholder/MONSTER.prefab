@@ -6528,7 +6528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _attackTable: {fileID: 11400000, guid: 41204ac5619c8b64b99d1c69d1fceb28, type: 2}
+  _attackTable: {fileID: 11400000, guid: fee7fa33f8fd80742aea0c910b58e8ce, type: 2}
   _randomAttackRadius: 30
   _ignoreLayers:
     serializedVersion: 2
@@ -6549,11 +6549,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  _networkStateList: {fileID: 11400000, guid: 4a85502e342804b47b0c3db147d735c1, type: 2}
   _startingState: {fileID: 11400000, guid: a28244edb3250584aaf75f9a2a21a6fd, type: 2}
-  _statesToRegister:
-  - {fileID: 11400000, guid: a28244edb3250584aaf75f9a2a21a6fd, type: 2}
-  - {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
-  - {fileID: 11400000, guid: 4d0b8e56d228b074ca3186c063f953ee, type: 2}
 --- !u!195 &7254253223198287580
 NavMeshAgent:
   m_ObjectHideFlags: 0

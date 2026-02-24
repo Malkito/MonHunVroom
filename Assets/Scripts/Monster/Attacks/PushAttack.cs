@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "Attacks/Push Attack")]
-public class PushAttack : ScriptableAttack
+public sealed class PushAttack : ScriptableAttack
 {
     [SerializeField]
     [Min(0)]

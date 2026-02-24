@@ -2,7 +2,7 @@ using LordBreakerX.AttackSystem;
 using UnityEngine;
 
 [CreateAssetMenu()]
-public class BlackholeAttack : ScriptableAttack
+public sealed class BlackholeAttack : ScriptableAttack
 {
     [SerializeField]
     private BlackholeController _prefab;
@@ -14,7 +14,6 @@ public class BlackholeAttack : ScriptableAttack
     private float _maxAttackDistance;
 
     private BlackholeController _currentBlackhole;
-
     private MonsterMovementController _monsterMovement;
 
     private bool _spawnedBlackhole = false;

@@ -1,6 +1,6 @@
 using LordBreakerX.AttackSystem;
 
-public class ShadowAttack : ScriptableAttack
+public sealed class ShadowAttack : ScriptableAttack
 {
     
 }

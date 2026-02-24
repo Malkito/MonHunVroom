@@ -2,7 +2,7 @@ using LordBreakerX.AttackSystem;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Earth Throw Attack")]
-public class EarthThrow : ScriptableAttack
+public sealed class EarthThrow : ScriptableAttack
 {
     [SerializeField]
     private float _maxThrowDistance = 50;
@@ -36,7 +36,7 @@ public class EarthThrow : ScriptableAttack
         if (_monsterMovement.ReachedDestination(targetPosition, _maxThrowDistance))
         {
             _monsterMovement.StopMovement();
-            Roubble roubble = _roublePrefab.CreateRouble(Position + new Vector3(0, 10), targetPosition + new Vector3(0, 10));
+            Roubble roubble = _roublePrefab.CreateRouble(Position, targetPosition);
             Controller.SpawnProjectile(roubble.gameObject);
             _thrownEarth = true;
         }

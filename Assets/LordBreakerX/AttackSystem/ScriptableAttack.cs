@@ -4,12 +4,18 @@ namespace LordBreakerX.AttackSystem
 {
     public abstract class ScriptableAttack : ScriptableObject
     {
-        public AttackController Controller { get; private set; }
+        protected AttackController Controller { get; private set; }
 
-        public AttackTarget Target { get => Controller.Target; }
-        public Vector3 Position { get => Controller.transform.position; }
+        protected AttackTarget Target { get => Controller.Target; }
+        protected Vector3 Position { get => Controller.transform.position; }
 
-        public LayerMask IgnoredLayers { get => Controller.IgnoredLayers; }
+        protected LayerMask IgnoredLayers { get => Controller.IgnoredLayers; }
+
+        protected bool IsServer { get => Controller.IsServer; }
+        protected bool IsClient { get => Controller.IsClient; }
+        protected bool IsHost { get => Controller.IsHost; }
+
+        protected bool IsOwner { get => Controller.IsOwner; }
 
 
         public virtual void OnAttackCreation() 
@@ -46,7 +52,7 @@ namespace LordBreakerX.AttackSystem
 
         }
 
-        public static ScriptableAttack Clone(ScriptableAttack attack, AttackController controller)
+        internal static ScriptableAttack Clone(ScriptableAttack attack, AttackController controller)
         {
             ScriptableAttack attackInstance = Instantiate(attack);
             attackInstance.Controller = controller;

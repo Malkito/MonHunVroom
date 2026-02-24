@@ -5,7 +5,7 @@ using LordBreakerX.Utilities;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Death Bomb Attack")]
-public class DeathBomb : ScriptableAttack
+public sealed class DeathBomb : ScriptableAttack
 {
     private float NO_EFFECT = 0;
 
