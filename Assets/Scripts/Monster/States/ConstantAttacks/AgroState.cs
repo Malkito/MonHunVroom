@@ -1,8 +1,7 @@
-using LordBreakerX.States;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = MonsterStates.RAMPAGE, menuName = "Monster/States/Agro State")]
-public class AgroState : BaseState
+[CreateAssetMenu(menuName = MonsterState.CREATE_PATH + "Monster Agro State")]
+public sealed class AgroState : MonsterState
 {
     [SerializeField]
     [Range(1, 60)]
@@ -12,43 +11,41 @@ public class AgroState : BaseState
     [Range(1, 60)]
     private int _maxAttacksPerformed = 3;
 
-    private MonsterAttackController _monsterAttack;
-    private MonsterMovementController _monsterMovement;
+    [SerializeField]
+    private MonsterState _rampageState;
 
     private int _attacksPerformed;
     private int _attacksNeeded;
 
-    public override string ID => MonsterStates.AGRO;
-
-    protected override void OnInitilization()
+    protected override void OnEnterState()
     {
-        _monsterAttack = StateObject.GetComponent<MonsterAttackController>();
-        _monsterMovement = StateObject.GetComponent<MonsterMovementController>();
+        if (IsServer)
+        {
+            AttackHandler.AttackRandomPlayer();
+            _attacksNeeded = Random.Range(_minAttacksPerformed, _maxAttacksPerformed + 1);
+            _attacksPerformed = 0;
+        }
     }
 
-    public override void Enter()
+    protected override void OnExitState()
     {
-        _monsterAttack.AttackRandomPlayer();
-        _attacksNeeded = Random.Range(_minAttacksPerformed, _maxAttacksPerformed + 1);
-        _attacksPerformed = 0;
+        if (IsServer)
+        {
+            MovementHandler.StopMovement();
+            AttackHandler.StopAttack();
+        }
     }
 
-    public override void Exit()
+    protected override void OnUpdateState()
     {
-        _monsterMovement.StopMovement();
-        _monsterAttack.StopAttack();
-    }
-
-    public override void Update()
-    {
-        if (!_monsterAttack.IsAttacking)
+        if (!AttackHandler.IsAttacking && IsServer)
         {
             _attacksPerformed += 1;
 
             if (_attacksPerformed >= _attacksNeeded)
-                Machine.RequestChangeState(MonsterStates.RAMPAGE);
+                Machine.RequestTransitionTo(_rampageState);
             else
-                _monsterAttack.AttackRandomPlayer();
+                AttackHandler.AttackRandomPlayer();
         }
         
     }

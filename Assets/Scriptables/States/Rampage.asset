@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3da42d766eb630469cb264c8d6a506a, type: 3}
   m_Name: Rampage
   m_EditorClassIdentifier: 
+  _id: RampageState
   _attackPlayerDelay: 3
   _changeTargetDelay: 2.5
   _playerAttackChance: 80
   _randomTargetChance: 50
   _targetAttackRadius: 150
-  _ignoredLayers:
-    serializedVersion: 2
-    m_Bits: 68
+  _agroState: {fileID: 11400000, guid: 4d0b8e56d228b074ca3186c063f953ee, type: 2}

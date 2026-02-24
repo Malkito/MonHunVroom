@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d3bf675c27f48439e385dc1635a96f, type: 3}
   m_Name: Agro
   m_EditorClassIdentifier: 
+  _id: AgroState
   _minAttacksPerformed: 1
   _maxAttacksPerformed: 3
+  _rampageState: {fileID: 11400000, guid: a28244edb3250584aaf75f9a2a21a6fd, type: 2}

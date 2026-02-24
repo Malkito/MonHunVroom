@@ -1,45 +1,56 @@
-using LordBreakerX.States;
+using LordBreakerX.States.Networked;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = MonsterStates.WANDER, menuName = "Monster/States/Wander State")]
-public class WanderState : BaseState
+[CreateAssetMenu(menuName = MonsterState.CREATE_PATH + "Monster Wander State")]
+public sealed class WanderState : MonsterState
 {
     [SerializeField]
     [Min(0f)]
     private float _timeBetweenRandomAttacks = 5;
 
-    private MonsterMovementController _monsterMovement;
-    private MonsterAttackController _monsterAttack;
+    [SerializeField]
+    private MonsterState _attackState;
 
     private Timer _randomAttackTimer;
 
-    public override string ID => MonsterStates.WANDER;
-
-    protected override void OnInitilization()
+    protected override void OnInitlizedState()
     {
-        _monsterMovement = StateObject.GetComponent<MonsterMovementController>();
-        _monsterAttack = StateObject.GetComponent<MonsterAttackController>();
-
         _randomAttackTimer = new Timer(_timeBetweenRandomAttacks);
+    }
 
+    protected override void OnStateEnabled()
+    {
         _randomAttackTimer.OnTimerFinished += StartRandomAttack;
+    }
+
+    protected override void OnStateDisabled()
+    {
+        _randomAttackTimer.OnTimerFinished -= StartRandomAttack;
     }
 
     private void StartRandomAttack()
     {
-        if (_monsterMovement != null) Machine.RequestChangeState(MonsterStates.ATTACK);
+        if (MovementHandler != null) 
+            Machine.RequestTransitionTo(_attackState);
     }
 
-    public override void Enter()
+    protected override void OnEnterState()
     {
-        _randomAttackTimer.Reset();
-        _monsterMovement.StopMovement();
-        _monsterMovement.UpdateWalkAnimation(true);
+        if (IsServer)
+        {
+            _randomAttackTimer.Reset();
+            MovementHandler.StopMovement();
+        }
+
+        MovementHandler.UpdateWalkAnimation(true);
     }
 
-    public override void Update()
+    protected override void OnUpdateState()
     {
-        _randomAttackTimer.Update();
-        _monsterMovement.Wander();
+        if (IsServer)
+        {
+            _randomAttackTimer.Update();
+            MovementHandler.Wander();
+        }
     }
 }

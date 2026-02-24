@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35700408f79c7ed48868f20141674bf9, type: 3}
   m_Name: Attack
   m_EditorClassIdentifier: 
+  _id: AttackState
   _minAttacksPerformed: 1
   _maxAttacksPerformed: 3
   _playerAttackChance: 90
   _attackRadius: 25
-  _ignoredLayers:
-    serializedVersion: 2
-    m_Bits: 68
+  _wanderState: {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}
