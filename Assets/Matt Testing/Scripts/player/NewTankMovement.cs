@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Unity.Netcode;
 using Unity.Cinemachine;
+using UnityEngine.UI;
 public class NewTankMovement : NetworkBehaviour
 {
 
@@ -30,8 +31,18 @@ public class NewTankMovement : NetworkBehaviour
     [SerializeField] private float moveAngleThreshold = 5f;
     [SerializeField] private float maxConsideredAngle = 180f; // angle where torque peaks
 
+    [Header("Jump")]
+    [SerializeField] private float jumpFrontForce;
+    [SerializeField] private float jumpUpForce;
+    [SerializeField] private float MaxJumpTimer;
+    private float jumpTimer;
+
+
+
+
     [Header("References")]
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Image jumpIcon;
     private Vector3 desiredMoveDirection;
 
     private void Awake()
@@ -57,6 +68,9 @@ public class NewTankMovement : NetworkBehaviour
 
             Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
             Move(inputVector);
+
+            bool jumpInput = GameInput.instance.getJumpInput();
+            jump(jumpInput);
 
         }
 
@@ -118,11 +132,46 @@ public class NewTankMovement : NetworkBehaviour
         {
 
             rb.AddForce(desiredDirection * scaledAcceleration, ForceMode.Acceleration);
+        }
+    }
+
+
+    private void jump(bool input)
+    {
+
+
+        if(input && jumpTimer <= 0)
+        {
+            Vector3 Frontforce = transform.forward * jumpFrontForce;
+            Vector3 upforce = Vector3.up * jumpUpForce;
+            rb.AddForce(Frontforce + upforce, ForceMode.VelocityChange);
+            jumpTimer = MaxJumpTimer;
+
+            setColor(0.5f);
+
+        }
+        else
+        {
+            if (jumpTimer <= 0)
+            {
+                setColor(1f);
+                return;
+            }
+            jumpTimer -= Time.deltaTime;
 
 
         }
     }
 
+
+    private void setColor(float alphaValue)
+    {
+        Color color = jumpIcon.color;
+        color.a = alphaValue;
+        jumpIcon.color = color;
+
+
+    }
 
 
     //Simple ground checks. 
