@@ -13,7 +13,7 @@ public class MainMenuManager : NetworkBehaviour
 
     public void StartGame()
     {
-        Loader.LoadNetwork(Loader.Scene.DayGameScene);
+        Loader.LoadNetwork(Loader.Scene.TronGameScene);
     }
 
 

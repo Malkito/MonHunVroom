@@ -13,9 +13,8 @@ public class readyCheck : NetworkBehaviour
     private bool playersSpawned;
     private int spawnIndex;
     private bool ready;
-    [SerializeField] private Material[] tankColors;
+    //[SerializeField] private Material[] tankColors;
     [SerializeField] private GameObject[] playerObjects;
-    //[SerializeField] Animator ac;
 
     [SerializeField] private Transform[] respawnPoints;
 
