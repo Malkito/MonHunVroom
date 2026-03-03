@@ -18,7 +18,8 @@ public class Loader : MonoBehaviour
         MainScene,
         DayGameScene,
         NightGameScene,
-        TronGameScene
+        TronGameScene,
+        FantasyGameScene
 
     }
 

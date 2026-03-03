@@ -47,10 +47,11 @@ public class respawnManager : NetworkBehaviour
     private void Update()
     {
         if (NetworkManager.Singleton == null) return;
-        if (numberOfPlayersDead == NetworkManager.Singleton.ConnectedClients.Count && NetworkManager.Singleton.IsServer)
-        {
-            gameLost();
-        }
+        ///
+        /// if (numberOfPlayersDead == NetworkManager.Singleton.ConnectedClients.Count && NetworkManager.Singleton.IsServer)
+        /// {
+        /// gameLost();
+        ///}
     }
 
     private void StartCountdown(int seconds)

@@ -77,6 +77,7 @@ public class BuildingHealth : NetworkBehaviour, dealDamage
     private void DestroyBuildingClientRpc()
     {
         Destroy(gameObject);
+        print("Bulding destroyed");
     }
 
     public void dealDamage(float damage, Color flashColor, GameObject DamageOrigin) // Takes away a certian amount of health, starts the flash damage color Coroutine
