@@ -7,7 +7,7 @@ namespace LordBreakerX.Tables
     public class WeightTable<T> : IWeightedEntryGetter<T> where T : class
     {
         [SerializeField]
-        private readonly List<WeightedEntry<T>> _weightedEntries = new List<WeightedEntry<T>>();
+        private List<WeightedEntry<T>> _weightedEntries = new List<WeightedEntry<T>>();
 
 
         private int _totalWeight;

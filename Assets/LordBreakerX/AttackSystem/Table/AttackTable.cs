@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LordBreakerX.AttackSystem
 {
-    public class AttackTable : WeightTable<ScriptableAttack>
+    public sealed class AttackTable : WeightTable<ScriptableAttack>
     {
         private List<WeightedEntry<ScriptableAttack>> _useableAttacks = new List<WeightedEntry<ScriptableAttack>>();
 

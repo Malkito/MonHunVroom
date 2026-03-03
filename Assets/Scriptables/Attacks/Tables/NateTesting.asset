@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d32831157084b46904874fbbbe296a, type: 3}
   m_Name: NateTesting
   m_EditorClassIdentifier: 
-  _weightedEntries:
-  - _value: {fileID: 11400000, guid: 6a2789ca147f0f54690c52f7cf67ca04, type: 2}
-    _weight: 100
+  _attacks:
+    _weightedEntries:
+    - _value: {fileID: 11400000, guid: 74e06b5b912dca847a1f77b80d9c274f, type: 2}
+      _weight: 100

@@ -44,7 +44,7 @@ public sealed class AttackState : MonsterState
     private void Attack() 
     {
         if (_isAttackingPlayers) AttackHandler.AttackRandomPlayer();
-        else AttackHandler.AttackRandomObject(_attackRadius, AttackHandler.IgnoredLayers);
+        else AttackHandler.AttackRandomObject<dealDamage>();
     }
 
     protected override void OnExitState()

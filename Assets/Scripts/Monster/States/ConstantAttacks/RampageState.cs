@@ -53,7 +53,7 @@ public sealed class RampageState : MonsterState
     {
         if (IsServer && Probability.IsSuccessful(_randomTargetChance))
         {
-            AttackHandler.AttackRandomObject(_targetAttackRadius, AttackHandler.IgnoredLayers);
+            AttackHandler.AttackRandomObject<dealDamage>();
         }
     }
 

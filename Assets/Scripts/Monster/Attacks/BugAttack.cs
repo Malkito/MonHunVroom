@@ -87,7 +87,7 @@ public sealed class BugAttack : ScriptableAttack
 
             if (Probability.IsSuccessful(_randomTargetChance))
             {
-                AttackTarget randomTarget = TargetUtility.GetRandomTarget(Position, _targetRadius, Controller.IgnoredLayers);
+                AttackTarget randomTarget = TargetUtility.GetRandomTarget<dealDamage>(Position, _targetRadius, Controller.IgnoredLayers);
                 sworm = BugSworm.SpawnSworm(_swormPrefab, spawnPosition, randomTarget);
             }
             else

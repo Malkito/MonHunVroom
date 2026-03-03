@@ -9,32 +9,36 @@ namespace LordBreakerX.AttackSystem
 {
     public class AttackController : NetworkBehaviour
     {
-        [SerializeField]
-        private ScriptableAttackTable _attackTable;
+        #region Variables
 
         [SerializeField]
-        private float _randomAttackRadius = 30;
+        private float _randomAttackRadius;
+
+        [SerializeField]
+        private ScriptableAttackTable _attackTable;
 
         [SerializeField]
         private LayerMask _ignoreLayers;
 
         private ScriptableAttack _activeAttack;
 
-        private AttackTarget _target = new AttackTarget();
-
-        private WeightTable<ScriptableAttack> _internalAttackTable;
-
         private List<AttackablePlayer> _attackablePlayers = new List<AttackablePlayer>();
 
-        public Vector3 TargetPosition { get => _target.GetPosition(); }
+        #endregion
 
-        public Vector3 CenteredTargetPosition { get => _target.GetCenteredPosition(); }
+        #region Properties
 
-        public bool IsAttacking { get { return _activeAttack != null; } }
+        public float RandomAttackRadius => _randomAttackRadius;
 
-        public AttackTarget Target { get => _target; set => _target = value; }
+        public bool IsAttacking => _activeAttack != null;
 
-        public LayerMask IgnoredLayers { get => _ignoreLayers; }
+        public LayerMask IgnoredLayers => _ignoreLayers;
+
+        public AttackTarget Target { get; private set; }
+
+        #endregion
+
+        #region Adding Players
 
         public override void OnNetworkSpawn()
         {
@@ -82,12 +86,11 @@ namespace LordBreakerX.AttackSystem
             }
         }
 
-        private void Awake()
-        {
-            _internalAttackTable = _attackTable.CreateTable(this);
-        }   
+        #endregion
 
-        protected virtual void Update()
+        #region Unity Callbacks
+
+        private void Update()
         {
             if (_activeAttack == null || !IsServer) return;
 
@@ -106,6 +109,9 @@ namespace LordBreakerX.AttackSystem
                 _activeAttack.OnAttackFixedUpdate();
         }
 
+        #endregion
+
+        #region Starting Attacks
         private void StartAttack(ScriptableAttack attack)
         {
             if (attack == null || IsAttacking || !IsServer) return;
@@ -114,17 +120,9 @@ namespace LordBreakerX.AttackSystem
             _activeAttack.OnAttackStarted();
         }
 
-        public void StopAttack()
+        private void StartRandomAttack()
         {
-            if (_activeAttack == null || !IsServer) return;
-
-            _activeAttack.OnAttackStopped();
-            _activeAttack = null;
-        }
-
-        protected void StartRandomAttack()
-        {
-            ScriptableAttack randomAttack = _internalAttackTable.GetRandomEntry();
+            ScriptableAttack randomAttack = _attackTable.GetRandomEntry(this);
             StartAttack(randomAttack);
         }
 
@@ -135,23 +133,46 @@ namespace LordBreakerX.AttackSystem
 
             if (NavMeshUtility.IsPathValid(transform.position, attackPosition))
             {
-                _target = new AttackTarget(attackPosition);
+                Target = new AttackTarget(attackPosition);
                 StartRandomAttack();
             }
         }
 
-        public virtual void AttackRandomPlayer()
+        public void AttackRandomPlayer()
         {
             if (_attackablePlayers.Count <= 0) return;
 
             int randomPlayerIndex = Random.Range(0, _attackablePlayers.Count);
             AttackablePlayer player = _attackablePlayers[randomPlayerIndex];
 
-            _target = new AttackTarget(player.PlayerTransform, transform.position);
+            Target = new AttackTarget(player.PlayerTransform, transform.position);
 
             StartRandomAttack();
         }
 
+        public void AttackRandomObject<THealth>()
+        {
+            Target = TargetUtility.GetRandomTarget<THealth>(this);
+
+            if (Target.GetPosition() != transform.position)
+            {
+                StartRandomAttack();
+            }
+        }
+        #endregion
+
+        #region Stopping Attacks
+        public void StopAttack()
+        {
+            if (_activeAttack == null || !IsServer) return;
+
+            _activeAttack.OnAttackStopped();
+            _activeAttack = null;
+        }
+
+        #endregion
+
+        #region Spawning Projectiles
         public GameObject SpawnProjectile(GameObject prefab, Vector3 position, Quaternion rotation)
         {
             if (!IsServer) return null;
@@ -177,6 +198,7 @@ namespace LordBreakerX.AttackSystem
                 Debug.LogWarning("Projectile does not contain a network object so it can not be synced!");
 #endif
         }
+        #endregion
 
     }
 }

@@ -5,22 +5,35 @@ using UnityEngine;
 namespace LordBreakerX.AttackSystem
 {
     [CreateAssetMenu(menuName = "Attack System/Table")]
-    public class ScriptableAttackTable : ScriptableObject
+    public sealed class ScriptableAttackTable : ScriptableObject
     {
         [SerializeField]
-        private List<WeightedEntry<ScriptableAttack>> _weightedEntries = new List<WeightedEntry<ScriptableAttack>>();
+        private WeightTable<ScriptableAttack> _attacks = new WeightTable<ScriptableAttack>();
 
-        public AttackTable CreateTable(AttackController controller)
+        [System.NonSerialized]
+        private AttackTable _table;
+
+        public ScriptableAttack GetRandomEntry(AttackController controller)
         {
-            List<WeightedEntry<ScriptableAttack>> entries = new List<WeightedEntry<ScriptableAttack>>();
-
-            foreach (WeightedEntry<ScriptableAttack> creatorEntry in _weightedEntries)
+            if (_table == null)
             {
-                ScriptableAttack attack = ScriptableAttack.Clone(creatorEntry.Value, controller);
-                entries.Add(new WeightedEntry<ScriptableAttack>(attack, creatorEntry.Weight));
+                _table = CreateTable(controller);
             }
 
-            return new AttackTable(entries);
+            return _table.GetRandomEntry();
+        }
+
+        private AttackTable CreateTable(AttackController controller)
+        {
+            List<WeightedEntry<ScriptableAttack>> attackEntries = new List<WeightedEntry<ScriptableAttack>>();
+
+            foreach (WeightedEntry<ScriptableAttack> entry in _attacks.WeightedEntries)
+            {
+                ScriptableAttack attack = ScriptableAttack.Clone(entry.Value, controller);
+                attackEntries.Add(new WeightedEntry<ScriptableAttack>(attack, entry.Weight));
+            }
+
+            return new AttackTable(attackEntries);
         }
 
     }
