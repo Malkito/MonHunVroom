@@ -3,7 +3,7 @@ using LordBreakerX.Attributes;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Stomp Attack")]
-public class StompAttack : ScriptableAttack
+public sealed class StompAttack : ScriptableAttack
 {
     private static readonly Color STOMP_FLASH_COLOR = Color.red;
 
@@ -47,9 +47,9 @@ public class StompAttack : ScriptableAttack
     {
         _monsterMovement.ChangeDestination(Target.GetPosition());
 
-        Vector3 currentPosition = Controller.transform.position;
+        Vector3 targetPosition = Target.GetPosition();
 
-        if (_monsterMovement.ReachedDestination(EnemyStatManager.StompRadius))
+        if (_monsterMovement.ReachedDestination(targetPosition, EnemyStatManager.StompRadius))
         {
             _monsterMovement.StopMovement();
             _monsterMovement.UpdateWalkAnimation(false);

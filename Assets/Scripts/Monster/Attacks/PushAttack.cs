@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "Attacks/Push Attack")]
-public class PushAttack : ScriptableAttack
+public sealed class PushAttack : ScriptableAttack
 {
     [SerializeField]
     [Min(0)]
@@ -47,7 +47,7 @@ public class PushAttack : ScriptableAttack
             Vector3 targetPosition = Target.GetPosition();
             _monsterMovement.ChangeDestination(targetPosition);
 
-            if (_monsterMovement.ReachedDestination(_maxPushDistance))
+            if (_monsterMovement.ReachedDestination(targetPosition, _maxPushDistance))
             {
                 PushObject();
             }
@@ -58,7 +58,7 @@ public class PushAttack : ScriptableAttack
     {
         _pushedObject = true;
 
-        Rigidbody targetRigidBody = Target.TargetObject.GetComponent<Rigidbody>();
+        Rigidbody targetRigidBody = Target.Object.GetComponent<Rigidbody>();
 
         Vector3 pushDirection = (Target.GetPosition() - Position).normalized;
 
@@ -67,7 +67,7 @@ public class PushAttack : ScriptableAttack
             targetRigidBody.AddForce(_pushForce * targetRigidBody.mass * pushDirection, ForceMode.Force);
         }
 
-        dealDamage targetHealth = Target.TargetObject.GetComponent<dealDamage>();
+        dealDamage targetHealth = Target.Object.GetComponent<dealDamage>();
         if (targetHealth != null)
         {
             targetHealth.dealDamage(_pushDamage, Color.red, Controller.gameObject);

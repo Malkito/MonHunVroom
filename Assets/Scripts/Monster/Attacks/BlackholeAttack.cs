@@ -2,7 +2,7 @@ using LordBreakerX.AttackSystem;
 using UnityEngine;
 
 [CreateAssetMenu()]
-public class BlackholeAttack : ScriptableAttack
+public sealed class BlackholeAttack : ScriptableAttack
 {
     [SerializeField]
     private BlackholeController _prefab;
@@ -14,7 +14,6 @@ public class BlackholeAttack : ScriptableAttack
     private float _maxAttackDistance;
 
     private BlackholeController _currentBlackhole;
-
     private MonsterMovementController _monsterMovement;
 
     private bool _spawnedBlackhole = false;
@@ -52,7 +51,7 @@ public class BlackholeAttack : ScriptableAttack
             Vector3 targetPosition = Target.GetPosition();
             _monsterMovement.ChangeDestination(targetPosition);
 
-            if (_monsterMovement.ReachedDestination(_maxAttackDistance))
+            if (_monsterMovement.ReachedDestination(targetPosition, _maxAttackDistance))
             {
                 Vector3 position = Controller.transform.position + _spawnOffset;
                 _currentBlackhole = _prefab.Clone(position);

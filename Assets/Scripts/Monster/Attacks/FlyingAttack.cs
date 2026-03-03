@@ -3,7 +3,7 @@ using LordBreakerX.Tables;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Flying Attack")]
-public class FlyingAttack : ScriptableAttack
+public sealed class FlyingAttack : ScriptableAttack
 {
     [SerializeField]
     [Header("Flying Properties")]

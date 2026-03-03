@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0298910a9b3cde42a8614ce201c7627, type: 3}
   m_Name: Wander
   m_EditorClassIdentifier: 
+  _id: WanderState
   _timeBetweenRandomAttacks: 5
+  _attackState: {fileID: 11400000, guid: 24d15b4f5d9c66f409d5cb0499c2a268, type: 2}

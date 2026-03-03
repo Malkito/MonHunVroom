@@ -2,7 +2,7 @@ using LordBreakerX.AttackSystem;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Laser Eyes Attack")]
-public class LaserEyesAttack : ScriptableAttack
+public sealed class LaserEyesAttack : ScriptableAttack
 {
     [SerializeField]
     [Header("Timing Properties")]
@@ -57,8 +57,7 @@ public class LaserEyesAttack : ScriptableAttack
     {
         Vector3 targetPosition = Target.GetPosition();
 
-        if (Vector3.Distance(_monsterAttack.transform.position, targetPosition) > _attackDistance
-            || IsBehindObject())
+        if (!_monsterMovement.ReachedDestination(targetPosition, _attackDistance) || IsBehindObject())
         {
             _monsterMovement.UpdateWalkAnimation(true);
             _monsterMovement.ChangeDestination(targetPosition);

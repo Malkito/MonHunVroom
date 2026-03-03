@@ -1,10 +1,9 @@
-using LordBreakerX.States;
+using LordBreakerX.States.Networked;
 using LordBreakerX.Utilities;
-using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = MonsterStates.RAMPAGE, menuName = "Monster/States/Rampage State")]
-public class RampageState : BaseState
+[CreateAssetMenu(menuName = MonsterState.CREATE_PATH + "Monster Rampage State")]
+public sealed class RampageState : MonsterState
 {
     [SerializeField]
     [Range(0.0f, 120.0f)]
@@ -26,63 +25,72 @@ public class RampageState : BaseState
     [Min(0.0f)]
     private float _targetAttackRadius;
 
-    public override string ID => MonsterStates.RAMPAGE;
-
-    private MonsterAttackController _monsterAttack;
-    private MonsterMovementController _monsterMovement;
+    [SerializeField]
+    private MonsterState _agroState;
 
     private Timer _playerAttackCheckTimer;
     private Timer _changeTargetTimer;
 
-    protected override void OnInitilization()
+    protected override void OnInitlizedState()
     {
-        _monsterAttack = StateObject.GetComponent<MonsterAttackController>();
-        _monsterMovement = StateObject.GetComponent<MonsterMovementController>();
-
         _playerAttackCheckTimer = new Timer(_attackPlayerDelay);
-        _playerAttackCheckTimer.OnTimerFinished += PlayerAttackCheck;
-
         _changeTargetTimer = new Timer(_changeTargetDelay);
+    }
+
+    protected override void OnStateEnabled()
+    {
+        _playerAttackCheckTimer.OnTimerFinished += PlayerAttackCheck;
         _changeTargetTimer.OnTimerFinished += ChangeToRandomTarget;
+    }
+
+    protected override void OnStateDisabled()
+    {
+        _playerAttackCheckTimer.OnTimerFinished -= PlayerAttackCheck;
+        _changeTargetTimer.OnTimerFinished -= ChangeToRandomTarget;
     }
 
     private void ChangeToRandomTarget()
     {
-        if (Probability.IsSuccessful(_randomTargetChance))
+        if (IsServer && Probability.IsSuccessful(_randomTargetChance))
         {
-            _monsterAttack.AttackRandomObject(_targetAttackRadius, _monsterAttack.IgnoredLayers);
+            AttackHandler.AttackRandomObject<dealDamage>();
         }
     }
 
     private void PlayerAttackCheck()
     {
-        if (Probability.IsSuccessful(_playerAttackChance))
+        if (IsServer && Probability.IsSuccessful(_playerAttackChance))
         {
-            Machine.RequestChangeState(MonsterStates.AGRO);
+            Machine.RequestTransitionTo(_agroState);
         }
     }
 
-    public override void Enter()
+    protected override void OnEnterState()
     {
-        _playerAttackCheckTimer.Reset();
-        _monsterMovement.StopMovement();
+        if (IsServer)
+        {
+            _playerAttackCheckTimer.Reset();
+            MovementHandler.StopMovement();
+        }
     }
 
-    public override void Exit()
+    protected override void OnExitState()
     {
-        _monsterMovement.StopMovement();
-        _monsterAttack.StopAttack();
+        if (IsServer)
+        {
+            MovementHandler.StopMovement();
+            AttackHandler.StopAttack();
+        }
     }
           
-    public override void Update()
+    protected override void OnUpdateState()
     {
-        _changeTargetTimer.Update();
-
-        if (!_monsterAttack.IsAttacking)
-        {
-            _monsterMovement.Wander();
-        }
+        if (!IsServer) 
+            return;
 
         _playerAttackCheckTimer.Update();
+
+        if (!AttackHandler.IsAttacking)
+            MovementHandler.Wander();
     }
 }

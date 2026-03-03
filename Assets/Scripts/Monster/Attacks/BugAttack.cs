@@ -3,7 +3,7 @@ using LordBreakerX.Utilities;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Bug Attack")]
-public class BugAttack : ScriptableAttack
+public sealed class BugAttack : ScriptableAttack
 {
     [SerializeField]
     [Min(0f)]
@@ -69,7 +69,7 @@ public class BugAttack : ScriptableAttack
             Vector3 targetPosition = Target.GetPosition();
             _monsterMovement.ChangeDestination(targetPosition);
 
-            if (_monsterMovement.ReachedDestination(_maxSpawnDistance))
+            if (_monsterMovement.ReachedDestination(targetPosition, _maxSpawnDistance))
             {
                 SpawnSworms();
             }
@@ -87,7 +87,7 @@ public class BugAttack : ScriptableAttack
 
             if (Probability.IsSuccessful(_randomTargetChance))
             {
-                AttackTarget randomTarget = TargetUtility.GetRandomTarget(Controller.gameObject, _targetRadius, Controller.IgnoredLayers);
+                AttackTarget randomTarget = TargetUtility.GetRandomTarget<dealDamage>(Position, _targetRadius, Controller.IgnoredLayers);
                 sworm = BugSworm.SpawnSworm(_swormPrefab, spawnPosition, randomTarget);
             }
             else

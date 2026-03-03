@@ -1,0 +1,16 @@
+{
+    "name": "LordBreakerX.TablesEditor",
+    "rootNamespace": "LordBreakerX.Tables",
+    "references": [
+        "GUID:4649c400df0262c4a849476b05474a89"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

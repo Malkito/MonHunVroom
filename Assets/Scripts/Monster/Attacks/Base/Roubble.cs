@@ -38,11 +38,25 @@ public class Roubble : MonoBehaviour
         return roubbleCopy;
     }
 
+    public Roubble CreateRouble(Vector3 startPosition, Vector3 finalPosition)
+    {
+        Vector3 direction = finalPosition - startPosition;
+
+        float distance = Vector3.Distance(startPosition, finalPosition);
+
+        Roubble roubleInstance = Instantiate(this, startPosition, Quaternion.identity);
+
+        roubleInstance._rigidbody.AddForce(distance * roubleInstance._rigidbody.mass * direction, ForceMode.Force);
+
+        return roubleInstance;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(_monsterTag)) return;
 
         dealDamage damageable = other.GetComponent<dealDamage>();
-        if (damageable != null) damageable.dealDamage(_damageOnImpact, Color.red, gameObject);
+        if (damageable != null) 
+            damageable.dealDamage(_damageOnImpact, Color.red, gameObject);
     }
 }
