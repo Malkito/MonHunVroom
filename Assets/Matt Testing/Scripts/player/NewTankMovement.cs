@@ -30,6 +30,8 @@ public class NewTankMovement : NetworkBehaviour
     [SerializeField] private float maxTurnTorque = 40f;
     [SerializeField] private float moveAngleThreshold = 5f;
     [SerializeField] private float maxConsideredAngle = 180f; // angle where torque peaks
+    [SerializeField] private float AngleCorrection;
+    [SerializeField] private float OvershootPrevention;
 
     [Header("Jump")]
     [SerializeField] private float jumpFrontForce;
@@ -108,8 +110,8 @@ public class NewTankMovement : NetworkBehaviour
         float angularVelocityY = rb.angularVelocity.y;
 
         // PD gains (tune these)
-        float kp = 40f;   // proportional (how strongly it corrects angle)
-        float kd = 8f;    // damping (prevents overshoot)
+        float kp = AngleCorrection;   // proportional (how strongly it corrects angle)
+        float kd = OvershootPrevention;    // damping (prevents overshoot)
 
         // PD control law
         float torque = (kp * angleError) - (kd * angularVelocityY);

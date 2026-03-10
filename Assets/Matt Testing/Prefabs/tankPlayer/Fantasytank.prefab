@@ -20291,7 +20291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 4405763145740446883}
   targetRigidbody: {fileID: 4561393734523513783}
-  wheelRadius: 1
+  wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
 --- !u!1 &1006748624950212350
 GameObject:
@@ -21390,7 +21390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 4405763145740446883}
   targetRigidbody: {fileID: 4561393734523513783}
-  wheelRadius: 1
+  wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
 --- !u!1 &1989587119657555905
 GameObject:
@@ -41055,7 +41055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 4405763145740446883}
   targetRigidbody: {fileID: 4561393734523513783}
-  wheelRadius: 1
+  wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
 --- !u!1 &4988791859518787454
 GameObject:
@@ -48107,7 +48107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 4405763145740446883}
   targetRigidbody: {fileID: 4561393734523513783}
-  wheelRadius: 1
+  wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
 --- !u!1 &6923915117969936255
 GameObject:
@@ -52360,7 +52360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 4405763145740446883}
   targetRigidbody: {fileID: 4561393734523513783}
-  wheelRadius: 1
+  wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
 --- !u!1 &8653647643292590552
 GameObject:
@@ -57859,5 +57859,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 4405763145740446883}
   targetRigidbody: {fileID: 4561393734523513783}
-  wheelRadius: 1
+  wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}

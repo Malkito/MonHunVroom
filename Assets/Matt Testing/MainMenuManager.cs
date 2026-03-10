@@ -12,11 +12,15 @@ public class MainMenuManager : NetworkBehaviour
     [SerializeField] private GameObject[] Cameras;
     int levelNum;
 
+    [SerializeField] private GameObject[] Titles;
+
     bool isDay;
 
     public void StartGame()
     {
 
+        Loader.LoadNetwork(Loader.Scene.FantasyGameScene);
+        /*
         switch (levelNum)
         {
             case 0:
@@ -29,6 +33,7 @@ public class MainMenuManager : NetworkBehaviour
                 Loader.LoadNetwork(Loader.Scene.FantasyGameScene);
                 break;
         }
+        */
     }
 
 
@@ -39,6 +44,11 @@ public class MainMenuManager : NetworkBehaviour
         goToLobbyButton.gameObject.SetActive(false);
         lobbyCreation.SetActive(true);
         quitButton.gameObject.SetActive(false);
+        foreach(GameObject obj in Titles)
+        {
+            obj.SetActive(false);
+        }
+
     }
 
     public void exitGame() 
@@ -57,6 +67,10 @@ public class MainMenuManager : NetworkBehaviour
         quitButton.gameObject.SetActive(true);
         lobbyCreation.SetActive(false);
         goToLobbyButton.gameObject.SetActive(true);
+        foreach (GameObject obj in Titles)
+        {
+            obj.SetActive(true);
+        }
 
     }
     public void spawnlevelSelect()

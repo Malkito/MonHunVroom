@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
 public class roundWonManager : NetworkBehaviour
 {
@@ -10,6 +11,11 @@ public class roundWonManager : NetworkBehaviour
     private GameObject playerObj;
     private SphereCollider coli;
 
+    [SerializeField] private Loader.Scene tronScene;
+    [SerializeField] private Loader.Scene fantasyScene;
+
+    private Loader.Scene currentScene;
+
 
     private void Awake()
     {
@@ -19,6 +25,17 @@ public class roundWonManager : NetworkBehaviour
     {
         playersReadyForNextRound = 0;
         coli.enabled = false;
+
+        if(SceneManager.GetActiveScene().name == tronScene.ToString())
+        {
+            currentScene = tronScene;
+        }
+        else if(SceneManager.GetActiveScene().name == fantasyScene.ToString())
+        {
+            currentScene = fantasyScene;
+        }
+
+
     }
 
     void Update()
@@ -47,7 +64,15 @@ public class roundWonManager : NetworkBehaviour
             despawnCharacterServerRpc();
             if (playersReadyForNextRound == NetworkManager.Singleton.ConnectedClients.Count)
             {
-                Loader.LoadNetwork(Loader.Scene.DayGameScene);
+
+                if(currentScene == tronScene)
+                {
+                    goToNextScene(fantasyScene);
+                }
+                else if(currentScene == fantasyScene)
+                {
+                    goToNextScene(tronScene);
+                }
                 enableMouseClientRpc();
 
             }
@@ -67,6 +92,14 @@ public class roundWonManager : NetworkBehaviour
     {
         Cursor.visible=true;
         Cursor.lockState = CursorLockMode.Confined;
+    }
+
+
+
+    private void goToNextScene(Loader.Scene nextScene)
+    {
+        Loader.LoadNetwork(nextScene);
+
     }
 
 }
