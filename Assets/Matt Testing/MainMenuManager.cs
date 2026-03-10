@@ -91,12 +91,6 @@ public class MainMenuManager : NetworkBehaviour
     {
         changeCameraSetStartButton(2);
     }
-
-    public void lobbyCreateButton()
-    {
-        startGameButton.interactable = true;
-    }
-
     private void changeCameraSetStartButton(int levelNumber)
     {
         levelNum = levelNumber;

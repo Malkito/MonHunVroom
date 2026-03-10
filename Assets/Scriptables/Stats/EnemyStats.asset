@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: EnemyStats
   m_EditorClassIdentifier: 
   _maxHealth:
-    _statType: 0
-    _value: 10
-    _minValue: 100
-    _maxValue: 400
+    _statType: 1
+    _value: 500
+    _minValue: 500
+    _maxValue: 1500
     _curveValue:
       serializedVersion: 2
       m_Curve:

@@ -74,7 +74,10 @@ public class NewTankMovement : NetworkBehaviour
             bool jumpInput = GameInput.instance.getJumpInput();
             jump(jumpInput);
 
+
         }
+
+
 
 
     }
