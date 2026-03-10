@@ -45318,6 +45318,8 @@ MonoBehaviour:
   maxTurnTorque: 13
   moveAngleThreshold: 15
   maxConsideredAngle: 180
+  AngleCorrection: 40
+  OvershootPrevention: 8
   jumpFrontForce: 15
   jumpUpForce: 4
   MaxJumpTimer: 3

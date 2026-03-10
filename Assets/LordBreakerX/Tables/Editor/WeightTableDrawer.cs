@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -44,3 +45,4 @@ namespace LordBreakerX.Tables
         }
     }
 }
+#endif
