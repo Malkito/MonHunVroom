@@ -54,7 +54,7 @@ public class AssignColor : NetworkBehaviour
 
         foreach (MeshRenderer renderer in renderers)
         {
-            renderer.material = chosenMaterial;
+            renderer.materials[0] = chosenMaterial;
         }
     }
 }

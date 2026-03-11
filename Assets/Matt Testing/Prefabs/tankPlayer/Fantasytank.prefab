@@ -20912,7 +20912,7 @@ GameObject:
   - component: {fileID: 4039771417263979003}
   - component: {fileID: 4868134559352243296}
   m_Layer: 0
-  m_Name: wood path.043
+  m_Name: ColourSheild 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21652,7 +21652,7 @@ GameObject:
   - component: {fileID: 2109394945765945534}
   - component: {fileID: 7569898520779939158}
   m_Layer: 0
-  m_Name: wood path.037
+  m_Name: ColourSheild 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23505,7 +23505,7 @@ GameObject:
   - component: {fileID: 8208928805318161510}
   - component: {fileID: 3124442397821543278}
   m_Layer: 0
-  m_Name: wood path.042
+  m_Name: ColourSheild 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40165,7 +40165,7 @@ GameObject:
   - component: {fileID: 7368854503921646732}
   - component: {fileID: 2673256831668844835}
   m_Layer: 0
-  m_Name: wood path.005
+  m_Name: ColourSheild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40515,7 +40515,7 @@ GameObject:
   - component: {fileID: 4209927785458849212}
   - component: {fileID: 3907894891985187428}
   m_Layer: 0
-  m_Name: wood path.040
+  m_Name: ColourSheild 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41892,7 +41892,7 @@ GameObject:
   - component: {fileID: 7151023556188410222}
   - component: {fileID: 8213000809917067995}
   m_Layer: 0
-  m_Name: wood path.025
+  m_Name: ColourSheild 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46991,7 +46991,7 @@ GameObject:
   - component: {fileID: 8776583684146329901}
   - component: {fileID: 7748082669875833675}
   m_Layer: 0
-  m_Name: wood path.031
+  m_Name: ColourSheild 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49208,7 +49208,7 @@ GameObject:
   - component: {fileID: 8570925735769200990}
   - component: {fileID: 6634509617169727510}
   m_Layer: 0
-  m_Name: wood path.041
+  m_Name: ColourSheild 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49295,7 +49295,7 @@ GameObject:
   - component: {fileID: 6648229315573647241}
   - component: {fileID: 7646331743658027507}
   m_Layer: 0
-  m_Name: wood path.039
+  m_Name: ColourSheild 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50605,14 +50605,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   PlayerMaterials:
-  - {fileID: 2100000, guid: c8872de99bf6922469f494a22f4a8b89, type: 2}
-  - {fileID: 2100000, guid: e325d21be9837eb49aaf4a6c12fb52cc, type: 2}
-  - {fileID: 2100000, guid: de376f6c54eb9c64f9631569a842db39, type: 2}
-  - {fileID: 2100000, guid: ddc891378dd2789489754d7d228fa313, type: 2}
+  - {fileID: 2100000, guid: 7caa7049caae05f43a5636f4a2af9615, type: 2}
+  - {fileID: 2100000, guid: 67b44feeba4b2ca4ba355a1535f54377, type: 2}
+  - {fileID: 2100000, guid: 4e5844372cfaed544a6086d50ca9cde9, type: 2}
+  - {fileID: 2100000, guid: 7f6d4d22b634d814ebd47758d784cc37, type: 2}
   renderers:
-  - {fileID: 1286881386455511969}
-  - {fileID: 680456139037839715}
-  - {fileID: 51350824789483242}
+  - {fileID: 2673256831668844835}
+  - {fileID: 8213000809917067995}
+  - {fileID: 7748082669875833675}
+  - {fileID: 8452761165310663441}
+  - {fileID: 7569898520779939158}
+  - {fileID: 7646331743658027507}
+  - {fileID: 3907894891985187428}
+  - {fileID: 6634509617169727510}
+  - {fileID: 3124442397821543278}
+  - {fileID: 4868134559352243296}
 --- !u!114 &7826608316434944710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50931,7 +50938,7 @@ GameObject:
   - component: {fileID: 5530289112263187337}
   - component: {fileID: 8452761165310663441}
   m_Layer: 0
-  m_Name: wood path.036
+  m_Name: ColourSheild 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
