@@ -26,18 +26,19 @@ public class NewTankMovement : NetworkBehaviour
     [SerializeField] private float maxSpeed = 6f;
 
     [Header("Rotation")]
-    [SerializeField] private float minTurnTorque = 5f;
-    [SerializeField] private float maxTurnTorque = 40f;
-    [SerializeField] private float moveAngleThreshold = 5f;
     [SerializeField] private float maxConsideredAngle = 180f; // angle where torque peaks
     [SerializeField] private float AngleCorrection;
     [SerializeField] private float OvershootPrevention;
+    [SerializeField] private float rotationForce;
 
     [Header("Jump")]
     [SerializeField] private float jumpFrontForce;
     [SerializeField] private float jumpUpForce;
     [SerializeField] private float MaxJumpTimer;
     private float jumpTimer;
+
+    [Header("MISC")]
+    [SerializeField] private bool useLinerDampingMod;
 
 
 
@@ -59,7 +60,6 @@ public class NewTankMovement : NetworkBehaviour
     //y = up and down
     private void FixedUpdate()
     {
-        Debug.Log("Fixed update running");
 
         if (!IsOwner) return; // Built in network check
 
@@ -119,7 +119,7 @@ public class NewTankMovement : NetworkBehaviour
         // PD control law
         float torque = (kp * angleError) - (kd * angularVelocityY);
 
-        rb.AddTorque(Vector3.up * torque, ForceMode.Acceleration);
+        rb.AddTorque(Vector3.up * torque * rotationForce, ForceMode.Force);
         // -------------------------
         // Acceleration Scales With Alignment
         // -------------------------

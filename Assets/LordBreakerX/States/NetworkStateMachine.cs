@@ -70,6 +70,8 @@ namespace LordBreakerX.States.Networked
         {
             if (HasState)
                 CurrentState.OnUpdateState();
+
+            print(CurrentState);
         }
 
         private void FixedUpdate()

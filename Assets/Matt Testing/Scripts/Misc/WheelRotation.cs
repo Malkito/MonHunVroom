@@ -3,48 +3,36 @@ using UnityEngine;
 public class WheelRotation : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Transform targetObject;     // Object whose speed we track
-    [SerializeField] private Rigidbody targetRigidbody;  // Optional (recommended)
+    [SerializeField] private Transform targetObject;
+    [SerializeField] private Rigidbody targetRigidbody;
 
     [Header("Wheel Settings")]
-    [SerializeField] private float wheelRadius = 0.35f;  // In meters
+    [SerializeField] private float wheelRadius = 0.35f;
     [SerializeField] private Vector3 rotationAxis = Vector3.right;
 
-    private Vector3 lastPosition;
-
-    private void Start()
-    {
-        if (targetObject != null)
-            lastPosition = targetObject.position;
-    }
+    [Header("Movement Direction")]
+    [Tooltip("Direction the vehicle moves relative to the wheel (usually forward)")]
+    [SerializeField] private Vector3 movementDirection = Vector3.forward;
 
     private void Update()
     {
-        ///if (GameInput.instance.getMovementInputNormalized().magnitude == 0) return;
+        if (targetRigidbody == null) return;
 
-        float speed = 0f;
+        // Velocity of the vehicle at THIS wheel position
+        Vector3 wheelVelocity = targetRigidbody.GetPointVelocity(transform.position);
 
-        // If Rigidbody provided, use velocity (more accurate)
-        if (targetRigidbody != null)
-        {
-            speed = targetRigidbody.linearVelocity.magnitude;
-        }
-        else if (targetObject != null)
-        {
-            // Fallback: calculate speed manually
-            Vector3 delta = targetObject.position - lastPosition;
-            speed = delta.magnitude / Time.deltaTime;
-            lastPosition = targetObject.position;
-        }
+        // Convert to the wheel's local space
+        Vector3 localVelocity = transform.InverseTransformDirection(wheelVelocity);
 
-        // Convert linear speed to angular speed
-        // ? = v / r
-        float angularVelocity = speed / wheelRadius; // radians per second
+        // Speed in the movement direction (forward/back)
+        float speed = Vector3.Dot(localVelocity, movementDirection);
 
-        // Convert to degrees per frame
+        // Convert linear speed -> angular speed
+        float angularVelocity = speed / wheelRadius;
+
+        // Convert radians to degrees
         float rotationAmount = angularVelocity * Mathf.Rad2Deg * Time.deltaTime;
 
         transform.Rotate(rotationAxis, rotationAmount, Space.Self);
-
     }
 }

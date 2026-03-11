@@ -20216,13 +20216,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 984807204921752605}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.0000016987324, y: -0.70710677, z: -0.7071069, w: 0.0000016838312}
   m_LocalPosition: {x: -3.5976555, y: 1.7197294, z: 3.732909}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5453436195492718754}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -180}
 --- !u!33 &8107740498365352008
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -20293,6 +20293,7 @@ MonoBehaviour:
   targetRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
+  movementDirection: {x: 0, y: 0, z: 1}
 --- !u!1 &1006748624950212350
 GameObject:
   m_ObjectHideFlags: 0
@@ -21315,13 +21316,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963028850940977580}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.0000020787118, y: -0.7071067, z: -0.7071069, w: 0.0000020712612}
   m_LocalPosition: {x: -3.5976555, y: 1.7123861, z: -0.7525463}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5453436195492718754}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -180}
 --- !u!33 &5189684268911157592
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -21392,6 +21393,7 @@ MonoBehaviour:
   targetRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
+  movementDirection: {x: 0, y: 0, z: 1}
 --- !u!1 &1989587119657555905
 GameObject:
   m_ObjectHideFlags: 0
@@ -41057,6 +41059,7 @@ MonoBehaviour:
   targetRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
+  movementDirection: {x: 0, y: 0, z: 1}
 --- !u!1 &4988791859518787454
 GameObject:
   m_ObjectHideFlags: 0
@@ -48032,13 +48035,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6867053962940242813}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.0000016763806, y: -0.7071067, z: -0.70710695, w: 0.0000016912818}
   m_LocalPosition: {x: -3.5976555, y: 1.5633035, z: -4.913793}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5453436195492718754}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -180}
 --- !u!33 &6208649587884007131
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -48109,6 +48112,7 @@ MonoBehaviour:
   targetRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
+  movementDirection: {x: 0, y: 0, z: 1}
 --- !u!1 &6923915117969936255
 GameObject:
   m_ObjectHideFlags: 0
@@ -50056,7 +50060,6 @@ GameObject:
   - component: {fileID: 5086037589454759781}
   - component: {fileID: 7606277645741942883}
   - component: {fileID: 86376576617243287}
-  - component: {fileID: 4953262288513267542}
   - component: {fileID: 5844322056726403099}
   - component: {fileID: 7547834820336501301}
   - component: {fileID: 3837357519394282913}
@@ -50109,7 +50112,7 @@ Rigidbody:
   m_GameObject: {fileID: 8104714157324929073}
   serializedVersion: 4
   m_Mass: 100
-  m_Drag: 0
+  m_Drag: 5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -50468,35 +50471,16 @@ MonoBehaviour:
   linerDampening: 0
   accelerationForce: 20
   maxSpeed: 30
-  minTurnTorque: 7
-  maxTurnTorque: 13
-  moveAngleThreshold: 15
   maxConsideredAngle: 180
   AngleCorrection: 50
   OvershootPrevention: 8
+  rotationForce: 400
   jumpFrontForce: 15
   jumpUpForce: 4
   MaxJumpTimer: 3
+  useLinerDampingMod: 0
   cameraTransform: {fileID: 2770513277569699001}
   jumpIcon: {fileID: 3975747479943129205}
---- !u!114 &4953262288513267542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be47dcd4604bfb545b7758bd132d9f32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 2000
-  rotationSpeed: 90
-  canMove: 0
-  groundCheck: {fileID: 3415987852756546517}
-  linerDampening: 3
 --- !u!114 &5844322056726403099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52364,6 +52348,7 @@ MonoBehaviour:
   targetRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
+  movementDirection: {x: 0, y: 0, z: 1}
 --- !u!1 &8653647643292590552
 GameObject:
   m_ObjectHideFlags: 0
@@ -57863,3 +57848,4 @@ MonoBehaviour:
   targetRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 3
   rotationAxis: {x: 1, y: 0, z: 0}
+  movementDirection: {x: 0, y: 0, z: 1}

@@ -7,6 +7,7 @@ public class tankParachute : NetworkBehaviour
     private bool parachuteActive;
     [SerializeField] private GameObject parachute;
     [SerializeField] private Rigidbody rb;
+    private bool deactivated;
 
 
     private void Update()
@@ -20,7 +21,7 @@ public class tankParachute : NetworkBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && !deactivated)
         {
             deactivateParachute();
         }
@@ -30,12 +31,14 @@ public class tankParachute : NetworkBehaviour
     {
         activateParachuiteClientRpc(true);
         rb.linearDamping = 0.2f;
+        deactivated = false;
     }
 
     private void deactivateParachute()
     {
         activateParachuiteClientRpc(false);
         rb.linearDamping = 0;
+        deactivated = true;
     }
 
     [ClientRpc]

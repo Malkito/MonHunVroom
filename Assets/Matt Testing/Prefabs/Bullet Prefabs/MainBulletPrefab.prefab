@@ -4807,7 +4807,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
   randomSeed: 0
@@ -9508,7 +9508,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
   randomSeed: 0
@@ -14094,8 +14094,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5146398623168410934}
-  - component: {fileID: 5146398623162490098}
-  - component: {fileID: 5115715547199641090}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -14121,31 +14119,6 @@ Transform:
   - {fileID: 5146398623168410928}
   m_Father: {fileID: 8159441984742629083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5146398623162490098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5146398623168506134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11d497e14c8a38f49ac502a303de982d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.5
---- !u!114 &5115715547199641090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5146398623168506134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db08735561a38424182823d8d175333b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6648193206323190310
 GameObject:
   m_ObjectHideFlags: 0
