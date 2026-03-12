@@ -3,7 +3,12 @@ guid: 8c3be6cfc9ebe2242b4670b7bc465e60
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Parachute04_D
+    second: {fileID: 2100000, guid: 53f2fcde09b8bea4cbdd6c2e17ae1064, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

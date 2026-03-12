@@ -7,6 +7,8 @@ public class AssignColor : NetworkBehaviour
     [SerializeField] private Material[] PlayerMaterials;
     [SerializeField] private MeshRenderer[] renderers;
 
+    [SerializeField] private TrailRenderer[] Trails;
+
 
     private void Start()
     {
@@ -56,5 +58,15 @@ public class AssignColor : NetworkBehaviour
         {
             renderer.materials[0] = chosenMaterial;
         }
+
+        if(Trails[0] != null)
+        {
+            foreach(TrailRenderer trail in Trails)
+            {
+                trail.material = chosenMaterial;
+            }
+        }
+
+
     }
 }

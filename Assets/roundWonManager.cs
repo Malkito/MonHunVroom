@@ -9,7 +9,7 @@ public class roundWonManager : NetworkBehaviour
     private int playersReadyForNextRound;
     private NetworkObject playerNetOBJ;
     private GameObject playerObj;
-    private SphereCollider coli;
+    private BoxCollider coli;
 
     [SerializeField] private Loader.Scene tronScene;
     [SerializeField] private Loader.Scene fantasyScene;
@@ -19,7 +19,7 @@ public class roundWonManager : NetworkBehaviour
 
     private void Awake()
     {
-        coli = gameObject.GetComponent<SphereCollider>();
+        coli = gameObject.GetComponent<BoxCollider>();
     }
     private void Start()
     {
