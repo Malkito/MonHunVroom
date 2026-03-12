@@ -1,38 +1,50 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WheelRotation : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private Transform targetObject;
-    [SerializeField] private Rigidbody targetRigidbody;
+    [Header("Vehicle")]
+    [SerializeField] private Rigidbody tankRigidbody;
 
     [Header("Wheel Settings")]
     [SerializeField] private float wheelRadius = 0.35f;
-    [SerializeField] private Vector3 rotationAxis = Vector3.right;
+    [SerializeField] private Vector3 spinAxis = Vector3.right;
 
-    [Header("Movement Direction")]
-    [Tooltip("Direction the vehicle moves relative to the wheel (usually forward)")]
-    [SerializeField] private Vector3 movementDirection = Vector3.forward;
+    [Header("Wheel Side")]
+    [Tooltip("True if this wheel is on the left side of the tank")]
+    [SerializeField] private bool isLeftWheel;
+
+    [Header("Pivot Turning")]
+    [SerializeField] private float pivotSpinSpeed = 4f;
 
     private void Update()
     {
-        if (targetRigidbody == null) return;
+        if (tankRigidbody == null) return;
 
-        // Velocity of the vehicle at THIS wheel position
-        Vector3 wheelVelocity = targetRigidbody.GetPointVelocity(transform.position);
+        Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
 
-        // Convert to the wheel's local space
-        Vector3 localVelocity = transform.InverseTransformDirection(wheelVelocity);
+        // Forward/backward velocity
+        Vector3 velocity = tankRigidbody.linearVelocity;
+        float forwardSpeed = Vector3.Dot(velocity, tankRigidbody.transform.forward);
 
-        // Speed in the movement direction (forward/back)
-        float speed = Vector3.Dot(localVelocity, movementDirection);
+        float rotationAmount;
 
-        // Convert linear speed -> angular speed
-        float angularVelocity = speed / wheelRadius;
+        // If tank is not moving forward/back, allow pivot spinning
+        if (Mathf.Abs(forwardSpeed) < 0.05f && Mathf.Abs(inputVector.x) > 0.01f)
+        {
+            float direction = inputVector.x;
 
-        // Convert radians to degrees
-        float rotationAmount = angularVelocity * Mathf.Rad2Deg * Time.deltaTime;
+            // Left wheels opposite of right wheels
+            float sideMultiplier = isLeftWheel ? -1f : 1f;
 
-        transform.Rotate(rotationAxis, rotationAmount, Space.Self);
+            rotationAmount = direction * sideMultiplier * pivotSpinSpeed * Mathf.Rad2Deg * Time.deltaTime;
+        }
+        else
+        {
+            // Normal movement rotation
+            float angularVelocity = forwardSpeed / wheelRadius;
+            rotationAmount = angularVelocity * Mathf.Rad2Deg * Time.deltaTime;
+        }
+
+        transform.Rotate(spinAxis, -rotationAmount, Space.Self);
     }
 }

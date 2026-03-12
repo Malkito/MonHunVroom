@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class GameStateManager : NetworkBehaviour
 {
     public enum State
@@ -82,7 +83,16 @@ public class GameStateManager : NetworkBehaviour
     private void resetSceneServerRpc()
     {
         //PlayerInputActions.Player.Disable();
-        Loader.LoadNetwork(Loader.Scene.DayGameScene);
+        if(SceneManager.GetActiveScene().name == Loader.Scene.TronGameScene.ToString())
+        {
+            Loader.LoadNetwork(Loader.Scene.TronGameScene);
+
+        } else if (SceneManager.GetActiveScene().name == Loader.Scene.FantasyGameScene.ToString())
+        {
+            Loader.LoadNetwork(Loader.Scene.FantasyGameScene);
+        }
+
+
     }
 
 

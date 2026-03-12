@@ -13,7 +13,7 @@ public class MuzzleFlashPause : MonoBehaviour
     IEnumerator startDelay()
     {
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.22f);
 
         foreach(ParticleSystem particles in particles)
         {

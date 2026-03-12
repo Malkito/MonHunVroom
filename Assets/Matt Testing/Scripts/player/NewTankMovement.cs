@@ -37,6 +37,10 @@ public class NewTankMovement : NetworkBehaviour
     [SerializeField] private float MaxJumpTimer;
     private float jumpTimer;
 
+    [Header("Friction")]
+    [SerializeField] private bool useSidewaysFriction = true;
+    [SerializeField] private float sidewaysFriction = 8f;
+
     [Header("MISC")]
     [SerializeField] private bool useLinerDampingMod;
 
@@ -68,6 +72,8 @@ public class NewTankMovement : NetworkBehaviour
         if (isGrounded) // ensures that inputs are only checked if the tank is on the ground
         {
 
+            ApplySidewaysFriction();
+
             Vector2 inputVector = GameInput.instance.getMovementInputNormalized();
             Move(inputVector);
 
@@ -76,10 +82,26 @@ public class NewTankMovement : NetworkBehaviour
 
 
         }
+    }
 
+    private void ApplySidewaysFriction()
+    {
+        if (!useSidewaysFriction) return;
 
+        Vector3 velocity = rb.linearVelocity;
 
+        Vector3 forward = transform.forward;
+        Vector3 sideways = transform.right;
 
+        float forwardVel = Vector3.Dot(velocity, forward);
+        float sidewaysVel = Vector3.Dot(velocity, sideways);
+
+        // Reduce sideways sliding
+        sidewaysVel = Mathf.Lerp(sidewaysVel, 0f, sidewaysFriction * Time.fixedDeltaTime);
+
+        Vector3 correctedVelocity = forward * forwardVel + sideways * sidewaysVel;
+
+        rb.linearVelocity = new Vector3(correctedVelocity.x, velocity.y, correctedVelocity.z);
     }
 
     public void Move(Vector2 input)
