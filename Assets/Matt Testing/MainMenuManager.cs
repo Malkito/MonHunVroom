@@ -19,7 +19,7 @@ public class MainMenuManager : NetworkBehaviour
     public void StartGame()
     {
 
-        Loader.LoadNetwork(Loader.Scene.FantasyGameScene);
+        Loader.LoadNetwork(Loader.Scene.TronGameScene);
         /*
         switch (levelNum)
         {

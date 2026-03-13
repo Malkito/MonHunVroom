@@ -12,7 +12,7 @@ public class playerRespawn : MonoBehaviour
     /// When the health reaches 0, all input is ignored, then after a delay the player is moved to a random spawn location, input is resumed
     /// 
     /// </summary>
-    private tankMovement movement;
+    private NewTankMovement movement;
     private tankCameraMovement TankCam;
     private playerUpgradeManager upgrade;
     private playerShooting shooting;
@@ -38,7 +38,7 @@ public class playerRespawn : MonoBehaviour
     {
 
         //sets player action refrecenes
-        movement = gameObject.GetComponent<tankMovement>();
+        movement = gameObject.GetComponent<NewTankMovement>();
         TankCam = gameObject.GetComponent<tankCameraMovement>();
         upgrade = gameObject.GetComponent<playerUpgradeManager>();
         shooting = gameObject.GetComponent<playerShooting>();
