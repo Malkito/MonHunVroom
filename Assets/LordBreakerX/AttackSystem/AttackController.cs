@@ -3,6 +3,7 @@ using LordBreakerX.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace LordBreakerX.AttackSystem
@@ -44,47 +45,72 @@ namespace LordBreakerX.AttackSystem
         {
             if (IsServer)
             {
-                NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-                NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+                StartCoroutine(WaitForPlayers());
             }
         }
 
-        public override void OnNetworkDespawn()
+        private IEnumerator WaitForPlayers()
         {
-            if (NetworkManager.Singleton != null && IsServer)
+            foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClients.Values)
             {
-                NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-                NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
-            }
-        }
+                while(client.PlayerObject == null)
+                {
+                    yield return null;
+                }
 
-        private void OnClientConnected(ulong clientID)
-        {
-            StartCoroutine(WaitForPlayerObject(clientID));
-        }
-
-        private IEnumerator WaitForPlayerObject(ulong clientID)
-        {
-            while (!NetworkManager.Singleton.ConnectedClients.ContainsKey(clientID) ||
-                    NetworkManager.Singleton.ConnectedClients[clientID].PlayerObject == null) 
-            {
-                yield return null;
+                AttackablePlayer player = new AttackablePlayer(client.PlayerObject, client.ClientId);
+                _attackablePlayers.Add(player);
             }
 
-            NetworkObject playerObject = NetworkManager.Singleton.ConnectedClients[clientID].PlayerObject;
-            AttackablePlayer player = new AttackablePlayer(playerObject, clientID);
-            _attackablePlayers.Add(player);
+            Debug.Log(_attackablePlayers.Count);
         }
 
-        private void OnClientDisconnected(ulong clientID)
-        {
-            AttackablePlayer attackablePlayer = AttackablePlayer.GetPlayerEntryWithID(clientID, _attackablePlayers);
+        //public override void OnNetworkSpawn()
+        //{
+        //    if (IsServer)
+        //    {
+        //        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        //        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+        //    }
+        //}
 
-            if (attackablePlayer != null) 
-            {
-                _attackablePlayers.Remove(attackablePlayer);
-            }
-        }
+        //public override void OnNetworkDespawn()
+        //{
+        //    if (NetworkManager.Singleton != null && IsServer)
+        //    {
+        //        NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+        //        NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+        //    }
+        //}
+
+        //private void OnClientConnected(ulong clientID)
+        //{
+        //    Debug.Log("ClientConnected");
+        //    StartCoroutine(WaitForPlayerObject(clientID));
+        //}
+
+        //private IEnumerator WaitForPlayerObject(ulong clientID)
+        //{
+        //    while (!NetworkManager.Singleton.ConnectedClients.ContainsKey(clientID) ||
+        //            NetworkManager.Singleton.ConnectedClients[clientID].PlayerObject == null) 
+        //    {
+        //        yield return null;
+        //    }
+
+        //    NetworkObject playerObject = NetworkManager.Singleton.ConnectedClients[clientID].PlayerObject;
+        //    AttackablePlayer player = new AttackablePlayer(playerObject, clientID);
+        //    _attackablePlayers.Add(player);
+        //}
+
+        //private void OnClientDisconnected(ulong clientID)
+        //{
+        //    AttackablePlayer attackablePlayer = AttackablePlayer.GetPlayerEntryWithID(clientID, _attackablePlayers);
+
+        //    if (attackablePlayer != null) 
+        //    {
+        //        _attackablePlayers.Remove(attackablePlayer);
+        //    }
+        //}
 
         #endregion
 
