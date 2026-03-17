@@ -18,8 +18,6 @@ namespace LordBreakerX.AttackSystem
             UpdateUseableAttacks();
             UpdateTotalWeight();
 
-            Debug.Log("UseableAttacks: " + _useableAttacks.Count);
-
             return base.GetRandomEntry();
         }
 

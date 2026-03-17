@@ -1,4 +1,5 @@
 using LordBreakerX.Health;
+using LordBreakerX.States.Networked;
 using LordBreakerX.Utilities;
 using Unity.Netcode;
 using UnityEngine;
@@ -28,6 +29,7 @@ public class MonsterMovementController : NetworkBehaviour
     [SerializeField]
     private Collider _collider;
 
+    [SerializeField]
     private NavMeshAgent _monsterAgent;
 
     [SerializeField]
@@ -53,6 +55,7 @@ public class MonsterMovementController : NetworkBehaviour
         _monsterAgent.speed = EnemyStatManager.MovementSpeed;
         _monsterAgent.angularSpeed = EnemyStatManager.TurningSpeed;
         _monsterStartHeight = _monsterTransform.localPosition.y;
+        _monsterAgent.Warp(transform.position);
     }
 
     public void UpdateWalkAnimation(bool isWalking)
@@ -93,22 +96,25 @@ public class MonsterMovementController : NetworkBehaviour
 
     public bool ReachedDestination()
     {
+        if (_monsterAgent == null) return false;
         return _monsterAgent.ReachedDestination(_reachedDestinationDistance);
     }
 
     public bool ReachedDestination(float reachedDistance)
     {
+        if (_monsterAgent == null) return false;
         return _monsterAgent.ReachedDestination(reachedDistance);
     }
 
     public bool ReachedDestination(Vector3 destination, float maxDistance = 0.2f)
     {
+        if (_monsterAgent == null) return false;
         return Vector3.Distance(destination, transform.position) <= maxDistance;
     }
 
     public void ChangeDestination(Vector3 destination)
     {
-        if (IsServer)
+        if (IsServer && _monsterAgent != null)
         {
             _monsterAgent.SetDestination(destination);
         }

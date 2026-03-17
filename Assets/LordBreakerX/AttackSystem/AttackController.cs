@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace LordBreakerX.AttackSystem
@@ -25,6 +26,8 @@ namespace LordBreakerX.AttackSystem
 
         private List<AttackablePlayer> _attackablePlayers = new List<AttackablePlayer>();
 
+        private AttackTable _internalTable;
+
         #endregion
 
         #region Properties
@@ -43,6 +46,8 @@ namespace LordBreakerX.AttackSystem
 
         public override void OnNetworkSpawn()
         {
+            _internalTable = _attackTable.CreateTable(this);
+
             if (IsServer)
             {
                 StartCoroutine(WaitForPlayers());
@@ -61,8 +66,6 @@ namespace LordBreakerX.AttackSystem
                 AttackablePlayer player = new AttackablePlayer(client.PlayerObject, client.ClientId);
                 _attackablePlayers.Add(player);
             }
-
-            Debug.Log(_attackablePlayers.Count);
         }
 
         //public override void OnNetworkSpawn()
@@ -124,7 +127,6 @@ namespace LordBreakerX.AttackSystem
                 StopAttack();
             else
                 _activeAttack.OnAttackUpdate();
-
         }
 
         private void FixedUpdate()
@@ -148,7 +150,7 @@ namespace LordBreakerX.AttackSystem
 
         private void StartRandomAttack()
         {
-            ScriptableAttack randomAttack = _attackTable.GetRandomEntry(this);
+            ScriptableAttack randomAttack = _internalTable.GetRandomEntry();
             StartAttack(randomAttack);
         }
 

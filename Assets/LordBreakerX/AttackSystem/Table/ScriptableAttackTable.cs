@@ -10,20 +10,7 @@ namespace LordBreakerX.AttackSystem
         [SerializeField]
         private WeightTable<ScriptableAttack> _attacks = new WeightTable<ScriptableAttack>();
 
-        [System.NonSerialized]
-        private AttackTable _table;
-
-        public ScriptableAttack GetRandomEntry(AttackController controller)
-        {
-            if (_table == null)
-            {
-                _table = CreateTable(controller);
-            }
-
-            return _table.GetRandomEntry();
-        }
-
-        private AttackTable CreateTable(AttackController controller)
+        public AttackTable CreateTable(AttackController controller)
         {
             List<WeightedEntry<ScriptableAttack>> attackEntries = new List<WeightedEntry<ScriptableAttack>>();
 
