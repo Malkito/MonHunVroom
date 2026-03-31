@@ -10,6 +10,13 @@ public class AssignColor : NetworkBehaviour
     [SerializeField] private TrailRenderer[] Trails;
 
 
+    EntryDissolver entryDissolver;
+
+    private void Awake()
+    {
+        entryDissolver = GetComponent<EntryDissolver>();
+    }
+
     private void Start()
     {
         // Only the owner (or server) should handle material assignment
@@ -31,6 +38,12 @@ public class AssignColor : NetworkBehaviour
         // Determine which material to use
         int index = (int)OwnerClientId % PlayerMaterials.Length;
         Material chosenMaterial = PlayerMaterials[index];
+
+        if(entryDissolver != null)
+        {
+            entryDissolver.assignEdgeColour(chosenMaterial.color);
+        }
+
 
         // Get all MeshRenderers on this object and its children
         //MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>();

@@ -110,7 +110,6 @@ public class jetpackLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onU
 
         if (isPressingHover)
         {
-            print("is pressing hover: " + isPressingHover);
             Hovering();
         }
         else

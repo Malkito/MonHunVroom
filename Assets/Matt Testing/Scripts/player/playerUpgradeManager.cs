@@ -186,21 +186,20 @@ public class playerUpgradeManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void SpawnUpgradePickupServerRpc(int slot)
     {
-        print("Spawn upgradeServer pickup start");
         if (slot < 0 || slot >= equipped.Length) return;
 
         var def = equipped[slot].definition;
         if (def == null || def.pickupObject == null) return;
 
         Vector3 spawnPos = Vector3.zero;
-        if (equipped[slot].logicInstance != null)
-            spawnPos = equipped[slot].logicInstance.transform.position;
-        else
-            spawnPos = transform.position;
+        spawnPos = transform.position;
+
 
         GameObject pickUpObject = Instantiate(def.pickupObject, spawnPos, Quaternion.identity);
         NetworkObject n = pickUpObject.GetComponent<NetworkObject>();
         n.Spawn();
+
+        print(pickUpObject.transform);
 
         var pickupScript = pickUpObject.GetComponent<upgradePickUp>();
         if (pickupScript != null)
@@ -208,7 +207,6 @@ public class playerUpgradeManager : NetworkBehaviour
             pickupScript.canBePickedUp = false;
             pickupScript.dropped = true;
         }
-        print("Spawn upgradeServer pickup end");
 
     }
 
@@ -285,11 +283,15 @@ public class playerUpgradeManager : NetworkBehaviour
 
         // all slots full: shift left on server and return last slot index
         // drop oldest (slot 0) as pickup
+
+        RemoveUpgrade(0);
+
         for (int i = 0; i < equipped.Length - 1; i++)
         {
             equipped[i] = equipped[i + 1];
         }
         equipped[equipped.Length - 1] = new EquippedUpgrade();
+
         return equipped.Length - 1;
     }
 
@@ -312,6 +314,8 @@ public class playerUpgradeManager : NetworkBehaviour
 
             // despawn instance
             equipped[slot].logicInstance.Despawn();
+
+
         }
 
         equipped[slot] = new EquippedUpgrade();

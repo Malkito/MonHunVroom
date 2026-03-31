@@ -44,41 +44,22 @@ public class tankCameraMovement : NetworkBehaviour
         if (!IsOwner) return;
         if (!canMove) return;
 
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            // 'hit.point' is the world position where the ray hit an object
-            // You can use this for visual feedback or to determine where bullets should go
-        }
-
-
-
-
         rotateTurretHead();
         rotatioBarrelEnds();
     }
 
     private void rotateTurretHead()
     {
-        Vector3 direction = turretLookAt.position - transform.position;
-        direction.y = 0;
+        Vector3 camForward = Camera.main.transform.forward;
 
-        if(direction.magnitude > 0.0001f)
+        Vector3 direction = Vector3.ProjectOnPlane(camForward, transform.up);
+
+        if (direction.sqrMagnitude > 0.001f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            Quaternion targetRotation = Quaternion.LookRotation(direction, transform.up);
 
-            if(rotateSpeed <= 0)
-            {
-                turretHead.transform.rotation = targetRotation;
-            }
-            else
-            {
-                turretHead.transform.rotation = Quaternion.Slerp(turretHead.transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-            }
-
+            turretHead.transform.rotation = Quaternion.RotateTowards(turretHead.transform.rotation,targetRotation,rotateSpeed * Time.deltaTime * 360f);
         }
-
     }
 
     private void rotatioBarrelEnds()
@@ -94,10 +75,26 @@ public class tankCameraMovement : NetworkBehaviour
 
     private void OnDrawGizmos()
     {
-        
-        Gizmos.color = Color.red;
-        Vector3 start = cam.transform.position;
-        Vector3 end = start + cam.transform.forward * 100;
-        Gizmos.DrawLine(start, end);
+        if (cam == null) return;
+
+        Vector3 origin = transform.position;
+
+        Vector3 camForward = cam.transform.forward;
+        Vector3 projected = Vector3.ProjectOnPlane(camForward, transform.up);
+
+        // Camera forward (yellow)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(origin, origin + camForward * 5f);
+
+        // Projected direction (cyan)
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(origin, origin + projected.normalized * 5f);
+
+        // Warning zone
+        if (projected.sqrMagnitude < 0.001f)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(origin, 2f);
+        }
     }
 }

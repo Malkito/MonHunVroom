@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.Netcode;
 using Unity.Cinemachine;
+using System.Collections;
 
 
 interface bullet {
@@ -33,6 +34,8 @@ public class playerShooting : NetworkBehaviour
     [HideInInspector] public bool bigShotLoaded;
 
     [Header("Alt Attack")]
+    [SerializeField] private bool UseAltAttack;
+    private ManaSystem manaScript;
     public int currentAltBulletSoIndex;
     public Transform altBarrelEnd;
     private float altTimeBetweenShots;
@@ -55,9 +58,15 @@ public class playerShooting : NetworkBehaviour
     [SerializeField] private CinemachineCamera cam;
 
 
+    private void Awake()
+    {
+        tankRB = GetComponent<Rigidbody>();
+        manaScript = GetComponent<ManaSystem>();
+    }
+
     private void Start()
     {
-        tankRB = gameObject.GetComponent<Rigidbody>();
+
         canShoot = true;
         MaintimeBetweenShots = bulletSOarray[currentMainBulletSoIndex].minTimeBetweenShots;
         altTimeBetweenShots = bulletSOarray[currentAltBulletSoIndex].minTimeBetweenShots;
@@ -77,9 +86,11 @@ public class playerShooting : NetworkBehaviour
         }
 
         // checks if the alt attack (Right click) input and if enough time between shots has elapsed
-        if (GameInput.instance.getAltAttackInput() && altTimeBetweenShots > bulletSOarray[currentAltBulletSoIndex].minTimeBetweenShots)
+        if (GameInput.instance.getAltAttackInput() && altTimeBetweenShots > bulletSOarray[currentAltBulletSoIndex].minTimeBetweenShots && UseAltAttack)
         {
-            AltShootServerRPC(currentAltBulletSoIndex);
+            manaScript.Activaction(manaScript.manaUsedPerActivation);
+
+            //AltShootServerRPC(currentAltBulletSoIndex);
             altTimeBetweenShots = 0;
         }
 
@@ -222,6 +233,7 @@ public class playerShooting : NetworkBehaviour
         Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);
 
     }
+
 
     [ServerRpc(RequireOwnership = false)] //changes the bullet type, un-used for the moment
     public void changeBulletServerRpc(bool changeMainBullet, int NewBulletSOindex)
