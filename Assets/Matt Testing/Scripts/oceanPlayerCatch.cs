@@ -7,13 +7,7 @@ public class oceanPlayerCatch : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            respawnManager.Instance.StartSpawnPlayer(other.transform);
+            other.GetComponent<playerRespawn>().respawn();
         }
     }
-
-
-
-
-
-
 }

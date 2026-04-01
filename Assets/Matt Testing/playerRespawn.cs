@@ -57,8 +57,14 @@ public class playerRespawn : MonoBehaviour
     {
         if(health.currentHealth <= 0)
         {
-            StartCoroutine(startRespawn());
+            respawn();
         }
+    }
+
+
+    public void respawn()
+    {
+        StartCoroutine(startRespawn());
     }
 
     private IEnumerator startRespawn()
