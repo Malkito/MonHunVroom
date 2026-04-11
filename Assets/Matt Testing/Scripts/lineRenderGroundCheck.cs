@@ -4,7 +4,7 @@ using Unity.Netcode;
 
 public class lineRenderGroundCheck : NetworkBehaviour
 {
-    private TrailRenderer TrailRenderer;
+    [SerializeField] private TrailRenderer TrailRenderer;
 
     [SerializeField] private ParticleSystem dirtParticles;
     [SerializeField] private Rigidbody rb;
@@ -25,9 +25,7 @@ public class lineRenderGroundCheck : NetworkBehaviour
 
     private void Start()
     {
-        if (!IsOwner) return;
-
-        TrailRenderer = gameObject.GetComponent<TrailRenderer>();
+        //if (!IsOwner) return;
 
         TrailRenderer.emitting = false;
 

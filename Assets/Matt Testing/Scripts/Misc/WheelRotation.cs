@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Unity.Netcode;
 
-public class WheelRotation : MonoBehaviour
+public class WheelRotation : NetworkBehaviour
 {
     [Header("Vehicle")]
     [SerializeField] private Rigidbody tankRigidbody;
@@ -45,6 +46,15 @@ public class WheelRotation : MonoBehaviour
             rotationAmount = angularVelocity * Mathf.Rad2Deg * Time.deltaTime;
         }
 
+        rotateWheelClientRpc(rotationAmount);
+    }
+
+
+    
+    [ClientRpc]
+    private void rotateWheelClientRpc(float rotationAmount)
+    {
         transform.Rotate(spinAxis, -rotationAmount, Space.Self);
     }
+
 }

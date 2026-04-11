@@ -24882,8 +24882,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 0.41568628}
-      key1: {r: 1, g: 1, b: 1, a: 0.5019608}
+      key0: {r: 1, g: 1, b: 1, a: 0.15686275}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -24899,8 +24899,8 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 964
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -24909,7 +24909,7 @@ TrailRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -24935,6 +24935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  TrailRenderer: {fileID: 7031103383252017570}
   dirtParticles: {fileID: 4311534212509376891}
   rb: {fileID: 4561393734523513783}
   speedMultiplier: 1
@@ -25311,6 +25312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfda8631e09341e43963ce6eec13b2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   tankRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 1.5
   spinAxis: {x: 1, y: 0, z: 0}
@@ -25662,8 +25664,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 0.41568628}
-      key1: {r: 1, g: 1, b: 1, a: 0.5019608}
+      key0: {r: 1, g: 1, b: 1, a: 0.15686275}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -25679,8 +25681,8 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 964
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -25689,7 +25691,7 @@ TrailRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -25715,6 +25717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  TrailRenderer: {fileID: 4997724003471223313}
   dirtParticles: {fileID: 2179574796481785317}
   rb: {fileID: 4561393734523513783}
   speedMultiplier: 1
@@ -31433,6 +31436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfda8631e09341e43963ce6eec13b2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   tankRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 1.5
   spinAxis: {x: 1, y: 0, z: 0}
@@ -33371,8 +33375,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 0.41568628}
-      key1: {r: 1, g: 1, b: 1, a: 0.5019608}
+      key0: {r: 1, g: 1, b: 1, a: 0.15686275}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -33388,8 +33392,8 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 964
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -33398,7 +33402,7 @@ TrailRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -33424,6 +33428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  TrailRenderer: {fileID: 5333085316794581814}
   dirtParticles: {fileID: 2325632799936612879}
   rb: {fileID: 4561393734523513783}
   speedMultiplier: 1
@@ -38891,8 +38896,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 0.41568628}
-      key1: {r: 1, g: 1, b: 1, a: 0.5019608}
+      key0: {r: 1, g: 1, b: 1, a: 0.15686275}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -38908,8 +38913,8 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 964
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -38918,7 +38923,7 @@ TrailRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -38944,6 +38949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  TrailRenderer: {fileID: 2002925548608429795}
   dirtParticles: {fileID: 5938525603541649027}
   rb: {fileID: 4561393734523513783}
   speedMultiplier: 1
@@ -44129,8 +44135,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 0.41568628}
-      key1: {r: 1, g: 1, b: 1, a: 0.5019608}
+      key0: {r: 1, g: 1, b: 1, a: 0.15686275}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -44146,8 +44152,8 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 964
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -44156,7 +44162,7 @@ TrailRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -44182,6 +44188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  TrailRenderer: {fileID: 8271807478494799705}
   dirtParticles: {fileID: 7377919411510357359}
   rb: {fileID: 4561393734523513783}
   speedMultiplier: 1
@@ -55784,8 +55791,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 0.41568628}
-      key1: {r: 1, g: 1, b: 1, a: 0.5019608}
+      key0: {r: 1, g: 1, b: 1, a: 0.15686275}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -55801,8 +55808,8 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 964
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -55811,7 +55818,7 @@ TrailRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -55837,6 +55844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  TrailRenderer: {fileID: 8684021318980481666}
   dirtParticles: {fileID: 8531170066973522821}
   rb: {fileID: 4561393734523513783}
   speedMultiplier: 1
@@ -56764,6 +56772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfda8631e09341e43963ce6eec13b2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   tankRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 1.5
   spinAxis: {x: -1, y: 0, z: 0}
@@ -67746,7 +67755,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6662689811058067218
 Transform:
   m_ObjectHideFlags: 0
@@ -68721,6 +68730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfda8631e09341e43963ce6eec13b2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   tankRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 1.5
   spinAxis: {x: 1, y: 0, z: 0}
@@ -74119,7 +74129,7 @@ Transform:
   m_GameObject: {fileID: 7176359694860135901}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -80430,7 +80440,7 @@ Rigidbody:
   m_GameObject: {fileID: 8104714157324929073}
   serializedVersion: 4
   m_Mass: 100
-  m_Drag: 5
+  m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -81000,7 +81010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxMana: 100
-  manaUsedPerActivation: 5
+  manaUsedPerActivation: 15
   ManaRegenAmount: 0.01
   timeBeforeRegen: 6
   ManaSLider: {fileID: 2327391639815787383}
@@ -82765,6 +82775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfda8631e09341e43963ce6eec13b2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   tankRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 1.5
   spinAxis: {x: -1, y: 0, z: 0}
@@ -88355,6 +88366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfda8631e09341e43963ce6eec13b2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   tankRigidbody: {fileID: 4561393734523513783}
   wheelRadius: 1.5
   spinAxis: {x: -1, y: 0, z: 0}

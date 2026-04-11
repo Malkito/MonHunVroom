@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: MonsterStats
   m_EditorClassIdentifier: 
   _maxHealth:
-    _statType: 0
+    _statType: 1
     _value: 50
-    _minValue: 100
-    _maxValue: 400
+    _minValue: 500
+    _maxValue: 1000
     _curveValue:
       serializedVersion: 2
       m_Curve:
@@ -100,8 +100,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _laserEyesDamage:
-    _statType: 1
-    _value: 0
+    _statType: 0
+    _value: 20
     _minValue: 50
     _maxValue: 150
     _curveValue:
@@ -158,8 +158,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _stompDamage:
-    _statType: 1
-    _value: 0
+    _statType: 0
+    _value: 30
     _minValue: 50
     _maxValue: 150
     _curveValue:
@@ -189,8 +189,8 @@ MonoBehaviour:
   _stompRadius:
     _statType: 1
     _value: 0
-    _minValue: 5
-    _maxValue: 10
+    _minValue: 15
+    _maxValue: 25
     _curveValue:
       serializedVersion: 2
       m_Curve:
@@ -216,8 +216,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   _tailSwipeDamage:
-    _statType: 1
-    _value: 0
+    _statType: 0
+    _value: 15
     _minValue: 50
     _maxValue: 150
     _curveValue:

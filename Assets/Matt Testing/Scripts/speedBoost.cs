@@ -3,8 +3,9 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.Cinemachine;
 using System.Collections;
+using Unity.Netcode;
 
-public class speedBoost : MonoBehaviour
+public class speedBoost : NetworkBehaviour
 {
 
     [SerializeField] private float MaxBoost;
@@ -62,10 +63,8 @@ public class speedBoost : MonoBehaviour
 
             windParticles.Stop();
 
-            foreach (TrailRenderer trial in Trials)
-            {
-                trial.widthMultiplier = TrialBaseSize;
-            }
+            decreaseTrialClientRpc();
+
         }
     }
 
@@ -81,10 +80,7 @@ public class speedBoost : MonoBehaviour
 
         windParticles.Play();
 
-        foreach (TrailRenderer trial in Trials)
-        {
-            trial.widthMultiplier = TrialSpeedSize;
-        }
+        increaseTrialClientRpc();
     }
 
 
@@ -122,6 +118,25 @@ public class speedBoost : MonoBehaviour
         }
         return true;
 
+    }
+
+    [ClientRpc]
+    private void increaseTrialClientRpc()
+    {
+        foreach (TrailRenderer trial in Trials)
+        {
+            trial.widthMultiplier = TrialSpeedSize;
+        }
+    }
+
+
+    [ClientRpc]
+    private void decreaseTrialClientRpc()
+    {
+        foreach (TrailRenderer trial in Trials)
+        {
+            trial.widthMultiplier = TrialBaseSize;
+        }
     }
 
 }
