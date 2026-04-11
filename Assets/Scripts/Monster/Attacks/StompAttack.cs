@@ -49,33 +49,33 @@ public sealed class StompAttack : ScriptableAttack
 
         Vector3 targetPosition = Target.GetPosition();
 
-        if (_monsterMovement.ReachedDestination(targetPosition, EnemyStatManager.StompRadius))
-        {
-            _monsterMovement.StopMovement();
-            _monsterMovement.UpdateWalkAnimation(false);
+        //if (_monsterMovement.ReachedDestination(targetPosition, EnemyStatManager.StompRadius))
+        //{
+        //    _monsterMovement.StopMovement();
+        //    _monsterMovement.UpdateWalkAnimation(false);
 
-            _stompEffect.GetOrCreateInstance(Controller.transform).Play();
-            PreformStomp();
-        }
+        //    _stompEffect.GetOrCreateInstance(Controller.transform).Play();
+        //    PreformStomp();
+        //}
     }
 
     public void PreformStomp()
     {
-        Collider[] attackHits = Physics.OverlapSphere(Controller.transform.position, EnemyStatManager.StompRadius);
+        //Collider[] attackHits = Physics.OverlapSphere(Controller.transform.position, EnemyStatManager.StompRadius);
 
-        foreach (Collider hit in attackHits)
-        {
-            if (hit.CompareTag(_monsterTag)) continue;
+        //foreach (Collider hit in attackHits)
+        //{
+        //    if (hit.CompareTag(_monsterTag)) continue;
 
-            dealDamage damageable = hit.gameObject.GetComponent<dealDamage>();
-            damageable?.dealDamage(EnemyStatManager.StompDamage, STOMP_FLASH_COLOR, Controller.gameObject);
+        //    dealDamage damageable = hit.gameObject.GetComponent<dealDamage>();
+        //    damageable?.dealDamage(EnemyStatManager.StompDamage, STOMP_FLASH_COLOR, Controller.gameObject);
 
-            if (hit.attachedRigidbody != null) 
-            {
-                Vector3 direction = (hit.transform.position - Position).normalized;
-                hit.attachedRigidbody.AddForce(_stompPushForce * hit.attachedRigidbody.mass * direction, ForceMode.Force);
-            }
-        }
+        //    if (hit.attachedRigidbody != null) 
+        //    {
+        //        Vector3 direction = (hit.transform.position - Position).normalized;
+        //        hit.attachedRigidbody.AddForce(_stompPushForce * hit.attachedRigidbody.mass * direction, ForceMode.Force);
+        //    }
+        //}
     }
 
     public override void OnAttackStopped()

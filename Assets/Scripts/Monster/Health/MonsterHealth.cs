@@ -40,8 +40,10 @@ namespace LordBreakerX.Health
         private SkinnedMeshRenderer mat;
 
         public float CurrentHealth { get { return _currentHealth.Value; } }
-        
-        public float MaxHealth { get { return EnemyStatManager.MaxHealth; } }
+
+        public float MaxHealth { get { return 0; } } // below is the actual property
+
+        //public float MaxHealth { get { return EnemyStatManager.MaxHealth; } }
 
         public override void OnNetworkSpawn()
         {
@@ -50,8 +52,8 @@ namespace LordBreakerX.Health
             if (IsServer)
             {
                 _currentHealth.Value = MaxHealth;
-                HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, 0, 0, null);
-                _onHealthChangedServerSide.Invoke(healthInfo);
+                //HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, 0, 0, null);
+                //_onHealthChangedServerSide.Invoke(healthInfo);
             }
 
             _currentHealth.OnValueChanged += OnHealthChanged;
@@ -61,8 +63,8 @@ namespace LordBreakerX.Health
         {
             if (IsClient)
             {
-                HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, previousValue - newValue, 0, null);
-                _onHealthChangedClientSide.Invoke(healthInfo);
+                //HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, previousValue - newValue, 0, null);
+                //_onHealthChangedClientSide.Invoke(healthInfo);
 
                 if (newValue <= 0)
                 {
@@ -76,25 +78,11 @@ namespace LordBreakerX.Health
         {
             if (IsServer)
             {
-                /*
-                float clampedAmount = Mathf.Clamp(damageDealt, 0, _currentHealth.Value);
-
-                _currentHealth.Value -= clampedAmount;
-
-                if (clampedAmount > 0)
-                {
-                    HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, clampedAmount, 0, damageOrigin);
-                    _onHealthChangedServerSide.Invoke(healthInfo);
-                }
-                */
-
-                // changed to allow the water grenade deal "negative Damage" to heal
-
                 _currentHealth.Value -= damageDealt;
 
-                HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, damageDealt, 0, damageOrigin);
+                //HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, damageDealt, 0, damageOrigin);
 
-                _onHealthChangedServerSide.Invoke(healthInfo);
+                //_onHealthChangedServerSide.Invoke(healthInfo);
 
 
                 if (_currentHealth.Value <= 0)

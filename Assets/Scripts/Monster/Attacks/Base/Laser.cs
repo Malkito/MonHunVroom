@@ -73,8 +73,8 @@ public class Laser : NetworkBehaviour
         createdLaser._creator = creator;
         createdLaser._moveDirection = (targetPosition - startPosition).normalized;
         createdLaser.transform.LookAt(targetPosition, Vector3.up);
-        createdLaser._damage = EnemyStatManager.LaserEyesDamage;
-        createdLaser._speed = EnemyStatManager.LaserEyesSpeed;
+        //createdLaser._damage = EnemyStatManager.LaserEyesDamage;
+        //createdLaser._speed = EnemyStatManager.LaserEyesSpeed;
         return createdLaser;
     }
 }

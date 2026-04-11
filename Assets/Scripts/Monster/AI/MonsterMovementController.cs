@@ -52,8 +52,8 @@ public class MonsterMovementController : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         _monsterAgent = GetComponent<NavMeshAgent>();
-        _monsterAgent.speed = EnemyStatManager.MovementSpeed;
-        _monsterAgent.angularSpeed = EnemyStatManager.TurningSpeed;
+        //_monsterAgent.speed = EnemyStatManager.MovementSpeed;
+        //_monsterAgent.angularSpeed = EnemyStatManager.TurningSpeed;
         _monsterStartHeight = _monsterTransform.localPosition.y;
         _monsterAgent.Warp(transform.position);
     }
