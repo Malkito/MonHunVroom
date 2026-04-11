@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.nathanielh2013.lordbreakerxsstatmanager": {
+      "version": "https://github.com/LordBreakerX/StatsManager.git?path=/Packages/com.nathanielh2013.lordbreakerxsstatmanager",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "d63ee4e2f227359d4104a85543178e3d5fc0641c"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

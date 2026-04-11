@@ -2,6 +2,8 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using LordBreakerX.Stats;
+using LordBreakerX.Utilities;
 
 
 namespace LordBreakerX.Health
@@ -11,7 +13,7 @@ namespace LordBreakerX.Health
     /// Invokes events when the health changes or when the object dies.
     /// </summary>
     /// 
-    public class MonsterHealth : NetworkBehaviour, dealDamage
+    public class MonsterHealth : NetworkBehaviour, dealDamage, IStatHandler
     {
         [SerializeField]
         [Header("Events")]
@@ -41,9 +43,7 @@ namespace LordBreakerX.Health
 
         public float CurrentHealth { get { return _currentHealth.Value; } }
 
-        public float MaxHealth { get { return 0; } } // below is the actual property
-
-        //public float MaxHealth { get { return EnemyStatManager.MaxHealth; } }
+        public float MaxHealth { get; private set; }
 
         public override void OnNetworkSpawn()
         {
@@ -158,6 +158,15 @@ namespace LordBreakerX.Health
         public void decreaseFireNumber()
         {
             numOfFireOnMonster -= 10;
+        }
+
+        public void OnStatUpdate(StatContext context)
+        {
+            if (context.IsStat("Monster-Health") &&  IsServer)
+            {
+                MaxHealth = context.stat.GetValue();
+                _currentHealth.Value = MaxHealth;
+            }
         }
     }
 }
