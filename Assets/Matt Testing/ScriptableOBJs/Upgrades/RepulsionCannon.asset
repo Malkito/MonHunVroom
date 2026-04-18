@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
   m_Name: RepulsionCannon
   m_EditorClassIdentifier: 
+  upgradeID: 10
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
@@ -22,3 +23,4 @@ MonoBehaviour:
   isBulletUpgrade: 1
   logicScriptObject: {fileID: 6271838625019508455, guid: 46a35d90d9815af4d87774482c1fe053, type: 3}
   cooldown: 10
+  canBeUsedWhileDead: 0

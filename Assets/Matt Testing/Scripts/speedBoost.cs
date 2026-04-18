@@ -63,7 +63,7 @@ public class speedBoost : NetworkBehaviour
 
             windParticles.Stop();
 
-            decreaseTrialClientRpc();
+            DecreaseTrailServerRpc();
 
         }
     }
@@ -80,7 +80,7 @@ public class speedBoost : NetworkBehaviour
 
         windParticles.Play();
 
-        increaseTrialClientRpc();
+        IncreaseTrailServerRpc();
     }
 
 
@@ -120,8 +120,14 @@ public class speedBoost : NetworkBehaviour
 
     }
 
+    [ServerRpc]
+    private void IncreaseTrailServerRpc(ServerRpcParams rpcParams = default)
+    {
+        IncreaseTrailClientRpc();
+    }
+
     [ClientRpc]
-    private void increaseTrialClientRpc()
+    private void IncreaseTrailClientRpc()
     {
         foreach (TrailRenderer trial in Trials)
         {
@@ -130,8 +136,14 @@ public class speedBoost : NetworkBehaviour
     }
 
 
+    [ServerRpc]
+    private void DecreaseTrailServerRpc(ServerRpcParams rpcParams = default)
+    {
+        DecreaseTrailClientRpc();
+    }
+
     [ClientRpc]
-    private void decreaseTrialClientRpc()
+    private void DecreaseTrailClientRpc()
     {
         foreach (TrailRenderer trial in Trials)
         {

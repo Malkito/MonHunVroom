@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
   m_Name: PartingGrift
   m_EditorClassIdentifier: 
+  upgradeID: 8
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
@@ -19,3 +20,7 @@ MonoBehaviour:
   IconImage: {fileID: 21300000, guid: 33ca35488da22e3439e0e80414c4c22c, type: 3}
   itemDesc: 
   isAvailble: 0
+  isBulletUpgrade: 0
+  logicScriptObject: {fileID: 0}
+  cooldown: 0
+  canBeUsedWhileDead: 0

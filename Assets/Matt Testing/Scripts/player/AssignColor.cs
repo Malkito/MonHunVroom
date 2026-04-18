@@ -17,10 +17,9 @@ public class AssignColor : NetworkBehaviour
         entryDissolver = GetComponent<EntryDissolver>();
     }
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        // Only the owner (or server) should handle material assignment
-        if (IsServer || IsOwner)
+        if (IsServer)
         {
             AssignMaterial();
         }
@@ -69,10 +68,14 @@ public class AssignColor : NetworkBehaviour
 
         foreach (MeshRenderer renderer in renderers)
         {
-            renderer.materials[0] = chosenMaterial;
+            Material[] mats = renderer.materials;
+            mats[0] = chosenMaterial;
+            renderer.materials = mats;
         }
 
-        if(Trails[0] != null)
+        
+
+        if(Trails != null)
         {
             foreach(TrailRenderer trail in Trails)
             {

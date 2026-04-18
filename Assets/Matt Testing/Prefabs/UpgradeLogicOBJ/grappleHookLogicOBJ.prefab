@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 123782290455717270}
   - component: {fileID: 7607493636318188564}
   - component: {fileID: 8139916581071739576}
+  - component: {fileID: -3310074410641493641}
   m_Layer: 0
   m_Name: grappleHookLogicOBJ
   m_TagString: Untagged
@@ -179,3 +180,16 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &-3310074410641493641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4339472396725398950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b43f9824d11e08458c53432dce0b1c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1

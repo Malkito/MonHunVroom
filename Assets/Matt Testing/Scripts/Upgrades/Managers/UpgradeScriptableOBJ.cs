@@ -4,6 +4,8 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "UpgradeScriptableOBJ", menuName = "Scriptable Objects/Upgrades")]
 public class UpgradeScriptableOBJ : ScriptableObject
 {
+    public int upgradeID; // UNIQUE ID
+
     public bool isPurchased;
 
     public int amountOfTimePurchased;

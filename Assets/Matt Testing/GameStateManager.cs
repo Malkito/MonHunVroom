@@ -75,7 +75,14 @@ public class GameStateManager : NetworkBehaviour
 
     public void setNewState(State newState)
     {
-        CurrentState = newState;
+        int newStateNum = (int)newState;
+        setNewStateClientRpc(newStateNum);
+    }
+
+    [ClientRpc] 
+    private void setNewStateClientRpc(int newStateNum)
+    {
+        CurrentState = (State)newStateNum;
     }
 
 

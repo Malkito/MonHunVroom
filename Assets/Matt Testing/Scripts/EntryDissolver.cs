@@ -52,7 +52,8 @@ public class EntryDissolver : NetworkBehaviour
             yield return null;
         }
 
-        dissolveStrength = 0;
+        dissolveStrength = 1f;
+        dissovleSphere.SetActive(false);
         NTM.canMove = true;
 
     }

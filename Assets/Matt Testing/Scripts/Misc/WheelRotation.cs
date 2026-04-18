@@ -46,15 +46,23 @@ public class WheelRotation : NetworkBehaviour
             rotationAmount = angularVelocity * Mathf.Rad2Deg * Time.deltaTime;
         }
 
-        rotateWheelClientRpc(rotationAmount);
+        rotateWheelsServerRpc(rotationAmount);
     }
 
 
-    
+  
+
+    [ServerRpc]
+    private void rotateWheelsServerRpc(float rotationAmount)
+    {
+        rotateWheelClientRpc(rotationAmount);
+    }
+
     [ClientRpc]
     private void rotateWheelClientRpc(float rotationAmount)
     {
         transform.Rotate(spinAxis, -rotationAmount, Space.Self);
     }
+
 
 }

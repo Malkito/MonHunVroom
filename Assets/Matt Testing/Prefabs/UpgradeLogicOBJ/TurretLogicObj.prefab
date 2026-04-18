@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5120873793160399378}
   - component: {fileID: 5599375738872715160}
   - component: {fileID: 8294568473631349788}
+  - component: {fileID: -7945217513924623565}
   m_Layer: 0
   m_Name: TurretLogicObj
   m_TagString: Untagged
@@ -73,6 +74,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   bulletArrayIndex: 7
+--- !u!114 &-7945217513924623565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3546442050109167328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b43f9824d11e08458c53432dce0b1c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &4921052747046444379
 GameObject:
   m_ObjectHideFlags: 0

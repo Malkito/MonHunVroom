@@ -14137,7 +14137,7 @@ GameObject:
   - component: {fileID: 7801221823002856251}
   m_Layer: 0
   m_Name: MainBulletPrefab
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

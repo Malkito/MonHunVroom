@@ -57,8 +57,7 @@ public class lineRenderGroundCheck : NetworkBehaviour
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            TrailRenderer.emitting = true;
-            canPlay = true;
+            StartStopTailsClientRpc(true);
         }
     }
 
@@ -66,9 +65,16 @@ public class lineRenderGroundCheck : NetworkBehaviour
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            TrailRenderer.emitting = false;
-            canPlay = false;
+            StartStopTailsClientRpc(false);
         }
     }
+
+    [ClientRpc]
+    private void StartStopTailsClientRpc(bool StartStop)
+    {
+        TrailRenderer.emitting = StartStop;
+        this.canPlay = StartStop;
+    }
+
 
 }

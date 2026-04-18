@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
   m_Name: Jetpack
   m_EditorClassIdentifier: 
+  upgradeID: 6
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0

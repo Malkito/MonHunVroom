@@ -227,7 +227,7 @@ public class playerShooting : NetworkBehaviour
         }
 
 
-        rb.linearVelocity = cam.transform.forward * bulletSOarray[BulletIndex].bulletSpeed;
+        rb.linearVelocity = mainBarrelEnds[0].transform.forward * bulletSOarray[BulletIndex].bulletSpeed;
 
         //Destroy the projectile after 
         Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);
@@ -252,7 +252,7 @@ public class playerShooting : NetworkBehaviour
     {
         Gizmos.color = Color.green;
         Vector3 start = mainBarrelEnds[0].position;
-        Vector3 end = start + cam.transform.forward * 100;
+        Vector3 end = start + mainBarrelEnds[0].transform.forward * 100;
         Gizmos.DrawLine(start, end);
 
     }

@@ -92,10 +92,13 @@ public class playerRespawn : MonoBehaviour
         setPlayerActions(true); //resuems player actions
         Vector3 spawnPos = respawnPoints[Random.Range(0, respawnPoints.Length)].transform.position;
 
+
+
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
         rb.position = spawnPos; // physics-safe reposition
+        transform.rotation = Quaternion.Euler(0, 0, 0);
 
 
         deathUI.SetActive(false); // de-activates the UI
