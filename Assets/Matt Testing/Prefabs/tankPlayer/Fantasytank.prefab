@@ -80694,34 +80694,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  upgradeArray:
-  - {fileID: 11400000, guid: 6dcece01264a23a46bf88dc66e6cc6ef, type: 2}
-  - {fileID: 11400000, guid: cf77acb7f343bf542add926b566d4bf6, type: 2}
-  - {fileID: 11400000, guid: 74fadb185cbecea42b1668f36017680c, type: 2}
-  - {fileID: 11400000, guid: 4ef6ed5c1e97829479d3e8d380d86047, type: 2}
-  - {fileID: 11400000, guid: 41c0dd1953e5fc54084aaab1873f2f7e, type: 2}
-  - {fileID: 11400000, guid: b43f0d35993d467439c207ff6f9c1d85, type: 2}
-  - {fileID: 11400000, guid: 3b3c2aef010daf447a421d96a057c5a5, type: 2}
-  - {fileID: 11400000, guid: dbc1abaf7454655468bc543ec5162407, type: 2}
-  - {fileID: 11400000, guid: b2847b1ae74b2104f9ed14fa5cd3567d, type: 2}
-  - {fileID: 11400000, guid: a1cee2643effc81479def850759e294c, type: 2}
-  - {fileID: 11400000, guid: 3592a0bd4899577468e7e6cfa48996d5, type: 2}
-  - {fileID: 11400000, guid: 11052a1002c79f5458e13e8b56936a98, type: 2}
-  - {fileID: 11400000, guid: 432f47366cc30a74ab12c7e67a29509e, type: 2}
-  - {fileID: 11400000, guid: 823955df9e9ee134aae91df67a228c1a, type: 2}
-  - {fileID: 11400000, guid: 2c8b161265366924ca9ca5a475fcafdb, type: 2}
-  upgradePlaceHolders:
-  - {fileID: 2316475716269200963}
-  - {fileID: 2316475716269200963}
-  - {fileID: 2316475716269200963}
   equipped:
-  - definition: {fileID: 0}
+  - upgradeID: 0
     logicInstance: {fileID: 0}
     cooldownRemaining: 0
-  - definition: {fileID: 0}
+  - upgradeID: 0
     logicInstance: {fileID: 0}
     cooldownRemaining: 0
-  - definition: {fileID: 0}
+  - upgradeID: 0
     logicInstance: {fileID: 0}
     cooldownRemaining: 0
   abilityOneCooldown: 0
@@ -80804,7 +80784,7 @@ MonoBehaviour:
   AngleCorrection: 50
   OvershootPrevention: 8
   rotationForce: 400
-  jumpFrontForce: 15
+  jumpFrontForce: 25
   jumpUpForce: 4
   MaxJumpTimer: 3
   useSidewaysFriction: 1

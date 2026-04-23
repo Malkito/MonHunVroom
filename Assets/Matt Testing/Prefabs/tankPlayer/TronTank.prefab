@@ -51152,7 +51152,7 @@ MonoBehaviour:
   AngleCorrection: 40
   OvershootPrevention: 8
   rotationForce: 700
-  jumpFrontForce: 15
+  jumpFrontForce: 25
   jumpUpForce: 4
   MaxJumpTimer: 3
   useSidewaysFriction: 0

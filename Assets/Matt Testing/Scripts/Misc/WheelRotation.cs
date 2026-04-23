@@ -52,7 +52,7 @@ public class WheelRotation : NetworkBehaviour
 
   
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void rotateWheelsServerRpc(float rotationAmount)
     {
         rotateWheelClientRpc(rotationAmount);
