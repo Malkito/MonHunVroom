@@ -78,6 +78,8 @@ public sealed class BugAttack : ScriptableAttack
 
     private void SpawnSworms()
     {
+        if (!IsServer) return;
+
         int swormAmount = Mathf.Clamp(Random.Range(_minSpawns, _maxSpawns), 0, _swormLimit - BugSworm.TotalSworms);
 
         for (int i = 0; i < swormAmount; i++)
