@@ -50758,6 +50758,7 @@ GameObject:
   - component: {fileID: 947433051933980619}
   - component: {fileID: 7886502141063252314}
   - component: {fileID: 4522750895987027745}
+  - component: {fileID: 7066214490432205955}
   m_Layer: 0
   m_Name: TronTank
   m_TagString: Player
@@ -51322,7 +51323,6 @@ MonoBehaviour:
   - {fileID: 593639475324773523}
   - {fileID: 1351775668636940287}
   - {fileID: 4279794709313405844}
-  - {fileID: 7718690640791550814}
   Trails:
   - {fileID: 7723896473224214189}
   - {fileID: 696356708394924746}
@@ -51399,6 +51399,18 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   dissovleSphere: {fileID: 6492141994581136646}
   dissolveDuration: 5
+--- !u!114 &7066214490432205955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72198746a5f0d0a469d099ddc83f2822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8105446854303656973
 GameObject:
   m_ObjectHideFlags: 0

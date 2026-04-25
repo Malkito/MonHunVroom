@@ -23,6 +23,8 @@ public class defaultAltBullet : NetworkBehaviour, bullet
 
     private void OnCollisionEnter(Collision collision)
     {
+
+        if (!IsServer) return;
         DealDamageToArea();
 
         spawnExplosionParticlesServerRpc();
@@ -72,9 +74,6 @@ public class defaultAltBullet : NetworkBehaviour, bullet
                 //print("Name: " + rb.name + " Distance: " + Vector3.Distance(rb.transform.position, transform.position) + " Foce Applied: " + (launchDirection * (explosonFore - distance)));
                 rb.AddForce(launchDirection * (explosonForce - distance), ForceMode.Impulse);
             }
-
-
-
         }
     }
 

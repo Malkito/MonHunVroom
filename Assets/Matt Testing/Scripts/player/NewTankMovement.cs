@@ -81,7 +81,9 @@ public class NewTankMovement : NetworkBehaviour
             jump(jumpInput);
 
 
+            Debug.Log("Input Vector: " + inputVector + " velocity: " + rb.GetPointVelocity(transform.position));
         }
+
     }
 
     private void ApplySidewaysFriction()
@@ -107,7 +109,16 @@ public class NewTankMovement : NetworkBehaviour
     public void Move(Vector2 input)
     {
         if (input.sqrMagnitude < 0.01f)
+        {
+            // Apply damping so the tank comes to a stop
+            Vector3 vel = rb.linearVelocity;
+            Vector3 planar = new Vector3(vel.x, 0, vel.z);
+
+            planar = Vector3.Lerp(planar, Vector3.zero, linerDampening * Time.fixedDeltaTime);
+
+            rb.linearVelocity = new Vector3(planar.x, vel.y, planar.z);
             return;
+        }
 
         // --- Camera-relative direction ---
         Vector3 camForward = cameraTransform.forward;

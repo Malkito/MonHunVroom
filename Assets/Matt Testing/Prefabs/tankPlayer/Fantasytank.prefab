@@ -80396,6 +80396,7 @@ GameObject:
   - component: {fileID: 3317415102161935302}
   - component: {fileID: 947433051933980619}
   - component: {fileID: 5621866573112001209}
+  - component: {fileID: 101046386858594832}
   m_Layer: 0
   m_Name: Fantasytank
   m_TagString: Player
@@ -80994,6 +80995,18 @@ MonoBehaviour:
   ManaRegenAmount: 0.01
   timeBeforeRegen: 6
   ManaSLider: {fileID: 2327391639815787383}
+--- !u!114 &101046386858594832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72198746a5f0d0a469d099ddc83f2822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8105446854303656973
 GameObject:
   m_ObjectHideFlags: 0

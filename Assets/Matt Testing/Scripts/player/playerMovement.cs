@@ -173,7 +173,8 @@ public class playerMovement : NetworkBehaviour
         }
         else
         {
-            //anim.SetBool("Walking", false); // Stops animation
+            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+            hipDirection = Vector3.zero;
         }
         //hipDirection.y = 0;
 

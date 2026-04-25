@@ -65,6 +65,13 @@ public class GameInput : MonoBehaviour
 
     }
 
+    public bool getUnstickInput()
+    {
+        bool UnstickInputPressed = playerInputActions.Player.Unstick.IsPressed();
+        return UnstickInputPressed;
+
+    }
+
     public void enableOrDisablePlayerAction(bool enableOrDisable)
     {
         if (enableOrDisable)
