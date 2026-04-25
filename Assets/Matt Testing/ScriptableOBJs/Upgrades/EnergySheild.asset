@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
   m_Name: EnergySheild
   m_EditorClassIdentifier: 
+  upgradeID: 2
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
@@ -22,3 +23,4 @@ MonoBehaviour:
   isBulletUpgrade: 0
   logicScriptObject: {fileID: 8861789234382680031, guid: d0402c097fefba0478036e008c8b2dac, type: 3}
   cooldown: 10
+  canBeUsedWhileDead: 0

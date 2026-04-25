@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 22338686464481626}
   - component: {fileID: 8976780440424235401}
   - component: {fileID: 7526782019051188923}
+  - component: {fileID: 2406020205158090369}
   m_Layer: 0
   m_Name: NoGravityLogicObj
   m_TagString: Untagged
@@ -74,3 +75,17 @@ MonoBehaviour:
   floatForce: 5
   rotationSpeed: 5
   effectDuration: 4
+  isEffectActive: 0
+--- !u!114 &2406020205158090369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2832222595822647292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b43f9824d11e08458c53432dce0b1c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1

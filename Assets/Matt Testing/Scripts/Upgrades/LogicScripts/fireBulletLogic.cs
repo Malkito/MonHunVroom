@@ -39,12 +39,10 @@ public class fireBulletLogic : NetworkBehaviour, useAbility, onUpgradePickedup, 
                 timeBetweenShots += Time.deltaTime;
             }
             currentCharge -= Time.deltaTime * chargeDeplationRate;
-            print(currentCharge);
         }
         else
         {
             isNotfiring();
-            print(currentCharge);
         }
         fireSlider.value = currentCharge / maxCharge;
     }

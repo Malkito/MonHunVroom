@@ -34,7 +34,7 @@ public class feedbackUI : MonoBehaviour
     }
 
     // -------------------------------------------------------------
-    // Shows if the ability button is being pressed
+    // INPUT FEEDBACK
     // -------------------------------------------------------------
     private void UpdateAbilityInputs()
     {
@@ -44,48 +44,52 @@ public class feedbackUI : MonoBehaviour
     }
 
     // -------------------------------------------------------------
-    // Shows ability names from equipped upgrades
+    // NAMES (NOW USING UpgradeDatabase + INT ID)
     // -------------------------------------------------------------
     private void UpdateAbilityNames()
     {
+        var db = UpgradeDatabase.Instance;
+        if (db == null) return;
+
         // Slot 1
-        if (playerUpgradeManager.equipped[0] != null &&
-            playerUpgradeManager.equipped[0].definition != null)
-            abilityOneName.text = playerUpgradeManager.equipped[0].definition.name;
-        else
-            abilityOneName.text = "None";
-
+        SetSlotUI(0, abilityOneName);
         // Slot 2
-        if (playerUpgradeManager.equipped[1] != null &&
-            playerUpgradeManager.equipped[1].definition != null)
-            abilityTwoName.text = playerUpgradeManager.equipped[1].definition.name;
-        else
-            abilityTwoName.text = "None";
-
+        SetSlotUI(1, abilityTwoName);
         // Slot 3
-        if (playerUpgradeManager.equipped[2] != null &&
-            playerUpgradeManager.equipped[2].definition != null)
-            abilityThreeName.text = playerUpgradeManager.equipped[2].definition.name;
+        SetSlotUI(2, abilityThreeName);
+    }
+
+    private void SetSlotUI(int slot, TMP_Text label)
+    {
+        if (playerUpgradeManager.equipped[slot].logicInstance == null)
+        {
+            label.text = "None";
+            return;
+        }
+
+        int id = playerUpgradeManager.equipped[slot].upgradeID;
+
+        var def = UpgradeDatabase.Instance.Get(id);
+
+        if (def != null)
+            label.text = def.name;
         else
-            abilityThreeName.text = "None";
+            label.text = "Unknown";
     }
 
     // -------------------------------------------------------------
-    // Fades out ability name colors when they are on cooldown
+    // COOLDOWN VISUALS (UNCHANGED LOGIC)
     // -------------------------------------------------------------
     private void UpdateCooldownVisuals()
     {
-        // Ability slot 1 cooldown
         abilityOneName.color = playerUpgradeManager.abilityOneCooldown > 0
             ? cooldownColor
             : readyColor;
 
-        // Ability slot 2 cooldown
         abilityTwoName.color = playerUpgradeManager.abilityTwoCooldown > 0
             ? cooldownColor
             : readyColor;
 
-        // Ability slot 3 cooldown
         abilityThreeName.color = playerUpgradeManager.abilityThreeCooldown > 0
             ? cooldownColor
             : readyColor;

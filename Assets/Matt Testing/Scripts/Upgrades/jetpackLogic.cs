@@ -58,6 +58,7 @@ public class jetpackLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onU
 
     public void onUpgradeDropped(Transform player)
     {
+        print("Upgrade Dropped");
         if (IsOwner && fuelUIRoot != null)
             fuelUIRoot.gameObject.SetActive(false);
 
@@ -110,7 +111,6 @@ public class jetpackLogic : NetworkBehaviour, useAbility, onUpgradePickedup, onU
 
         if (isPressingHover)
         {
-            print("is pressing hover: " + isPressingHover);
             Hovering();
         }
         else

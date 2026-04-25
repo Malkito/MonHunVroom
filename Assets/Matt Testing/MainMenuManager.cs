@@ -10,16 +10,15 @@ public class MainMenuManager : NetworkBehaviour
     [SerializeField] private GameObject quitButton;
     [SerializeField] private GameObject levelSelect;
     [SerializeField] private GameObject[] Cameras;
-    int levelNum;
-
     [SerializeField] private GameObject[] Titles;
 
-    bool isDay;
+
+    private int levelNum;
 
     public void StartGame()
     {
 
-        Loader.LoadNetwork(Loader.Scene.TronGameScene);
+        Loader.LoadNetwork(Loader.Scene.FantasyGameScene);  
         /*
         switch (levelNum)
         {

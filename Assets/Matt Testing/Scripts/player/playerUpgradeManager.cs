@@ -1,59 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Unity.Netcode;
 using System;
 
-/// <summary>
-/// 
-/// The Main Logic behind the use of upgrades
-/// 
-/// The player has 3 upgrade slots
-/// 
-/// Each slot stores: 
-///         - A ScriptableObject definition (UpgradeScriptableOBJ)
-///         - A spawned networked logic object
-///         - A cached useAbility interface
-///         - A cooldown timer
-///    
-/// 
-/// The Scritpable Objects Define:
-///     - Prefab for the Logic (logicScriptObject)
-///     - Pickup Prefab
-///     - Cooldown Value
-/// 
-/// Runtime Logic Objects:
-///     - Gameobejcts that have scripts of the logic of the upgrades (Example: where the jetpack logic of "Press Q and fly in the air" exists)
-///     - Are instaniated and spawned by the server
-///     - Are owned by the player
-///     - Implements the below interfaces:
-///         - UseAbility: takes in the input for the ability as an argument. If postiive, runs the upgrade logic
-///         - OnUpgradePickedUP: Runs when the upgrade is picked up. Usued for spawning various UI and cosmetics (Example: Fuel UI for the Jetpack)
-///         - OnUpgradeDropped: Runs when the upgrade is shuffled out and dropped. Used for de-activating various UI and cosmetics (Example: Ammo count UI for flamethrower upgrade)
-/// 
-/// 
-/// When the player runs into an upgrade pickup:
-/// 
-///     Pick up flow:
-///         - Owner calls AddToPlayerUpgrades()
-///         Server:
-///         - Finds free slot or shifts if full
-///         - Spawns the upgrade logic prefab
-///         - Assigns ownership of the upgrade logic prefab to the player
-///         Owner client:
-///         - Caches references
-///         - Resets cooldown
-///         - Calls OnUpgradePickedUp()
-///         
-/// 
-///     Slot Overflow: If the slots are full:
-///         - Oldest Upgrade (Slot 0) is dropped
-///         - the oldest upgrade pickup item is spawned 
-///         - Upgrades a shifted one down (slot 1 upgrade -> slot 0, slot 2 upgrade -> slot 1)
-///         - New upgrade goes into newly freed last slot
-///         
-/// 
-/// 
-/// </summary>
-// --- Interfaces required by logic scripts ---
 public interface useAbility
 {
     void useAbility(Transform position, bool abilityPressed);
@@ -72,19 +20,17 @@ public interface onUpgradePickedup
 [Serializable]
 public class EquippedUpgrade
 {
-    public UpgradeScriptableOBJ definition;
-    public NetworkObject logicInstance;    // The spawned runtime instance (networked)
-    public useAbility logicScript;         // Cached interface on the runtime instance
+    public int upgradeID;                 // INT ID ONLY
+    public NetworkObject logicInstance;
+    public useAbility logicScript;
     public float cooldownRemaining;
+
+    public bool IsValid => logicInstance != null;
 }
 
 public class playerUpgradeManager : NetworkBehaviour
 {
-    [Header("Definitions")]
-    [SerializeField] private UpgradeScriptableOBJ[] upgradeArray; // all possible upgrades (ScriptableObjects)
-    [SerializeField] private Transform[] upgradePlaceHolders;     // where runtime logic objects are parented
-
-    [Header("Player Slots")]
+    [Header("Runtime Slots")]
     public EquippedUpgrade[] equipped = new EquippedUpgrade[3];
 
     [Header("Cooldowns")]
@@ -106,232 +52,247 @@ public class playerUpgradeManager : NetworkBehaviour
         canUseUpgrade = true;
     }
 
-    // --- Public API called by pickup scripts on the OWNER ---
-    // This method should be called on the client who picks up the upgrade.
-    public void AddToPlayerUpgrades(int upgradeArrayIndex)
+    // CLIENT ENTRY
+    public void AddToPlayerUpgrades(int upgradeID)
     {
-        if (!IsOwner) return; // only the owning client requests adding an upgrade
-        RequestSpawnUpgradeServerRpc(upgradeArrayIndex);
+        if (!IsOwner) return;
+        RequestSpawnUpgradeServerRpc(upgradeID);
     }
 
-    // --- Server: spawn the runtime logic object and assign ownership to the caller ---
+    // SERVER: SPAWN UPGRADE
     [ServerRpc(RequireOwnership = false)]
-    private void RequestSpawnUpgradeServerRpc(int arrayIndex, ServerRpcParams rpcParams = default)
+    private void RequestSpawnUpgradeServerRpc(int upgradeID, ServerRpcParams rpcParams = default)
     {
         ulong requester = rpcParams.Receive.SenderClientId;
 
-        // find first available slot or shift if full
         int slot = FindFirstAvailableSlotOrShift();
 
-        // instantiate on server and spawn with ownership
-        GameObject prefab = upgradeArray[arrayIndex].logicScriptObject;
-        Transform parent = upgradePlaceHolders[Mathf.Clamp(slot, 0, upgradePlaceHolders.Length - 1)];
+        UpgradeScriptableOBJ def = UpgradeDatabase.Instance.Get(upgradeID);
+        if (def == null) return;
+
+        GameObject prefab = def.logicScriptObject;
+        Transform parent = transform; // or upgradePlaceHolders[slot] if you still use them
+
         GameObject instance = Instantiate(prefab, parent);
         NetworkObject netObj = instance.GetComponent<NetworkObject>();
 
-        // spawn and hand ownership to the player who requested
+        // Inject runtime identity BEFORE spawn
+        var runtime = instance.GetComponent<UpgradeRuntime>();
+        runtime.Initialize(slot, upgradeID);
+
         netObj.SpawnWithOwnership(requester);
 
-        // If the slot already had an instance (in case of forced shift), despawn that instance on the server
-        if (equipped[slot].logicInstance != null)
-        {
-            NetworkObject old = equipped[slot].logicInstance;
-
-            // spawn pickup using the server-side data and position
-            SpawnUpgradePickupServerRpc(slot);
-
-            // despawn old instance
-            old.Despawn();
-
-            equipped[slot] = new EquippedUpgrade();
-        }
-
-        // Tell only the owner to assign this spawned instance locally
-        var parms = new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { requester } } };
-        OwnerAssignSpawnedUpgradeClientRpc(netObj.NetworkObjectId, arrayIndex, slot, parms);
-    }
-
-    // Called only on the owner client to cache references and run onUpgradePickedup
-    [ClientRpc]
-    private void OwnerAssignSpawnedUpgradeClientRpc(ulong spawnedNetId, int arrayIndex, int slot, ClientRpcParams clientRpcParams = default)
-    {
-        if (!IsOwner) return; // safety
-
-        if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(spawnedNetId, out NetworkObject netObj))
-        {
-            Debug.LogError("Spawned object not found on client: " + spawnedNetId);
-            return;
-        }
-
-        // assign definition and runtime instance
-        equipped[slot].definition = upgradeArray[arrayIndex];
+        // Update SERVER state
+        equipped[slot].upgradeID = upgradeID;
         equipped[slot].logicInstance = netObj;
         equipped[slot].cooldownRemaining = 0f;
 
-        // cache the interface
-        if (netObj.TryGetComponent<useAbility>(out var ua))
-            equipped[slot].logicScript = ua;
-        else
-            equipped[slot].logicScript = null;
+        RegisterUpgrade(slot, upgradeID, netObj);
 
-        // call onUpgradePickedup if present
-        if (netObj.TryGetComponent<onUpgradePickedup>(out var pickup))
-        {
-            pickup.onUpgradePickedup(transform);
-        }
+        SyncSlots();
     }
 
-    // Helper: spawn a world pickup for a dropped upgrade (server-only)
-    // NOTE: This RPC now takes the slot index to avoid sending ScriptableObjects over the network.
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnUpgradePickupServerRpc(int slot)
-    {
-        print("Spawn upgradeServer pickup start");
-        if (slot < 0 || slot >= equipped.Length) return;
 
-        var def = equipped[slot].definition;
-        if (def == null || def.pickupObject == null) return;
-
-        Vector3 spawnPos = Vector3.zero;
-        if (equipped[slot].logicInstance != null)
-            spawnPos = equipped[slot].logicInstance.transform.position;
-        else
-            spawnPos = transform.position;
-
-        GameObject pickUpObject = Instantiate(def.pickupObject, spawnPos, Quaternion.identity);
-        NetworkObject n = pickUpObject.GetComponent<NetworkObject>();
-        n.Spawn();
-
-        var pickupScript = pickUpObject.GetComponent<upgradePickUp>();
-        if (pickupScript != null)
-        {  
-            pickupScript.canBePickedUp = false;
-            pickupScript.dropped = true;
-        }
-        print("Spawn upgradeServer pickup end");
-
-    }
-
-    // --- Called by input loop on the owner (same pattern as before) ---
-    private void Update()
-    {
-
-
-        if (!IsOwner) return;
-
-        if (!canUseUpgrade) return;
-
-        // countdowns
-        abilityOneCooldown -= Time.deltaTime;
-        abilityTwoCooldown -= Time.deltaTime;
-        abilityThreeCooldown -= Time.deltaTime;
-
-        // slot 0
-        HandleSlotInput(0, GameInput.instance.getAbilityOneInput(), ref abilityOneCooldown);
-        // slot 1
-        HandleSlotInput(1, GameInput.instance.getAbilityTwoInput(), ref abilityTwoCooldown);
-        // slot 2
-        HandleSlotInput(2, GameInput.instance.getAbilityThreeInput(), ref abilityThreeCooldown);
-
-    }
-
-    private void HandleSlotInput(int slot, bool inputPressed, ref float abilityCooldown)
-    {
-
-        if (slot < 0 || slot >= equipped.Length) return;
-
-        if (equipped[slot].definition == null) return; // no upgrade
-        // ensure we have a runtime instance cached; attempt to refresh if missing
-        if (equipped[slot].logicInstance == null)
-        {
-            // try to find any spawned child under placeholder (helps after reconnects)
-            Transform parent = upgradePlaceHolders[Mathf.Clamp(slot, 0, upgradePlaceHolders.Length - 1)];
-            if (parent.childCount > 0)
-            {
-                var child = parent.GetChild(0).GetComponent<NetworkObject>();
-                if (child != null)
-                {
-                    equipped[slot].logicInstance = child;
-                    child.TryGetComponent<useAbility>(out var ua);
-                    equipped[slot].logicScript = ua;
-                }
-            }
-        }
-
-        // call useAbility on the runtime instance (if available) - pressed or not pressed
-        if (equipped[slot].logicScript != null)
-        {
-            // If cooldown applies, only allow when abilityCooldown <= 0
-            if (inputPressed && abilityCooldown <= 0f)
-            {
-                print("Ability being used");
-                equipped[slot].logicScript.useAbility(transform, true);
-                abilityCooldown = equipped[slot].definition.cooldown;
-            }
-            else
-            {
-                equipped[slot].logicScript.useAbility(transform, false);
-            }
-        }
-    }
-
-    // Helper: finds first empty slot, or shifts everything left and returns last slot (server chooses)
+    // SLOT MANAGEMENT
     private int FindFirstAvailableSlotOrShift()
     {
         for (int i = 0; i < equipped.Length; i++)
         {
-            if (equipped[i].definition == null) return i;
+            if (equipped[i].logicInstance == null)
+            {
+                SyncSlots();
+                return i;
+            }
+
         }
 
-        // all slots full: shift left on server and return last slot index
-        // drop oldest (slot 0) as pickup
+        // full → shift
+        RemoveUpgradeServerServerRpc(0);
+
         for (int i = 0; i < equipped.Length - 1; i++)
         {
             equipped[i] = equipped[i + 1];
         }
+
         equipped[equipped.Length - 1] = new EquippedUpgrade();
+        SyncSlots();
         return equipped.Length - 1;
+
     }
 
-    // Public: remove an equipped upgrade from a specific slot (owner requests)
-    public void RemoveUpgrade(int slot)
-    {
-        if (!IsOwner) return;
-        RequestRemoveUpgradeServerRpc(slot);
-    }
 
+    // SERVER ONLY: REMOVE UPGRADE
     [ServerRpc(RequireOwnership = false)]
-    private void RequestRemoveUpgradeServerRpc(int slot)
+    private void RemoveUpgradeServerServerRpc(int slot)
     {
         if (slot < 0 || slot >= equipped.Length) return;
 
         if (equipped[slot].logicInstance != null)
         {
-            // spawn pickup
-            SpawnUpgradePickupServerRpc(slot);
-
-            // despawn instance
+            SpawnUpgradePickup(slot);
             equipped[slot].logicInstance.Despawn();
         }
 
         equipped[slot] = new EquippedUpgrade();
 
-        // notify owner to clear UI / call onUpgradeDropped
-        var parms = new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { OwnerClientId } } };
-        OwnerNotifyDroppedClientRpc(slot, parms);
+        SyncSlots();
     }
 
-    [ClientRpc]
-    private void OwnerNotifyDroppedClientRpc(int slot, ClientRpcParams clientRpcParams = default)
+    public void RegisterUpgrade(int slot, int upgradeID, NetworkObject netObj)
     {
         if (!IsOwner) return;
 
-        // clear local state and call onUpgradeDropped on the instance if we still have it
-        if (equipped[slot].logicInstance != null && equipped[slot].logicInstance.TryGetComponent<onUpgradeDropped>(out var drop))
+        var entry = equipped[slot];
+
+        entry.upgradeID = upgradeID;
+        entry.logicInstance = netObj;
+        entry.cooldownRemaining = 0f;
+
+        if (netObj.TryGetComponent<useAbility>(out var ua))
+            entry.logicScript = ua;
+
+        if (netObj.TryGetComponent<onUpgradePickedup>(out var pickup))
         {
-            drop.onUpgradeDropped(transform);
+            print("onUpgradePickedup trying to be used");
+            pickup.onUpgradePickedup(transform);
+        }
+    }
+
+    // PICKUP SPAWN
+    private void SpawnUpgradePickup(int slot)
+    {
+        int id = equipped[slot].upgradeID;
+
+        var def = UpgradeDatabase.Instance.Get(id);
+        if (def == null || def.pickupObject == null) return;
+
+        GameObject obj = Instantiate(def.pickupObject, transform.position, Quaternion.identity);
+        obj.GetComponent<NetworkObject>().Spawn();
+
+        var pickup = obj.GetComponent<upgradePickUp>();
+        if (pickup != null)
+        {
+            pickup.canBePickedUp = false;
+            pickup.dropped = true;
+        }
+    }
+
+    // INPUT
+    private void Update()
+    {
+        if (!IsOwner || !canUseUpgrade) return;
+
+        abilityOneCooldown -= Time.deltaTime;
+        abilityTwoCooldown -= Time.deltaTime;
+        abilityThreeCooldown -= Time.deltaTime;
+
+        HandleSlot(0, GameInput.instance.getAbilityOneInput(), ref abilityOneCooldown);
+        HandleSlot(1, GameInput.instance.getAbilityTwoInput(), ref abilityTwoCooldown);
+        HandleSlot(2, GameInput.instance.getAbilityThreeInput(), ref abilityThreeCooldown);
+    }
+
+    private void HandleSlot(int slot, bool pressed, ref float cooldown)
+    {
+        if (equipped[slot].logicInstance == null) return;
+
+        // Always ensure we have the script
+        if (equipped[slot].logicScript == null)
+        {
+            equipped[slot].logicScript =
+                equipped[slot].logicInstance.GetComponent<useAbility>();
         }
 
-        equipped[slot] = new EquippedUpgrade();
+        // still null? then abort safely
+        if (equipped[slot].logicScript == null) return;
+
+        if (equipped[slot].logicScript == null)
+        {
+            // resolve after spawn (safety fallback)
+            var def = UpgradeDatabase.Instance.Get(equipped[slot].upgradeID);
+            if (def != null)
+            {
+                equipped[slot].logicScript =
+                    equipped[slot].logicInstance.GetComponent<useAbility>();
+            }
+        }
+
+        if (equipped[slot].logicScript == null) return;
+
+        if (pressed && cooldown <= 0f)
+        {
+            equipped[slot].logicScript.useAbility(transform, true);
+
+            var def = UpgradeDatabase.Instance.Get(equipped[slot].upgradeID);
+            cooldown = def.cooldown;
+        }
+        else
+        {
+            equipped[slot].logicScript.useAbility(transform, false);
+        }
     }
+
+
+    private void SyncSlots()
+    {
+        int[] ids = new int[equipped.Length];
+        ulong[] netIds = new ulong[equipped.Length];
+
+        for (int i = 0; i < equipped.Length; i++)
+        {
+            if (equipped[i].logicInstance == null)
+            {
+                ids[i] = -1;
+                netIds[i] = 0;
+            }
+            else
+            {
+                ids[i] = equipped[i].upgradeID;
+                netIds[i] = equipped[i].logicInstance.NetworkObjectId;
+            }
+        }
+
+        var parms = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { OwnerClientId }
+            }
+        };
+
+        SyncSlotsClientRpc(ids, netIds);
+    }
+
+    [ClientRpc]
+    private void SyncSlotsClientRpc(int[] ids, ulong[] netIds)
+    {
+        if (!IsOwner) return;
+
+        for (int i = 0; i < equipped.Length; i++)
+        {
+            if (ids[i] == -1)
+            {
+                equipped[i] = new EquippedUpgrade();
+                continue;
+            }
+
+            var netObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[netIds[i]];
+
+            bool isNew = equipped[i].logicInstance != netObj;
+
+            equipped[i].upgradeID = ids[i];
+            equipped[i].logicInstance = netObj;
+
+            if (netObj.TryGetComponent<useAbility>(out var ua))
+                equipped[i].logicScript = ua;
+
+            // ONLY initialize if it's NEW
+            if (isNew && netObj.TryGetComponent<onUpgradePickedup>(out var pickup))
+            {
+                pickup.onUpgradePickedup(transform);
+            }
+        }
+    }
+
+
+
 }

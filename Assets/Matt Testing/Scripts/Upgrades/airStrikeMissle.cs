@@ -10,7 +10,7 @@ public class airStrikeMissle : NetworkBehaviour
     [SerializeField] private float damage;
 
 
-
+    [SerializeField] private SphereCollider sphereCol;
 
     private void OnCollisionEnter(Collision other)
     {
@@ -19,7 +19,7 @@ public class airStrikeMissle : NetworkBehaviour
         Collider[] collidersInRange = Physics.OverlapSphere(transform.position, explsionRadius);
         foreach (Collider col in collidersInRange)
         {
-            if(col.CompareTag("Monster"))
+            if(col.CompareTag("Monster") || col.CompareTag("Player"))
             {
                 if(col.gameObject.TryGetComponent(out dealDamage healthScript))
                 {
@@ -35,6 +35,7 @@ public class airStrikeMissle : NetworkBehaviour
                 float distance = Vector3.Distance(rb.transform.position, transform.position);
                 //print("Name: " + rb.name + " Distance: " + Vector3.Distance(rb.transform.position, transform.position) + " Foce Applied: " + (launchDirection * (explosonFore - distance)));
                 rb.AddForce(launchDirection * (explosonFore - distance), ForceMode.VelocityChange);
+                sphereCol.enabled = true;
             }
         }
         destroyMissleServerRpc();

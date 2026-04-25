@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using TMPro;
@@ -55,10 +55,16 @@ public class playerRespawn : MonoBehaviour
 
     void Update()
     {
-        if(health.currentHealth <= 0)
+        if(health.currentHealth <= 0 && !isDead)
         {
-            StartCoroutine(startRespawn());
+            respawn();
         }
+    }
+
+
+    public void respawn()
+    {
+        StartCoroutine(startRespawn());
     }
 
     private IEnumerator startRespawn()
@@ -82,8 +88,19 @@ public class playerRespawn : MonoBehaviour
 
     private void endRespawn()
     {
+
         setPlayerActions(true); //resuems player actions
-        transform.position = respawnPoints[Random.Range(0, respawnPoints.Length)].transform.position; // Moves the player to a respawn point
+        Vector3 spawnPos = respawnPoints[Random.Range(0, respawnPoints.Length)].transform.position;
+
+
+
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        rb.position = spawnPos; // physics-safe reposition
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+
+
         deathUI.SetActive(false); // de-activates the UI
         isDead = false; 
     }

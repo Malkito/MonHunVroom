@@ -20,20 +20,25 @@ public class loseConditionTimer : NetworkBehaviour
     {
         if(GameStateManager.Instance.CurrentState == GameStateManager.State.GamePlaying && currentTime > 0)
         {
-            currentTime -= Time.deltaTime;
-
-            int minutes = Mathf.FloorToInt(currentTime / 60);
-            int seconds = Mathf.FloorToInt(currentTime % 60);
-            timerText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
-
-            if(currentTime <= 0)
-            {
-                gameOver();
-
-            }
+            updateTimerClientRpc();
         }
     }
 
+
+    [ClientRpc]
+    private void updateTimerClientRpc()
+    {
+        currentTime -= Time.deltaTime;
+        int minutes = Mathf.FloorToInt(currentTime / 60);
+        int seconds = Mathf.FloorToInt(currentTime % 60);
+        timerText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+
+        if (currentTime <= 0)
+        {
+            gameOver();
+
+        }
+    }
 
     private void gameOver()
     {

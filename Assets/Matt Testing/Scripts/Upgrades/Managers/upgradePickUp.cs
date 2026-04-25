@@ -35,15 +35,14 @@ public class upgradePickUp : NetworkBehaviour
             playerUpgradeManager playerUpgradeManager = other.GetComponent<playerUpgradeManager>();
             playerUpgradeManager.AddToPlayerUpgrades(objectArrayIndex); // Makes the upgrde avaible to the player
             print("Added upgrade to array");
-            destroyPickUpClientRpc();
+            destroyPickUpServerRpc();
         }
     }
 
-    [ClientRpc()]
-    private void destroyPickUpClientRpc()
+    [ServerRpc(RequireOwnership = false)]
+    private void destroyPickUpServerRpc()
     {
-        print("Destroying object pick up");
-        Destroy(gameObject);
+        gameObject.GetComponent<NetworkObject>().Despawn();
     }
 
     

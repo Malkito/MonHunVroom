@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 335615999429944670}
   - component: {fileID: -464707615324953887}
   - component: {fileID: 2665223280701776367}
+  - component: {fileID: 565626567808234725}
   m_Layer: 0
   m_Name: RepulsionBullet
   m_TagString: Untagged
@@ -203,6 +204,27 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!135 &565626567808234725
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2322708528823678934}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 25
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7919772138017215585
 GameObject:
   m_ObjectHideFlags: 0

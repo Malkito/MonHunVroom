@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
   m_Name: GrappleHook
   m_EditorClassIdentifier: 
+  upgradeID: 5
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
@@ -22,3 +23,4 @@ MonoBehaviour:
   isBulletUpgrade: 0
   logicScriptObject: {fileID: 4339472396725398950, guid: 952c4901fc95c0d48b05f78e608cd841, type: 3}
   cooldown: 4
+  canBeUsedWhileDead: 0

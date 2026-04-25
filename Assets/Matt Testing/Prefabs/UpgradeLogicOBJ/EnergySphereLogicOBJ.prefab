@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 6570905466111763903}
   - component: {fileID: -2920969830872206735}
   - component: {fileID: 816236693976517341}
+  - component: {fileID: -8015978312228096545}
   m_Layer: 0
   m_Name: EnergySphereLogicOBJ
   m_TagString: Untagged
@@ -181,3 +182,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   bulletArrayIndex: 3
+--- !u!114 &-8015978312228096545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6062478159923203120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b43f9824d11e08458c53432dce0b1c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
