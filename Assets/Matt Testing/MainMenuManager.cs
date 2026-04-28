@@ -23,7 +23,7 @@ public class MainMenuManager : NetworkBehaviour
         switch (levelNum)
         {
             case 0:
-                Loader.LoadNetwork(Loader.Scene.DayGameScene);
+                Loader.LoadNetwork(Loader.Scene.DayGameScene);RIFT
                 break;
             case 1:
                 Loader.LoadNetwork(Loader.Scene.TronGameScene);

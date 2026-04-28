@@ -68753,7 +68753,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7385720792556928399
 RectTransform:
   m_ObjectHideFlags: 0
@@ -68770,7 +68770,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -545, y: 317}
+  m_AnchoredPosition: {x: -518, y: 309}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3409696163246488570
@@ -80386,6 +80386,7 @@ GameObject:
   - component: {fileID: 5086037589454759781}
   - component: {fileID: 7606277645741942883}
   - component: {fileID: 86376576617243287}
+  - component: {fileID: 1036226262456681080}
   - component: {fileID: 5844322056726403099}
   - component: {fileID: 7547834820336501301}
   - component: {fileID: 3837357519394282913}
@@ -80740,8 +80741,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8217c32854835a546a88e1b9815715f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
-  currentHealth: 0
+  currentHealth:
+    m_InternalValue: 0
   flashTIme: 0.1
   fireColour: {r: 1, g: 0, b: 0, a: 0}
   damageColour: {r: 1, g: 1, b: 1, a: 0}
@@ -80792,6 +80795,30 @@ MonoBehaviour:
   sidewaysFriction: 150
   useLinerDampingMod: 0
   cameraTransform: {fileID: 2770513277569699001}
+  jumpIcon: {fileID: 3975747479943129205}
+--- !u!114 &1036226262456681080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be47dcd4604bfb545b7758bd132d9f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  moveSpeed: 30
+  rotationSpeed: 150
+  useSidewaysFriction: 1
+  sidewaysFriction: 8
+  canMove: 0
+  groundCheck: {fileID: 3415987852756546517}
+  linerDampening: 0
+  jumpFrontForce: 25
+  jumpUpForce: 4
+  MaxJumpTimer: 3
   jumpIcon: {fileID: 3975747479943129205}
 --- !u!114 &5844322056726403099
 MonoBehaviour:
@@ -80972,7 +80999,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fededc1f235fa7e4990d3c4cc1c58a9d, type: 3}
   m_Name: 
@@ -81655,7 +81682,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3609209366104072482
 RectTransform:
   m_ObjectHideFlags: 0
@@ -81935,7 +81962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2852936231764257173
 RectTransform:
   m_ObjectHideFlags: 0
@@ -81952,7 +81979,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -544, y: 280}
+  m_AnchoredPosition: {x: -517, y: 272}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &202394805529898183
@@ -81983,7 +82010,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Space To Change
+  m_text: '"Z" To Change'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -82110,7 +82137,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0

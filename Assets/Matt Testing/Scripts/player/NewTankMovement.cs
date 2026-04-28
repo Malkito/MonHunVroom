@@ -207,8 +207,6 @@ public class NewTankMovement : NetworkBehaviour
         Color color = jumpIcon.color;
         color.a = alphaValue;
         jumpIcon.color = color;
-
-
     }
 
 

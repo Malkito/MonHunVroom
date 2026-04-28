@@ -31,7 +31,7 @@ public class SwapMovementScripts : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bool SpacePressed = GameInput.instance.getJumpInput();
+        bool SpacePressed = GameInput.instance.getSwapMovementInput();
 
         if (SpacePressed && swapable)
         {

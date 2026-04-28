@@ -225,6 +225,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapMovement"",
+                    ""type"": ""Button"",
+                    ""id"": ""c9c7a5b0-9930-41d8-b297-9d946a30c01e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -676,6 +685,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Unstick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a31b6038-e610-491d-9889-0e8ed4c4fa2d"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SwapMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1278,6 +1298,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Unstick = m_Player.FindAction("Unstick", throwIfNotFound: true);
+        m_Player_SwapMovement = m_Player.FindAction("SwapMovement", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1386,6 +1407,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Unstick;
+    private readonly InputAction m_Player_SwapMovement;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1458,6 +1480,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Unstick => m_Wrapper.m_Player_Unstick;
         /// <summary>
+        /// Provides access to the underlying input action "Player/SwapMovement".
+        /// </summary>
+        public InputAction @SwapMovement => m_Wrapper.m_Player_SwapMovement;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1528,6 +1554,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Unstick.started += instance.OnUnstick;
             @Unstick.performed += instance.OnUnstick;
             @Unstick.canceled += instance.OnUnstick;
+            @SwapMovement.started += instance.OnSwapMovement;
+            @SwapMovement.performed += instance.OnSwapMovement;
+            @SwapMovement.canceled += instance.OnSwapMovement;
         }
 
         /// <summary>
@@ -1584,6 +1613,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Unstick.started -= instance.OnUnstick;
             @Unstick.performed -= instance.OnUnstick;
             @Unstick.canceled -= instance.OnUnstick;
+            @SwapMovement.started -= instance.OnSwapMovement;
+            @SwapMovement.performed -= instance.OnSwapMovement;
+            @SwapMovement.canceled -= instance.OnSwapMovement;
         }
 
         /// <summary>
@@ -1989,6 +2021,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUnstick(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SwapMovement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwapMovement(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

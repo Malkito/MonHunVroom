@@ -139,6 +139,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SwapMovement",
+                    "type": "Button",
+                    "id": "c9c7a5b0-9930-41d8-b297-9d946a30c01e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -590,6 +599,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Unstick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a31b6038-e610-491d-9889-0e8ed4c4fa2d",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SwapMovement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
