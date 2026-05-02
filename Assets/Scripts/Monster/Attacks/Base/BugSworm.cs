@@ -1,4 +1,4 @@
-using LordBreakerX.AttackSystem;
+    using LordBreakerX.AttackSystem;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -80,6 +80,8 @@ public class BugSworm : NetworkBehaviour
 
     private void Update()
     {
+        if (!IsServer) return;
+
         Vector3 targetPosition = _target.GetCenteredPosition() + _targetOffset;
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
 
@@ -104,6 +106,8 @@ public class BugSworm : NetworkBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (!IsServer) return;
+
         dealDamage damageable = other.GetComponent<dealDamage>();
         if (damageable != null)
         {

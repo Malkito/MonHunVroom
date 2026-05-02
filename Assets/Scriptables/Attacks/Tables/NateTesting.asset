@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attacks:
     _weightedEntries:
-    - _value: {fileID: 11400000, guid: 3fea172be1dea4b498ff01e2d4303884, type: 2}
+    - _value: {fileID: 11400000, guid: 7568ebdb3ae3a0344bef2bc177e754e4, type: 2}
       _weight: 100
