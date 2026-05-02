@@ -89,6 +89,18 @@ public class MonsterMovementController : NetworkBehaviour
 
     public void SetUnderground(bool isUnderground)
     {
+        if (IsServer)
+        {
+            _collider.enabled = !isUnderground;
+            _model.gameObject.SetActive(!isUnderground);
+            _undergroundParticle.gameObject.SetActive(isUnderground);
+            SetUndergroundRpc(isUnderground);
+        }
+    }
+
+    [Rpc(SendTo.NotServer, RequireOwnership = false)]
+    public void SetUndergroundRpc(bool isUnderground)
+    {
         _collider.enabled = !isUnderground;
         _model.gameObject.SetActive(!isUnderground);
         _undergroundParticle.gameObject.SetActive(isUnderground);
