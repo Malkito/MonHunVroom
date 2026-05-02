@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3584151716817581158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c298e877783684989ca83edab40830, type: 3}
+  m_Name: Hard
+  m_EditorClassIdentifier: 
+  _stats: []
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &-2345339645381367048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c298e877783684989ca83edab40830, type: 3}
+  m_Name: Easy
+  m_EditorClassIdentifier: 
+  _stats:
+  - _id: Monster-Health
+    _type: 1
+    _baseValue: 100
+    _modifiers:
+    - rid: 8599646839381950677
+  references:
+    version: 2
+    RefIds:
+    - rid: 8599646839381950677
+      type: {class: PlayerCountStatModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _maxPlayers: 4
+        _minOffset: 0
+        _maxOffset: 100
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd245c8746b46b0498a5280f0d57d2c0, type: 3}
+  m_Name: MonsterStats
+  m_EditorClassIdentifier: 
+  _profiles:
+  - {fileID: -2345339645381367048}
+  - {fileID: -3584151716817581158}

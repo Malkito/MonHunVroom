@@ -10,6 +10,10 @@ public class Laser : NetworkBehaviour
 
     [SerializeField]
     [Min(0)]
+    private float _damage;
+
+    [SerializeField]
+    [Min(0)]
     private float _moveSpeed;
 
     [SerializeField]
@@ -24,9 +28,6 @@ public class Laser : NetworkBehaviour
     private Timer _timer;
 
     private GameObject _creator;
-
-    private float _damage;
-    private float _speed;
 
     private void Awake()
     {
@@ -47,7 +48,7 @@ public class Laser : NetworkBehaviour
     {
         _timer.Update();
 
-        transform.position += _moveDirection * _speed * Time.deltaTime;
+        transform.position += _moveDirection * _moveSpeed * Time.deltaTime;
     }
 
     private void OnDeath()
@@ -73,8 +74,6 @@ public class Laser : NetworkBehaviour
         createdLaser._creator = creator;
         createdLaser._moveDirection = (targetPosition - startPosition).normalized;
         createdLaser.transform.LookAt(targetPosition, Vector3.up);
-        //createdLaser._damage = EnemyStatManager.LaserEyesDamage;
-        //createdLaser._speed = EnemyStatManager.LaserEyesSpeed;
         return createdLaser;
     }
 }

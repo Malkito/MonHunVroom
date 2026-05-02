@@ -52,8 +52,8 @@ namespace LordBreakerX.Health
             if (IsServer)
             {
                 _currentHealth.Value = MaxHealth;
-                //HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, 0, 0, null);
-                //_onHealthChangedServerSide.Invoke(healthInfo);
+                HealthInfo healthInfo = new HealthInfo(MaxHealth, _currentHealth.Value, 0, 0, null);
+                _onHealthChangedServerSide.Invoke(healthInfo);
             }
 
             _currentHealth.OnValueChanged += OnHealthChanged;
@@ -63,8 +63,8 @@ namespace LordBreakerX.Health
         {
             if (IsClient)
             {
-                //HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, previousValue - newValue, 0, null);
-                //_onHealthChangedClientSide.Invoke(healthInfo);
+                HealthInfo healthInfo = new HealthInfo(MaxHealth, _currentHealth.Value, previousValue - newValue, 0, null);
+                _onHealthChangedClientSide.Invoke(healthInfo);
 
                 if (newValue <= 0)
                 {
@@ -80,9 +80,9 @@ namespace LordBreakerX.Health
             {
                 _currentHealth.Value -= damageDealt;
 
-                //HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, damageDealt, 0, damageOrigin);
+                HealthInfo healthInfo = new HealthInfo(MaxHealth, _currentHealth.Value, damageDealt, 0, damageOrigin);
 
-                //_onHealthChangedServerSide.Invoke(healthInfo);
+                _onHealthChangedServerSide.Invoke(healthInfo);
 
 
                 if (_currentHealth.Value <= 0)
