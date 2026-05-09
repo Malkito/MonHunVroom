@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.UI;
 
 public class tankMovement : NetworkBehaviour
 {
@@ -14,6 +15,10 @@ public class tankMovement : NetworkBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotationSpeed;
 
+    [Header("Friction")]
+    [SerializeField] private bool useSidewaysFriction;
+    [SerializeField] private float sidewaysFriction;
+
     private Rigidbody rb;
 
     public bool canMove;
@@ -23,6 +28,13 @@ public class tankMovement : NetworkBehaviour
     private bool isGrounded;
 
     [SerializeField] private float linerDampening;
+
+    [Header("Jump")]
+    [SerializeField] private float jumpFrontForce;
+    [SerializeField] private float jumpUpForce;
+    [SerializeField] private float MaxJumpTimer;
+    [SerializeField] private Image jumpIcon;
+    private float jumpTimer;
 
     void Start()
     {
@@ -46,6 +58,9 @@ public class tankMovement : NetworkBehaviour
             forwardAndBackMovemnet(inputVector.y);
 
             rotateBody(inputVector.x);
+
+            ApplySidewaysFriction();
+            jump(GameInput.instance.getJumpInput());
         }
     }
 
@@ -60,7 +75,7 @@ public class tankMovement : NetworkBehaviour
  
     private void forwardAndBackMovemnet(float inputVector)
     {
-        rb.AddForce(gameObject.transform.forward * moveSpeed * inputVector);
+        rb.AddForce(gameObject.transform.forward * moveSpeed * inputVector, ForceMode.Acceleration);
 
         if(inputVector == 0 && isGrounded)
         {
@@ -73,6 +88,52 @@ public class tankMovement : NetworkBehaviour
         }
     }
 
+
+    private void ApplySidewaysFriction()
+    {
+        if (!useSidewaysFriction) return;
+
+        Vector3 velocity = rb.linearVelocity;
+
+        Vector3 forward = transform.forward;
+        Vector3 sideways = transform.right;
+
+        float forwardVel = Vector3.Dot(velocity, forward);
+        float sidewaysVel = Vector3.Dot(velocity, sideways);
+
+        // Reduce sideways sliding
+        sidewaysVel = Mathf.Lerp(sidewaysVel, 0f, sidewaysFriction * Time.fixedDeltaTime);
+
+        Vector3 correctedVelocity = forward * forwardVel + sideways * sidewaysVel;
+
+        rb.linearVelocity = new Vector3(correctedVelocity.x, velocity.y, correctedVelocity.z);
+    }
+
+    private void jump(bool input)
+    {
+
+        if (input && jumpTimer <= 0)
+        {
+            Vector3 Frontforce = transform.forward * jumpFrontForce;
+            Vector3 upforce = Vector3.up * jumpUpForce;
+            rb.AddForce(Frontforce + upforce, ForceMode.VelocityChange);
+            jumpTimer = MaxJumpTimer;
+
+            setColor(0.5f);
+
+        }
+        else
+        {
+            if (jumpTimer <= 0)
+            {
+                setColor(1f);
+                return;
+            }
+            jumpTimer -= Time.deltaTime;
+
+
+        }
+    }
 
 
     //Simple ground checks. 
@@ -92,6 +153,13 @@ public class tankMovement : NetworkBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    private void setColor(float alphaValue)
+    {
+        Color color = jumpIcon.color;
+        color.a = alphaValue;
+        jumpIcon.color = color;
     }
 
 }

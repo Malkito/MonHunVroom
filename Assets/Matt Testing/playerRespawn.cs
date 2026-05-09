@@ -55,7 +55,7 @@ public class playerRespawn : MonoBehaviour
 
     void Update()
     {
-        if(health.currentHealth <= 0 && !isDead)
+        if(health.currentHealth.Value <= 0 && !isDead)
         {
             respawn();
         }
@@ -115,7 +115,7 @@ public class playerRespawn : MonoBehaviour
         health.canTakeDamage = setBool;
         TankCam.canMove = setBool;
 
-        health.currentHealth = health.maxHealth;
+        health.currentHealth.Value = health.maxHealth;
     }
 
 

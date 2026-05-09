@@ -1,17 +1,13 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
-public class playerHealth : MonoBehaviour, dealDamage
+using Unity.Netcode;
+
+public class playerHealth : NetworkBehaviour, dealDamage
 {
-    //Very similar to the Building Health Script
-    //main Diffrence is when the health hits 0, it will start the repswawn Logic
-    //And teh damage color gets all the mat on the player. This willhave teo change after offical model is in
-
-
-
-
     [Header("Health")]
-    [SerializeField] public float maxHealth;
-    [SerializeField] public float currentHealth;
+    [SerializeField] public float maxHealth = 100f;
+
+    public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
 
     [Header("Color flash")]
     [SerializeField] private float flashTIme;
@@ -26,23 +22,18 @@ public class playerHealth : MonoBehaviour, dealDamage
 
     public bool canTakeDamage;
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        canTakeDamage = true;
-        currentHealth = maxHealth;
-    }
-    public void increaseFireNumber()
-    {
-        numOfFiresOnHealth += 10;
+        if (IsServer)
+        {
+            currentHealth.Value = maxHealth;
+            canTakeDamage = true;
+        }
     }
 
-    public void decreaseFireNumber()
-    {
-        numOfFiresOnHealth -= 10;
-    }
-    // Update is called once per frame
     void Update()
     {
+        if (!IsServer) return;
 
         if (numOfFiresOnHealth > 0)
         {
@@ -52,7 +43,18 @@ public class playerHealth : MonoBehaviour, dealDamage
         {
             stopDamageOverTime();
         }
+    }
 
+    public void increaseFireNumber()
+    {
+        if (!IsServer) return;
+        numOfFiresOnHealth += 10;
+    }
+
+    public void decreaseFireNumber()
+    {
+        if (!IsServer) return;
+        numOfFiresOnHealth -= 10;
     }
 
     public void stopDamageOverTime()
@@ -66,36 +68,49 @@ public class playerHealth : MonoBehaviour, dealDamage
 
     public void applyDamageOverTime(float damagePerTick, float maxBurnTime)
     {
-        if (dotCoroutine != null)
-        {
-            return;
-        }
+        if (dotCoroutine != null) return;
+
         dotCoroutine = StartCoroutine(damageOverTimeCoroutine(damagePerTick, maxBurnTime));
     }
 
     private IEnumerator damageOverTimeCoroutine(float damagePerTick, float maxBurnTime)
     {
         float elapsedTIme = 0f;
+
         while (elapsedTIme < maxBurnTime)
         {
             yield return new WaitForSeconds(1f);
+
             dealDamage(damagePerTick, fireColour, gameObject);
+
             elapsedTIme += 1f;
         }
+
         dotCoroutine = null;
     }
 
     public void dealDamage(float damage, Color flashColor, GameObject damageOrigin)
     {
+        if (!IsServer) return;
         if (!canTakeDamage) return;
+
+        currentHealth.Value -= damage;
+
+        if (currentHealth.Value < 0)
+            currentHealth.Value = 0;
+
         //StartCoroutine(FlashDamageColor(flashColor, mat));
-        currentHealth -= damage;
+
+        if (currentHealth.Value <= 0)
+        {
+            HandleDeath();
+        }
     }
 
-
-
-
-
+    private void HandleDeath()
+    {
+        canTakeDamage = false;
+    }
 
     private IEnumerator FlashDamageColor(Color flashColor, Material mat)
     {
@@ -104,5 +119,4 @@ public class playerHealth : MonoBehaviour, dealDamage
         yield return new WaitForSeconds(flashTIme);
         mat.color = originalcolor;
     }
-
 }

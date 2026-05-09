@@ -65,6 +65,21 @@ public class GameInput : MonoBehaviour
 
     }
 
+    public bool getUnstickInput()
+    {
+        bool UnstickInputPressed = playerInputActions.Player.Unstick.IsPressed();
+        return UnstickInputPressed;
+
+    }
+
+
+    public bool getSwapMovementInput()
+    {
+        bool SwapMovementInputPressed = playerInputActions.Player.SwapMovement.IsPressed();
+        return SwapMovementInputPressed;
+
+    }
+
     public void enableOrDisablePlayerAction(bool enableOrDisable)
     {
         if (enableOrDisable)

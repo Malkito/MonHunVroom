@@ -58,6 +58,8 @@ public class Laser : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!IsServer) return;
+
         if (!collision.gameObject.CompareTag(_monsterTag))
         {
             dealDamage damage = collision.gameObject.GetComponent<dealDamage>();

@@ -18,12 +18,12 @@ public class MainMenuManager : NetworkBehaviour
     public void StartGame()
     {
 
-        Loader.LoadNetwork(Loader.Scene.FantasyGameScene);  
+        Loader.LoadNetwork(Loader.Scene.TronGameScene);  
         /*
         switch (levelNum)
         {
             case 0:
-                Loader.LoadNetwork(Loader.Scene.DayGameScene);
+                Loader.LoadNetwork(Loader.Scene.DayGameScene);RIFT
                 break;
             case 1:
                 Loader.LoadNetwork(Loader.Scene.TronGameScene);

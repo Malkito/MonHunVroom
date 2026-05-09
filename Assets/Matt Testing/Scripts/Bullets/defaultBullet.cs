@@ -2,7 +2,6 @@ using UnityEngine;
 using Unity.Netcode;
 public interface dealDamage //Anything that needs to take damage inherites from this
 {
-    [ServerRpc()]
     public void dealDamage(float damageDealt, Color flashColor, GameObject damageOrigin);
 
     public void increaseFireNumber();
@@ -20,7 +19,9 @@ public class defaultBullet : NetworkBehaviour, bullet
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.TryGetComponent(out dealDamage healthScript))
+        if (!IsServer) return;
+
+        if (collision.gameObject.TryGetComponent(out dealDamage healthScript))
         {
             float damage = bulletData.bulletDamage;
 

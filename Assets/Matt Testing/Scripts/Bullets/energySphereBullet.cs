@@ -40,6 +40,8 @@ public class energySphereBullet : NetworkBehaviour, bullet
     private float maxScale;  // maximum uniform scale
     [SerializeField] private float scaleIncrease;  // maximum uniform scale
 
+    private SphereCollider SphereCollider;
+
 
     private bool canGrow = false;
 
@@ -54,6 +56,8 @@ public class energySphereBullet : NetworkBehaviour, bullet
 
     private void Start()
     {
+
+
         // Start the delayed growth
         Invoke(nameof(StartGrowing), delayBeforeGrowing);
 
@@ -72,6 +76,8 @@ public class energySphereBullet : NetworkBehaviour, bullet
     {
         if (!canGrow) return;
 
+        SphereCollider.enabled = true;
+
         // Current scale magnitude (assuming uniform scale)
         float currentScale = transform.localScale.x;
 
@@ -87,6 +93,8 @@ public class energySphereBullet : NetworkBehaviour, bullet
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!IsServer) return;
+
         if (isEffectedByFire && !collision.gameObject.CompareTag("Fire"))// if the energy sphere is effected by fire and collides with something other then a fire bullet 
         {
             for (int i = 0; i < numberOfBullets; i++) //runs the spawn fire bullet function the determinted number of times
@@ -116,10 +124,15 @@ public class energySphereBullet : NetworkBehaviour, bullet
 
     public void setFire() // sets the energy sphere on fire, called by the fire bullet
     {
+        setClientRpc();
+    }
+
+    [ClientRpc]
+    private void setClientRpc()
+    {
         isEffectedByFire = true;
         MeshRenderer.material = fireMat;
     }
-
 
     public void setDamageOrigin(GameObject damageOrigin)
     {

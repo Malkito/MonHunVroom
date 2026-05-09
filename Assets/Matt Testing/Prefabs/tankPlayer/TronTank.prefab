@@ -49195,7 +49195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7385720792556928399
 RectTransform:
   m_ObjectHideFlags: 0
@@ -50758,6 +50758,7 @@ GameObject:
   - component: {fileID: 947433051933980619}
   - component: {fileID: 7886502141063252314}
   - component: {fileID: 4522750895987027745}
+  - component: {fileID: 7066214490432205955}
   m_Layer: 0
   m_Name: TronTank
   m_TagString: Player
@@ -51107,8 +51108,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8217c32854835a546a88e1b9815715f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
-  currentHealth: 0
+  currentHealth:
+    m_InternalValue: 0
   flashTIme: 0.1
   fireColour: {r: 1, g: 0, b: 0, a: 0}
   damageColour: {r: 1, g: 1, b: 1, a: 0}
@@ -51152,8 +51155,8 @@ MonoBehaviour:
   AngleCorrection: 40
   OvershootPrevention: 8
   rotationForce: 700
-  jumpFrontForce: 25
-  jumpUpForce: 4
+  jumpFrontForce: 30
+  jumpUpForce: 0
   MaxJumpTimer: 3
   useSidewaysFriction: 0
   sidewaysFriction: 2
@@ -51173,11 +51176,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 2000
-  rotationSpeed: 90
+  moveSpeed: 30
+  rotationSpeed: 150
+  useSidewaysFriction: 1
+  sidewaysFriction: 8
   canMove: 0
   groundCheck: {fileID: 3415987852756546517}
-  linerDampening: 3
+  linerDampening: 0
+  jumpFrontForce: 25
+  jumpUpForce: 4
+  MaxJumpTimer: 3
+  jumpIcon: {fileID: 3975747479943129205}
 --- !u!114 &5844322056726403099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51322,7 +51331,6 @@ MonoBehaviour:
   - {fileID: 593639475324773523}
   - {fileID: 1351775668636940287}
   - {fileID: 4279794709313405844}
-  - {fileID: 7718690640791550814}
   Trails:
   - {fileID: 7723896473224214189}
   - {fileID: 696356708394924746}
@@ -51350,7 +51358,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fededc1f235fa7e4990d3c4cc1c58a9d, type: 3}
   m_Name: 
@@ -51398,7 +51406,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   dissovleSphere: {fileID: 6492141994581136646}
-  dissolveDuration: 5
+  dissolveDuration: 4
+--- !u!114 &7066214490432205955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72198746a5f0d0a469d099ddc83f2822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8105446854303656973
 GameObject:
   m_ObjectHideFlags: 0
@@ -51820,7 +51840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3609209366104072482
 RectTransform:
   m_ObjectHideFlags: 0
@@ -51958,7 +51978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2852936231764257173
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52006,7 +52026,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Space To Change
+  m_text: '"Z" To Change'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
