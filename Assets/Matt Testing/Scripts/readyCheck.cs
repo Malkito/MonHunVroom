@@ -92,6 +92,7 @@ public class readyCheck : NetworkBehaviour
 
         setGameStateClientRpc();
 
+        FindAnyObjectByType<UpgradeManager>().spawnUpgradesServerRpc();
 
 
     }

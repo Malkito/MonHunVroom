@@ -80,6 +80,27 @@ public class GameInput : MonoBehaviour
 
     }
 
+    public bool getSelectUpgradeOneInput()
+    {
+        bool SelectUpgradeOneInputPressed = playerInputActions.Player.SelectUpgradeOne.IsPressed();
+        return SelectUpgradeOneInputPressed;
+
+    }
+
+    public bool getSelectUpgradeTwoInput()
+    {
+        bool SelectUpgradeTwoInputPressed = playerInputActions.Player.SelectUpgradeTwo.IsPressed();
+        return SelectUpgradeTwoInputPressed;
+
+    }
+
+    public bool getSelectUpgradeThreeInput()
+    {
+        bool SelectUpgradeThreeInputPressed = playerInputActions.Player.SelectUpgradeThree.IsPressed();
+        return SelectUpgradeThreeInputPressed;
+
+    }
+
     public void enableOrDisablePlayerAction(bool enableOrDisable)
     {
         if (enableOrDisable)

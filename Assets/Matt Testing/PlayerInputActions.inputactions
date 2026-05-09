@@ -148,6 +148,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SelectUpgradeOne",
+                    "type": "Button",
+                    "id": "fd5159e6-05f0-4944-948a-66e44b89eaa3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectUpgradeTwo",
+                    "type": "Button",
+                    "id": "379bb428-bf4c-4a1a-a4e9-b9c1e442d36e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectUpgradeThree",
+                    "type": "Button",
+                    "id": "553f830f-8b61-4608-a96a-ec2bdf1068c4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -610,6 +637,39 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "SwapMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af142286-415b-47fa-8747-45c1943a0caa",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectUpgradeOne",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f053770c-ee9c-42eb-b44d-27e97c044380",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectUpgradeTwo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "230e2a0f-bb44-46a3-800f-662c841b6496",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectUpgradeThree",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

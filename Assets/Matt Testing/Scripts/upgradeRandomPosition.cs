@@ -12,7 +12,7 @@ public class upgradeRandomPosition : NetworkBehaviour
     {
         spawnUpgradesServerRpc();
     }
-    private void shuffleUpgradeArray()
+    public void shuffleUpgradeArray()
     {
         upgrades = GameObject.FindGameObjectsWithTag("Upgrade");
 
