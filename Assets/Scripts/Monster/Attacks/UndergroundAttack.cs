@@ -1,4 +1,5 @@
 using LordBreakerX.AttackSystem;
+using LordBreakerX.Stats;
 using LordBreakerX.Utilities;
 using UnityEngine;
 
@@ -42,9 +43,15 @@ public sealed class UndergroundAttack : ScriptableAttack
     private Timer _throwAttemptTimer;
     private Timer _durationTimer;
 
+    private StatHolder _statHolder;
+
+    private float _roubbleDamage;
+
     public override void OnAttackCreation()
     {
+        _statHolder = Controller.GetComponent<StatHolder>();
         _monsterMovement = Controller.GetComponent<MonsterMovementController>();
+
         _durationTimer = new Timer(_attackDuration);
         _throwAttemptTimer = new Timer();
         _throwAttemptTimer.OnTimerFinished += AttemptThrow;
@@ -52,10 +59,15 @@ public sealed class UndergroundAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        _attackDuration = _statHolder.GetFloat("Underground-Attack-Duration");
+        _durationTimer = new Timer(_attackDuration);
+
         _monsterMovement.UpdateWalkAnimation(true);
         _monsterMovement.SetUnderground(true);
         ResetThrowDelay();
         _durationTimer.Reset();
+
+        _roubbleDamage = _statHolder.GetFloat("Roubble-Damage");
     }
 
     private void ResetThrowDelay()
@@ -79,7 +91,7 @@ public sealed class UndergroundAttack : ScriptableAttack
     private void OnSucessfulThrow()
     {
         ThrowStrength throwStrength = new ThrowStrength(_minThrowSrength, _maxThrowSrength);
-        Roubble roubble = _roubblePrefab.CreateRouble(Controller.transform.position, throwStrength);
+        Roubble roubble = _roubblePrefab.CreateRouble(_roubbleDamage, Controller.transform.position, throwStrength);
         Controller.SpawnProjectile(roubble.gameObject);
     }
 

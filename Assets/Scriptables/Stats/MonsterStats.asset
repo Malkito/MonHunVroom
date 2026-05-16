@@ -36,13 +36,57 @@ MonoBehaviour:
     - rid: 8477348268728123612
     - rid: 8477348268728123610
     - rid: 8477348268728123611
-  - _id: Speed
+  - _id: Move-Speed
     _type: 1
     _baseValue: 14
     _modifiers: []
   - _id: Turning-Speed
     _type: 1
     _baseValue: 120
+    _modifiers: []
+  - _id: Fly-Speed
+    _type: 1
+    _baseValue: 1
+    _modifiers: []
+  - _id: Laser-Eyes-Duration
+    _type: 1
+    _baseValue: 10
+    _modifiers: []
+  - _id: Flying-Attack-Duration
+    _type: 1
+    _baseValue: 10
+    _modifiers: []
+  - _id: Underground-Attack-Duration
+    _type: 1
+    _baseValue: 10
+    _modifiers: []
+  - _id: Laser-Damage
+    _type: 1
+    _baseValue: 3
+    _modifiers: []
+  - _id: Bug-Damage
+    _type: 1
+    _baseValue: 1
+    _modifiers: []
+  - _id: Blackhole-Damage
+    _type: 1
+    _baseValue: 2
+    _modifiers: []
+  - _id: Roubble-Damage
+    _type: 1
+    _baseValue: 2
+    _modifiers: []
+  - _id: Push-Damage
+    _type: 1
+    _baseValue: 2
+    _modifiers: []
+  - _id: Stomp-Damage
+    _type: 1
+    _baseValue: 4
+    _modifiers: []
+  - _id: Bomb-Damage
+    _type: 1
+    _baseValue: 100
     _modifiers: []
   references:
     version: 2

@@ -58,7 +58,7 @@ public class MonsterMovementController : NetworkBehaviour
         _monsterStartHeight = _monsterTransform.localPosition.y;
         _monsterAgent.Warp(transform.position);
 
-        _monsterAgent.speed = _statHolder.GetFloat("Speed");
+        _monsterAgent.speed = _statHolder.GetFloat("Move-Speed");
         _monsterAgent.angularSpeed = _statHolder.GetFloat("Turning-Speed");
     }
 

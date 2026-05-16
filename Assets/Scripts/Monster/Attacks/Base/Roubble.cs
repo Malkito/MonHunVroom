@@ -27,18 +27,19 @@ public class Roubble : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public Roubble CreateRouble(Vector3 startPosition, ThrowStrength throwStrength)
+    public Roubble CreateRouble(float damage, Vector3 startPosition, ThrowStrength throwStrength)
     {
         Roubble roubbleCopy = Instantiate(this, startPosition, Quaternion.identity);
 
         Vector3 throwForce = throwStrength.GetForce();
 
         roubbleCopy._rigidbody.AddForce(throwForce, ForceMode.Force);
+        roubbleCopy._damageOnImpact = damage;
 
         return roubbleCopy;
     }
 
-    public Roubble CreateRouble(Vector3 startPosition, Vector3 finalPosition)
+    public Roubble CreateRouble(float damage, Vector3 startPosition, Vector3 finalPosition)
     {
         Vector3 direction = finalPosition - startPosition;
 
@@ -47,6 +48,7 @@ public class Roubble : MonoBehaviour
         Roubble roubleInstance = Instantiate(this, startPosition, Quaternion.identity);
 
         roubleInstance._rigidbody.AddForce(distance * roubleInstance._rigidbody.mass * direction, ForceMode.Force);
+        roubleInstance._damageOnImpact = damage;
 
         return roubleInstance;
     }

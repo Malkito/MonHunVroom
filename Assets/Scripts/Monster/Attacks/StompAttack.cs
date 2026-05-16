@@ -1,5 +1,6 @@
 using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
+using LordBreakerX.Stats;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Stomp Attack")]
@@ -35,16 +36,19 @@ public sealed class StompAttack : ScriptableAttack
 
     private MonsterAttackController _monsterAttack;
 
+    private StatHolder _statHolder;
+
     public override void OnAttackCreation()
     {
         _monsterMovement = Controller.GetComponent<MonsterMovementController>();
         _monsterAttack = Controller.GetComponent<MonsterAttackController>();
-        
+        _statHolder = Controller.GetComponent<StatHolder>();
     }
 
     public override void OnAttackStarted()
     {
         _monsterMovement.UpdateWalkAnimation(true);
+        _stompDamage = _statHolder.GetFloat("Stomp-Damage");
     }
 
     public override void OnAttackUpdate()

@@ -1,4 +1,5 @@
 using LordBreakerX.AttackSystem;
+using LordBreakerX.Stats;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Laser Eyes Attack")]
@@ -34,10 +35,13 @@ public sealed class LaserEyesAttack : ScriptableAttack
 
     private MonsterMovementController _monsterMovement;
 
+    private StatHolder _statHolder;
+
     private float _attackDistance;
 
     public override void OnAttackCreation()
     {
+        _statHolder = Controller.GetComponent<StatHolder>();
         _monsterAttack = Controller.GetComponent<MonsterAttackController>();
         _monsterMovement = Controller.GetComponent<MonsterMovementController>();
         _attackTimer = new Timer(_attackRate);
@@ -73,6 +77,7 @@ public sealed class LaserEyesAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        _duration = _statHolder.GetFloat("Laser-Eyes-Duration");
         _durationLeft = _duration;
         _attackDistance = Random.Range(_minAttackDistance, _maxAttackDistance);
         _monsterAttack.ChooseEye();

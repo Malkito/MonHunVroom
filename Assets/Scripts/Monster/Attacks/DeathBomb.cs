@@ -1,6 +1,7 @@
 using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
 using LordBreakerX.Health;
+using LordBreakerX.Stats;
 using LordBreakerX.Utilities;
 using UnityEngine;
 
@@ -47,6 +48,8 @@ public sealed class DeathBomb : ScriptableAttack
     private MonsterMovementController _movement;
     private MonsterAttackController _attack;
 
+    private StatHolder _statHolder;
+
     private float _reachedDistance;
 
     private bool _attackComplete;
@@ -58,8 +61,10 @@ public sealed class DeathBomb : ScriptableAttack
     public override void OnAttackCreation()
     {
         _movement = Controller.GetComponent<MonsterMovementController>();
-        _health = _movement.GetMonsterHealth();
         _attack = Controller.GetComponent<MonsterAttackController>();
+        _statHolder = Controller.GetComponent<StatHolder>();
+        _health = _movement.GetMonsterHealth();
+
         _explodeTimer = new Timer(_timeBeforeExplosion);
         _explodeTimer.OnTimerFinished += Explode;
     }
@@ -69,6 +74,8 @@ public sealed class DeathBomb : ScriptableAttack
         _attackComplete = false;
         _reachedDistance = Percentage.MapToNumber(_reachedTargetPercentage, 0, _explosionRadius);
         _explodeTimer.Reset();
+
+        _maxDamage = _statHolder.GetFloat("Bomb-Damage");
     }
 
     public override void OnAttackStopped()

@@ -70,12 +70,14 @@ public class Laser : NetworkBehaviour
         Destroy(gameObject, 1);
     }
 
-    public static Laser CreateLaser(Laser prefab, GameObject creator, Vector3 startPosition, Vector3 targetPosition)
+    public static Laser CreateLaser(Laser prefab, GameObject creator, float damage, Vector3 startPosition, Vector3 targetPosition)
     {
         Laser createdLaser = Instantiate(prefab, startPosition, Quaternion.identity);
         createdLaser._creator = creator;
         createdLaser._moveDirection = (targetPosition - startPosition).normalized;
         createdLaser.transform.LookAt(targetPosition, Vector3.up);
+        createdLaser._damage = damage;
+
         return createdLaser;
     }
 }

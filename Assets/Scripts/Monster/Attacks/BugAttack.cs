@@ -1,4 +1,5 @@
 using LordBreakerX.AttackSystem;
+using LordBreakerX.Stats;
 using LordBreakerX.Utilities;
 using UnityEngine;
 
@@ -47,9 +48,12 @@ public sealed class BugAttack : ScriptableAttack
 
     private MonsterMovementController _monsterMovement;
 
+    private StatHolder _statHolder;
+
     public override void OnAttackCreation()
     {
         _monsterMovement = Controller.GetComponent<MonsterMovementController>();
+        _statHolder = Controller.GetComponent<StatHolder>();
     }
 
     public override void OnAttackStarted()
@@ -82,6 +86,8 @@ public sealed class BugAttack : ScriptableAttack
 
         int swormAmount = Mathf.Clamp(Random.Range(_minSpawns, _maxSpawns), 0, _swormLimit - BugSworm.TotalSworms);
 
+        float damage = _statHolder.GetFloat("Bug-Damage");
+
         for (int i = 0; i < swormAmount; i++)
         {
             Vector3 spawnPosition = GetSpawnPosition();
@@ -90,11 +96,11 @@ public sealed class BugAttack : ScriptableAttack
             if (Probability.IsSuccessful(_randomTargetChance))
             {
                 AttackTarget randomTarget = TargetUtility.GetRandomTarget<dealDamage>(Position, _targetRadius, Controller.IgnoredLayers);
-                sworm = BugSworm.SpawnSworm(_swormPrefab, spawnPosition, randomTarget);
+                sworm = BugSworm.SpawnSworm(_swormPrefab, damage, spawnPosition, randomTarget);
             }
             else
             {
-                sworm = BugSworm.SpawnSworm(_swormPrefab, spawnPosition, Target);
+                sworm = BugSworm.SpawnSworm(_swormPrefab, damage, spawnPosition, Target);
             }
             Controller.SpawnProjectile(sworm.gameObject);
         }
