@@ -234,6 +234,33 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUpgradeOne"",
+                    ""type"": ""Button"",
+                    ""id"": ""fd5159e6-05f0-4944-948a-66e44b89eaa3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUpgradeTwo"",
+                    ""type"": ""Button"",
+                    ""id"": ""379bb428-bf4c-4a1a-a4e9-b9c1e442d36e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUpgradeThree"",
+                    ""type"": ""Button"",
+                    ""id"": ""553f830f-8b61-4608-a96a-ec2bdf1068c4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -696,6 +723,39 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SwapMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af142286-415b-47fa-8747-45c1943a0caa"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUpgradeOne"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f053770c-ee9c-42eb-b44d-27e97c044380"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUpgradeTwo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""230e2a0f-bb44-46a3-800f-662c841b6496"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUpgradeThree"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1299,6 +1359,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Unstick = m_Player.FindAction("Unstick", throwIfNotFound: true);
         m_Player_SwapMovement = m_Player.FindAction("SwapMovement", throwIfNotFound: true);
+        m_Player_SelectUpgradeOne = m_Player.FindAction("SelectUpgradeOne", throwIfNotFound: true);
+        m_Player_SelectUpgradeTwo = m_Player.FindAction("SelectUpgradeTwo", throwIfNotFound: true);
+        m_Player_SelectUpgradeThree = m_Player.FindAction("SelectUpgradeThree", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1408,6 +1471,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Unstick;
     private readonly InputAction m_Player_SwapMovement;
+    private readonly InputAction m_Player_SelectUpgradeOne;
+    private readonly InputAction m_Player_SelectUpgradeTwo;
+    private readonly InputAction m_Player_SelectUpgradeThree;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1484,6 +1550,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @SwapMovement => m_Wrapper.m_Player_SwapMovement;
         /// <summary>
+        /// Provides access to the underlying input action "Player/SelectUpgradeOne".
+        /// </summary>
+        public InputAction @SelectUpgradeOne => m_Wrapper.m_Player_SelectUpgradeOne;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectUpgradeTwo".
+        /// </summary>
+        public InputAction @SelectUpgradeTwo => m_Wrapper.m_Player_SelectUpgradeTwo;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectUpgradeThree".
+        /// </summary>
+        public InputAction @SelectUpgradeThree => m_Wrapper.m_Player_SelectUpgradeThree;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1557,6 +1635,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SwapMovement.started += instance.OnSwapMovement;
             @SwapMovement.performed += instance.OnSwapMovement;
             @SwapMovement.canceled += instance.OnSwapMovement;
+            @SelectUpgradeOne.started += instance.OnSelectUpgradeOne;
+            @SelectUpgradeOne.performed += instance.OnSelectUpgradeOne;
+            @SelectUpgradeOne.canceled += instance.OnSelectUpgradeOne;
+            @SelectUpgradeTwo.started += instance.OnSelectUpgradeTwo;
+            @SelectUpgradeTwo.performed += instance.OnSelectUpgradeTwo;
+            @SelectUpgradeTwo.canceled += instance.OnSelectUpgradeTwo;
+            @SelectUpgradeThree.started += instance.OnSelectUpgradeThree;
+            @SelectUpgradeThree.performed += instance.OnSelectUpgradeThree;
+            @SelectUpgradeThree.canceled += instance.OnSelectUpgradeThree;
         }
 
         /// <summary>
@@ -1616,6 +1703,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SwapMovement.started -= instance.OnSwapMovement;
             @SwapMovement.performed -= instance.OnSwapMovement;
             @SwapMovement.canceled -= instance.OnSwapMovement;
+            @SelectUpgradeOne.started -= instance.OnSelectUpgradeOne;
+            @SelectUpgradeOne.performed -= instance.OnSelectUpgradeOne;
+            @SelectUpgradeOne.canceled -= instance.OnSelectUpgradeOne;
+            @SelectUpgradeTwo.started -= instance.OnSelectUpgradeTwo;
+            @SelectUpgradeTwo.performed -= instance.OnSelectUpgradeTwo;
+            @SelectUpgradeTwo.canceled -= instance.OnSelectUpgradeTwo;
+            @SelectUpgradeThree.started -= instance.OnSelectUpgradeThree;
+            @SelectUpgradeThree.performed -= instance.OnSelectUpgradeThree;
+            @SelectUpgradeThree.canceled -= instance.OnSelectUpgradeThree;
         }
 
         /// <summary>
@@ -2028,6 +2124,27 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwapMovement(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectUpgradeOne" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectUpgradeOne(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectUpgradeTwo" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectUpgradeTwo(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectUpgradeThree" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectUpgradeThree(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

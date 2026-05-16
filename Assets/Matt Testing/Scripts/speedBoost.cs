@@ -63,7 +63,7 @@ public class speedBoost : NetworkBehaviour
 
             windParticles.Stop();
 
-            DecreaseTrailServerRpc();
+            DecreaseTrailClientRpc();
 
         }
     }
@@ -139,7 +139,7 @@ public class speedBoost : NetworkBehaviour
     [ServerRpc]
     private void DecreaseTrailServerRpc(ServerRpcParams rpcParams = default)
     {
-        DecreaseTrailClientRpc();
+
     }
 
     [ClientRpc]

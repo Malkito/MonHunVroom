@@ -80398,6 +80398,7 @@ GameObject:
   - component: {fileID: 947433051933980619}
   - component: {fileID: 5621866573112001209}
   - component: {fileID: 101046386858594832}
+  - component: {fileID: 813649777153493869}
   m_Layer: 0
   m_Name: Fantasytank
   m_TagString: Player
@@ -81034,6 +81035,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72198746a5f0d0a469d099ddc83f2822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &813649777153493869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386b761bb48491f418ba358dd3e645dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  BaseDamageBonus: 0
+  BaseSpeedBonus: 0
+  BaseHealthBonus: 0
+  BaseFireRateReduction: 1
+  BaseCooldownReduction: 1
+  BasePowerUpBoost: 0
+  BaseSpecialBoost: 0
+  currentDamage: 0
+  currentSpeed: 0
+  currentHealth: 0
+  currentFireRateReduction: 0
+  currentCooldownReduction: 0
+  currentPowerUpBoost: 0
+  currentSpecialBoost: 0
 --- !u!1 &8105446854303656973
 GameObject:
   m_ObjectHideFlags: 0

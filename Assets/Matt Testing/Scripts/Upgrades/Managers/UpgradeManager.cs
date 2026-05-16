@@ -2,74 +2,174 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
-public class UpgradeManager : MonoBehaviour
+public class UpgradeManager : NetworkBehaviour
 {
-
-    /// Handles rollign random upgrades, displaying upgrades to UI, adds chosen upgrades to spawn pool
-    /// idk how this will work with multiplayer though :)
-
     [Header("Displayer Arrays")]
-    [SerializeField] private Image[] IconSprites; // Icons for each upgrade
-    [SerializeField] private TMP_Text[] upgradeNames; // Names for each availbe upgrades
+    [SerializeField] private Image[] IconSprites;
+    [SerializeField] private TMP_Text[] upgradeNames;
 
-
-    [Header("Public varibles")]
-    public UpgradeScriptableOBJ[] spawnPool; // upgrades to be spawned on the map, can be added to by all players
-    public UpgradeScriptableOBJ[] entireUpgradePool; // the enitre pool of upgrades 
+    [Header("Upgrade Pools")]
+    public UpgradeScriptableOBJ[] entireUpgradePool;
 
     [Header("Other")]
-    [SerializeField] private UpgradeScriptableOBJ[] availbleUpgrades; // upgrades available to the player for them to pick one from
-    [SerializeField] private GameObject upgradeChoiceUI; // the upgrade UI. Has 3 icons, names and buttons, one for each availble upgrade
-    [SerializeField] int amountOfUpgradesToBeAvailble;// Number of upgrades to be availble. Set in editor, set to 3
+    [SerializeField] private UpgradeScriptableOBJ[] availableUpgrades;
+    [SerializeField] private GameObject upgradeChoiceUI;
+    [SerializeField] private int amountOfUpgradesToBeAvailable = 3;
 
-    private List<UpgradeScriptableOBJ> objectsToSpawn = new List<UpgradeScriptableOBJ>(); //private list used to edit the array of spawn points
+    [SerializeField] private GameObject[] spawnpoints;
+    [SerializeField] private GameObject[] spawnedUpgrades;
 
+    private bool upgradeSelected;
+    private int[] availableUpgradeIndexes = new int[3];
 
+    private List<GameObject> spawnedUpgradeObjects = new List<GameObject>();
 
-    public void rollRandomUpgrade() // Main logic, rolls the upgreades and displays them to the player
+    public static UpgradeManager Instance { get; private set; }
+
+    // Shared upgrade pool (stores indexes of upgrades)
+    [SerializeField] private NetworkList<int> sharedSpawnPool = new NetworkList<int>();
+
+    public override void OnNetworkSpawn()
     {
-        upgradeChoiceUI.SetActive(true); // turns on the UI
-        availbleUpgrades = new UpgradeScriptableOBJ[amountOfUpgradesToBeAvailble]; // sets the length of the availble upgrages 
-
-        for (int i = 0; i < amountOfUpgradesToBeAvailble; i++)
+        if (Instance != null && Instance != this)
         {
-            int randomUpgrade = Random.Range(0, entireUpgradePool.Length); // chooses a random upgrade from the list
+            Destroy(gameObject);
+            return;
+        }
 
-            availbleUpgrades[i] = entireUpgradePool[randomUpgrade]; // sets the current avaible upgrade to the randomly chosen upgrade
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
 
-            IconSprites[i].sprite = availbleUpgrades[i].IconImage; //displays the upgrade image to the appropriate upgrade
-            upgradeNames[i].text = availbleUpgrades[i].name; //displays the upgrade name to the appropriate upgrade
+        availableUpgradeIndexes = new int[amountOfUpgradesToBeAvailable];
+
+
+        if (IsOwner)
+        {
+            rollRandomUpgrade();
+        }
+
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.activeSceneChanged += OnActiveSceneChanged;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+    }
+
+    private void OnActiveSceneChanged(Scene previousScene, Scene newScene)
+    {
+        rollRandomUpgrade();
+        spawnpoints = GameObject.FindGameObjectsWithTag("PowerSpawnPoints");
+    }
+
+    public void rollRandomUpgrade()
+    {
+        upgradeSelected = false;
+        upgradeChoiceUI.SetActive(true);
+
+        availableUpgrades = new UpgradeScriptableOBJ[amountOfUpgradesToBeAvailable];
+
+        for (int i = 0; i < amountOfUpgradesToBeAvailable; i++)
+        {
+            int randomUpgrade = Random.Range(0, entireUpgradePool.Length);
+
+            availableUpgrades[i] = entireUpgradePool[randomUpgrade];
+            availableUpgradeIndexes[i] = randomUpgrade;
+
+            IconSprites[i].sprite = availableUpgrades[i].IconImage;
+            upgradeNames[i].text = availableUpgrades[i].name;
         }
     }
 
-    public void FirstUpgrade() // runs when first upgrade button is clicked
+    private void Update()
     {
-        addObjectToSpawnPool(availbleUpgrades[0]); // adds first upgrade to spawn pool
-    }
-    public void SecondUpgrade() // runs when second upgrade button is clicked
-    {
-        addObjectToSpawnPool(availbleUpgrades[1]); // adds second upgrade to spawn pool
-    }
+        //if (!IsOwner) return;
 
-    public void ThirdUpgrade()// runs when third upgrade button is clicked
-    {
-        addObjectToSpawnPool(availbleUpgrades[2]);// adds third upgrade to spawn pool
-    }
+        if (GameInput.instance.getSelectUpgradeOneInput() && !upgradeSelected)
+        {
+            SelectUpgrade(availableUpgradeIndexes[0]);
+        }
 
-    private void addObjectToSpawnPool(UpgradeScriptableOBJ obj) // add Scriptabel OBJ to the spawn pool
-    {
-        objectsToSpawn.Add(obj); // adds the object to the internal list
-        spawnPool = (changeListIntoArray(objectsToSpawn)); // restruns the list in array form
-        upgradeChoiceUI.SetActive(false); // turns off UI
-    }
+        if (GameInput.instance.getSelectUpgradeTwoInput() && !upgradeSelected)
+        {
+            SelectUpgrade(availableUpgradeIndexes[1]);
+        }
 
-    private UpgradeScriptableOBJ[] changeListIntoArray(List<UpgradeScriptableOBJ> objList) // returns given list as an array
-    {
-        return objList.ToArray();
+        if (GameInput.instance.getSelectUpgradeThreeInput() && !upgradeSelected)
+        {
+            SelectUpgrade(availableUpgradeIndexes[2]);
+        }
     }
 
+    private void SelectUpgrade(int upgradeIndex)
+    {
+        AddUpgradeToPoolServerRpc(upgradeIndex);
 
+        upgradeChoiceUI.SetActive(false);
+        upgradeSelected = true;
+    }
 
+    // Client asks server to add upgrade
+    [ServerRpc(RequireOwnership = false)]
+    private void AddUpgradeToPoolServerRpc(int upgradeIndex, ServerRpcParams rpcParams = default)
+    {
+        sharedSpawnPool.Add(upgradeIndex);
 
+        Debug.Log($"Player added upgrade index {upgradeIndex} to shared pool.");
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnUpgradesServerRpc()
+    {
+        if (!IsServer) return;
+
+        foreach (int upgradeIndex in sharedSpawnPool)
+        {
+            UpgradeScriptableOBJ upgradeData = entireUpgradePool[upgradeIndex];
+
+            GameObject newUpgrade = Instantiate(
+                upgradeData.pickupObject,
+                Vector3.zero,
+                Quaternion.identity
+            );
+
+            NetworkObject netObj = newUpgrade.GetComponent<NetworkObject>();
+
+            if (netObj != null)
+            {
+                netObj.Spawn();
+            }
+
+            spawnedUpgradeObjects.Add(newUpgrade);
+        }
+
+        spawnedUpgrades = spawnedUpgradeObjects.ToArray();
+
+        ShuffleUpgradeArray();
+
+        for (int i = 0; i < spawnedUpgrades.Length && i < spawnpoints.Length; i++)
+        {
+            spawnedUpgrades[i].transform.position =
+                spawnpoints[i].transform.position;
+        }
+    }
+
+    private void ShuffleUpgradeArray()
+    {
+        for (int i = 0; i < spawnedUpgrades.Length; i++)
+        {
+            int randomIndex = Random.Range(i, spawnedUpgrades.Length);
+
+            GameObject temp = spawnedUpgrades[i];
+            spawnedUpgrades[i] = spawnedUpgrades[randomIndex];
+            spawnedUpgrades[randomIndex] = temp;
+        }
+    }
 }
