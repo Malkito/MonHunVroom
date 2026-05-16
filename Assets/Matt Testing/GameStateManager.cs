@@ -24,6 +24,7 @@ public class GameStateManager : NetworkBehaviour
     [SerializeField] TMP_Text gameStateText;
     [SerializeField] private monsterDeathLootDrop monDeathLoot;
 
+    public static int LevelsCompleted { get; private set; } = -1;
 
     public static GameStateManager Instance
     {
@@ -37,11 +38,12 @@ public class GameStateManager : NetworkBehaviour
         }
     }
 
-
     private void Awake()
     {
         instance = this;
 
+        LevelsCompleted += 1;
+        Debug.Log("Levels Completed: " +  LevelsCompleted);
     }
 
     private void Start()

@@ -6,9 +6,12 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class MonsterMovementController : NetworkBehaviour, IStatHandler
+public class MonsterMovementController : NetworkBehaviour
 {
     public const string WALK_ANIMATION_VARIABLE = "walk";
+
+    [SerializeField]
+    private StatHolder _statHolder;
 
     [SerializeField]
     [Header("Wandering Properties")]
@@ -54,6 +57,9 @@ public class MonsterMovementController : NetworkBehaviour, IStatHandler
         _monsterAgent = GetComponent<NavMeshAgent>();
         _monsterStartHeight = _monsterTransform.localPosition.y;
         _monsterAgent.Warp(transform.position);
+
+        _monsterAgent.speed = _statHolder.GetFloat("Speed");
+        _monsterAgent.angularSpeed = _statHolder.GetFloat("Turning-Speed");
     }
 
     public void UpdateWalkAnimation(bool isWalking)
@@ -158,15 +164,4 @@ public class MonsterMovementController : NetworkBehaviour, IStatHandler
         return _health;
     }
 
-    public void OnStatUpdate(StatContext context)
-    {
-        if (context.IsStat("Monster-Speed"))
-        {
-            _monsterAgent.speed = context.GetValue();
-        }
-        else if (context.IsStat("Monster-Turning-Speed"))
-        {
-            _monsterAgent.angularSpeed = context.GetValue();
-        }
-    }
 }

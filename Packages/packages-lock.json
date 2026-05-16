@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.nathanielh2013.lordbreakerxsstatmanager": {
-      "version": "https://github.com/LordBreakerX/StatsManager.git?path=/Packages/com.nathanielh2013.lordbreakerxsstatmanager",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "cbe71deb9d25e7ecb223e976637ccd5b678d1a7a"
-    },
     "com.dgreenheck.openfracture": {
       "version": "https://github.com/dgreenheck/OpenFracture.git",
       "depth": 0,
@@ -16,6 +9,22 @@
         "com.unity.testtools.codecoverage": "1.0.1"
       },
       "hash": "6d0ddff64173193f024638c2de2dbeb8a2525965"
+    },
+    "com.lordbreakerx.editorutilities": {
+      "version": "https://github.com/LordBreakerX/UnityEditorUtilities.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "080960c61b1b3ede99be84c0b6d0b0118bd6bfbe"
+    },
+    "com.nathanielh2013.lordbreakerxsstatmanager": {
+      "version": "https://github.com/LordBreakerX/StatsManager.git?path=/Packages/com.nathanielh2013.lordbreakerxsstatmanager",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.lordbreakerx.editorutilities": "0.1.0"
+      },
+      "hash": "faaa6639cc71511b2c7589c9cd1faf25e6644cf5"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",

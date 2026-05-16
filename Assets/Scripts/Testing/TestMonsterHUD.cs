@@ -1,4 +1,5 @@
 using LordBreakerX.Health;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,9 @@ public class TestMonsterHUD : NetworkBehaviour
 {
     [SerializeField]
     private Image _fillImage;
+
+    [SerializeField]
+    private TMP_Text _healthText;
 
     private Transform _localPlayer;
 
@@ -35,6 +39,7 @@ public class TestMonsterHUD : NetworkBehaviour
     public void OnHealthChanged(HealthInfo info)
     {
         _fillImage.fillAmount = info.CurrentHealth / info.Maxhealth;
+        _healthText.text = $"{info.CurrentHealth} / {info.Maxhealth} HP";
 
         if (info.CurrentHealth > 0) ShowHud();
         else HideHud();

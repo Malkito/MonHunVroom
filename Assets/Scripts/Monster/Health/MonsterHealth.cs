@@ -13,8 +13,11 @@ namespace LordBreakerX.Health
     /// Invokes events when the health changes or when the object dies.
     /// </summary>
     /// 
-    public class MonsterHealth : NetworkBehaviour, dealDamage, IStatHandler
+    public class MonsterHealth : NetworkBehaviour, dealDamage
     {
+        [SerializeField]
+        private StatHolder _statHolder;
+
         [SerializeField]
         [Header("Events")]
         [Tooltip("Invoked whenever the health changes.")]
@@ -51,6 +54,10 @@ namespace LordBreakerX.Health
 
             if (IsServer)
             {
+                MaxHealth = _statHolder.GetFloat("Health");
+
+                Debug.Log($"{MaxHealth} Health");
+
                 _currentHealth.Value = MaxHealth;
                 HealthInfo healthInfo = new HealthInfo(MaxHealth, _currentHealth.Value, 0, 0, null);
                 _onHealthChangedServerSide.Invoke(healthInfo);
@@ -158,15 +165,6 @@ namespace LordBreakerX.Health
         public void decreaseFireNumber()
         {
             numOfFireOnMonster -= 10;
-        }
-
-        public void OnStatUpdate(StatContext context)
-        {
-            if (context.IsStat("Monster-Health") &&  IsServer)
-            {
-                MaxHealth = context.stat.GetValue();
-                _currentHealth.Value = MaxHealth;
-            }
         }
     }
 }

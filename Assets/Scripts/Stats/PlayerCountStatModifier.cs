@@ -30,7 +30,7 @@ public class PlayerCountStatModifier : StatModifier
     }
 }
 
-[CustomStatModifier("Player Count Modifier", StatType.Float)]
+[CustomStatModifier("Player Count Modifier", StatType.Int)]
 public class IntPlayerCountStatModifier : StatModifier
 {
     [SerializeField]
