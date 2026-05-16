@@ -45,18 +45,19 @@ public class NewTankMovement : NetworkBehaviour
     [SerializeField] private bool useLinerDampingMod;
 
 
-
-
     [Header("References")]
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Image jumpIcon;
     private Vector3 desiredMoveDirection;
 
-    private void Awake()
+    playerStats PlayerStas;
+
+
+    public override void OnNetworkSpawn()
     {
         rb = GetComponent<Rigidbody>();
         rb.interpolation = RigidbodyInterpolation.Interpolate;
-
+        PlayerStas = GetComponent<playerStats>();
         canMove = true;
     }
 
@@ -79,9 +80,6 @@ public class NewTankMovement : NetworkBehaviour
 
             bool jumpInput = GameInput.instance.getJumpInput();
             jump(jumpInput);
-
-
-            Debug.Log("Input Vector: " + inputVector + " velocity: " + rb.GetPointVelocity(transform.position));
         }
 
     }
@@ -163,10 +161,10 @@ public class NewTankMovement : NetworkBehaviour
 
         float alignment = Mathf.Clamp01(Vector3.Dot(transform.forward, desiredDirection));
 
-        float scaledAcceleration = accelerationForce * alignment;
+        float scaledAcceleration = (accelerationForce + PlayerStas.currentSpeed) * alignment;
 
         // Only limit speed along the movement direction
-        if (speedInDesiredDirection < maxSpeed)
+        if (speedInDesiredDirection < maxSpeed + PlayerStas.currentSpeed)
         {
 
             rb.AddForce(desiredDirection * scaledAcceleration, ForceMode.Acceleration);

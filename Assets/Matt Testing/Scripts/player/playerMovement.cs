@@ -48,6 +48,8 @@ public class playerMovement : NetworkBehaviour
     [SerializeField] private Vector3 rotationOffset;
 
 
+    private playerStats playerStats;
+
     private void Start()
     {
         canMove = true;
@@ -60,6 +62,7 @@ public class playerMovement : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         rb = GetComponent<Rigidbody>();
+        playerStats = GetComponent<playerStats>();
         if (IsOwner)
         {
             cam.Priority = 5;

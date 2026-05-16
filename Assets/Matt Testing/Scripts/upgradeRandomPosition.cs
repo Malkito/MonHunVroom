@@ -8,9 +8,12 @@ public class upgradeRandomPosition : NetworkBehaviour
     [SerializeField] private GameObject[] upgrades;
 
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        spawnUpgradesServerRpc();
+        if (IsServer)
+        {
+            spawnUpgradesServerRpc();
+        }
     }
     public void shuffleUpgradeArray()
     {

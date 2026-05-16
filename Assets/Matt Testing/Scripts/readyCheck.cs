@@ -39,6 +39,7 @@ public class readyCheck : NetworkBehaviour
     }
     private void Update()
     {
+        if (!IsSpawned) return;
 
         if (GameInput.instance.getJumpInput() && !ready)
         {
@@ -54,6 +55,8 @@ public class readyCheck : NetworkBehaviour
     }
     private void readyPressed()
     {
+        if (!IsSpawned) return;
+
         readyButton.interactable = false;
         readyPressedServerRpc();
     }
@@ -92,8 +95,7 @@ public class readyCheck : NetworkBehaviour
 
         setGameStateClientRpc();
 
-        FindAnyObjectByType<UpgradeManager>().spawnUpgradesServerRpc();
-
+        FindAnyObjectByType<UpgradeManager>().SpawnUpgradesServerRpc();
 
     }
     [ClientRpc]

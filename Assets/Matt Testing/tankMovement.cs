@@ -36,9 +36,11 @@ public class tankMovement : NetworkBehaviour
     [SerializeField] private Image jumpIcon;
     private float jumpTimer;
 
-    void Start()
+    private playerStats PlayerStats;
+    public override void OnNetworkSpawn()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        PlayerStats = GetComponent<playerStats>();
         canMove = true;
     }
 
@@ -75,7 +77,7 @@ public class tankMovement : NetworkBehaviour
  
     private void forwardAndBackMovemnet(float inputVector)
     {
-        rb.AddForce(gameObject.transform.forward * moveSpeed * inputVector, ForceMode.Acceleration);
+        rb.AddForce(gameObject.transform.forward * (moveSpeed + PlayerStats.currentSpeed) * inputVector, ForceMode.Acceleration);
 
         if(inputVector == 0 && isGrounded)
         {
