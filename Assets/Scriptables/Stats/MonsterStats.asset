@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3584151716817581158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c298e877783684989ca83edab40830, type: 3}
-  m_Name: Hard
-  m_EditorClassIdentifier: 
-  _stats: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &-2345339645381367048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,7 +17,6 @@ MonoBehaviour:
     _type: 1
     _baseValue: 250
     _modifiers:
-    - rid: 8477348268728123612
     - rid: 8477348268728123610
     - rid: 8477348268728123611
   - _id: Move-Speed
@@ -99,12 +82,6 @@ MonoBehaviour:
       type: {class: RoundModifier, ns: , asm: Assembly-CSharp}
       data:
         _maxDecimals: 0
-    - rid: 8477348268728123612
-      type: {class: PlayerCountStatModifier, ns: , asm: Assembly-CSharp}
-      data:
-        _maxPlayers: 4
-        _minOffset: 0
-        _maxOffset: 200
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,4 +96,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _profiles:
   - {fileID: -2345339645381367048}
-  - {fileID: -3584151716817581158}
