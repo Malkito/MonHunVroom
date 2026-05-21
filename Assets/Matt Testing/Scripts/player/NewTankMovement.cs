@@ -161,13 +161,13 @@ public class NewTankMovement : NetworkBehaviour
 
         float alignment = Mathf.Clamp01(Vector3.Dot(transform.forward, desiredDirection));
 
-        float scaledAcceleration = (accelerationForce + PlayerStas.currentSpeed) * alignment;
+        float scaledAcceleration = accelerationForce * alignment;
 
         // Only limit speed along the movement direction
-        if (speedInDesiredDirection < maxSpeed + PlayerStas.currentSpeed)
+        if (speedInDesiredDirection < maxSpeed + PlayerStas.currentSpeed.Value)
         {
 
-            rb.AddForce(desiredDirection * scaledAcceleration, ForceMode.Acceleration);
+            rb.AddForce(desiredDirection * scaledAcceleration * PlayerStas.currentSpeed.Value, ForceMode.Acceleration);
         }
     }
 

@@ -3,57 +3,76 @@ using Unity.Netcode;
 
 public class monsterDeathLootDrop : NetworkBehaviour
 {
-    [SerializeField] private GameObject objectToBeSpawned;
-    private int timesToSpawnObj;
-    [SerializeField] private int spawnRadiusSphere;
-    [SerializeField] float minLaunchSpeed; // the min and max launch speeds the fire bullets are sent out 
-    [SerializeField] float maxLaunchSpeed;
+    [SerializeField] private GameObject[] objectToBeSpawned;
+
+    [SerializeField] private int spawnRadiusSphere = 5;
+
+    [SerializeField] private float minLaunchSpeed;
+    [SerializeField] private float maxLaunchSpeed;
+
+    [SerializeField] private int ObjectsSpawnMultiplicationPerPlayer = 1;
+
+    [SerializeField] private Transform MonsterDeathLocation;
+
     private bool objectsSpawned;
 
-
-
-
-   // [ClientRpc]
-
+    private void Update()
+    {
+        if (MonsterDeathLocation != null)
+        {
+            transform.position = MonsterDeathLocation.position;
+        }
+    }
 
     public void spawnobjects()
     {
+        // ONLY SERVER SPAWNS OBJECTS
+        if (!IsServer) return;
+
         if (objectsSpawned) return;
-        timesToSpawnObj = NetworkManager.Singleton.ConnectedClients.Count;
-        for(int i = 0; i < timesToSpawnObj; i++)
-        {
-            launchObjectsServerRpc();
-        }
 
         objectsSpawned = true;
+
+        int timesToSpawnObj =NetworkManager.Singleton.ConnectedClients.Count *ObjectsSpawnMultiplicationPerPlayer;
+
+        for (int i = 0; i < timesToSpawnObj; i++)
+        {
+            SpawnLoot();
+        }
+
+        Destroy(gameObject, 1f);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void launchObjectsServerRpc()
+    private void SpawnLoot()
     {
         Vector3 spawnPosition = transform.position + Random.onUnitSphere * spawnRadiusSphere;
-        GameObject spawnedProjectile = Instantiate(objectToBeSpawned, spawnPosition, Quaternion.identity);
 
-        NetworkObject netobj = spawnedProjectile.GetComponent<NetworkObject>();
-        netobj.Spawn();
+        int objectArrayPos =Random.Range(0, objectToBeSpawned.Length);
 
-        Rigidbody rb = spawnedProjectile.GetComponent<Rigidbody>();
+        GameObject spawnedObject =Instantiate(objectToBeSpawned[objectArrayPos],spawnPosition,Quaternion.identity);
 
-        if(rb != null)
+        NetworkObject netObj = spawnedObject.GetComponent<NetworkObject>();
+
+        if (netObj != null)
         {
-            Vector3 launchDirection = (spawnPosition - transform.position).normalized;
-            float launchforce = Random.Range(minLaunchSpeed, maxLaunchSpeed);
-            rb.AddForce(launchDirection * launchforce, ForceMode.Impulse);
+            netObj.Spawn();
+        }
+
+        Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            Vector3 launchDirection =(spawnPosition - transform.position).normalized;
+
+            float launchForce =Random.Range(minLaunchSpeed, maxLaunchSpeed);
+
+            rb.AddForce( launchDirection * launchForce,ForceMode.Impulse);
         }
     }
-
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, spawnRadiusSphere);
     }
-
-
-
 }

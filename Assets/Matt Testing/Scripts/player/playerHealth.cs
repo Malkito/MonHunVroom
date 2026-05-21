@@ -5,7 +5,7 @@ using Unity.Netcode;
 public class playerHealth : NetworkBehaviour, dealDamage
 {
     [Header("Health")]
-    [SerializeField] public float maxHealth = 100f;
+    [SerializeField] public float baseMaxHealth = 100f;
 
     public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
 
@@ -22,11 +22,15 @@ public class playerHealth : NetworkBehaviour, dealDamage
 
     public bool canTakeDamage;
 
+    playerStats PlayerStats;
+
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
-            currentHealth.Value = maxHealth;
+            PlayerStats = GetComponent<playerStats>();
+
+            currentHealth.Value = baseMaxHealth;
             canTakeDamage = true;
         }
     }
@@ -119,4 +123,12 @@ public class playerHealth : NetworkBehaviour, dealDamage
         yield return new WaitForSeconds(flashTIme);
         mat.color = originalcolor;
     }
+
+    public void applyHealthChanged()
+    {
+        baseMaxHealth *= PlayerStats.currentHealth.Value;
+
+    }
+
+
 }

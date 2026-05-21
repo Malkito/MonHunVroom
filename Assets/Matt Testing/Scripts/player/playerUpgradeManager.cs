@@ -40,6 +40,13 @@ public class playerUpgradeManager : NetworkBehaviour
 
     public bool canUseUpgrade;
 
+    playerStats PlayerStats;
+
+    public override void OnNetworkSpawn()
+    {
+        PlayerStats = GetComponent<playerStats>();
+    }
+
     private void Awake()
     {
         for (int i = 0; i < equipped.Length; i++)
@@ -223,7 +230,7 @@ public class playerUpgradeManager : NetworkBehaviour
             equipped[slot].logicScript.useAbility(transform, true);
 
             var def = UpgradeDatabase.Instance.Get(equipped[slot].upgradeID);
-            cooldown = def.cooldown;
+            cooldown = def.cooldown / PlayerStats.currentCooldownReduction.Value;
         }
         else
         {

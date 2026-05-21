@@ -11,6 +11,12 @@ public class statUpgrade : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+
         if (hasBeenCollected) return;
 
         playerStats player = other.GetComponent<playerStats>();

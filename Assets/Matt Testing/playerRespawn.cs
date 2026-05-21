@@ -64,6 +64,7 @@ public class playerRespawn : MonoBehaviour
 
     public void respawn()
     {
+        StopAllCoroutines();
         StartCoroutine(startRespawn());
     }
 
@@ -115,7 +116,7 @@ public class playerRespawn : MonoBehaviour
         health.canTakeDamage = setBool;
         TankCam.canMove = setBool;
 
-        health.currentHealth.Value = health.maxHealth;
+        health.currentHealth.Value = health.baseMaxHealth;
     }
 
 

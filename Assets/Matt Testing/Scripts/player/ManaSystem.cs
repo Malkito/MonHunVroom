@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Unity.Netcode;
 
-public class ManaSystem : MonoBehaviour
+
+public class ManaSystem : NetworkBehaviour
 {
     [Header("Mana Varible")]
     [SerializeField] private float maxMana;
@@ -18,13 +20,15 @@ public class ManaSystem : MonoBehaviour
 
     private float currentMana;
     private bool canRegen;
-    private float regenDelayTime;
 
+    playerStats PlayerStats;
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
+        PlayerStats = GetComponent<playerStats>();
         PS = GetComponent<playerShooting>();
     }
+
     void Start()
     {
         ManaSLider.maxValue = maxMana;
@@ -36,7 +40,7 @@ public class ManaSystem : MonoBehaviour
         
         if(canRegen && currentMana < maxMana)
         {
-            currentMana += ManaRegenAmount;
+            currentMana += ManaRegenAmount + (PlayerStats.currentSpecialBoost.Value / 100);
         }
     }
 
