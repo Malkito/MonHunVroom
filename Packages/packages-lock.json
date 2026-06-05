@@ -15,7 +15,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "080960c61b1b3ede99be84c0b6d0b0118bd6bfbe"
+      "hash": "15c6ef9adcd95c3c26fd1058dff6f3597a77f1dc"
     },
     "com.nathanielh2013.lordbreakerxsstatmanager": {
       "version": "https://github.com/LordBreakerX/StatsManager.git?path=/Packages/com.nathanielh2013.lordbreakerxsstatmanager",
@@ -24,7 +24,7 @@
       "dependencies": {
         "com.lordbreakerx.editorutilities": "0.1.0"
       },
-      "hash": "faaa6639cc71511b2c7589c9cd1faf25e6644cf5"
+      "hash": "a7a9c2698ad2989b432482b1b1e04d8ae03fb90c"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
