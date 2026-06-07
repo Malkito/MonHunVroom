@@ -13,13 +13,15 @@ namespace LordBreakerX.AttackSystem
         public bool IsTargettingObject { get => _targetTransform != null; }
 
         public GameObject Object 
-        { 
+        {  
             get 
             { 
                 if (IsTargettingObject) return _targetTransform.gameObject;
                 else return null;
             } 
         }
+
+        public Transform TargetTransform { get { return _targetTransform; } }
 
         public AttackTarget(Transform targetTransform, Vector3 fallbackPosition)
         {

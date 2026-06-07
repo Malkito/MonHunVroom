@@ -3,8 +3,6 @@ using LordBreakerX.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-//using UnityEditor.PackageManager;
-//using UnityEditorInternal;
 using UnityEngine;
 
 namespace LordBreakerX.AttackSystem
@@ -12,6 +10,10 @@ namespace LordBreakerX.AttackSystem
     public class AttackController : NetworkBehaviour
     {
         #region Variables
+
+        [SerializeField]
+        [Min(1)]
+        private float _respawnAttackCooldown = 15;
 
         [SerializeField]
         private float _randomAttackRadius;
@@ -24,7 +26,9 @@ namespace LordBreakerX.AttackSystem
 
         private ScriptableAttack _activeAttack;
 
-        private List<AttackablePlayer> _attackablePlayers = new List<AttackablePlayer>();
+        private List<Transform> _attackablePlayers = new List<Transform>();
+
+        private List<PlayerAttackCooldown> _playersInCooldown = new List<PlayerAttackCooldown>();
 
         private AttackTable _internalTable;
 
@@ -63,70 +67,29 @@ namespace LordBreakerX.AttackSystem
                     yield return null;
                 }
 
-                AttackablePlayer player = new AttackablePlayer(client.PlayerObject, client.ClientId);
-                _attackablePlayers.Add(player);
+                _attackablePlayers.Add(client.PlayerObject.transform);
             }
         }
-
-        //public override void OnNetworkSpawn()
-        //{
-        //    if (IsServer)
-        //    {
-        //        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        //        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
-        //    }
-        //}
-
-        //public override void OnNetworkDespawn()
-        //{
-        //    if (NetworkManager.Singleton != null && IsServer)
-        //    {
-        //        NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-        //        NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
-        //    }
-        //}
-
-        //private void OnClientConnected(ulong clientID)
-        //{
-        //    Debug.Log("ClientConnected");
-        //    StartCoroutine(WaitForPlayerObject(clientID));
-        //}
-
-        //private IEnumerator WaitForPlayerObject(ulong clientID)
-        //{
-        //    while (!NetworkManager.Singleton.ConnectedClients.ContainsKey(clientID) ||
-        //            NetworkManager.Singleton.ConnectedClients[clientID].PlayerObject == null) 
-        //    {
-        //        yield return null;
-        //    }
-
-        //    NetworkObject playerObject = NetworkManager.Singleton.ConnectedClients[clientID].PlayerObject;
-        //    AttackablePlayer player = new AttackablePlayer(playerObject, clientID);
-        //    _attackablePlayers.Add(player);
-        //}
-
-        //private void OnClientDisconnected(ulong clientID)
-        //{
-        //    AttackablePlayer attackablePlayer = AttackablePlayer.GetPlayerEntryWithID(clientID, _attackablePlayers);
-
-        //    if (attackablePlayer != null) 
-        //    {
-        //        _attackablePlayers.Remove(attackablePlayer);
-        //    }
-        //}
-
         #endregion
 
         #region Unity Callbacks
 
         private void Update()
         {
-            if (_activeAttack == null || !IsServer) return;
+            if (!IsServer) return;
 
-            if (_activeAttack.HasAttackFinished()) 
-                StopAttack();
-            else
-                _activeAttack.OnAttackUpdate();
+            if (_activeAttack != null)
+            {
+                if (_activeAttack.HasAttackFinished())
+                    StopAttack();
+                else
+                    _activeAttack.OnAttackUpdate();
+            }
+
+            if (_playersInCooldown.Count > 0)
+            {
+                _playersInCooldown.RemoveAll(CooldownFinishedPredicate);
+            }
         }
 
         private void FixedUpdate()
@@ -135,6 +98,16 @@ namespace LordBreakerX.AttackSystem
 
             if (!_activeAttack.HasAttackFinished()) 
                 _activeAttack.OnAttackFixedUpdate();
+        }
+
+        private void OnEnable()
+        {
+            playerRespawn.OnPlayerRespawn += OnPlayerRespawn;
+        }
+
+        private void OnDisable()
+        {
+            playerRespawn.OnPlayerRespawn -= OnPlayerRespawn;
         }
 
         #endregion
@@ -171,9 +144,9 @@ namespace LordBreakerX.AttackSystem
             if (_attackablePlayers.Count <= 0) return;
 
             int randomPlayerIndex = Random.Range(0, _attackablePlayers.Count);
-            AttackablePlayer player = _attackablePlayers[randomPlayerIndex];
+            Transform player = _attackablePlayers[randomPlayerIndex];
 
-            Target = new AttackTarget(player.PlayerTransform, transform.position);
+            Target = new AttackTarget(player, transform.position);
 
             StartRandomAttack();
         }
@@ -228,6 +201,50 @@ namespace LordBreakerX.AttackSystem
         }
         #endregion
 
+
+        #region Respawn Attack Inturuptions
+
+        public bool HasAttackablePlayer()
+        {
+            return _attackablePlayers != null && _attackablePlayers.Count > 0;
+        }
+
+        private void OnPlayerRespawn(NetworkObject respawnedPlayer)
+        {
+            if (!IsServer) return;
+
+            Transform playerTransform = respawnedPlayer.transform;
+            PlayerAttackCooldown cooldown = (PlayerAttackCooldown)playerTransform;
+
+            if (_attackablePlayers.Contains(playerTransform))
+                _attackablePlayers.Remove(playerTransform);
+
+            if (_playersInCooldown.Contains(cooldown))
+                _playersInCooldown.Remove(cooldown);
+
+            _playersInCooldown.Add(new PlayerAttackCooldown(playerTransform, _respawnAttackCooldown));
+
+            if (IsAttacking && Target.TargetTransform == playerTransform)
+            {
+                StopAttack();
+            }
+        }
+
+        private bool CooldownFinishedPredicate(PlayerAttackCooldown cooldown)
+        {
+            if (cooldown.UpdateCooldown())
+            {
+                if (!_attackablePlayers.Contains(cooldown.PlayerTransform))
+                {
+                    _attackablePlayers.Add(cooldown.PlayerTransform);
+                }
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }
 
