@@ -51201,14 +51201,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  turretHead: {fileID: 4217024685510504549}
+  turretHead: {fileID: 2316475716269200963}
   cam: {fileID: 1300287866398083215}
-  turretBarrel:
-  - {fileID: 8763945603014392548}
+  barrel: {fileID: 3480526613956514144}
   maxAngle: 25
   canMove: 0
   rotateSpeed: 45
   turretLookAt: {fileID: 3999413997270472255}
+  maxDistance: 0
+  turretRotateSpeed: 10
+  barrelRotateSpeed: 10
+  minBarrelAngle: -10
+  maxBarrelAngle: 35
 --- !u!114 &7547834820336501301
 MonoBehaviour:
   m_ObjectHideFlags: 0

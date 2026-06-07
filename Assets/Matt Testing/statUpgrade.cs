@@ -9,11 +9,12 @@ public class statUpgrade : NetworkBehaviour
 
     private bool hasBeenCollected = false;
 
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision collision)
     {
         if (hasBeenCollected) return;
 
-        playerStats player = other.GetComponent<playerStats>();
+        playerStats player = collision.gameObject.GetComponent<playerStats>();
 
         if (player == null) return;
 
@@ -22,7 +23,7 @@ public class statUpgrade : NetworkBehaviour
         // Only owner of the player sends request
         if (player.IsOwner)
         {
-            CollectPickupServerRpc(player.OwnerClientId);
+            CollectPickupServerRpc(clientId);
         }
     }
 
@@ -53,5 +54,15 @@ public class statUpgrade : NetworkBehaviour
         }
 
         GetComponent<NetworkObject>().Despawn();
+    }
+
+
+
+    private void Update()
+    {
+        if(transform.position.y < -10)
+        {
+            transform.position = new Vector3(transform.position.x, 10, transform.position.z);
+        }
     }
 }
