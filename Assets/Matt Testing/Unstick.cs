@@ -4,6 +4,8 @@ public class Unstick : MonoBehaviour
 {
     private playerRespawn Respawn;
 
+    private bool UnstickPress;  
+
     private void Awake()
     {
         Respawn = GetComponent<playerRespawn>();
@@ -12,8 +14,9 @@ public class Unstick : MonoBehaviour
 
     private void Update()
     {
-        if (GameInput.instance.getUnstickInput())
+        if (GameInput.instance.getUnstickInput() && !UnstickPress)
         {
+            UnstickPress = true;
             Respawn.respawn();
         }
     }

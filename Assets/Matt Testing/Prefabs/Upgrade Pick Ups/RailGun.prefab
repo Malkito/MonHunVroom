@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5100611302674858959}
   - component: {fileID: 2871448079512880918}
   - component: {fileID: 2019768820558170174}
+  - component: {fileID: 8180742134288136145}
   - component: {fileID: 7567412661496306937}
   - component: {fileID: 7217425919509958753}
-  - component: {fileID: 8180742134288136145}
   m_Layer: 0
   m_Name: RailGun
   m_TagString: Untagged
@@ -89,44 +89,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7567412661496306937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3753277320690589243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d15d1204be5ac94a8e6869cb40ce466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objToPickUp: {fileID: 11400000, guid: a1cee2643effc81479def850759e294c, type: 2}
-  canBePickedUp: 0
-  dropped: 0
-  playerThatPickedUpUpgrade: {fileID: 0}
-  objectArrayIndex: 9
---- !u!135 &7217425919509958753
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3753277320690589243}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.0999222
-  m_Center: {x: 0.0000000018626458, y: -5.551115e-17, z: 0}
 --- !u!114 &8180742134288136145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,3 +114,42 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &7567412661496306937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753277320690589243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d15d1204be5ac94a8e6869cb40ce466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  objToPickUp: {fileID: 0}
+  canBePickedUp: 0
+  dropped: 0
+  playerThatPickedUpUpgrade: {fileID: 0}
+  objectArrayIndex: 9
+--- !u!135 &7217425919509958753
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753277320690589243}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.0999222
+  m_Center: {x: 0.0000000018626458, y: -5.551115e-17, z: 0}

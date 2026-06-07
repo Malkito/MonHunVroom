@@ -32911,7 +32911,7 @@ Transform:
   m_GameObject: {fileID: 3033220203755284850}
   serializedVersion: 2
   m_LocalRotation: {x: -0.50000083, y: 0.49999928, z: -0.49999917, w: 0.5000007}
-  m_LocalPosition: {x: -0.15, y: 0.85, z: -0.24}
+  m_LocalPosition: {x: 0, y: 0.85, z: 0}
   m_LocalScale: {x: 181.32, y: 181.32, z: 181.32}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -54653,8 +54653,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4217024685510504549}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.01905346, y: 2.54, z: -0.4445305}
+  m_LocalRotation: {x: -0, y: 0.4602385, z: -0, w: -0.8877954}
+  m_LocalPosition: {x: 0, y: 2.54, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -54663,7 +54663,7 @@ Transform:
   - {fileID: 4490827621989867219}
   - {fileID: 3480526613956514144}
   m_Father: {fileID: 4405763145740446883}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 305.195, z: 0}
 --- !u!33 &1339792304112244527
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -80743,7 +80743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  maxHealth: 100
+  baseMaxHealth: 100
   currentHealth:
     m_InternalValue: 0
   flashTIme: 0.1
@@ -80834,14 +80834,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  turretHead: {fileID: 4217024685510504549}
+  turretHead: {fileID: 2316475716269200963}
   cam: {fileID: 1300287866398083215}
-  turretBarrel:
-  - {fileID: 8763945603014392548}
+  barrel: {fileID: 3480526613956514144}
   maxAngle: 25
   canMove: 0
   rotateSpeed: 45
   turretLookAt: {fileID: 3999413997270472255}
+  maxDistance: 0
+  turretRotateSpeed: 10
+  barrelRotateSpeed: 10
+  minBarrelAngle: -10
+  maxBarrelAngle: 35
 --- !u!114 &7547834820336501301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81018,6 +81022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecdb79e4e49e4124bbdda45a818e4227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   maxMana: 100
   manaUsedPerActivation: 15
   ManaRegenAmount: 0.01
@@ -81048,20 +81053,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  BaseDamageBonus: 0
-  BaseSpeedBonus: 0
-  BaseHealthBonus: 0
-  BaseFireRateReduction: 1
-  BaseCooldownReduction: 1
-  BasePowerUpBoost: 0
-  BaseSpecialBoost: 0
-  currentDamage: 0
-  currentSpeed: 0
-  currentHealth: 0
-  currentFireRateReduction: 0
-  currentCooldownReduction: 0
-  currentPowerUpBoost: 0
-  currentSpecialBoost: 0
+  currentDamage:
+    m_InternalValue: 0
+  currentSpeed:
+    m_InternalValue: 0
+  currentHealth:
+    m_InternalValue: 0
+  currentFireRateReduction:
+    m_InternalValue: 0
+  currentCooldownReduction:
+    m_InternalValue: 0
+  currentPowerUpBoost:
+    m_InternalValue: 0
+  currentSpecialBoost:
+    m_InternalValue: 0
 --- !u!1 &8105446854303656973
 GameObject:
   m_ObjectHideFlags: 0
