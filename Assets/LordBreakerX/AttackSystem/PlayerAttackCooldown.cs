@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-public struct PlayerAttackCooldown : IEquatable<PlayerAttackCooldown>
+public class PlayerAttackCooldown
 {
     public Transform PlayerTransform { get; private set; }
 
@@ -25,19 +24,19 @@ public struct PlayerAttackCooldown : IEquatable<PlayerAttackCooldown>
         return TimeRemaining <= 0;
     }
 
-    public readonly bool Equals(PlayerAttackCooldown other)
+    public bool Equals(PlayerAttackCooldown other)
     {
         return other.PlayerTransform == PlayerTransform;
     }
 
-    public override readonly bool Equals(object obj)
+    public override bool Equals(object obj)
     {
         if (obj is PlayerAttackCooldown cooldown)
             return Equals(cooldown);
         return false;
     }
 
-    public override readonly int GetHashCode()
+    public override int GetHashCode()
     {
         return PlayerTransform.GetHashCode();
     }
