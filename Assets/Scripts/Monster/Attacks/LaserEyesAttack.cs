@@ -44,8 +44,10 @@ public sealed class LaserEyesAttack : ScriptableAttack
         _statHolder = Controller.GetComponent<StatHolder>();
         _monsterAttack = Controller.GetComponent<MonsterAttackController>();
         _monsterMovement = Controller.GetComponent<MonsterMovementController>();
-        _attackTimer = new Timer(_attackRate);
-        _attackTimer.OnTimerFinished += () => _monsterAttack.ShootLaser(_laser, Target.GetCenteredPosition());
+        _attackTimer = new Timer(_attackRate, () =>
+        {
+            _monsterAttack.ShootLaser(_laser, Target.GetCenteredPosition());
+        });
     }
 
     public override bool HasAttackFinished()

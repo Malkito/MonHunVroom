@@ -31,17 +31,7 @@ public class Laser : NetworkBehaviour
 
     private void Awake()
     {
-        _timer = new Timer(_survivalTime);
-    }
-
-    private void OnEnable()
-    {
-        _timer.OnTimerFinished += OnDeath;
-    }
-
-    private void OnDisable()
-    {
-        _timer.OnTimerFinished -= OnDeath;
+        _timer = new Timer(_survivalTime, OnDeath);
     }
 
     private void Update()

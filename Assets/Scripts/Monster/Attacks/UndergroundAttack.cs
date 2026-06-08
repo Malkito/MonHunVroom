@@ -52,22 +52,18 @@ public sealed class UndergroundAttack : ScriptableAttack
         _statHolder = Controller.GetComponent<StatHolder>();
         _monsterMovement = Controller.GetComponent<MonsterMovementController>();
 
-        _durationTimer = new Timer(_attackDuration);
-        _throwAttemptTimer = new Timer();
-        _throwAttemptTimer.OnTimerFinished += AttemptThrow;
+        _durationTimer = new Timer(_attackDuration, false);
+        _throwAttemptTimer = new Timer(AttemptThrow);
     }
 
     public override void OnAttackStarted()
     {
         _attackDuration = _statHolder.GetFloat("Underground-Attack-Duration");
-        _durationTimer = new Timer(_attackDuration);
 
         _monsterMovement.UpdateWalkAnimation(true);
         _monsterMovement.SetUnderground(true);
         ResetThrowDelay();
         _durationTimer.Reset();
-
-        _roubbleDamage = _statHolder.GetFloat("Roubble-Damage");
     }
 
     private void ResetThrowDelay()
@@ -97,7 +93,7 @@ public sealed class UndergroundAttack : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _durationTimer.IsComplete;
+        return _durationTimer.HasFinished;
     }
 
     public override void OnAttackUpdate()
@@ -105,6 +101,6 @@ public sealed class UndergroundAttack : ScriptableAttack
         _monsterMovement.Wander();
 
         _throwAttemptTimer.Update();
-        _durationTimer.Update(false);
+        _durationTimer.Update();
     }
 }

@@ -121,7 +121,7 @@ namespace LordBreakerX.AttackSystem
             _activeAttack.OnAttackStarted();
         }
 
-        private void StartRandomAttack()
+        public void StartRandomAttack()
         {
             ScriptableAttack randomAttack = _internalTable.GetRandomEntry();
             StartAttack(randomAttack);
@@ -141,25 +141,41 @@ namespace LordBreakerX.AttackSystem
 
         public void AttackRandomPlayer()
         {
-            if (_attackablePlayers.Count <= 0) return;
-
-            int randomPlayerIndex = Random.Range(0, _attackablePlayers.Count);
-            Transform player = _attackablePlayers[randomPlayerIndex];
-
-            Target = new AttackTarget(player, transform.position);
-
-            StartRandomAttack();
-        }
-
-        public void AttackRandomObject<THealth>()
-        {
-            Target = TargetUtility.GetRandomTarget<THealth>(this);
-
-            if (Target.GetPosition() != transform.position)
+            if (TryTargetPlayer())
             {
                 StartRandomAttack();
             }
         }
+
+        public bool TryTargetPlayer()
+        {
+            if (_attackablePlayers.Count > 0)
+            {
+                int randomPlayerIndex = Random.Range(0, _attackablePlayers.Count);
+                Transform player = _attackablePlayers[randomPlayerIndex];
+
+                Target = new AttackTarget(player, transform.position);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void AttackRandomObject<THealth>()
+        {
+            if (TryTargetRandomObject<THealth>())
+            {
+                StartRandomAttack();
+            }
+        }
+
+        public bool TryTargetRandomObject<THealth>()
+        {
+            Target = TargetUtility.GetRandomTarget<THealth>(this);
+
+            return Target.IsTargettingObject && Target.GetPosition() != transform.position;
+        }
+
         #endregion
 
         #region Stopping Attacks

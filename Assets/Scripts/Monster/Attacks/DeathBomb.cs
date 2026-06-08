@@ -65,8 +65,7 @@ public sealed class DeathBomb : ScriptableAttack
         _statHolder = Controller.GetComponent<StatHolder>();
         _health = _movement.GetMonsterHealth();
 
-        _explodeTimer = new Timer(_timeBeforeExplosion);
-        _explodeTimer.OnTimerFinished += Explode;
+        _explodeTimer = new Timer(_timeBeforeExplosion, Explode);
     }
 
     public override void OnAttackStarted()
