@@ -2,6 +2,8 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using LordBreakerX.Stats;
+using LordBreakerX.Utilities;
 
 
 namespace LordBreakerX.Health
@@ -13,6 +15,9 @@ namespace LordBreakerX.Health
     /// 
     public class MonsterHealth : NetworkBehaviour, dealDamage
     {
+        [SerializeField]
+        private StatHolder _statHolder;
+
         [SerializeField]
         [Header("Events")]
         [Tooltip("Invoked whenever the health changes.")]
@@ -40,8 +45,8 @@ namespace LordBreakerX.Health
         private SkinnedMeshRenderer mat;
 
         public float CurrentHealth { get { return _currentHealth.Value; } }
-        
-        public float MaxHealth { get { return EnemyStatManager.MaxHealth; } }
+
+        public float MaxHealth { get; private set; }
 
         public override void OnNetworkSpawn()
         {
@@ -49,8 +54,12 @@ namespace LordBreakerX.Health
 
             if (IsServer)
             {
+                MaxHealth = _statHolder.GetFloat("Health");
+
+                Debug.Log($"{MaxHealth} Health");
+
                 _currentHealth.Value = MaxHealth;
-                HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, 0, 0, null);
+                HealthInfo healthInfo = new HealthInfo(MaxHealth, _currentHealth.Value, 0, 0, null);
                 _onHealthChangedServerSide.Invoke(healthInfo);
             }
 
@@ -61,7 +70,7 @@ namespace LordBreakerX.Health
         {
             if (IsClient)
             {
-                HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, previousValue - newValue, 0, null);
+                HealthInfo healthInfo = new HealthInfo(MaxHealth, _currentHealth.Value, previousValue - newValue, 0, null);
                 _onHealthChangedClientSide.Invoke(healthInfo);
 
                 if (newValue <= 0)
@@ -76,23 +85,9 @@ namespace LordBreakerX.Health
         {
             if (IsServer)
             {
-                /*
-                float clampedAmount = Mathf.Clamp(damageDealt, 0, _currentHealth.Value);
-
-                _currentHealth.Value -= clampedAmount;
-
-                if (clampedAmount > 0)
-                {
-                    HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, clampedAmount, 0, damageOrigin);
-                    _onHealthChangedServerSide.Invoke(healthInfo);
-                }
-                */
-
-                // changed to allow the water grenade deal "negative Damage" to heal
-
                 _currentHealth.Value -= damageDealt;
 
-                HealthInfo healthInfo = new HealthInfo(EnemyStatManager.MaxHealth, _currentHealth.Value, damageDealt, 0, damageOrigin);
+                HealthInfo healthInfo = new HealthInfo(MaxHealth, _currentHealth.Value, damageDealt, 0, damageOrigin);
 
                 _onHealthChangedServerSide.Invoke(healthInfo);
 

@@ -20,6 +20,7 @@ public class GameStateManager : NetworkBehaviour
     [SerializeField] private float waitingToStartTimer;
     [SerializeField] private float countdownToStartTimer;
 
+    public static int LevelsCompleted { get; private set; } = -1;
     private static GameStateManager instance;
 
     [SerializeField] private GameObject loseUI;
@@ -41,6 +42,9 @@ public class GameStateManager : NetworkBehaviour
     private void Awake()
     {
         instance = this;
+
+        LevelsCompleted += 1;
+        Debug.Log("Levels Completed: " +  LevelsCompleted);
     }
 
     public override void OnNetworkSpawn()

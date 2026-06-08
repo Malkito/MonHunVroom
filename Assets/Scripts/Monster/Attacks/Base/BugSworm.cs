@@ -115,10 +115,11 @@ public class BugSworm : NetworkBehaviour
         }
     }
 
-    public static BugSworm SpawnSworm(BugSworm swormPrefab, Vector3 spawnPosition, AttackTarget target)
+    public static BugSworm SpawnSworm(BugSworm swormPrefab, float damage, Vector3 spawnPosition, AttackTarget target)
     {
         BugSworm sworm = Instantiate(swormPrefab, spawnPosition, Quaternion.identity);
         sworm._target = target;
+        sworm._damagePerSecond = damage;
         sworm.UpdateTargetOffset();
         return sworm;
     }

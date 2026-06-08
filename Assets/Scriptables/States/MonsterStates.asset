@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: MonsterStates
   m_EditorClassIdentifier: 
   _states:
-  - {fileID: 11400000, guid: 4d0b8e56d228b074ca3186c063f953ee, type: 2}
-  - {fileID: 11400000, guid: 24d15b4f5d9c66f409d5cb0499c2a268, type: 2}
+  - {fileID: 11400000, guid: 00db59fa1597214479f225036c758202, type: 2}
+  - {fileID: 11400000, guid: b5568209018525542a38eabf1033cd0e, type: 2}
   - {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
-  - {fileID: 11400000, guid: a28244edb3250584aaf75f9a2a21a6fd, type: 2}
-  - {fileID: 11400000, guid: 6e7c6959eb0707443b3f1ffbdee79b47, type: 2}

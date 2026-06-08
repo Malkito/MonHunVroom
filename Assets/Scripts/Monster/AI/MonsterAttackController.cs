@@ -1,9 +1,13 @@
 using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
+using LordBreakerX.Stats;
 using UnityEngine;
 
 public sealed class MonsterAttackController : AttackController
 {
+    [SerializeField]
+    private StatHolder _statHolder;
+
     [SerializeField]
     [RequiredField]
     [Header("Laser Eyes Attack")]
@@ -37,7 +41,8 @@ public sealed class MonsterAttackController : AttackController
 
             Vector3 eyePosition = _currentEye.position;
 
-            Laser laser = Laser.CreateLaser(prefab, gameObject, eyePosition, attackPosition);
+            float damage = _statHolder.GetFloat("Laser-Damage");
+            Laser laser = Laser.CreateLaser(prefab, gameObject, damage, eyePosition, attackPosition);
             SpawnProjectile(laser.gameObject);
         }
     }

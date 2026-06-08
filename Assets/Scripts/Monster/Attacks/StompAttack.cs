@@ -1,5 +1,6 @@
 using LordBreakerX.AttackSystem;
 using LordBreakerX.Attributes;
+using LordBreakerX.Stats;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Stomp Attack")]
@@ -8,6 +9,10 @@ public sealed class StompAttack : ScriptableAttack
     private static readonly Color STOMP_FLASH_COLOR = Color.red;
 
     private const string STARTING_MONSTER_TAG = "Monster";
+
+    [Header("Damage")]
+    [Min(0f)]
+    private float _stompDamage = 10;
 
     [Header("Physics")]
     [Min(0)]
@@ -31,16 +36,19 @@ public sealed class StompAttack : ScriptableAttack
 
     private MonsterAttackController _monsterAttack;
 
+    private StatHolder _statHolder;
+
     public override void OnAttackCreation()
     {
         _monsterMovement = Controller.GetComponent<MonsterMovementController>();
         _monsterAttack = Controller.GetComponent<MonsterAttackController>();
-        
+        _statHolder = Controller.GetComponent<StatHolder>();
     }
 
     public override void OnAttackStarted()
     {
         _monsterMovement.UpdateWalkAnimation(true);
+        _stompDamage = _statHolder.GetFloat("Stomp-Damage");
     }
 
     public override void OnAttackUpdate()
@@ -49,7 +57,7 @@ public sealed class StompAttack : ScriptableAttack
 
         Vector3 targetPosition = Target.GetPosition();
 
-        if (_monsterMovement.ReachedDestination(targetPosition, EnemyStatManager.StompRadius))
+        if (_monsterMovement.ReachedDestination(targetPosition, _maxStompDistance))
         {
             _monsterMovement.StopMovement();
             _monsterMovement.UpdateWalkAnimation(false);
@@ -61,16 +69,16 @@ public sealed class StompAttack : ScriptableAttack
 
     public void PreformStomp()
     {
-        Collider[] attackHits = Physics.OverlapSphere(Controller.transform.position, EnemyStatManager.StompRadius);
+        Collider[] attackHits = Physics.OverlapSphere(Controller.transform.position, _maxStompDistance);
 
         foreach (Collider hit in attackHits)
         {
             if (hit.CompareTag(_monsterTag)) continue;
 
             dealDamage damageable = hit.gameObject.GetComponent<dealDamage>();
-            damageable?.dealDamage(EnemyStatManager.StompDamage, STOMP_FLASH_COLOR, Controller.gameObject);
+            damageable?.dealDamage(_stompDamage, STOMP_FLASH_COLOR, Controller.gameObject);
 
-            if (hit.attachedRigidbody != null) 
+            if (hit.attachedRigidbody != null)
             {
                 Vector3 direction = (hit.transform.position - Position).normalized;
                 hit.attachedRigidbody.AddForce(_stompPushForce * hit.attachedRigidbody.mass * direction, ForceMode.Force);

@@ -1,4 +1,5 @@
 using LordBreakerX.AttackSystem;
+using LordBreakerX.Stats;
 using UnityEngine;
 
 
@@ -19,10 +20,12 @@ public sealed class PushAttack : ScriptableAttack
     private bool _pushedObject = false;
 
     private MonsterMovementController _monsterMovement;
+    private StatHolder _statHolder;
 
     public override void OnAttackCreation()
     {
         _monsterMovement = Controller.GetComponent<MonsterMovementController>();
+        _statHolder = Controller.GetComponent<StatHolder>();
     }
 
     public override bool CanUseAttack()
@@ -38,6 +41,7 @@ public sealed class PushAttack : ScriptableAttack
     public override void OnAttackStarted()
     {
         _pushedObject = false;
+        _pushDamage = _statHolder.GetFloat("Push-Damage");
     }
 
     public override void OnAttackUpdate()

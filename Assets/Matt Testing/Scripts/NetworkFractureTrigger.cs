@@ -13,25 +13,23 @@ public class NetworkFractureTrigger : NetworkBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (fractured) return;
+        //if (fractured) return;
 
-        if (!fracture.ShouldFractureFromCollision(collision))
-            return;
+        //if (!fracture.ShouldFractureFromCollision(collision))
+        //    return;
 
-        if (!IsServer)
-        {
-            // CLIENT: send full trusted data
-            var contact = collision.contacts[0];
-            float force = collision.impulse.magnitude / Time.fixedDeltaTime;
+        //if (!IsServer)
+        //{
+        //    // CLIENT: send full trusted data
+        //    var contact = collision.contacts[0];
+        //    float force = collision.impulse.magnitude / Time.fixedDeltaTime;
 
-            SendFractureRequestServerRpc(force, contact.point);
-        }
-        else
-        {
-            ProcessCollision(collision);
-        }
-
-
+        //    SendFractureRequestServerRpc(force, contact.point);
+        //}
+        //else
+        //{
+        //    ProcessCollision(collision);
+        //}
     }
 
     void ProcessCollision(Collision collision)
@@ -57,6 +55,6 @@ public class NetworkFractureTrigger : NetworkBehaviour
     [ClientRpc]
     void FractureClientRpc(float impactForce, Vector3 hitPoint)
     {
-        fracture.CauseFractureWithForce(impactForce, hitPoint);
+        //fracture.CauseFractureWithForce(impactForce, hitPoint);
     }
 }

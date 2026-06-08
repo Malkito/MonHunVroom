@@ -1,33 +1,48 @@
+using System;
 using UnityEngine;
 
 [System.Serializable]
 public class Timer
 {
-    public delegate void TimerFinishedHandler();
-
     [SerializeField]
     [Min(0)]
     private float _durationSeconds;
 
     private float _elapsedTime;
 
-    public TimerFinishedHandler OnTimerFinished { get; set; }
+    private Action _onFinished;
 
-    public bool IsComplete { get { return _elapsedTime >= _durationSeconds; } }
+    private bool _resetOnFinished;
 
-    public Timer() 
+    public bool HasFinished { get => _elapsedTime >= _durationSeconds; }
+
+    public float TimeElapsed {  get { return _elapsedTime; } }
+
+    public float Duration { get { return _durationSeconds; } }
+
+    public Timer(float duration, Action onFinished, bool resetOnFinished = true)
     {
+        _durationSeconds = Mathf.Max(duration, 0);
+        _elapsedTime = 0f;
+
+        _onFinished = onFinished;
+
+        _resetOnFinished = resetOnFinished;
+    }
+    public Timer(float duration, bool resetOnFinished = true) : this(duration, null, resetOnFinished)
+    {
+
     }
 
-    public Timer(float durationSeconds)
+    public Timer(Action onFinished, bool resetOnFinished = true) : this(0, onFinished, resetOnFinished)
     {
-        SetDuration(durationSeconds);
+
     }
 
     public void SetDuration(float duration)
     {
         _durationSeconds = Mathf.Max(duration, 0);
-        Reset();
+        _elapsedTime = 0f;
     }
 
     public void Reset()
@@ -35,14 +50,18 @@ public class Timer
         _elapsedTime = 0f;
     }
 
-    public void Update(bool resetOnComplete = true)
+    public void Update()
     {
         _elapsedTime += Time.deltaTime;
 
-        if (IsComplete)
+        if (HasFinished)
         {
-            OnTimerFinished?.Invoke();
-            if (resetOnComplete) Reset();
+            _onFinished?.Invoke();
+            
+            if (_resetOnFinished)
+            {
+                _elapsedTime = 0f;
+            }
         }
     }
 }

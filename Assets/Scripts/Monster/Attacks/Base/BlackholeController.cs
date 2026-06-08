@@ -96,17 +96,18 @@ public class BlackholeController : MonoBehaviour
         if (other.attachedRigidbody != null && _bodies.Contains(other.attachedRigidbody)) _bodies.Remove(other.attachedRigidbody);
     }
 
-    public BlackholeController Clone(Vector3 position, Vector3 moveDirection)
+    public BlackholeController Clone(float damage, Vector3 position, Vector3 moveDirection)
     {
         BlackholeController clonedBlackhole = Instantiate(this, position, Quaternion.identity);
         clonedBlackhole._moveDirection = moveDirection;
+        clonedBlackhole._damagePerSecond = damage;
         return clonedBlackhole;
     }
 
-    public BlackholeController Clone(Vector3 position)
+    public BlackholeController Clone(float damage, Vector3 position)
     {
         Vector2 random = Random.insideUnitCircle;
-        return Clone(position, new Vector3(random.x, 0, random.y));
+        return Clone(damage, position, new Vector3(random.x, 0, random.y));
     }
 
     private IEnumerator DealDamageOverTime()

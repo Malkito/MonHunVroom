@@ -10,6 +10,10 @@ public class Laser : NetworkBehaviour
 
     [SerializeField]
     [Min(0)]
+    private float _damage;
+
+    [SerializeField]
+    [Min(0)]
     private float _moveSpeed;
 
     [SerializeField]
@@ -25,29 +29,16 @@ public class Laser : NetworkBehaviour
 
     private GameObject _creator;
 
-    private float _damage;
-    private float _speed;
-
     private void Awake()
     {
-        _timer = new Timer(_survivalTime);
-    }
-
-    private void OnEnable()
-    {
-        _timer.OnTimerFinished += OnDeath;
-    }
-
-    private void OnDisable()
-    {
-        _timer.OnTimerFinished -= OnDeath;
+        _timer = new Timer(_survivalTime, OnDeath);
     }
 
     private void Update()
     {
         _timer.Update();
 
-        transform.position += _moveDirection * _speed * Time.deltaTime;
+        transform.position += _moveDirection * _moveSpeed * Time.deltaTime;
     }
 
     private void OnDeath()
@@ -69,14 +60,14 @@ public class Laser : NetworkBehaviour
         Destroy(gameObject, 1);
     }
 
-    public static Laser CreateLaser(Laser prefab, GameObject creator, Vector3 startPosition, Vector3 targetPosition)
+    public static Laser CreateLaser(Laser prefab, GameObject creator, float damage, Vector3 startPosition, Vector3 targetPosition)
     {
         Laser createdLaser = Instantiate(prefab, startPosition, Quaternion.identity);
         createdLaser._creator = creator;
         createdLaser._moveDirection = (targetPosition - startPosition).normalized;
         createdLaser.transform.LookAt(targetPosition, Vector3.up);
-        createdLaser._damage = EnemyStatManager.LaserEyesDamage;
-        createdLaser._speed = EnemyStatManager.LaserEyesSpeed;
+        createdLaser._damage = damage;
+
         return createdLaser;
     }
 }

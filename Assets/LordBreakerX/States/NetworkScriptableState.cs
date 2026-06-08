@@ -7,7 +7,7 @@ namespace LordBreakerX.States.Networked
     /// </summary>
     public abstract class NetworkScriptableState : ScriptableObject
     {
-        public const string CREATE_PATH = "State Machines/Networked States/";
+        public const string CREATE_PATH = "State Machines/States/";
 
         [SerializeField]
         private string _id;

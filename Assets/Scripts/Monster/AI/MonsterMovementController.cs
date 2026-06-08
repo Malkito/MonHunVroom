@@ -1,5 +1,5 @@
 using LordBreakerX.Health;
-using LordBreakerX.States.Networked;
+using LordBreakerX.Stats;
 using LordBreakerX.Utilities;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,6 +9,9 @@ using UnityEngine.AI;
 public class MonsterMovementController : NetworkBehaviour
 {
     public const string WALK_ANIMATION_VARIABLE = "walk";
+
+    [SerializeField]
+    private StatHolder _statHolder;
 
     [SerializeField]
     [Header("Wandering Properties")]
@@ -52,10 +55,11 @@ public class MonsterMovementController : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         _monsterAgent = GetComponent<NavMeshAgent>();
-        _monsterAgent.speed = EnemyStatManager.MovementSpeed;
-        _monsterAgent.angularSpeed = EnemyStatManager.TurningSpeed;
         _monsterStartHeight = _monsterTransform.localPosition.y;
         _monsterAgent.Warp(transform.position);
+
+        _monsterAgent.speed = _statHolder.GetFloat("Move-Speed");
+        _monsterAgent.angularSpeed = _statHolder.GetFloat("Turning-Speed");
     }
 
     public void UpdateWalkAnimation(bool isWalking)

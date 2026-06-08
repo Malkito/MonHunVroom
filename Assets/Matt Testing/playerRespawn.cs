@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Netcode;
 
 public class playerRespawn : MonoBehaviour
 {
@@ -12,11 +13,17 @@ public class playerRespawn : MonoBehaviour
     /// When the health reaches 0, all input is ignored, then after a delay the player is moved to a random spawn location, input is resumed
     /// 
     /// </summary>
+    /// 
+
+    public delegate void OnPlayerRespawnCallback(NetworkObject respawnedPlayer);
+
     private NewTankMovement movement;
     private tankCameraMovement TankCam;
     private playerUpgradeManager upgrade;
     private playerShooting shooting;
     private playerHealth health;
+
+    private NetworkObject networkObject;
 
     private GameObject[] respawnPoints;
 
@@ -34,15 +41,17 @@ public class playerRespawn : MonoBehaviour
 
     [SerializeField] private Rigidbody rb;
 
+    public static OnPlayerRespawnCallback OnPlayerRespawn { get; set; }
+
     private void Awake()
     {
-
         //sets player action refrecenes
         movement = gameObject.GetComponent<NewTankMovement>();
         TankCam = gameObject.GetComponent<tankCameraMovement>();
         upgrade = gameObject.GetComponent<playerUpgradeManager>();
         shooting = gameObject.GetComponent<playerShooting>();
         health = gameObject.GetComponent<playerHealth>();
+        networkObject = gameObject.GetComponent<NetworkObject>();
 
         respawnPoints = GameObject.FindGameObjectsWithTag("Respawn");
 
@@ -101,9 +110,14 @@ public class playerRespawn : MonoBehaviour
         rb.position = spawnPos; // physics-safe reposition
         transform.rotation = Quaternion.Euler(0, 0, 0);
 
-
         deathUI.SetActive(false); // de-activates the UI
-        isDead = false; 
+
+        if (networkObject != null)
+        {
+            OnPlayerRespawn?.Invoke(networkObject);
+        }
+
+        isDead = false;
     }
 
 
