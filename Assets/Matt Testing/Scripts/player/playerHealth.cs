@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
+using UnityEngine.UI;
 
 public class playerHealth : NetworkBehaviour, dealDamage
 {
@@ -19,6 +20,7 @@ public class playerHealth : NetworkBehaviour, dealDamage
     [SerializeField] private float numOfFiresOnHealth;
     [SerializeField] private Material mat;
     [SerializeField] private GameObject deathUI;
+    [SerializeField] private Slider healthSlider;
 
     public bool canTakeDamage;
 
@@ -47,6 +49,8 @@ public class playerHealth : NetworkBehaviour, dealDamage
         {
             stopDamageOverTime();
         }
+
+        healthSlider.value = currentHealth.Value / maxHealth;
     }
 
     public void increaseFireNumber()
@@ -99,6 +103,8 @@ public class playerHealth : NetworkBehaviour, dealDamage
         if (!canTakeDamage) return;
 
         currentHealth.Value -= damage;
+
+
 
         if (currentHealth.Value < 0)
             currentHealth.Value = 0;
