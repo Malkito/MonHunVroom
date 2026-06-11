@@ -7,8 +7,10 @@ public class playerHealth : NetworkBehaviour, dealDamage
 {
     [Header("Health")]
     [SerializeField] public float baseMaxHealth = 100f;
-
+    private float maxHealth;
     public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
+
+    float BaseSliderSize = 540;
 
     [Header("Color flash")]
     [SerializeField] private float flashTIme;
@@ -32,7 +34,7 @@ public class playerHealth : NetworkBehaviour, dealDamage
         {
             PlayerStats = GetComponent<playerStats>();
 
-            currentHealth.Value = baseMaxHealth;
+            currentHealth.Value = maxHealth;
             canTakeDamage = true;
         }
     }
@@ -50,7 +52,7 @@ public class playerHealth : NetworkBehaviour, dealDamage
             stopDamageOverTime();
         }
 
-        healthSlider.value = currentHealth.Value / maxHealth;
+        healthSlider.value = currentHealth.Value / baseMaxHealth;
     }
 
     public void increaseFireNumber()
@@ -132,7 +134,14 @@ public class playerHealth : NetworkBehaviour, dealDamage
 
     public void applyHealthChanged()
     {
-        baseMaxHealth *= PlayerStats.currentHealth.Value;
+        maxHealth = baseMaxHealth * PlayerStats.currentHealth.Value; 
+        currentHealth.Value = maxHealth;
+
+        RectTransform Rect = healthSlider.GetComponent<RectTransform>();
+
+        float newWidth = BaseSliderSize * PlayerStats.currentHealth.Value;
+
+        Rect.sizeDelta = new Vector2(newWidth, healthSlider.GetComponent<RectTransform>().rect.size.y);
 
     }
 

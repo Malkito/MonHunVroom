@@ -15,12 +15,9 @@ public class tankCameraMovement : NetworkBehaviour
     [SerializeField] private float rotateSpeed;
     [SerializeField] private Transform turretLookAt;
 
+    [SerializeField] private LayerMask aimLayerMask;
 
-
-    RaycastHit hit;
-
-    private Transform lookTowardsPOS;
-
+    private Vector3 targetPoint;
 
 
     [SerializeField] private float maxDistance;
@@ -50,8 +47,7 @@ public class tankCameraMovement : NetworkBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         if (!IsOwner) return;
         if (!canMove) return;
@@ -60,14 +56,10 @@ public class tankCameraMovement : NetworkBehaviour
     }
 
 
-
     private void aimTurret()
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
-
-        Vector3 targetPoint;
-
-        if(Physics.Raycast(ray, out RaycastHit hit, maxDistance))
+        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, aimLayerMask))
         {
             targetPoint = hit.point;
         }
@@ -83,29 +75,25 @@ public class tankCameraMovement : NetworkBehaviour
 
     private void RotateTurret(Vector3 targetPoint)
     {
-        Vector3 direction = targetPoint - turretHead.position;
+        Vector3 desiredDirection = targetPoint - turretHead.position;
 
         // Turret only rotates around Y
-        direction.y = 0f;
+        desiredDirection.y = 0f;
 
-        if (direction.sqrMagnitude < 0.001f)
+        if (desiredDirection.sqrMagnitude < 0.001f)
             return;
 
-        Quaternion targetRotation = Quaternion.LookRotation(-direction);
+        Quaternion targetRotation = Quaternion.LookRotation(desiredDirection);
 
-        turretHead.rotation = Quaternion.Slerp(
-            turretHead.rotation,
-            targetRotation,
-            turretRotateSpeed * Time.deltaTime
-        );
+        turretHead.rotation = Quaternion.Slerp(turretHead.rotation,targetRotation,turretRotateSpeed * Time.fixedDeltaTime);
     }
 
     private void RotateBarrel(Vector3 targetPoint)
     {
-        Vector3 direction = targetPoint - barrel.position;
+        Vector3 desiredDirection = targetPoint - barrel.position;
 
         // Convert direction into turret local space
-        Vector3 localDirection = turretHead.InverseTransformDirection(direction);
+        Vector3 localDirection = turretHead.InverseTransformDirection(desiredDirection);
 
         // Calculate vertical angle
         float angle = Mathf.Atan2(localDirection.y, localDirection.z) * Mathf.Rad2Deg;
@@ -113,22 +101,16 @@ public class tankCameraMovement : NetworkBehaviour
         // Clamp barrel movement
         angle = Mathf.Clamp(angle, minBarrelAngle, maxBarrelAngle);
 
-        Quaternion targetRotation = Quaternion.Euler(angle, 0f, 0f);
+        Quaternion targetRotation = Quaternion.Euler(-angle, 0f, 0f);
 
-        barrel.localRotation = Quaternion.Slerp(
-            barrel.localRotation,
-            targetRotation,
-            barrelRotateSpeed * Time.deltaTime
-        );
+        barrel.localRotation = Quaternion.Slerp(barrel.localRotation,targetRotation,barrelRotateSpeed * Time.deltaTime);
     }
     private void OnDrawGizmos()
     {
         if (cam == null) return;
 
-        Vector3 origin = transform.position;
 
         Vector3 camForward = cam.transform.forward;
-        Vector3 projected = Vector3.ProjectOnPlane(camForward, transform.up);
 
         // Camera forward (yellow)
         Gizmos.color = Color.yellow;
@@ -137,6 +119,10 @@ public class tankCameraMovement : NetworkBehaviour
         // Projected direction (cyan)
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(barrel.transform.position, barrel.transform.position + barrel.transform.forward * 1000);
+
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(targetPoint, 1f);
     }
 
     /*
