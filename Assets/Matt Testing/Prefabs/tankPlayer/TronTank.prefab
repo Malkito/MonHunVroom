@@ -51481,16 +51481,15 @@ MonoBehaviour:
   turretHead: {fileID: 2316475716269200963}
   cam: {fileID: 1300287866398083215}
   barrel: {fileID: 3480526613956514144}
-  maxAngle: 25
   canMove: 0
-  rotateSpeed: 45
   turretLookAt: {fileID: 3999413997270472255}
   aimLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  minimumDistance: 17.53
   maxDistance: 1000
-  turretRotateSpeed: 10
-  barrelRotateSpeed: 10
+  turretRotateSpeed: 30
+  barrelRotateSpeed: 30
   minBarrelAngle: -10
   maxBarrelAngle: 35
 --- !u!114 &7547834820336501301
@@ -52647,8 +52646,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8528106959158108443}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.040829282, y: 0.49523997, z: -0.023309143, w: 0.86748314}
-  m_LocalPosition: {x: -15.58947, y: 6.82008, z: -9.775157}
+  m_LocalRotation: {x: -0.0025282204, y: 0.49578613, z: 0.0014433436, w: 0.8684398}
+  m_LocalPosition: {x: -19.69146, y: 4.9661064, z: -12.196867}
   m_LocalScale: {x: 3.6074898, y: 3.60749, z: 3.60749}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -52722,13 +52721,13 @@ MonoBehaviour:
   Orbits:
     Top:
       Radius: 20.1
-      Height: 10.58
+      Height: 11.21
     Center:
-      Radius: 18
-      Height: 1.03
+      Radius: 22.8
+      Height: -0.81
     Bottom:
       Radius: 14.6
-      Height: -6.1
+      Height: -4.56
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:

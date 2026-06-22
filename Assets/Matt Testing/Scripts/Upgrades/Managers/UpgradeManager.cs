@@ -45,6 +45,7 @@ public class UpgradeManager : NetworkBehaviour
 
         availableUpgradeIndexes = new int[amountOfUpgradesToBeAvailable];
 
+        getSpawnPoints();
 
         if (IsOwner)
         {
@@ -108,6 +109,12 @@ public class UpgradeManager : NetworkBehaviour
         }
     }
 
+    private void getSpawnPoints()
+    {
+        spawnpoints = GameObject.FindGameObjectsWithTag("PowerSpawnPoints");
+
+    }
+
     private void SelectUpgrade(int upgradeIndex)
     {
         AddUpgradeToPoolServerRpc(upgradeIndex);
@@ -134,11 +141,7 @@ public class UpgradeManager : NetworkBehaviour
         {
             UpgradeScriptableOBJ upgradeData = entireUpgradePool[upgradeIndex];
 
-            GameObject newUpgrade = Instantiate(
-                upgradeData.pickupObject,
-                Vector3.zero,
-                Quaternion.identity
-            );
+            GameObject newUpgrade = Instantiate(upgradeData.pickupObject,Vector3.zero,Quaternion.identity);
 
             NetworkObject netObj = newUpgrade.GetComponent<NetworkObject>();
 
@@ -156,8 +159,7 @@ public class UpgradeManager : NetworkBehaviour
 
         for (int i = 0; i < spawnedUpgrades.Length && i < spawnpoints.Length; i++)
         {
-            spawnedUpgrades[i].transform.position =
-                spawnpoints[i].transform.position;
+            spawnedUpgrades[i].transform.position = spawnpoints[i].transform.position;
         }
     }
 

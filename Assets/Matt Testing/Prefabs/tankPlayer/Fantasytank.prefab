@@ -62402,7 +62402,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1696531730618693900}
-  - component: {fileID: 3074201492978363196}
   - component: {fileID: 1497140818133894097}
   - component: {fileID: 5358902273824152875}
   m_Layer: 2
@@ -62431,27 +62430,6 @@ Transform:
   - {fileID: 1809925826962469355}
   m_Father: {fileID: 2316475716269200963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.592}
---- !u!135 &3074201492978363196
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5452884341982159794}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &1497140818133894097
 Animator:
   serializedVersion: 7
@@ -81039,13 +81017,12 @@ MonoBehaviour:
   turretHead: {fileID: 2316475716269200963}
   cam: {fileID: 1300287866398083215}
   barrel: {fileID: 3480526613956514144}
-  maxAngle: 25
   canMove: 0
-  rotateSpeed: 45
   turretLookAt: {fileID: 3999413997270472255}
   aimLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  minimumDistance: 17.53
   maxDistance: 1000
   turretRotateSpeed: 10
   barrelRotateSpeed: 10

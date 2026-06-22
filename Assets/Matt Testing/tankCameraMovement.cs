@@ -4,21 +4,21 @@ using Unity.Cinemachine;
 
 public class tankCameraMovement : NetworkBehaviour
 {
-
+    [Header("Barrel Limits")]
     [SerializeField] private Transform turretHead;
     [SerializeField] private CinemachineCamera cam;
     [SerializeField] private Transform barrel;
-    [SerializeField] private float maxAngle;
+
     
     [HideInInspector] public bool canMove;
 
-    [SerializeField] private float rotateSpeed;
     [SerializeField] private Transform turretLookAt;
 
     [SerializeField] private LayerMask aimLayerMask;
 
     private Vector3 targetPoint;
 
+    [SerializeField] private float minimumDistance;
 
     [SerializeField] private float maxDistance;
     [SerializeField] private float turretRotateSpeed = 10f;
@@ -61,7 +61,15 @@ public class tankCameraMovement : NetworkBehaviour
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, aimLayerMask))
         {
-            targetPoint = hit.point;
+            if(hit.distance <= minimumDistance)
+            {
+                targetPoint = ray.origin + ray.direction * maxDistance;
+            }
+            else
+            {
+                targetPoint = hit.point;
+            }
+
         }
         else
         {
