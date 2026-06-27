@@ -1178,7 +1178,7 @@ MonoBehaviour:
   _attackController: {fileID: 5008790797301554141}
   _stateMachine: {fileID: 2192117877491711739}
   _specialGrabState: {fileID: 11400000, guid: 2f623b4df10bdb345a8a05279b30c536, type: 2}
-  _timeUntilGrab: 0
+  _timeUntilGrab: 2
 --- !u!65 &7652627111359087407
 BoxCollider:
   m_ObjectHideFlags: 0
