@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258904c3d595b0a4d95e338f01782cde, type: 3}
+  m_Name: GrabState
+  m_EditorClassIdentifier: 
+  _id: MonsterGrabState
+  _specialGrab: {fileID: 11400000, guid: 7cad650ea9d10a743a82fc14766e22df, type: 2}
+  _wanderState: {fileID: 11400000, guid: 00db59fa1597214479f225036c758202, type: 2}

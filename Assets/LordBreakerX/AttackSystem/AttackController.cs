@@ -127,6 +127,16 @@ namespace LordBreakerX.AttackSystem
             StartAttack(randomAttack);
         }
 
+        public void StartEntryAttack(ScriptableAttack attack)
+        {
+            if (attack == null || IsAttacking || !IsServer) return;
+
+            ScriptableAttack attackCloned = ScriptableAttack.Clone(attack, this);
+
+            _activeAttack = attackCloned;
+            _activeAttack.OnAttackStarted();
+        }
+
         public void AttackRandomPosition()
         {
             Vector3 attackPosition = Random.insideUnitCircle * _randomAttackRadius;
@@ -174,6 +184,26 @@ namespace LordBreakerX.AttackSystem
             Target = TargetUtility.GetRandomTarget<THealth>(this);
 
             return Target.IsTargettingObject && Target.GetPosition() != transform.position;
+        }
+
+        public void SetTarget(AttackTarget target)
+        {
+            Target = target;
+        }
+
+        public void SetTarget(Transform target, Vector3 fallbackPosition)
+        {
+            Target = new AttackTarget(target, fallbackPosition);
+        }
+
+        public void SetTarget(Transform target)
+        {
+            Target = new AttackTarget(target, transform.position);
+        }
+
+        public void SetTarget(Vector3 targetPosition)
+        {
+            Target = new AttackTarget(targetPosition);
         }
 
         #endregion
