@@ -47,7 +47,7 @@ public class tankCameraMovement : NetworkBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!IsOwner) return;
         if (!canMove) return;

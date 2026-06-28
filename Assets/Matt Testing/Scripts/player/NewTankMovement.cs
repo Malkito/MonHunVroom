@@ -22,8 +22,8 @@ public class NewTankMovement : NetworkBehaviour
     [SerializeField] private float linerDampening;
 
     [Header("Movement")]
-    [SerializeField] private float accelerationForce = 40f;
-    [SerializeField] private float maxSpeed = 6f;
+    [SerializeField] private float accelerationForce;
+    [SerializeField] private float maxSpeed;
 
     [Header("Rotation")]
     [SerializeField] private float maxConsideredAngle = 180f; // angle where torque peaks

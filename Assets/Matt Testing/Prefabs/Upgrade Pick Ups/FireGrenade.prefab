@@ -346,7 +346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11475718, guid: 6ffb6552b370d4049ada03898e7874ae, type: 3}
       propertyPath: m_startPos.y
-      value: 57.2
+      value: 420
       objectReference: {fileID: 0}
     - target: {fileID: 11475718, guid: 6ffb6552b370d4049ada03898e7874ae, type: 3}
       propertyPath: m_lineColor.b

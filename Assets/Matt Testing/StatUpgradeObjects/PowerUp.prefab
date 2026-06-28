@@ -196,7 +196,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802369597662624468}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ffbd27fa1596b424db2be676d66c7637, type: 3}
   m_Name: 
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   upgradeType: 5
-  upgradeAmount: 5
+  upgradeAmount: 10
 --- !u!54 &299636491874869255
 Rigidbody:
   m_ObjectHideFlags: 0

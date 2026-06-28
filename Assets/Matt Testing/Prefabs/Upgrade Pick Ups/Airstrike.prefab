@@ -155,7 +155,7 @@ Transform:
   m_LocalScale: {x: 10.016, y: 10.016, z: 10.016}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8582763268070844146}
+  - {fileID: 6801324512356603991}
   - {fileID: 4887144619252097608}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -276,7 +276,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.12390906
   m_Center: {x: 0.000000037252903, y: 0, z: 0}
---- !u!1001 &8582763268070998442
+--- !u!1001 &6801324512356515599
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -342,19 +342,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11475718, guid: 6ffb6552b370d4049ada03898e7874ae, type: 3}
       propertyPath: m_lineWidth
-      value: 47.1
+      value: 4.7
       objectReference: {fileID: 0}
     - target: {fileID: 11475718, guid: 6ffb6552b370d4049ada03898e7874ae, type: 3}
       propertyPath: m_startPos.y
-      value: 420.7
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 11475718, guid: 6ffb6552b370d4049ada03898e7874ae, type: 3}
       propertyPath: m_lineColor.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11475718, guid: 6ffb6552b370d4049ada03898e7874ae, type: 3}
       propertyPath: m_lineColor.g
-      value: 0.13054681
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11475718, guid: 6ffb6552b370d4049ada03898e7874ae, type: 3}
       propertyPath: m_lineColor.r
@@ -369,8 +369,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ffb6552b370d4049ada03898e7874ae, type: 3}
---- !u!4 &8582763268070844146 stripped
+--- !u!4 &6801324512356603991 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 436056, guid: 6ffb6552b370d4049ada03898e7874ae, type: 3}
-  m_PrefabInstance: {fileID: 8582763268070998442}
+  m_PrefabInstance: {fileID: 6801324512356515599}
   m_PrefabAsset: {fileID: 0}

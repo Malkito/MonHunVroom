@@ -50,10 +50,8 @@ public class speedBoost : NetworkBehaviour
         TrialBaseSize = Trials[0].widthMultiplier;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-
-
         boostUi.value = currentboost;
 
         int boostAmount = Mathf.RoundToInt(currentboost);

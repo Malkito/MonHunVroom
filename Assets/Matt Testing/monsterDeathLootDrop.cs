@@ -14,7 +14,13 @@ public class monsterDeathLootDrop : NetworkBehaviour
 
     [SerializeField] private Transform MonsterDeathLocation;
 
-    private bool objectsSpawned;
+    [SerializeField] private bool objectsSpawned;
+
+
+    private void Start()
+    {
+        objectsSpawned = false;
+    }
 
     private void Update()
     {

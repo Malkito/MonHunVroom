@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.Netcode;
 
-public class playerRespawn : MonoBehaviour
+public class playerRespawn : NetworkBehaviour
 {
     /// <summary>
     /// 
@@ -41,6 +41,8 @@ public class playerRespawn : MonoBehaviour
 
     [SerializeField] private Rigidbody rb;
 
+    [SerializeField] private bool canDie;
+
     public static OnPlayerRespawnCallback OnPlayerRespawn { get; set; }
 
     private void Awake()
@@ -61,10 +63,14 @@ public class playerRespawn : MonoBehaviour
         countdownTime = Mathf.RoundToInt(respawnTime);
     }
 
+    public override void OnNetworkSpawn() {
+        StartCoroutine(startDeathDelay());
+    }
+
 
     void Update()
     {
-        if(health.currentHealth.Value <= 0 && !isDead)
+        if(health.currentHealth.Value <= 0 && !isDead && canDie)
         {
             respawn();
         }
@@ -164,7 +170,13 @@ public class playerRespawn : MonoBehaviour
 
 
 
+    IEnumerator startDeathDelay()
+    {
+        yield return new WaitForSeconds(2f);
+        canDie = true;
 
+
+    }
 
 
 

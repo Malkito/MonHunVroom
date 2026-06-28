@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   upgradeType: 2
-  upgradeAmount: 0.2
+  upgradeAmount: 0.4
 --- !u!54 &-3772477133757076139
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -442,7 +442,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5154295149091756985}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ffbd27fa1596b424db2be676d66c7637, type: 3}
   m_Name: 

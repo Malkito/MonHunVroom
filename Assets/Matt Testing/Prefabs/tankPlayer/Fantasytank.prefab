@@ -80963,8 +80963,8 @@ MonoBehaviour:
   canMove: 0
   groundCheck: {fileID: 3415987852756546517}
   linerDampening: 0
-  accelerationForce: 20
-  maxSpeed: 30
+  accelerationForce: 40
+  maxSpeed: 60
   maxConsideredAngle: 180
   AngleCorrection: 50
   OvershootPrevention: 8
@@ -81174,11 +81174,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974bf8cc99697b54a857075882c860fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   countdownText: {fileID: 8880905769328581619}
   deathUI: {fileID: 3977440629587973515}
   respawnTime: 5
   isDead: 0
   rb: {fileID: 4561393734523513783}
+  canDie: 0
 --- !u!114 &947433051933980619
 MonoBehaviour:
   m_ObjectHideFlags: 0

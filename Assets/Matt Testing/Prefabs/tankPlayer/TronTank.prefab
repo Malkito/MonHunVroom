@@ -43666,7 +43666,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -51427,8 +51427,8 @@ MonoBehaviour:
   canMove: 0
   groundCheck: {fileID: 3415987852756546517}
   linerDampening: 0
-  accelerationForce: 20
-  maxSpeed: 30
+  accelerationForce: 40
+  maxSpeed: 50
   maxConsideredAngle: 180
   AngleCorrection: 40
   OvershootPrevention: 8
@@ -51630,11 +51630,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974bf8cc99697b54a857075882c860fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   countdownText: {fileID: 8880905769328581619}
   deathUI: {fileID: 3977440629587973515}
   respawnTime: 5
   isDead: 0
   rb: {fileID: 4561393734523513783}
+  canDie: 0
 --- !u!114 &947433051933980619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51665,7 +51667,7 @@ MonoBehaviour:
   boostUi: {fileID: 1790964890704773058}
   boostForce: 1
   boostConsumtionRate: 0.3
-  boostGainedOnPickup: 30
+  boostGainedOnPickup: 50
   currentboost: 0
   speedBoostText: {fileID: 4036856593460872327}
   Trials:
