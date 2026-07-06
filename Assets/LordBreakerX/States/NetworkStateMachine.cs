@@ -18,6 +18,12 @@ namespace LordBreakerX.States.Networked
 
         public bool HasState { get => CurrentState != null; }
 
+
+        public bool IsState(NetworkScriptableState state)
+        {
+            return CurrentState.ID == state.ID;
+        }
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();

@@ -13,6 +13,11 @@ public static class TargetUtility
         return GetRandomTarget<THealth>(startPosition, attackRadius, ignoredLayers);
     }
 
+    public static AttackTarget GetRandomTarget<THealth>(Vector3 startPosition, float attackRadius)
+    {
+        return GetRandomTarget<THealth>(startPosition, attackRadius, Physics.IgnoreRaycastLayer);
+    }
+
     public static AttackTarget GetRandomTarget<THealth>(Vector3 startPosition, float attackRadius, LayerMask ignoredLayers)
     {
         Collider[] overlaps = Physics.OverlapSphere(startPosition, attackRadius, ~ignoredLayers, QueryTriggerInteraction.Ignore);
