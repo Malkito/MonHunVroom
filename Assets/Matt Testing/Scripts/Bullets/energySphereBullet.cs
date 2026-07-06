@@ -40,7 +40,7 @@ public class energySphereBullet : NetworkBehaviour, bullet
     private float maxScale;  // maximum uniform scale
     [SerializeField] private float scaleIncrease;  // maximum uniform scale
 
-    private SphereCollider SphereCollider;
+    [SerializeField] private SphereCollider SphereCollider;
 
 
     private bool canGrow = false;
@@ -52,6 +52,7 @@ public class energySphereBullet : NetworkBehaviour, bullet
     private void Awake()
     {
         MeshRenderer = gameObject.GetComponent<MeshRenderer>();
+
     }
 
     private void Start()
@@ -69,14 +70,15 @@ public class energySphereBullet : NetworkBehaviour, bullet
     }
     private void StartGrowing()
     {
+        print("Started Growing");
+        SphereCollider.enabled = true;
+        print("SphereCollider = " + SphereCollider.enabled);
         canGrow = true;
     }
 
     private void Update()
     {
         if (!canGrow) return;
-
-        SphereCollider.enabled = true;
 
         // Current scale magnitude (assuming uniform scale)
         float currentScale = transform.localScale.x;
@@ -151,6 +153,9 @@ public class energySphereBullet : NetworkBehaviour, bullet
         Vector3 spawnPosition = transform.position + Random.onUnitSphere * bulletSpawnRadius; // picks a random point on the spawning sphere
         GameObject bullet = Instantiate(fireBullet, spawnPosition, Quaternion.identity); // spawns the bullet
         Rigidbody rb = bullet.GetComponent<Rigidbody>(); // sets the rigid body of the bullet
+
+        NetworkObject netObj = bullet.GetComponent<NetworkObject>();
+        netObj.Spawn();
 
         if(rb != null)
         {

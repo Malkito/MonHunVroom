@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3529338958524944863}
   - component: {fileID: 6795365936365147316}
   - component: {fileID: 3896387496710344124}
-  - component: {fileID: 8730032746659321123}
   - component: {fileID: -533310157639385022}
+  - component: {fileID: 8730032746659321123}
   m_Layer: 0
   m_Name: Parting Grift
   m_TagString: Untagged
@@ -110,23 +110,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.14895013
   m_Center: {x: -0.000000074505806, y: 0, z: 0.0000000041909516}
---- !u!114 &8730032746659321123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4607181720469849986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d15d1204be5ac94a8e6869cb40ce466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objToPickUp: {fileID: 11400000, guid: b2847b1ae74b2104f9ed14fa5cd3567d, type: 2}
-  canBePickedUp: 0
-  dropped: 0
-  playerThatPickedUpUpgrade: {fileID: 0}
-  objectArrayIndex: 7
 --- !u!114 &-533310157639385022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,3 +135,21 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &8730032746659321123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4607181720469849986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d15d1204be5ac94a8e6869cb40ce466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  objToPickUp: {fileID: 0}
+  canBePickedUp: 0
+  dropped: 0
+  playerThatPickedUpUpgrade: {fileID: 0}
+  objectArrayIndex: 7

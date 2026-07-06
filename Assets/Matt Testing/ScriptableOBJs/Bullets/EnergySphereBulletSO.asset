@@ -15,6 +15,6 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3621685748747441842, guid: 225c7255a747cf54ea9b44a0d95a6c25, type: 3}
   bulletSpeed: 5
   bulletLifetime: 20
-  bulletDamage: 200
+  bulletDamage: 500
   minTimeBetweenShots: 3
   recoilForce: 4

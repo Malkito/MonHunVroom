@@ -14254,7 +14254,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -14300,6 +14300,7 @@ MonoBehaviour:
   bulletData: {fileID: 11400000, guid: 9b56692c8011c784e916d91c5a410be7, type: 2}
   isBigShot: 0
   bigShotDamageMulti: 2
+  damageBonus: 0
 --- !u!114 &7801221823002856251
 MonoBehaviour:
   m_ObjectHideFlags: 0

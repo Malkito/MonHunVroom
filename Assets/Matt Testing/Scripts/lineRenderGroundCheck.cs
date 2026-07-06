@@ -36,6 +36,16 @@ public class lineRenderGroundCheck : NetworkBehaviour
     {
         float speed = rb.linearVelocity.magnitude;
 
+        if(transform.position.y <= 0.7)
+        {
+            StartStopTailsClientRpc(true);
+        }
+        else
+        {
+            StartStopTailsClientRpc(false);
+        }
+
+
         if(speed <= minSpeedToEmit || !canPlay)
         {
             if (dirtParticles.isPlaying)

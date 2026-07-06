@@ -156,7 +156,7 @@ public class respawnManager : NetworkBehaviour
         health.canTakeDamage = setBool;
         TankCam.canMove = setBool;
 
-        health.currentHealth.Value = health.maxHealth;
+        health.currentHealth.Value = health.baseMaxHealth;
     }
 
 

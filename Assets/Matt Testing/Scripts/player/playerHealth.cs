@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
+using UnityEngine.UI;
 
 public class playerHealth : NetworkBehaviour, dealDamage
 {
     [Header("Health")]
-    [SerializeField] public float maxHealth = 100f;
-
+    [SerializeField] public float baseMaxHealth = 100f;
+    private float maxHealth;
     public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
+
+    float BaseSliderSize = 540;
 
     [Header("Color flash")]
     [SerializeField] private float flashTIme;
@@ -19,13 +22,18 @@ public class playerHealth : NetworkBehaviour, dealDamage
     [SerializeField] private float numOfFiresOnHealth;
     [SerializeField] private Material mat;
     [SerializeField] private GameObject deathUI;
+    [SerializeField] private Slider healthSlider;
 
     public bool canTakeDamage;
+
+    playerStats PlayerStats;
 
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
+            PlayerStats = GetComponent<playerStats>();
+
             currentHealth.Value = maxHealth;
             canTakeDamage = true;
         }
@@ -43,6 +51,8 @@ public class playerHealth : NetworkBehaviour, dealDamage
         {
             stopDamageOverTime();
         }
+
+        healthSlider.value = currentHealth.Value / baseMaxHealth;
     }
 
     public void increaseFireNumber()
@@ -96,6 +106,8 @@ public class playerHealth : NetworkBehaviour, dealDamage
 
         currentHealth.Value -= damage;
 
+
+
         if (currentHealth.Value < 0)
             currentHealth.Value = 0;
 
@@ -119,4 +131,19 @@ public class playerHealth : NetworkBehaviour, dealDamage
         yield return new WaitForSeconds(flashTIme);
         mat.color = originalcolor;
     }
+
+    public void applyHealthChanged()
+    {
+        maxHealth = baseMaxHealth * PlayerStats.currentHealth.Value; 
+        currentHealth.Value = maxHealth;
+
+        RectTransform Rect = healthSlider.GetComponent<RectTransform>();
+
+        float newWidth = BaseSliderSize * PlayerStats.currentHealth.Value;
+
+        Rect.sizeDelta = new Vector2(newWidth, healthSlider.GetComponent<RectTransform>().rect.size.y);
+
+    }
+
+
 }

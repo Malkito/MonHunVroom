@@ -57,13 +57,15 @@ public class playerShooting : NetworkBehaviour
 
     [SerializeField] private CinemachineCamera cam;
 
+    playerStats PlayerStats;
 
-    private void Awake()
+
+    public override void OnNetworkSpawn()
     {
+        PlayerStats = GetComponent<playerStats>();
         tankRB = GetComponent<Rigidbody>();
         manaScript = GetComponent<ManaSystem>();
     }
-
     private void Start()
     {
 
@@ -79,7 +81,7 @@ public class playerShooting : NetworkBehaviour
         if (!canShoot) return;
 
         // checks if the main attack (Left click) input and if enough time between shots has elapsed
-        if (GameInput.instance.getAttackInput() && MaintimeBetweenShots > bulletSOarray[currentMainBulletSoIndex].minTimeBetweenShots)
+        if (GameInput.instance.getAttackInput() && MaintimeBetweenShots > bulletSOarray[currentMainBulletSoIndex].minTimeBetweenShots / PlayerStats.currentFireRateReduction.Value)
         {
             shootServerRPC(currentMainBulletSoIndex);
             MaintimeBetweenShots = 0;
@@ -139,6 +141,8 @@ public class playerShooting : NetworkBehaviour
         // launches the projectile on teh correct direction
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.linearVelocity = mainBarrelEnds[currentBarrelNum].transform.forward * bulletSOarray[BulletIndex].bulletSpeed;
+
+        projectile.GetComponent<defaultBullet>().damageBonus = PlayerStats.currentDamage.Value;
 
         //spawns the bullet across the network
         NetworkObject networkProjectile = projectile.GetComponent<NetworkObject>(); 
@@ -256,4 +260,20 @@ public class playerShooting : NetworkBehaviour
         Gizmos.DrawLine(start, end);
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

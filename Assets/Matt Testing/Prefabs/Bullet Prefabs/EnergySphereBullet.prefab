@@ -161,6 +161,7 @@ MonoBehaviour:
   delayBeforeGrowing: 1
   growSpeed: 1
   scaleIncrease: 50
+  SphereCollider: {fileID: 3133757884868867418}
   BulletDamageOrigin: {fileID: 0}
 --- !u!54 &5201999722457973142
 Rigidbody:
