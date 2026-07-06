@@ -16,21 +16,6 @@ public class NetworkFractureTrigger : NetworkBehaviour
         if (fractured) return;
 
         if (!fracture.ShouldFractureFromCollision(collision))
-<<<<<<< HEAD
-            return;
-
-        if (!IsServer)
-        {
-            // CLIENT: send full trusted data
-            var contact = collision.contacts[0];
-            float force = collision.impulse.magnitude / Time.fixedDeltaTime;
-
-            SendFractureRequestServerRpc(force, contact.point);
-        }
-        else
-        {
-            ProcessCollision(collision);
-=======
            return;
 
         if (!IsServer)
@@ -44,7 +29,6 @@ public class NetworkFractureTrigger : NetworkBehaviour
         else
         {
            ProcessCollision(collision);
->>>>>>> main
         }
     }
 
