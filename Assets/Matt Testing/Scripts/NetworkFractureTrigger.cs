@@ -15,8 +15,8 @@ public class NetworkFractureTrigger : NetworkBehaviour
     {
         if (fractured) return;
 
-        if (!fracture.ShouldFractureFromCollision(collision))
-           return;
+        //if (!fracture.ShouldFractureFromCollision(collision))
+           //return;
 
         if (!IsServer)
         {
@@ -55,6 +55,6 @@ public class NetworkFractureTrigger : NetworkBehaviour
     [ClientRpc]
     void FractureClientRpc(float impactForce, Vector3 hitPoint)
     {
-        fracture.CauseFractureWithForce(impactForce, hitPoint);
+        //fracture.CauseFractureWithForce(impactForce, hitPoint);
     }
 }
