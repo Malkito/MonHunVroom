@@ -6,10 +6,6 @@ using UnityEngine;
 public sealed class ThrowAttack : ScriptableAttack
 {
     [SerializeField]
-    [Min(0)]
-    private float _randomTargetRadius = 10f;
-
-    [SerializeField]
     [Range(0f, 100f)]
     private float _throwTargetChance = 50;
 

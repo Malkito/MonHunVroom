@@ -21,9 +21,10 @@ public class loseConditionTimer : NetworkBehaviour
         currentTime.OnValueChanged += OnTimeChanged;
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
         currentTime.OnValueChanged -= OnTimeChanged;
+        base.OnDestroy();
     }
 
     private void Update()

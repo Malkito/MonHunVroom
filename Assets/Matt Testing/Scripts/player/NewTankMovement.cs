@@ -26,7 +26,6 @@ public class NewTankMovement : NetworkBehaviour
     [SerializeField] private float maxSpeed;
 
     [Header("Rotation")]
-    [SerializeField] private float maxConsideredAngle = 180f; // angle where torque peaks
     [SerializeField] private float AngleCorrection;
     [SerializeField] private float OvershootPrevention;
     [SerializeField] private float rotationForce;
@@ -131,8 +130,6 @@ public class NewTankMovement : NetworkBehaviour
         Vector3 desiredDirection = (camForward * input.y + camRight * input.x).normalized;
 
         Quaternion targetRotation = Quaternion.LookRotation(desiredDirection, Vector3.up);
-
-        float angle = Quaternion.Angle(rb.rotation, targetRotation);
 
         // -------------------------
         // Smooth Torque (stable)

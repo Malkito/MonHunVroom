@@ -74,7 +74,8 @@ public class BlackholeController : MonoBehaviour
         if (_playerLayer.Contains(other.gameObject.layer))
         {
             Rigidbody rigidbody = other.attachedRigidbody;
-            rigidbody.transform.position = Vector3.MoveTowards(rigidbody.transform.position, transform.position, 10 * Time.deltaTime);
+            rigidbody.transform.position = Vector3.MoveTowards(
+                rigidbody.transform.position, transform.position, _playerPullSpeed * Time.deltaTime);
         }
         else
         {

@@ -21,13 +21,13 @@ public class fireManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        // SERVER — already knows what it attached to
+        // SERVER ï¿½ already knows what it attached to
         if (IsServer)
         {
             if (attachedObjectRef.Value.TryGet(out var obj))
                 Initialize(obj.gameObject);
         }
-        // CLIENT — wait until server syncs the attached object
+        // CLIENT ï¿½ wait until server syncs the attached object
         else
         {
             attachedObjectRef.OnValueChanged += OnAttachedObjectAssigned;
@@ -91,7 +91,7 @@ public class fireManager : NetworkBehaviour
         }
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
         // When fire ends, tell the attached object its fire count decreases
         if (objectFireIsAttachedTo != null &&
@@ -99,5 +99,7 @@ public class fireManager : NetworkBehaviour
         {
             healthScript.decreaseFireNumber();
         }
+
+        base.OnDestroy();
     }
 }
