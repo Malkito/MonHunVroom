@@ -241,8 +241,8 @@ Material:
     - _TAMHighlightCoreWidth: 0.1
     - _TAMHighlightEdgeStrength: 0
     - _TAMHighlightPunchOutOpacity: 1
-    - _TAMHighlightPunchOutProjectionScale: 0.5
-    - _TAMHighlightPunchOutToneBias: -0.5
+    - _TAMHighlightPunchOutProjectionScale: 0.25
+    - _TAMHighlightPunchOutToneBias: 0
     - _TAMHighlightTransitionWidth: 0.1
     - _TAMIndirectContribution: 0.25
     - _TAMInkStrength: 1
@@ -250,7 +250,7 @@ Material:
     - _TAMLightInkOpacity: 0.26
     - _TAMLightProjectionScale: 0.25
     - _TAMLightRange: 0.64
-    - _TAMLightToneBias: -0.5
+    - _TAMLightToneBias: 0
     - _TAMProjectionScale: 1
     - _TAMShadowFormInkOpacity: 0.4
     - _TAMShadowFormOpacity: 0
@@ -286,7 +286,7 @@ Material:
     - _TAMHighlightTintOffset: {r: 0, g: 0, b: 0, a: 0}
     - _TAMInkColor: {r: 0, g: 0, b: 0, a: 1}
     - _TAMLightInkColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TAMShadowFormInkColor: {r: 0, g: 0, b: 0, a: 1}
+    - _TAMShadowFormInkColor: {r: 0.03773582, g: 0.021181898, b: 0.022749647, a: 1}
     - _TAMShadowInkColor: {r: 0, g: 0, b: 0, a: 1}
     - _TAMTerminatorTintOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
