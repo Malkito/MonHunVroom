@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b138428f909015a4797b652ae37b334b, type: 3}
+  m_Name: TamSourceSet
+  m_EditorClassIdentifier: CupOHappiness.Toon.Runtime::CupOHappiness.Toon.TamSourceSet
+  tones:
+  - name: 1
+    sourceTexture: {fileID: 2800000, guid: 38d8acc8590df004aaacd9d5cebbc586, type: 2}
+    authoredMips: []
+  - name: 2
+    sourceTexture: {fileID: 2800000, guid: aaef69151243a5142b75d68843db23ad, type: 2}
+    authoredMips: []
+  - name: 3
+    sourceTexture: {fileID: 2800000, guid: b3a4b44e1f63e8e408451248dfb90bf1, type: 2}
+    authoredMips: []
+  - name: 4
+    sourceTexture: {fileID: 2800000, guid: 3db1a467d641bd247909bc9a550d9936, type: 2}
+    authoredMips: []
+  - name: 5
+    sourceTexture: {fileID: 2800000, guid: 764297f23ab8a164d8ec1b3993bd7112, type: 2}
+    authoredMips: []
+  - name: 6
+    sourceTexture: {fileID: 2800000, guid: db71c331d9c422f47a13e8652e5b9749, type: 2}
+    authoredMips: []
