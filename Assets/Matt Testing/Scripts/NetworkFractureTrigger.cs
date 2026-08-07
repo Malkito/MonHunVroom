@@ -15,57 +15,46 @@ public class NetworkFractureTrigger : NetworkBehaviour
     {
         if (fractured) return;
 
-        if (!ShouldFractureFromCollision(collision))
-            return;
+        //if (!fracture.ShouldFractureFromCollision(collision))
+           //return;
 
         if (!IsServer)
         {
-            SendFractureRequestServerRpc();
+           // CLIENT: send full trusted data
+           var contact = collision.contacts[0];
+           float force = collision.impulse.magnitude / Time.fixedDeltaTime;
+
+           SendFractureRequestServerRpc(force, contact.point);
         }
         else
         {
-            ProcessCollision();
+           ProcessCollision(collision);
         }
     }
 
-    private bool ShouldFractureFromCollision(Collision collision)
-    {
-        if (fracture == null || collision.contactCount == 0 ||
-            fracture.triggerOptions == null ||
-            fracture.triggerOptions.triggerType != TriggerType.Collision)
-            return false;
-
-        var contact = collision.contacts[0];
-        float collisionForce = collision.impulse.magnitude / Time.fixedDeltaTime;
-        bool tagAllowed = fracture.triggerOptions.IsTagAllowed(
-            contact.otherCollider.gameObject.tag);
-        bool passesTagFilter = !fracture.triggerOptions.filterCollisionsByTag || tagAllowed;
-
-        return collisionForce > fracture.triggerOptions.minimumCollisionForce &&
-               passesTagFilter;
-    }
-
-    void ProcessCollision()
+    void ProcessCollision(Collision collision)
     {
         if (fractured) return;
         fractured = true;
 
-        FractureClientRpc();
+        var contact = collision.contacts[0];
+        float force = collision.impulse.magnitude / Time.fixedDeltaTime;
+
+        FractureClientRpc(force, contact.point);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void SendFractureRequestServerRpc()
+    void SendFractureRequestServerRpc(float force, Vector3 hitPoint)
     {
         if (fractured) return;
 
         fractured = true;
-        FractureClientRpc();
+        FractureClientRpc(force, hitPoint);
     }
 
     [ClientRpc]
-    void FractureClientRpc()
+    void FractureClientRpc(float impactForce, Vector3 hitPoint)
     {
-        if (fracture != null)
-            fracture.CauseFracture();
+        //fracture.CauseFractureWithForce(impactForce, hitPoint);
     }
 }
