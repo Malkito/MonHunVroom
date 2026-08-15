@@ -15,7 +15,14 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "15c6ef9adcd95c3c26fd1058dff6f3597a77f1dc"
+      "hash": "bf2511bbe06dac2a21df42551fb9212f651641b1"
+    },
+    "com.lordbreakerx.weight_tables": {
+      "version": "https://github.com/LordBreakerX/Weight-Tables.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "c300ea5352476dbbc88cd90b4cd02e63b6a8e401"
     },
     "com.nathanielh2013.lordbreakerxsstatmanager": {
       "version": "https://github.com/LordBreakerX/StatsManager.git?path=/Packages/com.nathanielh2013.lordbreakerxsstatmanager",

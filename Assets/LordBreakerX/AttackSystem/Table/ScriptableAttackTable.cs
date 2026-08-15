@@ -5,22 +5,64 @@ using UnityEngine;
 namespace LordBreakerX.AttackSystem
 {
     [CreateAssetMenu(menuName = "Attack System/Table")]
-    public sealed class ScriptableAttackTable : ScriptableObject
+    public sealed class ScriptableAttackTable : ScriptableWeightTable<ScriptableAttack>
     {
-        [SerializeField]
-        private WeightTable<ScriptableAttack> _attacks = new WeightTable<ScriptableAttack>();
-
-        public AttackTable CreateTable(AttackController controller)
+        public struct ActiveTable
         {
-            List<WeightedEntry<ScriptableAttack>> attackEntries = new List<WeightedEntry<ScriptableAttack>>();
+            public int totalWeight;
+            public List<WeightedEntry<ScriptableAttack>> availableAttacks;
 
-            foreach (WeightedEntry<ScriptableAttack> entry in _attacks.WeightedEntries)
+            public ActiveTable(ScriptableAttackTable attackTable)
+            {
+                totalWeight = 0;
+                availableAttacks = new List<WeightedEntry<ScriptableAttack>>();
+
+                foreach(WeightedEntry<ScriptableAttack> entry in attackTable.Entries)
+                {
+                    if (entry.Value.CanUseAttack())
+                    {
+                        availableAttacks.Add(entry);
+                        totalWeight += entry.Weight;
+                    }
+                }
+            }
+        }
+
+
+        public ScriptableAttack GetRandomAttack()
+        {
+            ActiveTable activeAttackTable = new ActiveTable(this);
+
+            int weight = Random.Range(0, activeAttackTable.totalWeight + 1);
+
+            foreach (WeightedEntry<ScriptableAttack> entry in activeAttackTable.availableAttacks)
+            {
+                if (weight <= entry.Weight)
+                {
+                    return entry.Value;
+                }
+
+                weight -= entry.Weight;
+            }
+            return null;
+        }
+        
+
+        public ScriptableAttackTable Clone(AttackController controller)
+        {
+            ScriptableAttackTable clonedTable = CreateInstance<ScriptableAttackTable>();
+
+            foreach (WeightedEntry<ScriptableAttack> entry in Entries)
             {
                 ScriptableAttack attack = ScriptableAttack.Clone(entry.Value, controller);
-                attackEntries.Add(new WeightedEntry<ScriptableAttack>(attack, entry.Weight));
+
+                WeightedEntry<ScriptableAttack> clonedEntry = new WeightedEntry<ScriptableAttack>(attack, entry.Weight);
+
+                AddEntry(clonedEntry);
             }
 
-            return new AttackTable(attackEntries);
+
+            return clonedTable;
         }
 
     }

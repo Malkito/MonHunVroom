@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77d32831157084b46904874fbbbe296a, type: 3}
-  m_Name: AllAttacks
+  m_Name: TestingTable
   m_EditorClassIdentifier: 
   _table:
     _weightedEntries:

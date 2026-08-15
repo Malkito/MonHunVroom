@@ -2,6 +2,7 @@
   "dependencies": {
     "com.dgreenheck.openfracture": "https://github.com/dgreenheck/OpenFracture.git",
     "com.lordbreakerx.editorutilities": "https://github.com/LordBreakerX/UnityEditorUtilities.git",
+    "com.lordbreakerx.weight_tables": "https://github.com/LordBreakerX/Weight-Tables.git",
     "com.nathanielh2013.lordbreakerxsstatmanager": "https://github.com/LordBreakerX/StatsManager.git?path=/Packages/com.nathanielh2013.lordbreakerxsstatmanager",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "2.0.5",
