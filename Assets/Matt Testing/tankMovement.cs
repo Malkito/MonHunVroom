@@ -77,7 +77,7 @@ public class tankMovement : NetworkBehaviour
  
     private void forwardAndBackMovemnet(float inputVector)
     {
-        rb.AddForce(gameObject.transform.forward * (moveSpeed + PlayerStats.currentSpeed) * inputVector, ForceMode.Acceleration);
+        rb.AddForce(gameObject.transform.forward * (moveSpeed * PlayerStats.currentSpeed.Value) * inputVector, ForceMode.Acceleration);
 
         if(inputVector == 0 && isGrounded)
         {

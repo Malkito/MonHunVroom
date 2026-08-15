@@ -16,6 +16,7 @@ public class defaultBullet : NetworkBehaviour, bullet
     [SerializeField] private BulletSO bulletData; // The deafault bullet data, set in inspector
     public bool isBigShot;
     [SerializeField] private float bigShotDamageMulti;
+    public float damageBonus;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -23,7 +24,7 @@ public class defaultBullet : NetworkBehaviour, bullet
 
         if (collision.gameObject.TryGetComponent(out dealDamage healthScript))
         {
-            float damage = bulletData.bulletDamage;
+            float damage = bulletData.bulletDamage * damageBonus;
 
             if (isBigShot) {
                 damage *= bigShotDamageMulti;

@@ -1,53 +1,66 @@
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.UI;
 using TMPro;
 
 public class loseConditionTimer : NetworkBehaviour
 {
     [SerializeField] private float maxTimerInSeconds;
+    [SerializeField] private TMP_Text timerText;
 
-    private float currentTime;
+    private NetworkVariable<float> currentTime = new NetworkVariable<float>();
 
-    [SerializeField] private TMP_Text timerText; 
-
-
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        currentTime = maxTimerInSeconds;
-    }
-    void Update()
-    {
-        if(GameStateManager.Instance.CurrentState == GameStateManager.State.GamePlaying && currentTime > 0)
+        if (IsServer)
         {
-            updateTimerClientRpc();
+            currentTime.Value = maxTimerInSeconds;
         }
+
+        UpdateDisplay(currentTime.Value);
+
+        currentTime.OnValueChanged += OnTimeChanged;
     }
 
-
-    [ClientRpc]
-    private void updateTimerClientRpc()
+    private void OnDestroy()
     {
-        currentTime -= Time.deltaTime;
-        int minutes = Mathf.FloorToInt(currentTime / 60);
-        int seconds = Mathf.FloorToInt(currentTime % 60);
-        timerText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+        currentTime.OnValueChanged -= OnTimeChanged;
+    }
 
-        if (currentTime <= 0)
+    private void Update()
+    {
+        if (!IsServer)
+            return;
+
+        if (GameStateManager.Instance.CurrentState != GameStateManager.State.GamePlaying)
+            return;
+
+        if (currentTime.Value <= 0)
+            return;
+
+        currentTime.Value -= Time.deltaTime;
+
+        if (currentTime.Value <= 0)
         {
+            currentTime.Value = 0;
             gameOver();
-
         }
+    }
+
+    private void OnTimeChanged(float previous, float current)
+    {
+        UpdateDisplay(current);
+    }
+
+    private void UpdateDisplay(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60);
+        int seconds = Mathf.FloorToInt(time % 60);
+
+        timerText.text = $"{minutes:00} : {seconds:00}";
     }
 
     private void gameOver()
     {
         GameStateManager.Instance.setNewState(GameStateManager.State.GameOver);
     }
-
-
-
-
-
-
 }

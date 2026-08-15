@@ -14,26 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats:
   - _id: Health
-    _type: 1
-    _baseValue: 250
+    _type: 0
+    _baseValue: 1000
     _modifiers:
     - rid: 8477348268728123610
     - rid: 8477348268728123611
+    - rid: 3963235079041843200
   - _id: Move-Speed
     _type: 1
     _baseValue: 14
-    _modifiers: []
+    _modifiers:
+    - rid: 3963235259289174020
   - _id: Turning-Speed
     _type: 1
     _baseValue: 120
-    _modifiers: []
+    _modifiers:
+    - rid: 3963235327910609023
   - _id: Fly-Speed
     _type: 1
     _baseValue: 1
     _modifiers: []
   - _id: Laser-Eyes-Duration
     _type: 1
-    _baseValue: 10
+    _baseValue: 3
     _modifiers: []
   - _id: Flying-Attack-Duration
     _type: 1
@@ -46,38 +49,72 @@ MonoBehaviour:
   - _id: Laser-Damage
     _type: 1
     _baseValue: 3
-    _modifiers: []
+    _modifiers:
+    - rid: 3963235259289174018
   - _id: Bug-Damage
     _type: 1
-    _baseValue: 1
+    _baseValue: 2
     _modifiers: []
   - _id: Blackhole-Damage
     _type: 1
     _baseValue: 2
-    _modifiers: []
+    _modifiers:
+    - rid: 3963235259289174019
   - _id: Roubble-Damage
     _type: 1
-    _baseValue: 2
-    _modifiers: []
+    _baseValue: 200
+    _modifiers:
+    - rid: 3963235331672375417
   - _id: Push-Damage
     _type: 1
     _baseValue: 2
     _modifiers: []
   - _id: Stomp-Damage
     _type: 1
-    _baseValue: 4
-    _modifiers: []
+    _baseValue: 25
+    _modifiers:
+    - rid: 3963235259289174016
   - _id: Bomb-Damage
     _type: 1
-    _baseValue: 100
+    _baseValue: 80
     _modifiers: []
   references:
     version: 2
     RefIds:
+    - rid: 3963235079041843200
+      type: {class: IntPlayerCountModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _maxPlayers: 4
+        _minOffset: 1
+        _maxOffset: 3
+    - rid: 3963235259289174016
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.2
+    - rid: 3963235259289174018
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.2
+    - rid: 3963235259289174019
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.2
+    - rid: 3963235259289174020
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.3
+    - rid: 3963235327910609023
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.3
+    - rid: 3963235331672375417
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.2
     - rid: 8477348268728123610
       type: {class: LevelsCompletedModifier/FloatModifier, ns: , asm: Assembly-CSharp}
       data:
-        _multiplierPerLevel: 1.25
+        _multiplierPerLevel: 1.4
     - rid: 8477348268728123611
       type: {class: RoundModifier, ns: , asm: Assembly-CSharp}
       data:

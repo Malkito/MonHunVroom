@@ -5056,8 +5056,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   airStrikeMissle: {fileID: 7524584966813132686, guid: b1b88855ab54d9d429e4672c573b0ffe, type: 3}
-  timeToSpawn: 5
-  spawnHeight: 100
+  timeToSpawn: 3
+  spawnHeight: 50
 --- !u!114 &8260492060265085960
 MonoBehaviour:
   m_ObjectHideFlags: 0

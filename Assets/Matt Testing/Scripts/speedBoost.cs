@@ -30,22 +30,28 @@ public class speedBoost : NetworkBehaviour
     private float TrialBaseSize;
     private float baseFOV;
 
+    playerStats PlayerStats;
+
+    public override void OnNetworkSpawn()
+    {
+        PlayerStats = GetComponent<playerStats>();
+    }
     private void Awake()
     {
         playerRB = GetComponent<Rigidbody>();
     }
     void Start()
     {
+        MaxBoost = 100 + (PlayerStats.currentSpecialBoost.Value * 20);
+
         boostUi.maxValue = MaxBoost;
         currentboost = 0;
         baseFOV = cam.Lens.FieldOfView;
         TrialBaseSize = Trials[0].widthMultiplier;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-
-
         boostUi.value = currentboost;
 
         int boostAmount = Mathf.RoundToInt(currentboost);
@@ -72,7 +78,7 @@ public class speedBoost : NetworkBehaviour
 
     private void activateSpeedBoost()
     {
-        playerRB.AddForce(playerRB.transform.forward * boostForce, ForceMode.VelocityChange);
+        playerRB.AddForce(playerRB.transform.forward * (boostForce * (PlayerStats.currentSpecialBoost.Value / 5)), ForceMode.VelocityChange);
         currentboost -= boostConsumtionRate;
 
         StopAllCoroutines();
