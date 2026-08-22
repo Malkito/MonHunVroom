@@ -22,7 +22,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "c300ea5352476dbbc88cd90b4cd02e63b6a8e401"
+      "hash": "13db967d578f729e727cb8ea04eb603138881375"
     },
     "com.nathanielh2013.lordbreakerxsstatmanager": {
       "version": "https://github.com/LordBreakerX/StatsManager.git?path=/Packages/com.nathanielh2013.lordbreakerxsstatmanager",
