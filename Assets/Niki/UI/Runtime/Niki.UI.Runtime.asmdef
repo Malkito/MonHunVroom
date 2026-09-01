@@ -1,0 +1,17 @@
+{
+    "name": "Niki.UI.Runtime",
+    "rootNamespace": "Niki.UI",
+    "references": [
+        "UnityEngine.UI",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowPrecompiledReferences": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineNoReferences": false,
+    "versionDefines": [],
+    "asmdefHelpPath": ""
+}
