@@ -14830,7 +14830,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   _survivalTime: 10
-  _moveSpeed: 20
+  _damage: 10
+  _moveSpeed: 40
   _monsterTag: Monster
   _hitParticle: {fileID: 2566055645945908332}
 --- !u!54 &7457236678161861250
