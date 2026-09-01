@@ -6,6 +6,8 @@ public class roundWonManager : NetworkBehaviour
 {
     [SerializeField] private GameObject nextRoundPortal;
 
+    [SerializeField] private GameObject Factory;
+
     private int playersReadyForNextRound;
     private NetworkObject playerNetOBJ;
     private GameObject playerObj;
@@ -51,6 +53,7 @@ public class roundWonManager : NetworkBehaviour
     {
         nextRoundPortal.SetActive(true);
         coli.enabled = true;
+        Factory.SetActive(false);
     }
 
 

@@ -31,7 +31,7 @@ public class EquippedUpgrade
 public class playerUpgradeManager : NetworkBehaviour
 {
     [Header("Runtime Slots")]
-    public EquippedUpgrade[] equipped = new EquippedUpgrade[3];
+    public EquippedUpgrade[] equippedPowerUps = new EquippedUpgrade[3];
 
     [Header("Cooldowns")]
     public float abilityOneCooldown;
@@ -49,8 +49,8 @@ public class playerUpgradeManager : NetworkBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < equipped.Length; i++)
-            equipped[i] = new EquippedUpgrade();
+        for (int i = 0; i < equippedPowerUps.Length; i++)
+            equippedPowerUps[i] = new EquippedUpgrade();
     }
 
     private void Start()
@@ -78,7 +78,7 @@ public class playerUpgradeManager : NetworkBehaviour
         if (def == null) return;
 
         GameObject prefab = def.logicScriptObject;
-        Transform parent = transform; // or upgradePlaceHolders[slot] if you still use them
+        Transform parent = transform;
 
         GameObject instance = Instantiate(prefab, parent);
         NetworkObject netObj = instance.GetComponent<NetworkObject>();
@@ -90,9 +90,9 @@ public class playerUpgradeManager : NetworkBehaviour
         netObj.SpawnWithOwnership(requester);
 
         // Update SERVER state
-        equipped[slot].upgradeID = upgradeID;
-        equipped[slot].logicInstance = netObj;
-        equipped[slot].cooldownRemaining = 0f;
+        equippedPowerUps[slot].upgradeID = upgradeID;
+        equippedPowerUps[slot].logicInstance = netObj;
+        equippedPowerUps[slot].cooldownRemaining = 0f;
 
         RegisterUpgrade(slot, upgradeID, netObj);
 
@@ -103,9 +103,9 @@ public class playerUpgradeManager : NetworkBehaviour
     // SLOT MANAGEMENT
     private int FindFirstAvailableSlotOrShift()
     {
-        for (int i = 0; i < equipped.Length; i++)
+        for (int i = 0; i < equippedPowerUps.Length; i++)
         {
-            if (equipped[i].logicInstance == null)
+            if (equippedPowerUps[i].logicInstance == null)
             {
                 SyncSlots();
                 return i;
@@ -116,14 +116,14 @@ public class playerUpgradeManager : NetworkBehaviour
         // full → shift
         RemoveUpgradeServerServerRpc(0);
 
-        for (int i = 0; i < equipped.Length - 1; i++)
+        for (int i = 0; i < equippedPowerUps.Length - 1; i++)
         {
-            equipped[i] = equipped[i + 1];
+            equippedPowerUps[i] = equippedPowerUps[i + 1];
         }
 
-        equipped[equipped.Length - 1] = new EquippedUpgrade();
+        equippedPowerUps[equippedPowerUps.Length - 1] = new EquippedUpgrade();
         SyncSlots();
-        return equipped.Length - 1;
+        return equippedPowerUps.Length - 1;
 
     }
 
@@ -132,15 +132,15 @@ public class playerUpgradeManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void RemoveUpgradeServerServerRpc(int slot)
     {
-        if (slot < 0 || slot >= equipped.Length) return;
+        if (slot < 0 || slot >= equippedPowerUps.Length) return;
 
-        if (equipped[slot].logicInstance != null)
+        if (equippedPowerUps[slot].logicInstance != null)
         {
             SpawnUpgradePickup(slot);
-            equipped[slot].logicInstance.Despawn();
+            equippedPowerUps[slot].logicInstance.Despawn();
         }
 
-        equipped[slot] = new EquippedUpgrade();
+        equippedPowerUps[slot] = new EquippedUpgrade();
 
         SyncSlots();
     }
@@ -149,7 +149,7 @@ public class playerUpgradeManager : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        var entry = equipped[slot];
+        var entry = equippedPowerUps[slot];
 
         entry.upgradeID = upgradeID;
         entry.logicInstance = netObj;
@@ -168,7 +168,7 @@ public class playerUpgradeManager : NetworkBehaviour
     // PICKUP SPAWN
     private void SpawnUpgradePickup(int slot)
     {
-        int id = equipped[slot].upgradeID;
+        int id = equippedPowerUps[slot].upgradeID;
 
         var def = UpgradeDatabase.Instance.Get(id);
         if (def == null || def.pickupObject == null) return;
@@ -200,61 +200,61 @@ public class playerUpgradeManager : NetworkBehaviour
 
     private void HandleSlot(int slot, bool pressed, ref float cooldown)
     {
-        if (equipped[slot].logicInstance == null) return;
+        if (equippedPowerUps[slot].logicInstance == null) return;
 
         // Always ensure we have the script
-        if (equipped[slot].logicScript == null)
+        if (equippedPowerUps[slot].logicScript == null)
         {
-            equipped[slot].logicScript =
-                equipped[slot].logicInstance.GetComponent<useAbility>();
+            equippedPowerUps[slot].logicScript =
+                equippedPowerUps[slot].logicInstance.GetComponent<useAbility>();
         }
 
         // still null? then abort safely
-        if (equipped[slot].logicScript == null) return;
+        if (equippedPowerUps[slot].logicScript == null) return;
 
-        if (equipped[slot].logicScript == null)
+        if (equippedPowerUps[slot].logicScript == null)
         {
             // resolve after spawn (safety fallback)
-            var def = UpgradeDatabase.Instance.Get(equipped[slot].upgradeID);
+            var def = UpgradeDatabase.Instance.Get(equippedPowerUps[slot].upgradeID);
             if (def != null)
             {
-                equipped[slot].logicScript =
-                    equipped[slot].logicInstance.GetComponent<useAbility>();
+                equippedPowerUps[slot].logicScript =
+                    equippedPowerUps[slot].logicInstance.GetComponent<useAbility>();
             }
         }
 
-        if (equipped[slot].logicScript == null) return;
+        if (equippedPowerUps[slot].logicScript == null) return;
 
         if (pressed && cooldown <= 0f)
         {
-            equipped[slot].logicScript.useAbility(transform, true);
+            equippedPowerUps[slot].logicScript.useAbility(transform, true);
 
-            var def = UpgradeDatabase.Instance.Get(equipped[slot].upgradeID);
+            var def = UpgradeDatabase.Instance.Get(equippedPowerUps[slot].upgradeID);
             cooldown = def.cooldown / PlayerStats.currentCooldownReduction.Value;
         }
         else
         {
-            equipped[slot].logicScript.useAbility(transform, false);
+            equippedPowerUps[slot].logicScript.useAbility(transform, false);
         }
     }
 
 
     private void SyncSlots()
     {
-        int[] ids = new int[equipped.Length];
-        ulong[] netIds = new ulong[equipped.Length];
+        int[] ids = new int[equippedPowerUps.Length];
+        ulong[] netIds = new ulong[equippedPowerUps.Length];
 
-        for (int i = 0; i < equipped.Length; i++)
+        for (int i = 0; i < equippedPowerUps.Length; i++)
         {
-            if (equipped[i].logicInstance == null)
+            if (equippedPowerUps[i].logicInstance == null)
             {
                 ids[i] = -1;
                 netIds[i] = 0;
             }
             else
             {
-                ids[i] = equipped[i].upgradeID;
-                netIds[i] = equipped[i].logicInstance.NetworkObjectId;
+                ids[i] = equippedPowerUps[i].upgradeID;
+                netIds[i] = equippedPowerUps[i].logicInstance.NetworkObjectId;
             }
         }
 
@@ -274,23 +274,23 @@ public class playerUpgradeManager : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        for (int i = 0; i < equipped.Length; i++)
+        for (int i = 0; i < equippedPowerUps.Length; i++)
         {
             if (ids[i] == -1)
             {
-                equipped[i] = new EquippedUpgrade();
+                equippedPowerUps[i] = new EquippedUpgrade();
                 continue;
             }
 
             var netObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[netIds[i]];
 
-            bool isNew = equipped[i].logicInstance != netObj;
+            bool isNew = equippedPowerUps[i].logicInstance != netObj;
 
-            equipped[i].upgradeID = ids[i];
-            equipped[i].logicInstance = netObj;
+            equippedPowerUps[i].upgradeID = ids[i];
+            equippedPowerUps[i].logicInstance = netObj;
 
             if (netObj.TryGetComponent<useAbility>(out var ua))
-                equipped[i].logicScript = ua;
+                equippedPowerUps[i].logicScript = ua;
 
             // ONLY initialize if it's NEW
             if (isNew && netObj.TryGetComponent<onUpgradePickedup>(out var pickup))
