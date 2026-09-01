@@ -194,8 +194,6 @@ public class NewTankMovement : NetworkBehaviour
                 return;
             }
             jumpTimer -= Time.deltaTime;
-
-
         }
     }
 
