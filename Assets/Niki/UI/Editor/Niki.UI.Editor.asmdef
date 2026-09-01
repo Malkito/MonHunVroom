@@ -1,0 +1,18 @@
+{
+    "name": "Niki.UI.Editor",
+    "rootNamespace": "Niki.UI.Editor",
+    "references": [
+        "Niki.UI.Runtime",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowPrecompiledReferences": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineNoReferences": false,
+    "versionDefines": [],
+    "asmdefHelpPath": ""
+}
