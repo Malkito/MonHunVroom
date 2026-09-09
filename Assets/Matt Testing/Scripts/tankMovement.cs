@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
-
+using Ami.BroAudio;
 public class tankMovement : NetworkBehaviour
 {
 
@@ -36,11 +36,21 @@ public class tankMovement : NetworkBehaviour
     [SerializeField] private Image jumpIcon;
     private float jumpTimer;
 
+    [SerializeField] private bool isFantasy;
+
+    private fantasyTankSounds sounds;
+
+    [SerializeField] private SoundID FantasyMovementSFX;
+    [SerializeField] private SoundID TronMovementSFX;
+
+    private IAudioPlayer soundPlayer;
+
     private playerStats PlayerStats;
     public override void OnNetworkSpawn()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         PlayerStats = GetComponent<playerStats>();
+        sounds = GetComponent<fantasyTankSounds>();
         canMove = true;
     }
 
@@ -73,16 +83,23 @@ public class tankMovement : NetworkBehaviour
         rb.MoveRotation(rb.rotation * rotation);
 
     }
-
- 
     private void forwardAndBackMovemnet(float inputVector)
     {
         rb.AddForce(gameObject.transform.forward * (moveSpeed * PlayerStats.currentSpeed.Value) * inputVector, ForceMode.Acceleration);
 
+        if (isFantasy && !soundPlayer.IsPlaying)
+        {
+            soundPlayer = BroAudio.Play(FantasyMovementSFX).SetPitch(rb.GetPointVelocity(transform.position).magnitude).SetVolume(Mathf.Abs(inputVector));
+        }
+        else
+        {
+            soundPlayer =  BroAudio.Play(TronMovementSFX).SetPitch(rb.GetPointVelocity(transform.position).magnitude).SetVolume(Mathf.Abs(inputVector));
+        }
+
         if(inputVector == 0 && isGrounded)
         {
             rb.linearDamping = linerDampening;
-
+            soundPlayer.Stop();
         }
         else
         {

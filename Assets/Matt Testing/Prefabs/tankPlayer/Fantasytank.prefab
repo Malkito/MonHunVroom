@@ -79696,6 +79696,7 @@ GameObject:
   - component: {fileID: 5621866573112001209}
   - component: {fileID: 101046386858594832}
   - component: {fileID: 813649777153493869}
+  - component: {fileID: 2524279802247255945}
   m_Layer: 2
   m_Name: Fantasytank
   m_TagString: Player
@@ -80072,7 +80073,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 013a856a076a1c640a73ed5037ccf4b0, type: 3}
   m_Name: 
@@ -80102,7 +80103,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be47dcd4604bfb545b7758bd132d9f32, type: 3}
   m_Name: 
@@ -80119,6 +80120,15 @@ MonoBehaviour:
   jumpUpForce: 4
   MaxJumpTimer: 3
   jumpIcon: {fileID: 3975747479943129205}
+  isFantasy: 0
+  FantasyMovementSFX:
+    _entity: {fileID: 11400000, guid: bd0ff3767218ad44db9e1b691904cf8a, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
+  TronMovementSFX:
+    _entity: {fileID: 11400000, guid: bd0ff3767218ad44db9e1b691904cf8a, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
 --- !u!114 &5844322056726403099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80369,6 +80379,42 @@ MonoBehaviour:
     m_InternalValue: 0
   currentSpecialBoost:
     m_InternalValue: 0
+--- !u!114 &2524279802247255945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4f1ece2337edd54fa9542b9255ae022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FantasyFireSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
+  TronFireSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
+  FantasyMovementSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
+  TronMovementSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
+  JumpSoundSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
+  alteranteFireSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
 --- !u!1 &8105446854303656973
 GameObject:
   m_ObjectHideFlags: 0

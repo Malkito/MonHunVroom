@@ -178,6 +178,7 @@ public class NewTankMovement : NetworkBehaviour
 
         if(input && jumpTimer <= 0)
         {
+
             Vector3 Frontforce = transform.forward * jumpFrontForce;
             Vector3 upforce = Vector3.up * jumpUpForce;
             rb.AddForce(Frontforce + upforce, ForceMode.VelocityChange);
