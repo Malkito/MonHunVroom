@@ -51335,24 +51335,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 8104714157324929073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc80c44c196c5645b788b070a31692f, type: 3}
+  m_Script: {fileID: 11500000, guid: d17f91e9d5a98034f9ea58dd68501ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  equippedPowerUps:
-  - upgradeID: 0
+  equippedAbilities:
+  - abilityID: 0
     logicInstance: {fileID: 0}
     cooldownRemaining: 0
-  - upgradeID: 0
+  - abilityID: 0
     logicInstance: {fileID: 0}
     cooldownRemaining: 0
-  - upgradeID: 0
+  - abilityID: 0
     logicInstance: {fileID: 0}
     cooldownRemaining: 0
   abilityOneCooldown: 0
   abilityTwoCooldown: 0
   abilityThreeCooldown: 0
-  canUseUpgrade: 0
+  canUseAbilites: 0
 --- !u!114 &6383207719736942468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51464,6 +51464,15 @@ MonoBehaviour:
   jumpUpForce: 4
   MaxJumpTimer: 3
   jumpIcon: {fileID: 3975747479943129205}
+  isFantasy: 0
+  FantasyMovementSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
+  TronMovementSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
 --- !u!114 &5844322056726403099
 MonoBehaviour:
   m_ObjectHideFlags: 0

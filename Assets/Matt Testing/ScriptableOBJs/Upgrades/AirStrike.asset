@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
+  m_Script: {fileID: 11500000, guid: aae9d51662796094493f12bd12f12bc0, type: 3}
   m_Name: AirStrike
   m_EditorClassIdentifier: 
+  upgradeID: 0
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
@@ -21,5 +22,5 @@ MonoBehaviour:
   isAvailble: 0
   isBulletUpgrade: 0
   logicScriptObject: {fileID: 4333488246708774856, guid: dc94125f41636ad479d0691ce52aa05c, type: 3}
-  cooldown: 10
+  cooldown: 6
   canBeUsedWhileDead: 0

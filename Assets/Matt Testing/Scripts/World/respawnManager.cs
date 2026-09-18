@@ -146,12 +146,12 @@ public class respawnManager : NetworkBehaviour
     {
         tankMovement movement = player.GetComponent<tankMovement>();
         tankCameraMovement TankCam = player.GetComponent<tankCameraMovement>();
-        playerUpgradeManager upgrade = player.GetComponent<playerUpgradeManager>();
+        playerAbilityManager upgrade = player.GetComponent<playerAbilityManager>();
         playerShooting shooting = player.GetComponent<playerShooting>();
         playerHealth health = player.GetComponent<playerHealth>();
 
         movement.canMove = setBool;
-        upgrade.canUseUpgrade = setBool;
+        upgrade.canUseAbilites = setBool;
         shooting.canShoot = setBool;
         health.canTakeDamage = setBool;
         TankCam.canMove = setBool;

@@ -1,0 +1,56 @@
+using UnityEngine;
+using Unity.Netcode;
+
+public class AbilityPickUp : NetworkBehaviour
+{
+    /// <summary>
+    /// 
+    /// This script is on the upgrade Pick up objects
+    ///
+    /// Various flags are used to ensure there is no pick up loop
+    /// 
+    /// </summary>
+
+
+    public PowerUpBase objToPickUp;
+    [HideInInspector] public bool canBePickedUp;
+    [HideInInspector] public bool dropped = false;
+    [HideInInspector] public GameObject playerThatPickedUpUpgrade;
+    [SerializeField] private int objectArrayIndex;
+
+
+    private void Start()
+    {
+        canBePickedUp = true;
+        if (dropped) canBePickedUp = false;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && canBePickedUp)
+        {
+            //Player has picked up the upgrade
+
+            playerThatPickedUpUpgrade = other.gameObject; // Unique identifier used for the grapple hook upgrade
+
+            playerAbilityManager playerUpgradeManager = other.GetComponent<playerAbilityManager>();
+            playerUpgradeManager.AddToPlayerAbilites(objectArrayIndex); // Makes the upgrde avaible to the player
+            print("Added upgrade to array");
+            destroyPickUpServerRpc();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void destroyPickUpServerRpc()
+    {
+        gameObject.GetComponent<NetworkObject>().Despawn();
+    }
+
+    
+
+    private void OnTriggerExit(Collider other)
+    {
+        canBePickedUp = true;
+    }
+
+
+}

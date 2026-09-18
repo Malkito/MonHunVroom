@@ -15,15 +15,15 @@ public class powerUpSpawnPoolManager : NetworkBehaviour
 
 
     [Header("Public varibles")]
-    public UpgradeScriptableOBJ[] spawnPool; // upgrades to be spawned on the map, can be added to by all players
-    public UpgradeScriptableOBJ[] entireUpgradePool; // the enitre pool of upgrades 
+    public AbilityScriptableOBJ[] spawnPool; // upgrades to be spawned on the map, can be added to by all players
+    public AbilityScriptableOBJ[] entireUpgradePool; // the enitre pool of upgrades 
 
     [Header("Other")]
-    [SerializeField] private UpgradeScriptableOBJ[] availbleUpgrades; // upgrades available to the player for them to pick one from
+    [SerializeField] private AbilityScriptableOBJ[] availbleUpgrades; // upgrades available to the player for them to pick one from
     [SerializeField] private GameObject upgradeChoiceUI; // the upgrade UI. Has 3 icons, names and buttons, one for each availble upgrade
     [SerializeField] int amountOfUpgradesToBeAvailble;// Number of upgrades to be availble. Set in editor, set to 3
 
-    private List<UpgradeScriptableOBJ> objectsToSpawn = new List<UpgradeScriptableOBJ>(); //private list used to edit the array of spawn points
+    private List<AbilityScriptableOBJ> objectsToSpawn = new List<AbilityScriptableOBJ>(); //private list used to edit the array of spawn points
 
     private void Start()
     {
@@ -37,7 +37,7 @@ public class powerUpSpawnPoolManager : NetworkBehaviour
         print("rollRandomUpgrade Runs");
 
         upgradeChoiceUI.SetActive(true); // turns on the UI
-        availbleUpgrades = new UpgradeScriptableOBJ[amountOfUpgradesToBeAvailble]; // sets the length of the availble upgrages 
+        availbleUpgrades = new AbilityScriptableOBJ[amountOfUpgradesToBeAvailble]; // sets the length of the availble upgrages 
 
         for (int i = 0; i < amountOfUpgradesToBeAvailble; i++)
         {
@@ -64,14 +64,14 @@ public class powerUpSpawnPoolManager : NetworkBehaviour
         addObjectToSpawnPool(availbleUpgrades[2]);// adds third upgrade to spawn pool
     }
 
-    private void addObjectToSpawnPool(UpgradeScriptableOBJ obj) // add Scriptabel OBJ to the spawn pool
+    private void addObjectToSpawnPool(AbilityScriptableOBJ obj) // add Scriptabel OBJ to the spawn pool
     {
         objectsToSpawn.Add(obj); // adds the object to the internal list
         spawnPool = (changeListIntoArray(objectsToSpawn)); // restruns the list in array form
         upgradeChoiceUI.SetActive(false); // turns off UI
     }
 
-    private UpgradeScriptableOBJ[] changeListIntoArray(List<UpgradeScriptableOBJ> objList) // returns given list as an array
+    private AbilityScriptableOBJ[] changeListIntoArray(List<AbilityScriptableOBJ> objList) // returns given list as an array
     {
         return objList.ToArray();
     }

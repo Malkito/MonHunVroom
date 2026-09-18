@@ -79697,6 +79697,7 @@ GameObject:
   - component: {fileID: 101046386858594832}
   - component: {fileID: 813649777153493869}
   - component: {fileID: 2524279802247255945}
+  - component: {fileID: 7739257043203141109}
   m_Layer: 2
   m_Name: Fantasytank
   m_TagString: Player
@@ -79991,24 +79992,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 8104714157324929073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc80c44c196c5645b788b070a31692f, type: 3}
+  m_Script: {fileID: 11500000, guid: d17f91e9d5a98034f9ea58dd68501ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  equippedPowerUps:
-  - upgradeID: 0
+  equippedAbilities:
+  - abilityID: 0
     logicInstance: {fileID: 0}
     cooldownRemaining: 0
-  - upgradeID: 0
+  - abilityID: 0
     logicInstance: {fileID: 0}
     cooldownRemaining: 0
-  - upgradeID: 0
+  - abilityID: 0
     logicInstance: {fileID: 0}
     cooldownRemaining: 0
   abilityOneCooldown: 0
   abilityTwoCooldown: 0
   abilityThreeCooldown: 0
-  canUseUpgrade: 0
+  canUseAbilites: 0
 --- !u!114 &6383207719736942468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80415,6 +80416,19 @@ MonoBehaviour:
     _entity: {fileID: 0}
     ID: 0
     <DebugObject>k__BackingField: {fileID: 8104714157324929073}
+--- !u!114 &7739257043203141109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9c76b64b519fd41a53cb73f8a9e322, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &8105446854303656973
 GameObject:
   m_ObjectHideFlags: 0

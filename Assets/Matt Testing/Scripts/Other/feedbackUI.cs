@@ -27,7 +27,7 @@ public class feedbackUI : MonoBehaviour
     [SerializeField] private TMP_Text abilityThreeName;
 
     [Header("References")]
-    [SerializeField] private playerUpgradeManager playerUpgradeManager;
+    [SerializeField] private playerAbilityManager playerUpgradeManager;
 
     private readonly Color activeColor = Color.green;
     private readonly Color inactiveColor = Color.red;
@@ -54,7 +54,7 @@ public class feedbackUI : MonoBehaviour
 
     private void UpdateAbilityNames()///Changes The name of the equipped abilites
     {
-        var db = UpgradeDatabase.Instance;
+        var db = AbilityDatabase.Instance;
         if (db == null) return;
 
         SetSlotUI(0, abilityOneName);
@@ -64,15 +64,15 @@ public class feedbackUI : MonoBehaviour
 
     private void SetSlotUI(int slot, TMP_Text label)
     {
-        if (playerUpgradeManager.equippedPowerUps[slot].logicInstance == null)
+        if (playerUpgradeManager.equippedAbilities[slot].logicInstance == null)
         {
             label.text = "None";
             return;
         }
 
-        int id = playerUpgradeManager.equippedPowerUps[slot].upgradeID;
+        int id = playerUpgradeManager.equippedAbilities[slot].abilityID;
 
-        var def = UpgradeDatabase.Instance.Get(id);
+        var def = AbilityDatabase.Instance.Get(id);
 
         if (def != null)
             label.text = def.name;

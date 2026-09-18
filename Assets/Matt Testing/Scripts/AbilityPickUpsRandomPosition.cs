@@ -1,0 +1,43 @@
+using UnityEngine;
+using Unity.Netcode;
+
+public class AbilityPickUpsRandomPosition : NetworkBehaviour
+{
+
+    [SerializeField] private Transform[] spawnpoints;
+    [SerializeField] private GameObject[] upgrades;
+
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            spawnAbilityPickUPsServerRpc();
+        }
+    }
+    public void shuffleUpgradeArray()
+    {
+        upgrades = GameObject.FindGameObjectsWithTag("Upgrade");
+
+        for (int i = 0; i < upgrades.Length; i++)
+        {
+            int randomIndex = Random.Range(i, upgrades.Length);
+
+            GameObject temp = upgrades[i];
+            upgrades[i] = upgrades[randomIndex];
+            upgrades[randomIndex] = temp;
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void spawnAbilityPickUPsServerRpc()
+    {
+        shuffleUpgradeArray();
+
+        for (int i = 0; i < upgrades.Length; i++)
+        {
+            upgrades[i].transform.position = spawnpoints[i].position;
+        }
+    }
+
+}

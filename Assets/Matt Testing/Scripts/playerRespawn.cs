@@ -19,7 +19,7 @@ public class playerRespawn : NetworkBehaviour
 
     private NewTankMovement movement;
     private tankCameraMovement TankCam;
-    private playerUpgradeManager upgrade;
+    private playerAbilityManager upgrade;
     private playerShooting shooting;
     private playerHealth health;
 
@@ -50,7 +50,7 @@ public class playerRespawn : NetworkBehaviour
         //sets player action refrecenes
         movement = gameObject.GetComponent<NewTankMovement>();
         TankCam = gameObject.GetComponent<tankCameraMovement>();
-        upgrade = gameObject.GetComponent<playerUpgradeManager>();
+        upgrade = gameObject.GetComponent<playerAbilityManager>();
         shooting = gameObject.GetComponent<playerShooting>();
         health = gameObject.GetComponent<playerHealth>();
         networkObject = gameObject.GetComponent<NetworkObject>();
@@ -131,7 +131,7 @@ public class playerRespawn : NetworkBehaviour
     private void setPlayerActions(bool setBool) //stops / restarts the player from being able to shoot, use upgrades, shoot, takening damage and movign 
     {
         movement.canMove = setBool;
-        upgrade.canUseUpgrade = setBool;
+        upgrade.canUseAbilites = setBool;
         shooting.canShoot = setBool;
         health.canTakeDamage = setBool;
         TankCam.canMove = setBool;
