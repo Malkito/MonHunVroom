@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 268e9d411390a7644a0d0884cae7733e, type: 3}
   m_Name: PushAttack
   m_EditorClassIdentifier: 
+  _startAttackDistance: 90
+  _stopAttackDistance: 90.01
   _pushForce: 2000
   _pushDamage: 2
   _maxPushDistance: 15

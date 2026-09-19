@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05a0f82ed8c58243b4f54c6c9e1edc6, type: 3}
   m_Name: FlyingAttack
   m_EditorClassIdentifier: 
+  _startAttackDistance: 200
+  _stopAttackDistance: 200.01
   _flightHeight: 10
   _flySpeed: 4
   _attackDuration: 10

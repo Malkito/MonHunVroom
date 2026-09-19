@@ -63,7 +63,7 @@ public sealed class BugAttack : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _spawnedSworms;
+        return base.HasAttackFinished() || _spawnedSworms;
     }
 
     public override void OnAttackUpdate()
@@ -117,7 +117,7 @@ public sealed class BugAttack : ScriptableAttack
 
     public override bool CanUseAttack()
     {
-        return BugSworm.TotalSworms < _swormLimit;
+        return base.CanUseAttack() && BugSworm.TotalSworms < _swormLimit;
     }
 
 }

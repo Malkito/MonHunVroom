@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c892e3c4b704642a159f5c14ceef5d, type: 3}
   m_Name: SpecialGrab
   m_EditorClassIdentifier: 
+  _startAttackDistance: 10000
+  _stopAttackDistance: 10000.01
+  _throwRadius: 100
   _maxThrowDistance: 40

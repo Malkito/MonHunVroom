@@ -93,7 +93,12 @@ public sealed class UndergroundAttack : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _durationTimer.HasFinished;
+        return base.HasAttackFinished() && _durationTimer.HasFinished;
+    }
+
+    public override bool CanUseAttack()
+    {
+        return base.CanUseAttack();
     }
 
     public override void OnAttackUpdate()

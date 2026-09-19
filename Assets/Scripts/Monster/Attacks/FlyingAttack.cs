@@ -41,7 +41,12 @@ public sealed class FlyingAttack : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _currentDuration <= 0;
+        return base.HasAttackFinished() || _currentDuration <= 0;
+    }
+
+    public override bool CanUseAttack()
+    {
+        return base.CanUseAttack();
     }
 
     public override void OnAttackStarted()

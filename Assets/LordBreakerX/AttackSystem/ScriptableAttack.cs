@@ -4,7 +4,19 @@ namespace LordBreakerX.AttackSystem
 {
     public abstract class ScriptableAttack : ScriptableObject
     {
+        [SerializeField]
+        [Tooltip("The max distance for the attack to be started")]
+        [Min(0)]
+        private float _startAttackDistance;
+
+        [SerializeField]
+        [Tooltip("When the target is farther then this distance the attack will be stopped")]
+        [Min(0)]
+        private float _stopAttackDistance;
+
         protected AttackController Controller { get; private set; }
+
+        public float StartAttackRange { get => _startAttackDistance; }
 
         protected AttackTarget Target { get => Controller.Target; }
         protected Vector3 Position { get => Controller.transform.position; }
@@ -17,6 +29,10 @@ namespace LordBreakerX.AttackSystem
 
         protected bool IsOwner { get => Controller.IsOwner; }
 
+        public virtual void OnValidate()
+        {
+            _stopAttackDistance = Mathf.Max(_stopAttackDistance, _startAttackDistance + 0.01f);
+        }
 
         public virtual void OnAttackCreation() 
         {
@@ -25,12 +41,20 @@ namespace LordBreakerX.AttackSystem
 
         public virtual bool CanUseAttack()
         {
-            return true;
+            Vector3 controllerPosition = Controller.transform.position;
+            Vector3 targetPosition = Target.GetPosition();
+
+            float distance = Vector3.Distance(targetPosition, controllerPosition);
+            return distance <= _startAttackDistance;
         }
 
         public virtual bool HasAttackFinished()
         {
-            return true;
+            Vector3 controllerPosition = Controller.transform.position;
+            Vector3 targetPosition = Target.GetPosition();
+
+            float distance = Vector3.Distance(targetPosition, controllerPosition);
+            return distance >= _stopAttackDistance;
         }
 
         public virtual void OnAttackFixedUpdate()

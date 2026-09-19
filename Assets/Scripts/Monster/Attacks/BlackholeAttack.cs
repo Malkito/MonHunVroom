@@ -44,12 +44,12 @@ public sealed class BlackholeAttack : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _spawnedBlackhole;
+        return base.HasAttackFinished() || _spawnedBlackhole;
     }
 
     public override bool CanUseAttack()
     {
-        return _currentBlackhole == null;
+        return base.CanUseAttack() && _currentBlackhole == null;
     }
 
     public override void OnAttackUpdate()

@@ -32,7 +32,7 @@ public sealed class EarthThrow : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _thrownEarth;
+        return base.HasAttackFinished() || _thrownEarth;
     }
 
     public override void OnAttackUpdate()
@@ -50,5 +50,10 @@ public sealed class EarthThrow : ScriptableAttack
         {
             _monsterMovement.ChangeDestination(targetPosition);
         }
+    }
+
+    public override bool CanUseAttack()
+    {
+        return base.CanUseAttack();
     }
 }

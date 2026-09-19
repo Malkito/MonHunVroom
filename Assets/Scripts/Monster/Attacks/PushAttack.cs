@@ -30,12 +30,12 @@ public sealed class PushAttack : ScriptableAttack
 
     public override bool CanUseAttack()
     {
-        return Target.IsTargettingObject;
+        return base.CanUseAttack() && Target.IsTargettingObject;
     }
 
     public override bool HasAttackFinished()
     {
-        return _pushedObject;
+        return base.HasAttackFinished() || _pushedObject;
     }
 
     public override void OnAttackStarted()

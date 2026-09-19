@@ -52,7 +52,7 @@ public sealed class LaserEyesAttack : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _durationLeft <= 0;
+        return base.HasAttackFinished() || _durationLeft <= 0;
     }
 
     public override void OnAttackFixedUpdate()
@@ -95,5 +95,10 @@ public sealed class LaserEyesAttack : ScriptableAttack
         Vector3 directionToTarget = (Target.GetPosition() - _monsterAttack.transform.position).normalized;
         float dot = Vector3.Dot(_monsterAttack.transform.forward, directionToTarget);
         return dot < 0;
+    }
+
+    public override bool CanUseAttack()
+    {
+        return base.CanUseAttack();
     }
 }

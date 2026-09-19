@@ -142,13 +142,13 @@ public sealed class DeathBomb : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _attackComplete;
+        return base.HasAttackFinished() || _attackComplete;
     }
 
     public override bool CanUseAttack()
     {
         float healthPercentage = Percentage.Create(_health.CurrentHealth, 0, _health.MaxHealth);
-        return healthPercentage <= _healthPercentageThreshold;
+        return base.CanUseAttack() && healthPercentage <= _healthPercentageThreshold;
     }
 
 }

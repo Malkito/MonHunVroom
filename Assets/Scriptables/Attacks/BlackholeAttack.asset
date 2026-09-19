@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df4c7066655ff22459574422833882b1, type: 3}
   m_Name: BlackholeAttack
   m_EditorClassIdentifier: 
+  _startAttackDistance: 90
+  _stopAttackDistance: 90.1
   _prefab: {fileID: 4245827291734076512, guid: 4d0abd93a7b08d04a9699d63870ebb8f, type: 3}
   _spawnOffset: {x: 0, y: 40, z: 0}
   _maxAttackDistance: 30

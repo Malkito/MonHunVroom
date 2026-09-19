@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb91e8ea69b58c418fdc4925545ae13, type: 3}
   m_Name: UndergroundAttack
   m_EditorClassIdentifier: 
+  _startAttackDistance: 100
+  _stopAttackDistance: 100.01
   _minThrowSrength: 500
   _maxThrowSrength: 1000
   _minThrowRate: 2

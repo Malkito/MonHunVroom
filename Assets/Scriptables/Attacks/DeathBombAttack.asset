@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 146d4ba4cbd25934db065575473097e0, type: 3}
   m_Name: DeathBombAttack
   m_EditorClassIdentifier: 
+  _startAttackDistance: 1000
+  _stopAttackDistance: 1000.01
   _explosionRadius: 50
   _reachedTargetPercentage: 50
   _timeBeforeExplosion: 5
