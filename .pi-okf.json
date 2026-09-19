@@ -1,0 +1,6 @@
+{
+  "skipExtensions": [
+    ".fbx",
+    ".meta"
+  ]
+}
