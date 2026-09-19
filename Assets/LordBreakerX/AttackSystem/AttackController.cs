@@ -47,8 +47,6 @@ namespace LordBreakerX.AttackSystem
 
         public override void OnNetworkSpawn()
         {
-            _attackTable = _attackTable.Clone(this);
-
             if (IsServer)
             {
                 StartCoroutine(WaitForPlayers());
@@ -70,6 +68,12 @@ namespace LordBreakerX.AttackSystem
         #endregion
 
         #region Unity Callbacks
+
+        private void Awake()
+        {
+            ScriptableAttackTable table = _attackTable.Clone(this);
+            _attackTable = table;
+        }
 
         private void Update()
         {

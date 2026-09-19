@@ -33,7 +33,7 @@ namespace LordBreakerX.AttackSystem
         {
             ActiveTable activeAttackTable = new ActiveTable(this);
 
-            int weight = Random.Range(0, activeAttackTable.totalWeight + 1);
+            int weight = Random.Range(0, activeAttackTable.totalWeight);
 
             foreach (WeightedEntry<ScriptableAttack> entry in activeAttackTable.availableAttacks)
             {
@@ -55,12 +55,14 @@ namespace LordBreakerX.AttackSystem
             foreach (WeightedEntry<ScriptableAttack> entry in Entries)
             {
                 ScriptableAttack attack = ScriptableAttack.Clone(entry.Value, controller);
+                attack.name = $"{attack.name} [Clone]";
 
                 WeightedEntry<ScriptableAttack> clonedEntry = new WeightedEntry<ScriptableAttack>(attack, entry.Weight);
 
-                AddEntry(clonedEntry);
+                clonedTable.AddEntry(clonedEntry);
             }
 
+            clonedTable.name = $"{name} [Clone]";
 
             return clonedTable;
         }

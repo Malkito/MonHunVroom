@@ -1,6 +1,5 @@
 using LordBreakerX.AttackSystem;
 using LordBreakerX.Stats;
-using LordBreakerX.Tables;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Flying Attack")]
@@ -30,13 +29,15 @@ public sealed class FlyingAttack : ScriptableAttack
 
     private StatHolder _statHolder;
 
-    private WeightTable<ScriptableAttack> _internalAttackTable = new WeightTable<ScriptableAttack>();
     private ScriptableAttack _subAttack;
 
     public override void OnAttackCreation()
     {
         _movementController = Controller.GetComponent<MonsterMovementController>();
         _statHolder = Controller.GetComponent<StatHolder>();
+
+        ScriptableAttackTable table = _scriptableAttackTable.Clone(Controller);
+        _scriptableAttackTable = table;
     }
 
     public override bool HasAttackFinished()
@@ -55,7 +56,7 @@ public sealed class FlyingAttack : ScriptableAttack
         _attackDuration = _statHolder.GetFloat("Flying-Attack-Duration");
 
         _currentDuration = _attackDuration;
-        _subAttack = _internalAttackTable.GetRandomEntry();
+        _subAttack = _scriptableAttackTable.GetRandomAttack();
 
         _subAttack.OnAttackStarted();
     }
@@ -81,7 +82,7 @@ public sealed class FlyingAttack : ScriptableAttack
 
         if (_subAttack.HasAttackFinished())
         {
-            _subAttack = _internalAttackTable.GetRandomEntry();
+            _subAttack = _scriptableAttackTable.GetRandomAttack();
         }
     }
 

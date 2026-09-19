@@ -76,6 +76,9 @@ namespace LordBreakerX.States.Networked
         {
             if (HasState)
                 CurrentState.OnUpdateState();
+
+            if (HasState) 
+                Debug.Log($"Current State: {CurrentState.ID}");
         }
 
         private void FixedUpdate()

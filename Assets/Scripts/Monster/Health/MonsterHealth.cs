@@ -4,6 +4,7 @@ using UnityEngine.Events;
 using System.Collections;
 using LordBreakerX.Stats;
 using LordBreakerX.Utilities;
+using System;
 
 
 namespace LordBreakerX.Health
@@ -35,7 +36,11 @@ namespace LordBreakerX.Health
         [Tooltip("Invoked when the health reaches zero or below.")]
         private UnityEvent _onDeathClientSide = new UnityEvent();
 
-        [SerializeField] private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
+        [SerializeField] 
+        private NetworkVariable<float> _currentHealth = new NetworkVariable<float>(100);
+
+        [SerializeField] 
+        private NetworkVariable<float> _maxHealth = new NetworkVariable<float>(100);
 
         [HideInInspector] public float numOfFireOnMonster;
 
@@ -46,34 +51,55 @@ namespace LordBreakerX.Health
 
         public float CurrentHealth { get { return _currentHealth.Value; } }
 
-        public float MaxHealth { get; private set; }
+        public float MaxHealth { get { return _maxHealth.Value; } }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
+            _currentHealth.OnValueChanged += OnHealthChanged;
+            _maxHealth.OnValueChanged += OnMaxHealthChanged;
+
             if (IsServer)
             {
-                MaxHealth = _statHolder.GetFloat("Health");
-
-                Debug.Log($"{MaxHealth} Health");
-
+                _maxHealth.Value = _statHolder.GetFloat("Health");
                 _currentHealth.Value = MaxHealth;
-                HealthInfo healthInfo = new HealthInfo(MaxHealth, _currentHealth.Value, 0, 0, null);
+
+                HealthInfo healthInfo = new HealthInfo(MaxHealth, CurrentHealth, 0, 0, null);
                 _onHealthChangedServerSide.Invoke(healthInfo);
             }
 
-            _currentHealth.OnValueChanged += OnHealthChanged;
+            if (IsClient)
+            {
+                HealthInfo healthInfo = new HealthInfo(MaxHealth, CurrentHealth, 0, 0, null);
+                _onHealthChangedClientSide.Invoke(healthInfo);
+            }
         }
 
-        private void OnHealthChanged(float previousValue, float newValue)
+        private void OnMaxHealthChanged(float previousMaxHealth, float newMaxHealth)
         {
             if (IsClient)
             {
-                HealthInfo healthInfo = new HealthInfo(MaxHealth, _currentHealth.Value, previousValue - newValue, 0, null);
+                HealthInfo healthInfo = new HealthInfo(newMaxHealth, CurrentHealth, 0, 0, null);
+                _onHealthChangedClientSide.Invoke(healthInfo);
+            }
+
+            if (IsServer)
+            {
+                _currentHealth.Value = Mathf.Min(CurrentHealth, newMaxHealth);
+            }
+        }
+
+        private void OnHealthChanged(float previousHealth, float newHealth)
+        {
+            if (IsClient)
+            {
+                HealthInfo healthInfo = new HealthInfo(MaxHealth, newHealth, previousHealth - newHealth, 0, null);
                 _onHealthChangedClientSide.Invoke(healthInfo);
 
-                if (newValue <= 0)
+                Debug.Log($"P:{previousHealth}, N:{newHealth}");
+
+                if (newHealth <= 0)
                 {
                     _onDeathClientSide.Invoke();
                     GameStateManager.Instance.setNewState(GameStateManager.State.RoundWon);
@@ -87,7 +113,7 @@ namespace LordBreakerX.Health
             {
                 _currentHealth.Value -= damageDealt;
 
-                HealthInfo healthInfo = new HealthInfo(MaxHealth, _currentHealth.Value, damageDealt, 0, damageOrigin);
+                HealthInfo healthInfo = new HealthInfo(MaxHealth, CurrentHealth, damageDealt, 0, damageOrigin);
 
                 _onHealthChangedServerSide.Invoke(healthInfo);
 

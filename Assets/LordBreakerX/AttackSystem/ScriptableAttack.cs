@@ -44,6 +44,9 @@ namespace LordBreakerX.AttackSystem
             Vector3 controllerPosition = Controller.transform.position;
             Vector3 targetPosition = Target.GetPosition();
 
+            controllerPosition.y = 0;
+            targetPosition.y = 0;
+
             float distance = Vector3.Distance(targetPosition, controllerPosition);
             return distance <= _startAttackDistance;
         }
@@ -52,6 +55,9 @@ namespace LordBreakerX.AttackSystem
         {
             Vector3 controllerPosition = Controller.transform.position;
             Vector3 targetPosition = Target.GetPosition();
+
+            controllerPosition.y = 0;
+            targetPosition.y = 0;
 
             float distance = Vector3.Distance(targetPosition, controllerPosition);
             return distance >= _stopAttackDistance;
@@ -80,6 +86,8 @@ namespace LordBreakerX.AttackSystem
         {
             ScriptableAttack attackInstance = Instantiate(attack);
             attackInstance.Controller = controller;
+            attackInstance._startAttackDistance = attack._startAttackDistance;
+            attackInstance._stopAttackDistance = attack._stopAttackDistance;
             attackInstance.OnAttackCreation();
             return attackInstance;
         }
