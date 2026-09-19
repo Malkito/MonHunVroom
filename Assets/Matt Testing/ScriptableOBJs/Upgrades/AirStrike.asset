@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
   m_Name: AirStrike
   m_EditorClassIdentifier: 
+  upgradeID: 0
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
   pickupObject: {fileID: 1638817216687844807, guid: 2e490dc4a5e4f0043a5b2ef5ede1c008, type: 3}
-  IconImage: {fileID: 21300000, guid: 91c5409547d3962419606e472eb12a19, type: 3}
+  IconImage: {fileID: 21300000, guid: 05ca85fd9ced5da4c96a6b2d9b50f616, type: 3}
+  abilityColor: {r: 1, g: 0.6103101, b: 0, a: 1}
   itemDesc: 
   isAvailble: 0
   isBulletUpgrade: 0

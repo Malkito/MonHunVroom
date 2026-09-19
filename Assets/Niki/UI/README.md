@@ -8,7 +8,7 @@ Your job is to **place, reference, and tune the look**. A programmer's job is to
 
 ---
 
-## 1. The 30-second version
+## 1. 
 
 ```
 game state (upgrade data, cooldown timers, inputs, health…)
@@ -91,10 +91,9 @@ is wired by the menu — you never need to drag anything in the Inspector.
 
 ---
 
-## 5. What the programmer needs to do (hand-off list)
+## 5. What the programmer needs to do
 
-One short snippet per slot, run each frame (or on relevant model events) for the
-local player:
+One short snippet per slot
 
 ```csharp
 var vm = slotWidget.ViewModel;              // the slot's view model
@@ -116,13 +115,32 @@ Other HUD pieces, same pattern:
 - **Buttons:** a Button's click handler calls `viewModel.Activate.Execute()` (or
   the model layer sets the action via `Activate.SetAction(...)`).
 
+Instead of this:
+
+```csharp
+public float Cooldown;
+```
+
+you use this:
+
+```csharp
+public Property<float> Cooldown = new();
+```
+
+Then code writes:
+
+```csharp
+Cooldown.Value = 0.5f;
+```
+
+The property fires `ValueChanged`.
+
 ---
 
-## 6. Under the hood (for programmers / later)
+## 6. Under the hood 
 
-Lean re-implementation of the UnityMvvmToolkit pattern
-(`github.com/LibraStack/UnityMvvmToolkit`): view model + observable properties +
-per-element bindable widgets, written from scratch for this project's uGUI stack.
+Lean re-implementation of the Mvvm pattern: view model + observable properties +
+per-element bindable widgets, uGUI stack.
 
 ```
 Assets/Niki/UI/

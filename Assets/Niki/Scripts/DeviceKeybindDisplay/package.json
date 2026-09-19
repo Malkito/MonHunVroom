@@ -1,0 +1,13 @@
+{
+  "name": "com.cupohappiness.devicekeybinddisplay",
+  "version": "1.0.0",
+  "displayName": "CupOHappiness.DeviceKeybindDisplay",
+  "description": "Standalone device keybind display ScriptableObjects, inspectors, and input binding icon assets for CupOHappiness projects.",
+  "unity": "6000.3",
+  "author": {
+    "name": "CupOHappiness"
+  },
+  "dependencies": {
+    "com.unity.inputsystem": "1.16.0"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "CupOHappiness.DeviceKeybindDisplay.Editor",
+  "rootNamespace": "CupOHappiness.DeviceKeybindDisplay.Editor",
+  "references": [
+    "CupOHappiness.DeviceKeybindDisplay.Runtime",
+    "CupOHappiness.DeviceKeybindDisplay.InputSystem",
+    "Unity.InputSystem"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

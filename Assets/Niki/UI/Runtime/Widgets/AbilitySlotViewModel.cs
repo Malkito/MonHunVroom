@@ -14,8 +14,11 @@ namespace Niki.UI
         /// <summary>Ability icon (from UpgradeScriptableOBJ.IconImage).</summary>
         public readonly Property<Sprite> Icon = new();
 
-        /// <summary>Ability name label (from UpgradeScriptableOBJ.name / itemDesc).</summary>
-        public readonly Property<string> Name = new("?");
+        /// <summary>Ability name label. The default slot display does not show this.</summary>
+        public readonly Property<string> Name = new(string.Empty);
+
+        /// <summary>Display color for the ability icon and glint.</summary>
+        public readonly Property<Color> AbilityColor = new(Color.white);
 
         /// <summary>
         /// Remaining cooldown, 0..1.

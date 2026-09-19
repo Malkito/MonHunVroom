@@ -17,7 +17,8 @@ MonoBehaviour:
   amountOfTimePurchased: 0
   spawnWeight: 0
   pickupObject: {fileID: 1255406236035438577, guid: 8fd773acf6e00d84c9ace67b18fa2933, type: 3}
-  IconImage: {fileID: 21300000, guid: f5ac147696ab09844af1746d6d0767c6, type: 3}
+  IconImage: {fileID: 21300000, guid: a92591a66e9f9d443a8a44795c79edf0, type: 3}
+  abilityColor: {r: 1, g: 0, b: 0.51225805, a: 1}
   itemDesc: 
   isAvailble: 0
   isBulletUpgrade: 1

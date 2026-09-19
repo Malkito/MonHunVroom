@@ -34,7 +34,7 @@ namespace Niki.UI.Editor
             root.pivot = new Vector2(0.5f, 0.5f);
             root.sizeDelta = new Vector2(SlotSize, SlotSize);
 
-            var widget = root.gameObject.AddComponent<AbilitySlotWidget>();
+            var presenter = root.gameObject.AddComponent<AbilitySlotPresenter>();
             var iconSprite = root.gameObject.AddComponent<BindableImageSprite>();
             var pressIndicator = root.gameObject.AddComponent<BindableBoolColor>();
             pressIndicator.SetColors(Color.white, new Color(1f, 1f, 1f, 0.5f));
@@ -73,11 +73,11 @@ namespace Niki.UI.Editor
             nameBindable.SetText(nameText);
 
             // ---- Wire up ----------------------------------------------------------
-            widget.Configure(new AbilitySlotViewModel(), iconSprite, nameBindable, pressIndicator, radial);
+            presenter.Configure(new AbilitySlotViewModel(), iconSprite, nameBindable, pressIndicator, radial);
 
             Selection.activeGameObject = root.gameObject;
             Debug.Log($"[Niki.UI] Ability Slot created under {canvas.name}. " +
-                       "Drive it via widget.ViewModel (Icon, Name, CooldownRemaining, IsPressed).");
+                       "Drive it via presenter.ViewModel (Icon, AbilityColor, CooldownRemaining, IsPressed).");
         }
 
         private static Material CreateRadialMaterial()

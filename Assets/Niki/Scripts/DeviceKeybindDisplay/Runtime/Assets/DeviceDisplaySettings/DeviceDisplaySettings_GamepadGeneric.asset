@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ea9a11d318323458a19965038cc9a3, type: 3}
+  m_Name: DeviceDisplaySettings_GamepadGeneric
+  m_EditorClassIdentifier: 
+  deviceDisplayName: Gamepad
+  deviceDisplayColor: {r: 0.5137255, g: 0, b: 1, a: 1}
+  deviceHasContextIcons: 1
+  buttonNorthIcon: {fileID: 21300000, guid: 078c88605aef9444e87a5a4087add866, type: 3}
+  buttonSouthIcon: {fileID: 21300000, guid: 4c5781ad97144004eaa57f879194802b, type: 3}
+  buttonWestIcon: {fileID: 21300000, guid: badd208e749deff4a8d3ba9080e19fad, type: 3}
+  buttonEastIcon: {fileID: 21300000, guid: 53e402a0f91ea86459c84ac518e221b1, type: 3}
+  triggerRightFrontIcon: {fileID: 21300000, guid: a0f0455a4865e7e4094cbccfc0292a5a, type: 3}
+  triggerRightBackIcon: {fileID: 21300000, guid: 56145ea7228c9b94db8c778768d37a78, type: 3}
+  triggerLeftFrontIcon: {fileID: 21300000, guid: 3b7c5a731a4455a4d8b58991a8ea6414, type: 3}
+  triggerLeftBackIcon: {fileID: 21300000, guid: ca5174fe0f36466459be20d1f43e033b, type: 3}
+  customContextIcons:
+  - customInputContextString: Right Stick Press
+    customInputContextIcon: {fileID: 21300000, guid: 8ec9564a77543884aa6932c781da5c10, type: 3}
+  - customInputContextString: Left Stick Press
+    customInputContextIcon: {fileID: 21300000, guid: 2676af2b6c132d04eb305e2cd7e8d6fe, type: 3}
+  - customInputContextString: Select
+    customInputContextIcon: {fileID: 21300000, guid: 151a1ebe1a4169042a0ef613966a56ed, type: 3}
