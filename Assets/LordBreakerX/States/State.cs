@@ -2,34 +2,17 @@ using UnityEngine;
 
 namespace LordBreakerX.States.Networked
 {
+    /// <summary>
+    /// a class for creating states from scriptable objects for netcode for gameobjects
+    /// </summary>
     public abstract class State
     {
         [SerializeField]
         private string _id;
 
-        private bool _isEnabled;
-
         private NetworkStateMachine _machine;
 
-        public string ID { get => _id; }
-
-        /// <summary>
-        /// Is the state currently enabled allowing the state to be able 
-        /// to be used with the state machine.
-        /// </summary>
-        public bool IsEnabled
-        {
-            get
-            {
-                return _isEnabled;
-            }
-            set
-            {
-                _isEnabled = value;
-                if (_isEnabled) OnStateEnabled();
-                else OnStateDisabled();
-            }
-        }
+        public string ID { get => _id; internal set => _id = value; }
 
         /// <summary>
         /// The netcode state machine that controls this state
@@ -50,6 +33,12 @@ namespace LordBreakerX.States.Networked
         protected bool IsHost { get => _machine.IsHost; }
         protected bool IsClient { get => _machine.IsClient; }
         protected bool IsOwner { get => _machine.IsOwner; }
+
+        public State(State toInstance, NetworkStateMachine stateMachine)
+        {
+            toInstance._id = toInstance.ID;
+            toInstance._machine = stateMachine;
+        }
 
         /// <summary>
         /// Called once when the state is added to a state machine.
@@ -81,16 +70,6 @@ namespace LordBreakerX.States.Networked
         /// </summary>
         protected internal virtual void OnFixedUpdateState() { }
 
-        /// <summary>
-        /// Called whenever the state machine is enabled.
-        /// </summary>
-        protected internal virtual void OnStateEnabled() { }
-
-        /// <summary>
-        /// Called whenever the state machine is disabled.
-        /// </summary>
-        protected internal virtual void OnStateDisabled() { }
-
-        internal abstract State CreateCopy(NetworkStateMachine machine);
+        protected internal abstract State CreateInstance(NetworkStateMachine machine);
     }
 }

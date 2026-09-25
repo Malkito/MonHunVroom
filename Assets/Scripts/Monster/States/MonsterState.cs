@@ -1,6 +1,6 @@
 using LordBreakerX.States.Networked;
 
-public abstract class MonsterState : NetworkScriptableState
+public abstract class MonsterState : StateReference
 {
     protected const string DEAD_ANIMATION_VARIABLE = "dead";
 

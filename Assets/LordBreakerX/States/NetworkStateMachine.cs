@@ -10,16 +10,16 @@ namespace LordBreakerX.States.Networked
         private NetworkStateList _networkStateList;
 
         [SerializeField]
-        private NetworkScriptableState _startingState;
+        private StateReference _startingState;
 
-        private Dictionary<string, NetworkScriptableState> _statesRegistry = new Dictionary<string, NetworkScriptableState>();
+        private Dictionary<string, StateReference> _statesRegistry = new Dictionary<string, StateReference>();
 
-        public NetworkScriptableState CurrentState { get; private set; }
+        public StateReference CurrentState { get; private set; }
 
         public bool HasState { get => CurrentState != null; }
 
 
-        public bool IsState(NetworkScriptableState state)
+        public bool IsState(StateReference state)
         {
             return CurrentState.ID == state.ID;
         }
@@ -41,7 +41,7 @@ namespace LordBreakerX.States.Networked
         {
             base.OnNetworkDespawn();
 
-            foreach (NetworkScriptableState state in _statesRegistry.Values)
+            foreach (StateReference state in _statesRegistry.Values)
             {
                 state.OnDestroyState();
             }
@@ -56,7 +56,7 @@ namespace LordBreakerX.States.Networked
 
         private void OnEnable()
         {
-            foreach (NetworkScriptableState state in _statesRegistry.Values)
+            foreach (StateReference state in _statesRegistry.Values)
             {
                 if (!state.IsEnabled)
                     state.IsEnabled = true;
@@ -65,7 +65,7 @@ namespace LordBreakerX.States.Networked
 
         private void OnDisable()
         {
-            foreach(NetworkScriptableState state in _statesRegistry.Values)
+            foreach(StateReference state in _statesRegistry.Values)
             {
                 if (state.IsEnabled)
                     state.IsEnabled = false;
@@ -87,7 +87,7 @@ namespace LordBreakerX.States.Networked
                 CurrentState.OnFixedUpdateState();
         }
 
-        public void RequestTransitionTo(NetworkScriptableState stateTemplate)
+        public void RequestTransitionTo(StateReference stateTemplate)
         {
             if (IsServer)
             {
@@ -99,7 +99,7 @@ namespace LordBreakerX.States.Networked
         [Rpc(SendTo.NotServer, RequireOwnership = true)]
         private void TransitionToRpc(string stateID)
         {
-            NetworkScriptableState state = _networkStateList.GetState(stateID);
+            StateReference state = _networkStateList.GetState(stateID);
 
             if (state != null)
             {
@@ -107,7 +107,7 @@ namespace LordBreakerX.States.Networked
             }
         }
 
-        private void TransitionTo(NetworkScriptableState stateTemplate)
+        private void TransitionTo(StateReference stateTemplate)
         {
             if (!IsServer) return;
 
@@ -120,13 +120,13 @@ namespace LordBreakerX.States.Networked
                 CurrentState.OnEnterState();
         }
 
-        private NetworkScriptableState GetOrCreateState(NetworkScriptableState stateTemplate)
+        private StateReference GetOrCreateState(StateReference stateTemplate)
         {
             if (stateTemplate == null) return null;
 
             if (!_statesRegistry.ContainsKey(stateTemplate.ID))
             {
-                NetworkScriptableState stateInstance = NetworkScriptableState.CloneState(stateTemplate, this);
+                StateReference stateInstance = StateReference.CloneState(stateTemplate, this);
 
                 stateInstance.OnCreateState();
                 stateInstance.IsEnabled = gameObject.activeInHierarchy && enabled;
