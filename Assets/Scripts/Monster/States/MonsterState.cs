@@ -11,10 +11,10 @@ public abstract class MonsterState : NetworkScriptableState
     {
         MovementHandler = MachineObject.GetComponent<MonsterMovementController>();
         AttackHandler = MachineObject.GetComponent<MonsterAttackController>();
-        OnInitlizedState();
+        OnInitlizeState();
     }
 
-    protected virtual void OnInitlizedState()
+    protected virtual void OnInitlizeState()
     {
         
     }

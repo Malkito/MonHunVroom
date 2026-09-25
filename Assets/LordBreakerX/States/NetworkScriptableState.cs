@@ -14,7 +14,7 @@ namespace LordBreakerX.States.Networked
 
         private bool _isEnabled;
 
-        internal string ID { get => _id; }
+        public string ID { get => _id; }
 
         /// <summary>
         /// Is the state currently enabled allowing the state to be able 

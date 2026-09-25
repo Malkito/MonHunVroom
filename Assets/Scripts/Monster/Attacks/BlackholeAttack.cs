@@ -62,7 +62,10 @@ public sealed class BlackholeAttack : ScriptableAttack
             if (_monsterMovement.ReachedDestination(targetPosition, _maxAttackDistance))
             {
                 Vector3 position = Controller.transform.position + _spawnOffset;
-                _currentBlackhole = _prefab.Clone(_attackDamage, position);
+
+                Vector3 direction = (position - targetPosition).normalized;
+                _currentBlackhole = _prefab.Clone(_attackDamage, position, direction);
+
                 Controller.SpawnProjectile(_currentBlackhole.gameObject);
                 _spawnedBlackhole = true;
             }

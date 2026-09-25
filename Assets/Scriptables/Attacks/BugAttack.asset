@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startAttackDistance: 200
   _stopAttackDistance: 200.01
-  _maxSpawnDistance: 20
+  _maxSpawnDistance: 200
   _yOffset: 5
   _spawnRadius: 5
   _minSpawns: 3

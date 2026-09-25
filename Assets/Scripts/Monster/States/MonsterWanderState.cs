@@ -27,7 +27,7 @@ public class MonsterWanderState : MonsterState
         Machine.RequestTransitionTo(_attackState);
     }
 
-    protected override void OnInitlizedState()
+    protected override void OnInitlizeState()
     {
         _durationTimer = new Timer(OnDurationEnded);
     }
