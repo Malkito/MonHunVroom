@@ -7,11 +7,11 @@ namespace LordBreakerX.States.Networked
     public class NetworkStateList : ScriptableObject
     {
         [SerializeField]
-        private List<NetworkScriptableState> _states;
+        private List<StateReference> _states;
 
-        public NetworkScriptableState GetState(string stateID)
+        public StateReference GetState(string stateID)
         {
-            foreach(NetworkScriptableState state in _states)
+            foreach(StateReference state in _states)
             {
                 if (state.ID == stateID)
                 {

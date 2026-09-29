@@ -1,4 +1,3 @@
-using LordBreakerX.Tables;
 using LordBreakerX.Utilities;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,8 +29,6 @@ namespace LordBreakerX.AttackSystem
 
         private List<PlayerAttackCooldown> _playersInCooldown = new List<PlayerAttackCooldown>();
 
-        private AttackTable _internalTable;
-
         #endregion
 
         #region Properties
@@ -50,8 +47,6 @@ namespace LordBreakerX.AttackSystem
 
         public override void OnNetworkSpawn()
         {
-            _internalTable = _attackTable.CreateTable(this);
-
             if (IsServer)
             {
                 StartCoroutine(WaitForPlayers());
@@ -73,6 +68,12 @@ namespace LordBreakerX.AttackSystem
         #endregion
 
         #region Unity Callbacks
+
+        private void Awake()
+        {
+            ScriptableAttackTable table = _attackTable.Clone(this);
+            _attackTable = table;
+        }
 
         private void Update()
         {
@@ -123,7 +124,7 @@ namespace LordBreakerX.AttackSystem
 
         public void StartRandomAttack()
         {
-            ScriptableAttack randomAttack = _internalTable.GetRandomEntry();
+            ScriptableAttack randomAttack = _attackTable.GetRandomAttack();
             StartAttack(randomAttack);
         }
 

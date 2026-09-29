@@ -1,4 +1,3 @@
-using LordBreakerX.States.Networked;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = MonsterState.CREATE_PATH + "Monster Dead State")]

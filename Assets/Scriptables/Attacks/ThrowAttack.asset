@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded9c73ba72770242998bfba0a23c59e, type: 3}
   m_Name: ThrowAttack
   m_EditorClassIdentifier: 
-  _yOffset: 15
+  _startAttackDistance: 100
+  _stopAttackDistance: 100.01
   _randomTargetRadius: 100
   _throwTargetChance: 50
   _maxThrowDistance: 40

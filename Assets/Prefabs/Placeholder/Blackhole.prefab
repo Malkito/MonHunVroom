@@ -106,7 +106,7 @@ MonoBehaviour:
   _pullStrength: 4500
   _pushStrength: 2000
   _lifeSpan: 10
-  _moveSpeed: 2
+  _moveSpeed: 4
   _damagePerSecond: 2
   _playerPullSpeed: 20
   _playerLayer:

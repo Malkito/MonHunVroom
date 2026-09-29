@@ -16,7 +16,7 @@ public class NetworkFractureTrigger : NetworkBehaviour
         if (fractured) return;
 
         //if (!fracture.ShouldFractureFromCollision(collision))
-           //return;
+        //    return;
 
         if (!IsServer)
         {

@@ -93,7 +93,12 @@ public sealed class StompAttack : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _monsterMovement.ReachedDestination();
+        return base.HasAttackFinished() || _monsterMovement.ReachedDestination();
     }
 
+
+    public override bool CanUseAttack()
+    {
+        return base.CanUseAttack();
+    }
 }

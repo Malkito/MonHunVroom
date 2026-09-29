@@ -77,4 +77,9 @@ public class SpecialGrabAttack : ScriptableAttack
         return _thrownedObject && _grabObject;
     }
 
+    public override bool CanUseAttack()
+    {
+        return true;
+    }
+
 }

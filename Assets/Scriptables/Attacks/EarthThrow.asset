@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f7aca5207d95d44a6d9828996af8cf, type: 3}
   m_Name: EarthThrow
   m_EditorClassIdentifier: 
+  _startAttackDistance: 120
+  _stopAttackDistance: 120.01
   _maxThrowDistance: 60
   _roublePrefab: {fileID: 2432418284738977681, guid: 9c5b117e70a85ba41a8470680b1fa9a9, type: 3}

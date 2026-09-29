@@ -44,12 +44,12 @@ public sealed class BlackholeAttack : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return _spawnedBlackhole;
+        return base.HasAttackFinished() || _spawnedBlackhole;
     }
 
     public override bool CanUseAttack()
     {
-        return _currentBlackhole == null;
+        return base.CanUseAttack() && _currentBlackhole == null;
     }
 
     public override void OnAttackUpdate()
@@ -62,7 +62,10 @@ public sealed class BlackholeAttack : ScriptableAttack
             if (_monsterMovement.ReachedDestination(targetPosition, _maxAttackDistance))
             {
                 Vector3 position = Controller.transform.position + _spawnOffset;
-                _currentBlackhole = _prefab.Clone(_attackDamage, position);
+
+                Vector3 direction = (position - targetPosition).normalized;
+                _currentBlackhole = _prefab.Clone(_attackDamage, position, direction);
+
                 Controller.SpawnProjectile(_currentBlackhole.gameObject);
                 _spawnedBlackhole = true;
             }

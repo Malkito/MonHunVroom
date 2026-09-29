@@ -19,7 +19,6 @@ MonoBehaviour:
     _modifiers:
     - rid: 8477348268728123610
     - rid: 8477348268728123611
-    - rid: 3963235079041843200
   - _id: Move-Speed
     _type: 1
     _baseValue: 14
@@ -81,12 +80,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3963235079041843200
-      type: {class: IntPlayerCountModifier, ns: , asm: Assembly-CSharp}
-      data:
-        _maxPlayers: 4
-        _minOffset: 1
-        _maxOffset: 3
     - rid: 3963235259289174016
       type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
       data:

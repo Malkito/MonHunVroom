@@ -26,6 +26,11 @@ public sealed class ThrowAttack : ScriptableAttack
     private MonsterMovementController _monsterMovement;
     private MonsterAttackController _monsterAttack;
 
+    public override bool CanUseAttack()
+    {
+        return base.CanUseAttack();
+    }
+
     public override void OnAttackCreation()
     {
         _monsterMovement = Controller.GetComponent<MonsterMovementController>();
@@ -90,6 +95,6 @@ public sealed class ThrowAttack : ScriptableAttack
 
     public override bool HasAttackFinished()
     {
-        return (_reachedObject && _thrownedObject) || !_thrownTarget.IsTargettingObject;
+        return base.HasAttackFinished() || ((_reachedObject && _thrownedObject) || !_thrownTarget.IsTargettingObject);
     }
 }

@@ -34,13 +34,12 @@ public class MonsterAttackState : MonsterState
     protected override void OnEnterState()
     {
         _attacksCompleted = -1;
-        _attacksNeeded = Random.Range(_minAttacks, _maxAttacks + 1);
+        _attacksNeeded = Random.Range(_minAttacks, _maxAttacks);
     }
 
     protected override void OnUpdateState()
     {
-        if (AttackHandler.IsAttacking || !IsServer) 
-            return;
+        if (AttackHandler.IsAttacking || !IsServer) return;
 
         _attacksCompleted++;
 
