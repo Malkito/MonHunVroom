@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3b431661c0ec24c86026f9b9353301, type: 3}
+  m_Name: 1.Intro
+  m_EditorClassIdentifier: Assembly-CSharp::Readme
+  icon: {fileID: 0}
+  title: Procedural Progress Bars
+  sections:
+  - heading: Introduction + Overview
+    text: "Compatibility\n\nThis asset supports Unity 6.0 and above, with Shader
+      Graph shaders support URP and HDRP. All shaders are created using Shader Graph.\n\nSupports:\n\u2022
+      Canvas Shader \u2013 optimized for UI elements.\n\u2022 Unlit Shader \u2013
+      ideal for world space usage.\n\nIMPORT & SETUP \n\nImporting the Asset [[IMAGE:0]]\n\n\nDemo
+      Scenes\n\nTwo showcase scenes are included in this checkout to showcase usage
+      examples and features.\n\nFind them under:\n\nAssets/ThirdParty/CupOHappiness/ProceduralProgressBars/Demo
+      Scenes\n\nIncluded scenes: `Demo Scenes/Features Showcase.unity` and `Demo
+      Scenes/Styles Showcase.unity`.\n[[IMAGE:1]]\n\n\n\nSee the Quick Start section.\n\nOverview\n\nThis asset revolves around three key components:\n\u2022
+      ProceduralProgressBar.cs \u2013 The main controller script.\n\u2022 Procedural
+      Progress Bar Canvas Shader \u2013 Designed for UI Image components.\n\u2022
+      Procedural Progress Bar Unlit Shader \u2013 Designed for 3D world space meshes.\n\nAll
+      shaders are built with Shader Graph and provided here for URP.\n\u2705 Use
+      the Canvas shader for UI elements (like Unity UI Image).\\\n\u2705 Use the
+      Unlit shader for 3D meshes (like planes or quads in world space)."
+    images:
+    - {fileID: 2800000, guid: 80ee31732dd048d4c874478f95f11da9, type: 3}
+    - {fileID: 2800000, guid: 2c7ff587cac42b843b72ad0f241ba37f, type: 3}
+    linkText: 
+    url: 
+  loadedLayout: 0

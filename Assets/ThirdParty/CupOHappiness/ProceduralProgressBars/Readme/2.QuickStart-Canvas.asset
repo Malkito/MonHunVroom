@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3b431661c0ec24c86026f9b9353301, type: 3}
+  m_Name: 2.QuickStart-Canvas
+  m_EditorClassIdentifier: Assembly-CSharp::Readme
+  icon: {fileID: 0}
+  title: Quick Start — UI Canvas
+  sections:
+  - heading: How to Add a Progress Bar
+  - : UI Canvas
+    text: "How to add a progress bar\n\n1. Create the Material\n\u2022 In your Project
+      window, create a new Material.[[IMAGE:0]]\n\u2022 Set the shader to:\n\n CupOHappiness/Procedural
+      Progress Bar Canvas\n\n[[IMAGE:1]]\n[[IMAGE:2]]\n\n2. Add a UI Image\n\u2022
+      In your Canvas, add a new UI \u2192 Image object.\n\u2022 Assign the material
+      you just created to this image.\n[[IMAGE:3]]\n[[IMAGE:4]]\n\n3. Set Image Size
+      and Scale\n\u2022 Set the Width and Height to be equal (e.g., 800x800).\\\n 
+      This is important to avoid stretching artifacts.\n\u2022 Keep the Scale at
+      (1, 1, 1).\\\n  You can adjust the bar\u2019s vertical thickness later via
+      the shader properties.\n[[IMAGE:5]]\n\n4. Attach the Script\n\u2022 Add the
+      ProceduralProgressBar script to the same GameObject.\n[[IMAGE:6]]\n\n5. Assign
+      the Material in the Script\n\u2022 In the script component, assign the material:\n\u2022
+      Either click \u201CGet Material\u201D, or drag your custom material manually.\n[[IMAGE:7]]\n\n6.
+      You\u2019re now ready to experiment with fill settings, visuals, and shader
+      customizations.\n\nTo test:\n\u2022 Adjust the Fill Amount property to see
+      the bar animate.\n[[IMAGE:8]]\n\n\u2022 Or click the built-in Testing Buttons
+      provided in the script for quick fill previews (only during runtime).\n[[IMAGE:9]]
+      \n\n\n\n\n7. Optional: Enable Help Boxes\n\u2022 Keep the \u201CEnable Help
+      Boxes\u201D option checked if you\u2019d like in-editor tooltips and guidance.\n[[IMAGE:10]]"
+    images:
+    - {fileID: 2800000, guid: 0eec781e37e18a543853ef6761439929, type: 3}
+    - {fileID: 2800000, guid: 357e09cf007300744ba8c363b98e24a2, type: 3}
+    - {fileID: 2800000, guid: d1ce99526709e2a4ba931d71cff589d3, type: 3}
+    - {fileID: 2800000, guid: d0f667b50755f074ab931ee0a94d7cc8, type: 3}
+    - {fileID: 2800000, guid: ea7dc99b6fadb9a4498b56c65fc77635, type: 3}
+    - {fileID: 2800000, guid: 89a2a07947e9d904396fbe1d40309c6b, type: 3}
+    - {fileID: 2800000, guid: c6086deb63805fe4c9e3b50574fa8feb, type: 3}
+    - {fileID: 2800000, guid: 4e02de9748cc5224aa68c8060f3c0955, type: 3}
+    - {fileID: 2800000, guid: e81d9b8e12488c843814bdc432e00cc7, type: 3}
+    - {fileID: 2800000, guid: 0c64093ec2bddd8488342b3cb892f917, type: 3}
+    - {fileID: 2800000, guid: 68ae59c21dcece140abe54edd5a971a9, type: 3}
+    linkText: 
+    url: 
+  loadedLayout: 0

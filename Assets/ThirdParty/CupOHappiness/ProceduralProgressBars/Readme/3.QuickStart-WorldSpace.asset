@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3b431661c0ec24c86026f9b9353301, type: 3}
+  m_Name: 3.QuickStart-WorldSpace
+  m_EditorClassIdentifier: Assembly-CSharp::Readme
+  icon: {fileID: 0}
+  title: Quick Start — World Space
+  sections:
+  - heading: How to Add a Progress Bar
+  - : World Space
+    text: "1. Create the Material\n\u2022 In your Project window, create a new Material.\n\u2022
+      Set the shader to:\\\n  CupOHappiness/Procedural Progress Bar Unlit\n[[IMAGE:0]]
+      \n[[IMAGE:1]] \n[[IMAGE:2]] \n[[IMAGE:3]] \n\n\n2. Add a 3D Object\n\u2022
+      In your scene, add a 3D Object \u2192 Quad.\n\u2022 Assign the material you
+      just created to this quad.\n[[IMAGE:4]] \n[[IMAGE:5]] \n\n3. Set Object Scale\n\u2022
+      Make sure the X and Y scale are equal (e.g., Scale = (1, 1, 1)).\n\u2022 In
+      the Transform component, enable \u201CConstrain Proportions\u201D to link X,
+      Y, and Z.\n\u2022 This ensures the correct aspect ratio.\n\u2022 You can control
+      the bar\u2019s vertical height later using the Height setting in the shader.\n[[IMAGE:6]]
+      \n\n4. Attach the Script\n\u2022 Add the ProceduralProgressBar script to the
+      same GameObject.\n[[IMAGE:7]] \n\n5. Assign the Material in the Script\n\u2022
+      In the script component, assign the material:\n\u2022 Either click \u201CGet
+      Material\u201D, or drag your custom material manually.\n[[IMAGE:8]] \n\n6.
+      You\u2019re now ready to experiment with fill settings, visuals, and shader
+      customizations.\n\nTo test:\n\u2022 Adjust the Fill Amount property to see
+      the bar animate.\n[[IMAGE:9]]\n\n\u2022 Or click the built-in Testing Buttons
+      provided in the script for quick fill previews (only during runtime).\n[[IMAGE:10]] 
+      \n\n\n7. Optional: Enable Help Boxes\n\u2022 Keep the \u201CEnable Help Boxes\u201D
+      option checked if you\u2019d like in-editor tooltips and guidance.\n\u2022
+      Using Example Bars\n[[IMAGE:11]] "
+    images:
+    - {fileID: 2800000, guid: 0bbaa33318b9bdc469581b6e84d5396d, type: 3}
+    - {fileID: 2800000, guid: df9607777097b234ea458c52e9ce2b70, type: 3}
+    - {fileID: 2800000, guid: 754cd4d4f493dc148889b611ae98535b, type: 3}
+    - {fileID: 2800000, guid: 289a3b0314d4b684096b3762ef9650ed, type: 3}
+    - {fileID: 2800000, guid: bdaf010c154352c48965675c2b2b239d, type: 3}
+    - {fileID: 2800000, guid: c4389bb528eaf354aad87e9bb2d3ef51, type: 3}
+    - {fileID: 2800000, guid: 8240513ca4307934686cc3281e265f25, type: 3}
+    - {fileID: 2800000, guid: d6cbb163c13e0844d93985e3dcf45db4, type: 3}
+    - {fileID: 2800000, guid: 22714e87202d76d41a9d5fdbd35b263b, type: 3}
+    - {fileID: 2800000, guid: 87290f114098a17479b6155ec20293ba, type: 3}
+    - {fileID: 2800000, guid: b45242ed4f6f48d4d974b4f26c30eef8, type: 3}
+    - {fileID: 2800000, guid: a3d5a4149cb1d084bbd9fae123d80cbe, type: 3}
+    linkText: 
+    url: 
+  loadedLayout: 0

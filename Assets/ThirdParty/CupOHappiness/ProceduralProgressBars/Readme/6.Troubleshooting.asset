@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3b431661c0ec24c86026f9b9353301, type: 3}
+  m_Name: 6.Troubleshooting
+  m_EditorClassIdentifier: Assembly-CSharp::Readme
+  icon: {fileID: 0}
+  title: Troubleshooting
+  sections:
+  - heading: Troubleshooting
+    text: "Known Issues & Troubleshooting\n\nMaterial is being shared between bar
+      instances\n\nEnable the 'Instantiate Material On Start' property in the script
+      settings. With this feature enabled, the script creates a unique instance of
+      the bar material; thus, you can use one bar material across multiple objects.
+      \n\nThis feature IS NOT supported with Canvas Ui Image component. Works only
+      with mesh renderers. \n\nFractional 'segments count' number breaks shader\n\nFractional
+      values for Segment Count will break the shader.\\\nOnly whole numbers are supported
+      - use values like 2, 4, 6, 7 etc., and avoid decimals like 6.5, 2.1, or 5.9.\n\nHDRP
+      Transparent Plane Sorting (not applicable to this URP project)\n\nWhen using
+      the Bar shader on a 3D plane in world space, you may experience transparency
+      sorting issues (e.g., bars appearing behind other transparent objects).\\\nUpstream
+      HDRP guidance: disable Depth Write. This checkout uses URP and does not include
+      HDRP demo assets.\n[[IMAGE:0]]\n\nOutline Appears Uneven or Inconsistent\n\nIf
+      the outline looks warped or stretched:\n\u2022 For UI: Make sure your Image
+      component has the same Width and Height.\n\u2022 For 3D quads or planes: Ensure
+      the X and Y scales are equal.\n[[IMAGE:1]]\n[[IMAGE:2]]\n\nChanges In Script
+      Settings During Play Mode Are Lost\n\nWhy it happens:\\\nUnity discards most
+      changes made during Play Mode unless you manually record or copy them.\n\nSolution:\\\nUse
+      the config system:\n\u2022 Make changes during Play Mode\n\u2022 Click Save
+      to Config\n\u2022 After exiting Play Mode, click Load from Config to restore
+      your changes\n\nThe Bar looks stretched or distorted\n\nFix:\\\nEnsure that
+      the UI Image or 3D Quad has a 1:1 aspect ratio \u2014 meaning the Width equals
+      Height (UI), or the X and Y scale values are the same (3D). The shader is designed
+      to work with square proportions.\n[[IMAGE:3]]"
+    images:
+    - {fileID: 2800000, guid: 68ae49525fa284a409d5b0e116291ac2, type: 3}
+    - {fileID: 2800000, guid: 88138965285bff0438720affdd4a17d3, type: 3}
+    - {fileID: 2800000, guid: 6de52fbe9ace6094b8eca4e5c32d9343, type: 3}
+    - {fileID: 2800000, guid: 895361253f3189d4aab08f636270a0b1, type: 3}
+  loadedLayout: 0

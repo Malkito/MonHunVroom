@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3b431661c0ec24c86026f9b9353301, type: 3}
+  m_Name: 5.ShaderProperties
+  m_EditorClassIdentifier: Assembly-CSharp::Readme
+  icon: {fileID: 0}
+  title: Shader Properties
+  sections:
+  - heading: Shader Properties
+    text: "Shader Properties\n\nCore Controls\n\nThese parameters define the overall
+      fill behavior and blending logic of the progress bar.\n\u2022 Main Bar Fill
+      Amount \u2013 Sets how much the main bar is filled (0 = empty, 1 = full).\n\u2022
+      Fill Amount \u2013 A global fill driver for all visual systems. Use for synced
+      behavior.\n\u2022 Second Bar \u2192 Main Blend \u2013 Blends from the main
+      to the second bar (0 = only main, 1 = only second).\n\u2022 Second Bar \u2192
+      Invisible Blend \u2013 Fades out the second bar (0 = visible, 1 = fully transparent).\n\u2022
+      End Line Visibility \u2013 Toggles the end marker visibility (0 = hidden, 1
+      = visible).\n\u2022 General Shape\n\nControls the bar's geometry \u2014 height,
+      skew, and corner rounding.\n\u2022 Height \u2013 Sets vertical thickness of
+      the bar.\n\u2022 Size Offset (XY) \u2013 Uniform scale offset; useful for layout
+      tweaks.\n\u2022 Skew Left/Right (Top/Bottom) \u2013 Tilts corners inward/outward
+      for asymmetric shapes.\n\u2022 Skew Edge Position (Left/Right) \u2013 Sets
+      vertical anchor point of the skew (0 = bottom, 1 = top).\n\u2022 Skew Invert
+      (Left/Right) \u2013 Flips the skew direction.\n\u2022 Roundness \u2013 Applies
+      uniform corner rounding.\n\u2022 Roundness (Per-Corner) \u2013 Overrides roundness
+      for individual corners.\n\u2022 Custom Shape (Procedural Distortion)\n\nAdds
+      animated or static distortion using guide textures.\n\u2022 Enable \u2013 Turns
+      on procedural shaping.\n\u2022 Noise Guide 1/2 \u2013 Textures that distort
+      the shape (white = neutral, dark/light = push/pull).\n\u2022 Strength (1/2)
+      \u2013 How strongly each guide affects the shape.\n\u2022 Scroll Speed (1/2)
+      \u2013 Scroll rate of each guide texture for animation.\n\u2022 Use Second
+      Texture \u2013 Enables blending in the second guide.\n\u2022 Simple Outline\n\nBasic
+      visual outline.\n\u2022 Thickness \u2013 Width of the outline stroke.\n\u2022
+      Color \u2013 Outline color (supports HDR and alpha).\n\u2022 Use Color Alpha
+      for Blending \u2013 Alpha controls how strongly the outline blends.\n\u2022
+      Custom Outline (Advanced)\n\nProcedural, guide-driven outline system.\n\u2022
+      Enable \u2013 Enables advanced outline features.\n\u2022 Depends On Fill Amount
+      \u2013 Links outline visibility to current fill.\n\u2022 Size / Offset \u2013
+      Size and position offset of the outline.\n\u2022 Smoothness \u2013 Edge softness.\n\u2022
+      Color \u2013 Main outline color (HDR supported).\n\u2022 Power / Strength \u2013
+      Sharpness and visibility blend.\n\u2022 Use Noise Guides \u2013 Enables distortion
+      from noise textures.\n\u2022 Noise Guides 1/2 \u2013 Textures, strength, and
+      scroll speed as in custom shape.\n\u2022 Shadow\n\nStylized drop shadow behind
+      or inside the bar.\n\u2022 Enable \u2013 Activates shadow rendering.\n\u2022
+      Size / Smoothness \u2013 Size and edge softness.\n\u2022 Color / Strength /
+      Power \u2013 Color, intensity, and edge sharpness.\n\u2022 Fill \u2014 Core\n\nMain
+      fill appearance controls.\n\u2022 Skew \u2013 Tilts the fill directionally.\n\u2022
+      Use Only Background Alpha \u2013 Limits fill to background shape alpha.\n\u2022
+      Background Color \u2013 Sets color of unfilled portion.\n\u2022 Color (No Gradient)
+      \u2013 Solid fill color when gradient is off.\n\u2022 Horizontal Gradient \u2013
+      Blends left/right fill colors.\n\u2022 Gradient Color Left/Right \u2013 Start/end
+      gradient colors.\n\u2022 Fill \u2014 Second Bar\n\nAdds a secondary fill layer.\n\u2022
+      Enable \u2013 Turns on the second bar.\n\u2022 Use Only Alpha Channel \u2013
+      Ignores RGB, only uses alpha.\n\u2022 Color \u2013 Color of the second bar.\n\u2022
+      Fill \u2014 Vertical Darken\n\nAdds vertical shading for depth.\n\u2022 Enable
+      \u2013 Activates the effect.\n\u2022 Color / Amount / Power \u2013 Color and
+      intensity controls.\n\u2022 Use Flat / Flip \u2013 Uniform darkening or invert
+      direction.\n\u2022 Fill \u2014 Overlay Effects\n\nAdds visual layering on top
+      of the fill and background.\n\u2022 Enable / Strength \u2013 Master toggle
+      and intensity.\n\u2022 Fill / Background Color \u2013 Overlay colors.\n\u2022
+      Color / Alpha Impact \u2013 Blend strengths for each channel.\n\u2022 Use Guides
+      \u2013 Distort overlay with textures.\n\u2022 Step Offset / Smoothness / Rotation
+      / Inverse \u2013 Shape stylization.\n\u2022 Noise Guides 1/2 \u2013 Procedural
+      shaping via textures, with scroll speed and strength.\n\u2022 Fill \u2014 Segments\n\nSplits
+      the fill into stylized segments.\n\u2022 Enable / Count \u2013 Turns on segments
+      and sets how many.\n\u2022 Skew / Width / Edge Smoothness \u2013 Visual styling
+      per segment.\n\u2022 Edge Step / Custom Shape Strength \u2013 Adds stylized
+      edge transitions or distortion.\n\u2022 Top Strength / Smoothness / Offset
+      \u2013 Deform segment tops.\n\u2022 Add Alpha / Multiply Alpha \u2013 Adjust
+      opacity per segment.\n\u2022 Color / Strength On Color \u2013 Per-segment color
+      and blend strength.\n\u2022 Fill \u2014 Smooth Edge & Texture Guide\n\nRefines
+      the fill edge with soft blending or texture shaping.\n\u2022 Enable Smooth
+      Edge / Value \u2013 Softens the fill transition.\n\u2022 Enable Edge Guide
+      / Texture Guide \u2013 Uses a texture to shape the edge.\n\u2022 Guide Strength
+      / Scroll Speed / Flip \u2013 Shape control and animation.\n\u2022 Fill \u2014
+      Shadow (Inner)\n\nAdds internal shadowing to the fill and/or background.\n\u2022
+      Enable \u2013 Activates internal shadow.\n\u2022 Use Only Color Alpha \u2013
+      Uses only alpha for blending.\n\u2022 Color / Power / Amount Multiplier \u2013
+      Visual styling and intensity.\n\u2022 Use Hard Step \u2013 Adds a sharp falloff
+      edge.\n\u2022 Use Texture Guide / Texture / Flip / Strength / Scroll \u2013
+      Procedural shaping via guide textures.\n\u2022 End Line\n\nThin visual marker
+      at the end of the fill bar.\n\u2022 Enable \u2013 Turns on the end line.\n\u2022
+      Color \u2013 Color of the marker.\n\u2022 Width / Smoothness (Left & Right)
+      \u2013 Asymmetrical size and softness.\n\u2022 Offset / Multiplier / Power
+      \u2013 Position and intensity controls.\n\u2022 Multiply With Fill Shadow \u2013
+      Blends the end line with the fill\u2019s inner shadow."
+    images: []
+    linkText: 
+    url: 
+  loadedLayout: 0

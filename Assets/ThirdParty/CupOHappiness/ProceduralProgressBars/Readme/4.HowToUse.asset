@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3b431661c0ec24c86026f9b9353301, type: 3}
+  m_Name: 4.HowToUse
+  m_EditorClassIdentifier: Assembly-CSharp::Readme
+  icon: {fileID: 0}
+  title: How to Use
+  sections:
+  - heading: How to Use
+    text: "How to Use\n\nHow to Control the Bar\n\nControlling the bar is simple
+      and works the same for both UI and 3D bars. The ProceduralProgressBar script
+      provides a few key methods:\n\nBasic API Usage\n\ncsharp\n// Get a reference
+      to the progress bar component\nProceduralProgressBar bar = GetComponent();\n\n//
+      Instantly set the bar fill (no animation)\nbar.UpdateBarFillAmount(0.75f);\n\n//
+      Smoothly fill the bar by a specific amount (uses default fill duration)\nbar.BarFill(0.3f);
+      // Fill 30%\n\n// Smoothly fill the bar by a specific amount over custom time\nbar.BarFill(0.2f,
+      0.5f); // Fill 20% over 0.5 seconds\n\n// Smoothly reduce the bar value (uses
+      default loss duration)\nbar.BarLoss(0.3f); // Reduce 30%\n\n// Smoothly reduce
+      the bar value over custom time\nbar.BarLoss(0.2f, 0.3f); // Reduce 20% over
+      0.3 seconds\n\nReal-World Example\n\nTo see these methods in action:\n\u2022
+      Open the script usage example (not included in this checkout)\n\u2022 Check
+      the BarsManager.cs script at:\\\n  Assets/ThirdParty/CupOHappiness/ProceduralProgressBars/`Runtime/ProceduralProgressBar.cs`\n\nThis
+      script includes comments and examples for integrating bars with gameplay logic.\n[[IMAGE:0]]\n\nTip:
+      Use Initial Fill Amount\\\nSet a starting fill value that will be applied automatically
+      when the scene begins. This is useful for visually initializing the bar without
+      writing any custom scripts.\n\u2022 Bar Look Customization\n[[IMAGE:1]]\n\nAll
+      bar visuals are controlled through the Material Shader Properties. You can
+      change roundness, colors, gradients, outlines, shadows, segment styles, and
+      more.\n\nWhere to Start\n\u2022 Use the Features Showcase.unity to preview
+      each shader feature individually.\n\u2022 Explore the Styles Showcase.unity
+      for polished, ready-to-use bars.\n[[IMAGE:2]]\n\nCheck the Shader Properties
+      for explanations of every option.\n\nHow to Edit\n\u2022 Select the bar\u2019s
+      Material.\n\u2022 Close tabs you don\u2019t need to keep the UI clean.\n\u2022
+      Adjust any property directly in the Inspector.\n\nNote: Some features must
+      be enabled with a checkbox (e.g. \"Enable Vertical Darken\"). Disabled features
+      are removed from the shader code at runtime for better performance.\n\u2022
+      Bar Animation Customization\n[[IMAGE:3]]\n\nThe bar supports two animation
+      stages: Fill (when increasing) and Loss (when decreasing). Each stage has its
+      own configurable behavior.\n\nWhere to Start\n\u2022 Use the script usage example
+      (not included in this checkout) to preview all of the bar animation features
+      and settings. \n\nUsing the Config System\n[[IMAGE:4]]\n[[IMAGE:5]]\n\nYou
+      can save and load your bar\u2019s visual and animation settings using a Config
+      file.\n\u2022 In Editor Mode, assign or create a config in the \u201CConfig\u201D
+      field.\n\u2022 You can click \u201CCreate New\u201D to generate a new config
+      file.\n\u2022 Hit 'Play Mode' and tweak your settings, click \u201CSave To
+      Config\u201D to save your changes.\n\u2022 After exiting Play Mode, click \u201CLoad
+      From Config\u201D to reapply the saved changes.\n\nImportant: Unity discards
+      all scripts (NOT material changes - changes you made to the bar material are
+      safe) made during Play Mode unless they\u2019re saved. Make sure to \"Save
+      To Config\" script settings during runtime, and use the \u201CLoad From Config\u201D
+      button after stopping the game to bring back your saved setup.\n\nConfigs store
+      values from the Fill, Loss, Impulse, Second Bar, and Auto End Line tabs. They
+      do not store material assignments, Setup tab options or any material properties
+      settings.\n\nThis workflow lets you preview and test bar animations quickly
+      during runtime, then keep your changes without manually reapplying them each
+      time after you stop runtime.\n\nTesting Buttons\n\nUnder the \u201CSetting
+      Up (only in runtime)\u201D section in Play Mode, you\u2019ll find:\n\u2022
+      Bar Fill Amount Editor \u2014 enter a value (e.g. 0.25) and click Bar Fill
+      to test a fill animation.\n\u2022 Bar Loss Amount Editor \u2014 enter a value
+      and click Bar Loss to test a loss animation.\n\nThese tools work the same way
+      as calling BarFill() or BarLoss() in your scripts, letting you preview how
+      your animations and effects behave during runtime.\n\nAnimation Customization
+      Tabs\n\nYou\u2019ll find four main tabs in the ProceduralProgressBar script:\n\n1.
+      Fill Settings \u2013 Controls how the bar fills, including speed and animation
+      curve.\n2. Loss Settings \u2013 Controls how the bar loses value, also with
+      its own curve and speed.\n3. Impulse Settings \u2013 Adds visual effects like
+      flashes or shadows when the bar changes.\n4. Second Bar Settings \u2013 Enables
+      a secondary bar for effects like ghost HP or delayed visuals.\n\nEach section
+      contains properties you can change and test during runtime. You can see examples
+      of these settings in action in the script usage example (not included in this
+      checkout).\n\nExample configs from that scene can be found here: Assets/ThirdParty/CupOHappiness/ProceduralProgressBars/Demo
+      Files/Settings\n[[IMAGE:6]]\n\nThese configs can be reused, modified, or saved
+      again with your own adjustments.\n\nFill Settings\n\u2022 Default Fill Time
+      and Default Loss Time are used when you don\u2019t provide a custom duration
+      in BarFill() or BarLoss().\n\u2022 Animation Curves let you control easing/speed
+      for each stage.\n[[IMAGE:7]]\n\ncsharp\n// Uses default fill time\nbar.BarFill(0.3f);\n\n//
+      Overrides default with 0.2 seconds\nbar.BarFill(0.3f, 0.2f);\n\nAuto End Line
+      Settings\n\nWhen enabled, the End Line automatically appears or disappears
+      based on fill level.\n\u2022 Use it to hide the end marker when the bar is
+      nearly full.\n\u2022 Set a threshold value, and define how long it takes to
+      appear/disappear.\n\u2022 Make sure the end line feature is enabled in your
+      material.\n\u2022 Turn Off/On Time \u2013 Time of the end line animation.\n\u2022
+      Fill Amount Threshold \u2013 When the bar is above this value, the end line
+      hides.\n[[IMAGE:8]]\n[[IMAGE:9]]\n\nSecond Bar Settings\n\nThis adds a second
+      fill layer behind the main bar. It\u2019s ideal for things like:\n\u2022 Delayed
+      fill/loss (e.g., ghost HP)\n\u2022 Visual contrast between real-time and buffered
+      values\n[[IMAGE:10]]\n\nRequires \"Enable Second Bar\" to be turned on in the
+      material.\n\nBoth stages have options:\n\u2022 Use Time Delay \u2013 Adds a
+      pause before the second bar animates.\n\u2022 Catch-Up Time \u2013 Controls
+      how fast the second bar \"catches up\" to the main one.\n\u2022 Override Color
+      \u2013 Lets you tint the second bar differently.\n\u2022 Blend to Main (fill)
+      / Invisible (loss) \u2013 Smoothly fades second bar toward main bar or hides
+      it after delay.\n\nImpulse Settings\n\nAdds dynamic visual feedback when bar
+      value changes (e.g. flashes, glow, motion).\n\nImpulse Curve & Duration \u2013
+      How the impulse animates over time.\n\nEach impulse type supports:\n\u2022
+      Custom Outline \u2013 Animate outline strength or color.\n\u2022 Fill Shadow
+      \u2013 Animate soft shadows inside the bar.\n\u2022 Overlay \u2013 Animate
+      glow or brightening effects over the bar surface.\n\nImpulse features require
+      their counterparts to be enabled in the shader (e.g., Custom Outline, Fill
+      Shadow, Overlay). \n\u2022 \u2022\n[[IMAGE:11]]"
+    images:
+    - {fileID: 2800000, guid: 00751f9fa6019ff44a78d5c3e67508fe, type: 3}
+    - {fileID: 2800000, guid: 9ac22556bd4305c419163a115da82041, type: 3}
+    - {fileID: 2800000, guid: 585647f42306f1c478ef357ec6103bb5, type: 3}
+    - {fileID: 2800000, guid: 2190d7a57dbe20443b5f8ef7c6690576, type: 3}
+    - {fileID: 2800000, guid: ff410ddf8f1d26c468fb872b1e41c6c0, type: 3}
+    - {fileID: 2800000, guid: be9d677d08e682143bf8fcde79bd45b9, type: 3}
+    - {fileID: 2800000, guid: 2ce3d066fc627df4092ecaf7d5c585f6, type: 3}
+    - {fileID: 2800000, guid: 3530652b0de468649b32d7b8d0736b9c, type: 3}
+    - {fileID: 2800000, guid: 9fecd3d66319a7c40b4898b26413a103, type: 3}
+    - {fileID: 2800000, guid: 5ee0c4ca35824494eabec2914da49cd7, type: 3}
+    - {fileID: 2800000, guid: 7bcfabc9aa3ffcd489a8361ecd8ed5f2, type: 3}
+    - {fileID: 2800000, guid: 7e611f56feb62a04e8346f1fe4d82fcc, type: 3}
+    linkText: 
+    url: 
+  - heading: Using Example Bars
+    text: "This section shows you how to quickly use one of the many pre-built progress
+      bars included in the asset.\n\u2022 Step 1: Complete the Setup\n\nBefore continuing,
+      make sure you\u2019ve completed the #how-to-add-a-progress-bar section (you
+      can skip creating new material, as we use one of the many pre-built materials
+      that come with the asset. \n\nStep 2: Find Example Materials\n[[IMAGE:0]] \n[[IMAGE:1]]
+      \n\nMaterials are in `Demo Files/Materials/`.\n\nUse the included feature and
+      style materials. This checkout has no Canvas demo or script-usage demo material
+      group.\n\nStep 3: Choose and Apply a Style\n\u2022 Pick a material you like
+      from any folder.\n\u2022 Change its shader based on usage:\n\u2022 Canvas Shader
+      \u2013 for UI images\n\u2022 Unlit Shader \u2013 for 3D objects (quads/planes)\n\u2022
+      Assign that material in two places:\n\u2022 On the UI Image component (for
+      canvas) or Mesh Renderer (for 3D)\n\u2022 In the ProceduralProgressBar script
+      (Get Material or drag it in)\n[[IMAGE:2]] \n[[IMAGE:3]] \n[[IMAGE:4]] \n[[IMAGE:5]]
+      \n[[IMAGE:6]] \n\nDone!\n\nYou now have a working example bar in your scene.\n[[IMAGE:7]] "
+    images:
+    - {fileID: 2800000, guid: 0d71e491ab4f5de4f82efdb183a9a2c4, type: 3}
+    - {fileID: 2800000, guid: 149a62f71ba4a3f4396ed37a9a81e60b, type: 3}
+    - {fileID: 2800000, guid: cb41ce3a68f6c3f47b09567f59d87ab9, type: 3}
+    - {fileID: 2800000, guid: 6991c66fea48ef84ebf1ca319a286464, type: 3}
+    - {fileID: 2800000, guid: 3b27b022d9611864da41e9aa30650a2f, type: 3}
+    - {fileID: 2800000, guid: 4b0034de3b01d884b9371d2cd4ea8206, type: 3}
+    - {fileID: 2800000, guid: fda8906e4a5047e44960a10def153b91, type: 3}
+    - {fileID: 2800000, guid: 1acae1e4be43f924892a8b6c13ca544b, type: 3}
+    linkText: 
+    url: 
+  loadedLayout: 0
