@@ -5,7 +5,7 @@ public abstract class PowerUpBase : NetworkBehaviour
 {
     protected PowerUpManager manager;
 
-    [SerializeField] UpgradeScriptableOBJ powerUpSO;
+    [SerializeField] AbilityScriptableOBJ powerUpSO;
 
     // Cooldown variables
     [SerializeField] protected float cooldownDuration = 1f;

@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
+  m_Script: {fileID: 11500000, guid: aae9d51662796094493f12bd12f12bc0, type: 3}
   m_Name: PartingGrift
   m_EditorClassIdentifier: 
-  upgradeID: 8
+  upgradeID: 0
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
-  pickupObject: {fileID: 4607181720469849986, guid: c090a52326d23df46a3107c821dcecc4, type: 3}
-  IconImage: {fileID: 21300000, guid: 33ca35488da22e3439e0e80414c4c22c, type: 3}
+  pickupObject: {fileID: 0}
+  IconImage: {fileID: 0}
   itemDesc: 
   isAvailble: 0
   isBulletUpgrade: 0

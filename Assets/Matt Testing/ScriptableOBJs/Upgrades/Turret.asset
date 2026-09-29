@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
+  m_Script: {fileID: 11500000, guid: aae9d51662796094493f12bd12f12bc0, type: 3}
   m_Name: Turret
   m_EditorClassIdentifier: 
-  upgradeID: 12
+  upgradeID: 5
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
@@ -22,5 +22,5 @@ MonoBehaviour:
   isAvailble: 0
   isBulletUpgrade: 0
   logicScriptObject: {fileID: 3546442050109167328, guid: bf1328ef118917f40a0c849bf7619424, type: 3}
-  cooldown: 5
+  cooldown: 10
   canBeUsedWhileDead: 0

@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1aa16e215e51744c93eed3ff34b6ed2, type: 3}
+  m_Script: {fileID: 11500000, guid: aae9d51662796094493f12bd12f12bc0, type: 3}
   m_Name: EnergySphere
   m_EditorClassIdentifier: 
-  upgradeID: 3
+  upgradeID: 1
   isPurchased: 0
   amountOfTimePurchased: 0
   spawnWeight: 0
@@ -21,7 +21,7 @@ MonoBehaviour:
   abilityColor: {r: 1, g: 0, b: 0.51225805, a: 1}
   itemDesc: 
   isAvailble: 0
-  isBulletUpgrade: 1
+  isBulletUpgrade: 0
   logicScriptObject: {fileID: 6062478159923203120, guid: d32ce5368a3b6c248b5109ad9a86a894, type: 3}
-  cooldown: 10
+  cooldown: 6
   canBeUsedWhileDead: 0

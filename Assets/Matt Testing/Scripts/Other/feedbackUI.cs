@@ -1,9 +1,21 @@
+using System.Xml.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class feedbackUI : MonoBehaviour
 {
+
+    /// <summary>
+    /// 
+    /// This script handles the representation of the feedback of the abilites.
+    /// - Changes The name of the equipped abilites
+    /// - chenages the text color based off the cooldown of said abilites: White when ready, slightly transparent when on cooldown
+    /// - Flashes the ability icons from red to green when the input is being pressed
+    /// </summary>
+
+
+
     [Header("Ability Icons")]
     [SerializeField] private Image abilityOneIcon;
     [SerializeField] private Image abilityTwoIcon;
@@ -15,7 +27,7 @@ public class feedbackUI : MonoBehaviour
     [SerializeField] private TMP_Text abilityThreeName;
 
     [Header("References")]
-    [SerializeField] private playerUpgradeManager playerUpgradeManager;
+    [SerializeField] private playerAbilityManager playerUpgradeManager;
 
     private readonly Color activeColor = Color.green;
     private readonly Color inactiveColor = Color.red;
@@ -33,43 +45,34 @@ public class feedbackUI : MonoBehaviour
         UpdateCooldownVisuals();
     }
 
-    // -------------------------------------------------------------
-    // INPUT FEEDBACK
-    // -------------------------------------------------------------
-    private void UpdateAbilityInputs()
+    private void UpdateAbilityInputs()     ///Changes The name of the equipped abilites
     {
         abilityOneIcon.color = GameInput.instance.getAbilityOneInput() ? activeColor : inactiveColor;
         abilityTwoIcon.color = GameInput.instance.getAbilityTwoInput() ? activeColor : inactiveColor;
         abilityThreeIcon.color = GameInput.instance.getAbilityThreeInput() ? activeColor : inactiveColor;
     }
 
-    // -------------------------------------------------------------
-    // NAMES (NOW USING UpgradeDatabase + INT ID)
-    // -------------------------------------------------------------
-    private void UpdateAbilityNames()
+    private void UpdateAbilityNames()///Changes The name of the equipped abilites
     {
-        var db = UpgradeDatabase.Instance;
+        var db = AbilityDatabase.Instance;
         if (db == null) return;
 
-        // Slot 1
         SetSlotUI(0, abilityOneName);
-        // Slot 2
         SetSlotUI(1, abilityTwoName);
-        // Slot 3
         SetSlotUI(2, abilityThreeName);
     }
 
     private void SetSlotUI(int slot, TMP_Text label)
     {
-        if (playerUpgradeManager.equipped[slot].logicInstance == null)
+        if (playerUpgradeManager.equippedAbilities[slot].logicInstance == null)
         {
             label.text = "None";
             return;
         }
 
-        int id = playerUpgradeManager.equipped[slot].upgradeID;
+        int id = playerUpgradeManager.equippedAbilities[slot].abilityID;
 
-        var def = UpgradeDatabase.Instance.Get(id);
+        var def = AbilityDatabase.Instance.Get(id);
 
         if (def != null)
             label.text = def.name;
@@ -77,21 +80,13 @@ public class feedbackUI : MonoBehaviour
             label.text = "Unknown";
     }
 
-    // -------------------------------------------------------------
-    // COOLDOWN VISUALS (UNCHANGED LOGIC)
-    // -------------------------------------------------------------
-    private void UpdateCooldownVisuals()
+    private void UpdateCooldownVisuals() /// changes the text color based off the cooldown: White when ready, slightly transparent when on cooldown
+
     {
-        abilityOneName.color = playerUpgradeManager.abilityOneCooldown > 0
-            ? cooldownColor
-            : readyColor;
+        abilityOneName.color = playerUpgradeManager.abilityOneCooldown > 0 ? cooldownColor: readyColor;
 
-        abilityTwoName.color = playerUpgradeManager.abilityTwoCooldown > 0
-            ? cooldownColor
-            : readyColor;
+        abilityTwoName.color = playerUpgradeManager.abilityTwoCooldown > 0 ? cooldownColor: readyColor;
 
-        abilityThreeName.color = playerUpgradeManager.abilityThreeCooldown > 0
-            ? cooldownColor
-            : readyColor;
+        abilityThreeName.color = playerUpgradeManager.abilityThreeCooldown > 0 ? cooldownColor : readyColor;
     }
 }
