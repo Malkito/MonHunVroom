@@ -3,7 +3,9 @@
     "rootNamespace": "Niki.UI",
     "references": [
         "UnityEngine.UI",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "CupOHappiness.ProceduralProgressBars.Runtime",
+        "Niki.ServiceLocator.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

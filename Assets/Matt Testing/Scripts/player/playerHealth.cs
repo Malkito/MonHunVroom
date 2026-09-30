@@ -2,6 +2,8 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine.UI;
+using Niki.UI;
+using UnityServiceLocator;
 
 public class playerHealth : NetworkBehaviour, dealDamage
 {
@@ -9,6 +11,7 @@ public class playerHealth : NetworkBehaviour, dealDamage
     [SerializeField] public float baseMaxHealth = 100f;
     private float maxHealth;
     public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
+    public Property<float> HealthFill { get; } = new(1f);
 
     float BaseSliderSize = 540;
 
@@ -28,8 +31,15 @@ public class playerHealth : NetworkBehaviour, dealDamage
 
     playerStats PlayerStats;
 
+    private void Awake()
+    {
+        ServiceLocator.For(this).Register<playerHealth>(this);
+    }
+
     public override void OnNetworkSpawn()
     {
+        currentHealth.OnValueChanged += OnCurrentHealthChanged;
+
         if (IsServer)
         {
             PlayerStats = GetComponent<playerStats>();
@@ -37,6 +47,23 @@ public class playerHealth : NetworkBehaviour, dealDamage
             currentHealth.Value = maxHealth;
             canTakeDamage = true;
         }
+
+        UpdateHealthFill(currentHealth.Value);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        currentHealth.OnValueChanged -= OnCurrentHealthChanged;
+    }
+
+    private void OnCurrentHealthChanged(float previous, float current)
+    {
+        UpdateHealthFill(current);
+    }
+
+    private void UpdateHealthFill(float current)
+    {
+        HealthFill.Value = baseMaxHealth > 0f ? Mathf.Clamp01(current / baseMaxHealth) : 0f;
     }
 
     void Update()
@@ -136,6 +163,7 @@ public class playerHealth : NetworkBehaviour, dealDamage
     {
         maxHealth = baseMaxHealth * PlayerStats.currentHealth.Value; 
         currentHealth.Value = maxHealth;
+        UpdateHealthFill(currentHealth.Value);
 
         RectTransform Rect = healthSlider.GetComponent<RectTransform>();
 

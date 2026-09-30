@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using Unity.Netcode;
 using System;
+using Niki.UI;
+using UnityServiceLocator;
 
 public interface useAbility
 {
@@ -28,7 +30,7 @@ public class EquippedAbility
     public bool IsValid => logicInstance != null;
 }
 
-public class playerAbilityManager : NetworkBehaviour
+public class playerAbilityManager : NetworkBehaviour, IPlayerAbilitySlots
 {
     [Header("Runtime Slots")]
     public EquippedAbility[] equippedAbilities = new EquippedAbility[3];
@@ -49,6 +51,8 @@ public class playerAbilityManager : NetworkBehaviour
 
     private void Awake()
     {
+        ServiceLocator.For(this).Register<IPlayerAbilitySlots>(this);
+
         for (int i = 0; i < equippedAbilities.Length; i++)
             equippedAbilities[i] = new EquippedAbility();
     }
@@ -99,6 +103,54 @@ public class playerAbilityManager : NetworkBehaviour
         SyncSlots();
     }
 
+
+    public bool TryGetSlot(int index, out AbilitySlotData slot)
+    {
+        slot = default;
+        if (!IsOwner || index < 0 || index >= equippedAbilities.Length)
+            return false;
+
+        var entry = equippedAbilities[index];
+        if (entry == null || entry.logicInstance == null || AbilityDatabase.Instance == null)
+            return false;
+
+        var definition = AbilityDatabase.Instance.Get(entry.abilityID);
+        if (definition == null)
+            return false;
+
+        float cooldown = index switch
+        {
+            0 => abilityOneCooldown,
+            1 => abilityTwoCooldown,
+            2 => abilityThreeCooldown,
+            _ => 0f
+        };
+        float normalizedCooldown = definition.cooldown > 0f
+            ? Mathf.Clamp01(cooldown / definition.cooldown)
+            : 0f;
+
+        slot = new AbilitySlotData(
+            definition.IconImage,
+            definition.abilityColor,
+            definition.itemDesc,
+            normalizedCooldown,
+            IsAbilityPressed(index));
+        return true;
+    }
+
+    private static bool IsAbilityPressed(int index)
+    {
+        var input = GameInput.instance;
+        if (input == null) return false;
+
+        return index switch
+        {
+            0 => input.getAbilityOneInput(),
+            1 => input.getAbilityTwoInput(),
+            2 => input.getAbilityThreeInput(),
+            _ => false
+        };
+    }
 
     // SLOT MANAGEMENT
     private int FindFirstAvailableSlotOrShift()
