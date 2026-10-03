@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Ami.BroAudio;
 
 public class waterBullet : NetworkBehaviour, bullet
 {
@@ -13,6 +14,8 @@ public class waterBullet : NetworkBehaviour, bullet
     [SerializeField] BulletSO bulletData;
     private GameObject BulletDamageOrigin;
 
+    [SerializeField] private SoundID WaterSplash;
+    [SerializeField] private SoundID waterShooting;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -20,6 +23,7 @@ public class waterBullet : NetworkBehaviour, bullet
         if (collision.gameObject.TryGetComponent(out dealDamage healthScript))
         {
             healthScript.dealDamage(bulletData.bulletDamage, Color.green, BulletDamageOrigin); // deals damage if collides with something that can be damaged
+
         }
     }
 
@@ -30,12 +34,15 @@ public class waterBullet : NetworkBehaviour, bullet
         NetworkObject splashNetworkOBJ = water.GetComponent<NetworkObject>();
         splashNetworkOBJ.Spawn();
 
+        BroAudio.Play(WaterSplash);
+
         Destroy(water, waterDuration);
-        Destroy(gameObject);
         foreach (GameObject fireOBj in findFireInArea())
         {
             Destroy(fireOBj);
         }
+        Destroy(gameObject);
+
     }
 
     public void setDamageOrigin(GameObject damageOrigin)

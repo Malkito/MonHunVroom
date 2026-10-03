@@ -1,5 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
+using Ami.BroAudio;
+
 
 public class flare : NetworkBehaviour
 {
@@ -9,10 +11,13 @@ public class flare : NetworkBehaviour
     private float elapsedTime;
     [SerializeField] private float spawnHeight;
     private bool spawned;
+
+    [SerializeField] private SoundID flareSFX;
     void Start()
     {
         spawned = false;
         elapsedTime = 0;
+        BroAudio.Play(flareSFX);
     }
 
     void Update()

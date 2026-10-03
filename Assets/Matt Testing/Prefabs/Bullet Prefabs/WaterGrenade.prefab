@@ -182,6 +182,14 @@ MonoBehaviour:
   waterSplash: {fileID: 7522430208092818895, guid: 4157c8f306d4f1c46bf4a8a3b053dbc0, type: 3}
   sphereSize: 10
   bulletData: {fileID: 11400000, guid: 67f08d7d03c844049bf8c7193921c61a, type: 2}
+  WaterSplash:
+    _entity: {fileID: 11400000, guid: 8dbfb53ee0d699d44bb4b5d001b3346e, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 1751376865438587401}
+  waterShooting:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 1751376865438587401}
 --- !u!114 &1941925654198201271
 MonoBehaviour:
   m_ObjectHideFlags: 0

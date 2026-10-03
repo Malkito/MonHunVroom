@@ -87,6 +87,7 @@ public class tankMovement : NetworkBehaviour
     {
         rb.AddForce(gameObject.transform.forward * (moveSpeed * PlayerStats.currentSpeed.Value) * inputVector, ForceMode.Acceleration);
 
+        /*
         if (isFantasy && !soundPlayer.IsPlaying)
         {
             soundPlayer = BroAudio.Play(FantasyMovementSFX).SetPitch(rb.GetPointVelocity(transform.position).magnitude).SetVolume(Mathf.Abs(inputVector));
@@ -95,7 +96,7 @@ public class tankMovement : NetworkBehaviour
         {
             soundPlayer =  BroAudio.Play(TronMovementSFX).SetPitch(rb.GetPointVelocity(transform.position).magnitude).SetVolume(Mathf.Abs(inputVector));
         }
-
+        */
         if(inputVector == 0 && isGrounded)
         {
             rb.linearDamping = linerDampening;

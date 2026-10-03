@@ -1,6 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
-
+using Ami.BroAudio;
 public class fireBullet : NetworkBehaviour, bullet
 {
     /// <summary>
@@ -21,6 +21,13 @@ public class fireBullet : NetworkBehaviour, bullet
 
     Transform collisionTransform;
 
+    [SerializeField] private SoundID fireBallShooting;
+
+
+    private void Start()
+    {
+        BroAudio.Play(fireBallShooting);
+    }
     public void setDamageOrigin(GameObject damageOrigin)
     {
         DamageOrigin = damageOrigin;
@@ -61,8 +68,6 @@ public class fireBullet : NetworkBehaviour, bullet
         Destroy(fire, fireParticle.main.duration);// reads the duration of the particle system and drestoys the created fire object based off the duration
 
         NetworkObject.Despawn();
-
-
     }
 
 }
