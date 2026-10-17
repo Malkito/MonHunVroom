@@ -30,3 +30,7 @@ MonoBehaviour:
     customInputContextIcon: {fileID: 21300000, guid: 2676af2b6c132d04eb305e2cd7e8d6fe, type: 3}
   - customInputContextString: Select
     customInputContextIcon: {fileID: 21300000, guid: 151a1ebe1a4169042a0ef613966a56ed, type: 3}
+  - customInputContextString: LS
+    customInputContextIcon: {fileID: 21300000, guid: 2676af2b6c132d04eb305e2cd7e8d6fe, type: 3}
+  - customInputContextString: RS
+    customInputContextIcon: {fileID: 21300000, guid: 8ec9564a77543884aa6932c781da5c10, type: 3}

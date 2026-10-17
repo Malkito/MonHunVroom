@@ -517,7 +517,10 @@ namespace CupOHappiness.UI
                 changed |= !Mathf.Approximately(before, after);
             }
 
-            if(changed)
+            // A parent can assign this layout's final RectTransform after measurement.
+            // Refresh the intrinsic extent before distributing space to Grow children,
+            // even when no Percent/FitContent child changed size in this pass.
+            if(changed || GetGrowChildren(axis).Count > 0)
                 RefreshResolvedContentSize(axis);
         }
 

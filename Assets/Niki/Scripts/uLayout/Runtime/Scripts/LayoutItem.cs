@@ -577,13 +577,16 @@ namespace CupOHappiness.UI
             );
             LayoutAxis expected = axis == RectTransform.Axis.Horizontal ? LayoutAxis.Horizontal : LayoutAxis.Vertical;
             bool circularAxis = (circular & expected) != 0;
+            if(!m_log || !circularAxis)
+                return;
+
             if(axis == RectTransform.Axis.Horizontal) {
-                if(!circularAxis || _warnedCircularX)
+                if(_warnedCircularX)
                     return;
                 _warnedCircularX = true;
             }
             else {
-                if(!circularAxis || _warnedCircularY)
+                if(_warnedCircularY)
                     return;
                 _warnedCircularY = true;
             }

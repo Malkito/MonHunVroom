@@ -11,6 +11,11 @@ namespace CupOHappiness.DeviceKeybindDisplay.Integrations.InputSystem
 
         protected override InputActionAsset GetInputActions() => inputActions;
 
+        protected override void SetInputActionsAsset(InputActionAsset actions)
+        {
+            inputActions = actions;
+        }
+
         protected override InputDevice GetActiveDevice() =>
             InputDeviceSelectionUtility.FindActiveDevice(inputActions);
     }

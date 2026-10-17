@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ea9a11d318323458a19965038cc9a3, type: 3}
   m_Name: DeviceDisplaySettings_Keyboard
   m_EditorClassIdentifier: 
-  deviceDisplayName: Keyboard
+  deviceDisplayName: Keyboard & Mouse
   deviceDisplayColor: {r: 1, g: 0.5764706, b: 0, a: 1}
   deviceHasContextIcons: 1
   buttonNorthIcon: {fileID: 0}
@@ -26,5 +26,31 @@ MonoBehaviour:
   customContextIcons:
   - customInputContextString: Escape
     customInputContextIcon: {fileID: 21300000, guid: b4f883cfe11db3e4c9a5337739891512, type: 3}
+  - customInputContextString: Back
+    customInputContextIcon: {fileID: 21300000, guid: b4f883cfe11db3e4c9a5337739891512, type: 3}
+  - customInputContextString: Cancel
+    customInputContextIcon: {fileID: 21300000, guid: b4f883cfe11db3e4c9a5337739891512, type: 3}
   - customInputContextString: WASD
     customInputContextIcon: {fileID: 21300000, guid: a095ed4ace37ebc41a433bcd534b356a, type: 3}
+  - customInputContextString: Enter
+    customInputContextIcon: {fileID: 21300000, guid: 51c9769e5db5871419be8b4369adc2e0, type: 3}
+  - customInputContextString: Return
+    customInputContextIcon: {fileID: 21300000, guid: 51c9769e5db5871419be8b4369adc2e0, type: 3}
+  - customInputContextString: Submit
+    customInputContextIcon: {fileID: 21300000, guid: 51c9769e5db5871419be8b4369adc2e0, type: 3}
+  - customInputContextString: Left Button
+    customInputContextIcon: {fileID: 21300000, guid: f42637d2b54fb0f4796257efd4688071, type: 3}
+  - customInputContextString: Right Button
+    customInputContextIcon: {fileID: 21300000, guid: 5e69c75899b7e6a43bd1936d2aafa050, type: 3}
+  - customInputContextString: Position
+    customInputContextIcon: {fileID: 21300000, guid: 271f58954e1954b45967dada50b1cf85, type: 3}
+  - customInputContextString: Delta
+    customInputContextIcon: {fileID: 21300000, guid: 271f58954e1954b45967dada50b1cf85, type: 3}
+  - customInputContextString: Scroll Up/Down
+    customInputContextIcon: {fileID: 21300000, guid: b5477d70585554a41bff1ffd6047848a, type: 3}
+  - customInputContextString: Keyboard
+    customInputContextIcon: {fileID: 21300000, guid: b323b86c77354da4e89538d9071f8925, type: 3}
+  - customInputContextString: LMB
+    customInputContextIcon: {fileID: 21300000, guid: f42637d2b54fb0f4796257efd4688071, type: 3}
+  - customInputContextString: RMB
+    customInputContextIcon: {fileID: 21300000, guid: 5e69c75899b7e6a43bd1936d2aafa050, type: 3}
