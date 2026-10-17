@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0345f6968f9c4241959624889b545dd, type: 3}
-  m_Name: FlareBurning
+  m_Name: FantasyPlayer
   m_EditorClassIdentifier: 
   Entities: []
   ConvertedEntities: []
   _group: {fileID: 0}
-  <AssetName>k__BackingField: FlareBurning
-  _assetGUID: 63e9fd867afdb5e45b2d817892d14194
+  <AssetName>k__BackingField: FantasyPlayer
+  _assetGUID: 45c9206535cacfe47a03fac266c66eb3
