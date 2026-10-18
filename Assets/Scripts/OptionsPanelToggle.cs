@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
+using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -48,6 +50,11 @@ public class OptionsPanelToggle : MonoBehaviour
     }
 
     private InputAction optionsAction;
+    private readonly Dictionary<InputActionMap, bool> previousActionMapStates = new Dictionary<InputActionMap, bool>();
+    private readonly Dictionary<CinemachineInputAxisController, bool> previousCameraInputStates = new Dictionary<CinemachineInputAxisController, bool>();
+    private CursorLockMode previousCursorLockMode;
+    private bool previousCursorVisible;
+    private bool inputStateCaptured;
 
     private void OnEnable()
     {
@@ -76,6 +83,8 @@ public class OptionsPanelToggle : MonoBehaviour
     {
         if (optionsAction != null)
             optionsAction.performed -= OnOptionsPressed;
+
+        RestoreInputState();
     }
 
     private void OnOptionsPressed(InputAction.CallbackContext context)
@@ -91,6 +100,11 @@ public class OptionsPanelToggle : MonoBehaviour
             return;
         }
 
+        if (visible)
+            EnterMenuInputMode();
+        else
+            RestoreInputState();
+
         optionsPanel.SetActive(visible);
         if (!visible)
             return;
@@ -100,5 +114,63 @@ public class OptionsPanelToggle : MonoBehaviour
             return;
 
         eventSystem.SetSelectedGameObject(firstSelectedElement);
+    }
+
+    private void EnterMenuInputMode()
+    {
+        if (inputStateCaptured) return;
+
+        previousCursorLockMode = Cursor.lockState;
+        previousCursorVisible = Cursor.visible;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        previousActionMapStates.Clear();
+        InputActionAsset actions = GameInput.instance != null ? GameInput.instance.Actions : null;
+        if (actions != null)
+        {
+            foreach (InputActionMap map in actions.actionMaps)
+            {
+                previousActionMapStates[map] = map.enabled;
+                if (map.name == "UI" || map.name == "Global")
+                    map.Enable();
+                else
+                    map.Disable();
+            }
+        }
+
+        previousCameraInputStates.Clear();
+        foreach (CinemachineInputAxisController controller in
+                 FindObjectsByType<CinemachineInputAxisController>(FindObjectsSortMode.None))
+        {
+            previousCameraInputStates[controller] = controller.enabled;
+            controller.enabled = false;
+        }
+
+        inputStateCaptured = true;
+    }
+
+    private void RestoreInputState()
+    {
+        if (!inputStateCaptured) return;
+
+        foreach (KeyValuePair<InputActionMap, bool> entry in previousActionMapStates)
+        {
+            if (entry.Key == null) continue;
+            if (entry.Value) entry.Key.Enable();
+            else entry.Key.Disable();
+        }
+
+        foreach (KeyValuePair<CinemachineInputAxisController, bool> entry in previousCameraInputStates)
+        {
+            if (entry.Key != null)
+                entry.Key.enabled = entry.Value;
+        }
+
+        Cursor.lockState = previousCursorLockMode;
+        Cursor.visible = previousCursorVisible;
+        previousActionMapStates.Clear();
+        previousCameraInputStates.Clear();
+        inputStateCaptured = false;
     }
 }

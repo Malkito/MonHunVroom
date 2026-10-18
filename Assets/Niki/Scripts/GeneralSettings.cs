@@ -65,7 +65,7 @@ public sealed class GeneralSettings : MonoBehaviour
         if (resolutionDropdown != null && availableResolutions.Count > 0)
             resolutionDropdown.SetValueWithoutNotify(Mathf.Clamp(savedResolution, 0, availableResolutions.Count - 1));
 
-        CameraSensitivity = PlayerPrefs.GetFloat(SensitivityKey, defaultCameraSensitivity);
+        CameraSensitivity = Mathf.Clamp(PlayerPrefs.GetFloat(SensitivityKey, defaultCameraSensitivity), 0f, 2f);
         if (cameraSensitivitySlider != null)
             cameraSensitivitySlider.SetValueWithoutNotify(CameraSensitivity);
 
@@ -118,7 +118,16 @@ public sealed class GeneralSettings : MonoBehaviour
     private void SetupSensitivitySlider()
     {
         if (cameraSensitivitySlider == null) return;
+        cameraSensitivitySlider.minValue = 0f;
+        cameraSensitivitySlider.maxValue = 2f;
+        cameraSensitivitySlider.wholeNumbers = false;
         cameraSensitivitySlider.onValueChanged.AddListener(OnSensitivityChanged);
+    }
+
+    /// <summary>Loads the saved value before a player camera begins processing input.</summary>
+    public static void LoadSavedCameraSensitivity()
+    {
+        CameraSensitivity = Mathf.Clamp(PlayerPrefs.GetFloat(SensitivityKey, 1f), 0f, 2f);
     }
 
     private void ApplySavedDisplaySettings(int modeIndex, int resolutionIndex)
@@ -154,8 +163,8 @@ public sealed class GeneralSettings : MonoBehaviour
 
     private void OnSensitivityChanged(float value)
     {
-        CameraSensitivity = value;
-        PlayerPrefs.SetFloat(SensitivityKey, value);
+        CameraSensitivity = Mathf.Clamp(value, 0f, 2f);
+        PlayerPrefs.SetFloat(SensitivityKey, CameraSensitivity);
         PlayerPrefs.Save();
     }
 }
