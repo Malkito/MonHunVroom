@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 /// Builds the keybind tab from a row prefab. Rebinding behavior follows Unity Technologies'
 /// InputSystem_Warriors sample and uses this project's shared GameInput action instance.
 /// </summary>
-public sealed class KeybindRebindPanel : MonoBehaviour
+public sealed class RebindSettings : MonoBehaviour
 {
     private const string PanelName = "TabBody_Keybinds";
     private const string PlayerPrefsKey = "MonHunVroom.InputBindingOverrides";

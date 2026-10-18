@@ -4,8 +4,11 @@
       "version": "https://github.com/AnkleBreaker-Studio/unity-mcp-plugin.git",
       "depth": 0,
       "source": "git",
-      "dependencies": {},
-      "hash": "9032874ff0b83a5941a01b2ab99599fcc61e90db"
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.test-framework": "1.1.33"
+      },
+      "hash": "cd3d12bb125111bef36d0d8eec84f824bde584b7"
     },
     "com.dgreenheck.openfracture": {
       "version": "https://github.com/dgreenheck/OpenFracture.git",

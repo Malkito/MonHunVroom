@@ -27,6 +27,11 @@ public class GameInput : MonoBehaviour
         globalMap.Enable();
     }
 
+    private void Start()
+    {
+        AudioSettingsController.ApplySavedGlobalVolume();
+    }
+
     private void OnDestroy()
     {
         if (instance == this)

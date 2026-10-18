@@ -1024,6 +1024,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2352469288482539000, guid: 5f4b8493ef7689547acecb0bf4444ce7, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352469288482539000, guid: 5f4b8493ef7689547acecb0bf4444ce7, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352469288482539000, guid: 5f4b8493ef7689547acecb0bf4444ce7, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666435209476953826, guid: 5f4b8493ef7689547acecb0bf4444ce7, type: 3}
+      propertyPath: m_padding.left
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666435209476953826, guid: 5f4b8493ef7689547acecb0bf4444ce7, type: 3}
+      propertyPath: m_padding.right
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3190770159337161929, guid: 5f4b8493ef7689547acecb0bf4444ce7, type: 3}
       propertyPath: m_Name
       value: BindingDisplay
