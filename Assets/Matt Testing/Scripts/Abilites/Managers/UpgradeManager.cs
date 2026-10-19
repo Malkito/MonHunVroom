@@ -19,17 +19,21 @@ public class UpgradeManager : NetworkBehaviour
     [SerializeField] private AbilityScriptableOBJ[] availableUpgrades;
     [SerializeField] private GameObject upgradeChoiceUI;
     [SerializeField] private int amountOfUpgradesToBeAvailable = 3;
-
     [SerializeField] private GameObject[] spawnpoints;
 
     private bool upgradeSelected;
     private int[] availableUpgradeIndexes = new int[3];
-
     private readonly List<GameObject> spawnedUpgradeObjects = new();
+    private readonly HashSet<ulong> clientsWhoSelected = new();
 
     public static UpgradeManager Instance { get; private set; }
 
     [SerializeField] private NetworkList<int> sharedSpawnPool = new();
+
+    private void Awake()
+    {
+        upgradeChoiceUI.SetActive(false);
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -41,18 +45,8 @@ public class UpgradeManager : NetworkBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
         availableUpgradeIndexes = new int[amountOfUpgradesToBeAvailable];
-
         StartCoroutine(RefreshSpawnPoints());
-
-        rollRandomUpgradeClientRPC();
-    }
-
-    [ClientRpc]
-    private void rollRandomUpgradeClientRPC()
-    {
-        rollRandomUpgrade();
     }
 
     private void OnEnable()
@@ -67,83 +61,80 @@ public class UpgradeManager : NetworkBehaviour
 
     private void OnActiveSceneChanged(Scene previousScene, Scene newScene)
     {
-        Debug.Log($"Scene changed on {OwnerClientId}: {newScene.name}");
-
-        Debug.Log($"Local:{NetworkManager.Singleton.LocalClientId} " +$"Owner:{OwnerClientId} " +$"IsOwner:{IsOwner}");
-        
-        rollRandomUpgrade();
-
+        upgradeChoiceUI.SetActive(false);
         StartCoroutine(RefreshSpawnPoints());
     }
 
     private IEnumerator RefreshSpawnPoints()
     {
-        // Wait one frame so the new scene can finish loading
         yield return null;
-
         spawnpoints = GameObject.FindGameObjectsWithTag("PowerSpawnPoints");
-
-        //Debug.Log($"UpgradeManager found {spawnpoints.Length} spawn points.");
     }
 
-    public void rollRandomUpgrade()
+    public void ShowUpgradeChoices()
     {
-        Debug.Log("Entered rollRandomUpgrade");
+        if (!IsServer)
+            return;
+
+        clientsWhoSelected.Clear();
+        sharedSpawnPool.Clear();
         upgradeSelected = false;
-        Debug.Log($"upgradeSelected reset to {upgradeSelected}");
-        upgradeChoiceUI.SetActive(true);
-
-        availableUpgrades = new AbilityScriptableOBJ[amountOfUpgradesToBeAvailable];
-
         for (int i = 0; i < amountOfUpgradesToBeAvailable; i++)
+            availableUpgradeIndexes[i] = Random.Range(0, entireUpgradePool.Length);
+
+        ShowUpgradeChoicesClientRpc(availableUpgradeIndexes);
+    }
+
+    [ClientRpc]
+    private void ShowUpgradeChoicesClientRpc(int[] upgradeIndexes)
+    {
+        availableUpgradeIndexes = upgradeIndexes;
+        upgradeSelected = false;
+        for (int i = 0; i < upgradeIndexes.Length; i++)
         {
-            int randomUpgrade = Random.Range(0, entireUpgradePool.Length);
-
-            availableUpgrades[i] = entireUpgradePool[randomUpgrade];
-            availableUpgradeIndexes[i] = randomUpgrade;
-
-            IconSprites[i].sprite = availableUpgrades[i].IconImage;
-            upgradeNames[i].text = availableUpgrades[i].name;
+            AbilityScriptableOBJ upgrade = entireUpgradePool[upgradeIndexes[i]];
+            IconSprites[i].sprite = upgrade.IconImage;
+            IconSprites[i].color = upgrade.abilityColor;
+            upgradeNames[i].text = upgrade.name;
         }
+
+        upgradeChoiceUI.SetActive(true);
     }
 
     private void Update()
     {
+        if (!IsSpawned || upgradeSelected)
+            return;
 
-        Debug.Log($"upgradeSelected = {upgradeSelected}");
-
-        if (GameInput.instance.getSelectUpgradeOneInput() && !upgradeSelected)
-        {
-            SelectUpgrade(availableUpgradeIndexes[0]);
-        }
-
-        if (GameInput.instance.getSelectUpgradeTwoInput() && !upgradeSelected)
-        {
-            SelectUpgrade(availableUpgradeIndexes[1]);
-        }
-
-        if (GameInput.instance.getSelectUpgradeThreeInput() && !upgradeSelected)
-        {
-            SelectUpgrade(availableUpgradeIndexes[2]);
-        }
+        if (GameInput.instance.getSelectUpgradeOneInput()) SelectUpgrade(0);
+        else if (GameInput.instance.getSelectUpgradeTwoInput()) SelectUpgrade(1);
+        else if (GameInput.instance.getSelectUpgradeThreeInput()) SelectUpgrade(2);
     }
 
-    private void SelectUpgrade(int upgradeIndex)
+    // Assign this method to a button and pass the displayed upgrade slot (0-based).
+    public void SelectUpgrade(int slot)
     {
-        //Debug.Log($"Selecting upgrade {upgradeIndex}");
+        if (!IsSpawned || upgradeSelected || slot < 0 || slot >= availableUpgradeIndexes.Length)
+            return;
 
-        AddUpgradeToPoolServerRpc(upgradeIndex);
-
-        upgradeChoiceUI.SetActive(false);
         upgradeSelected = true;
+        upgradeChoiceUI.SetActive(false);
+        SelectUpgradeServerRpc(slot);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void AddUpgradeToPoolServerRpc(int upgradeIndex)
+    private void SelectUpgradeServerRpc(int slot, ServerRpcParams rpcParams = default)
     {
-        sharedSpawnPool.Add(upgradeIndex);
+        if (slot < 0 || slot >= availableUpgradeIndexes.Length)
+            return;
 
-        Debug.Log($"Player added upgrade index {upgradeIndex} to shared pool.");
+        ulong clientId = rpcParams.Receive.SenderClientId;
+        if (!clientsWhoSelected.Add(clientId))
+            return;
+
+        sharedSpawnPool.Add(availableUpgradeIndexes[slot]);
+        if (clientsWhoSelected.Count == NetworkManager.Singleton.ConnectedClientsIds.Count)
+            FindAnyObjectByType<readyCheck>().SpawnPlayersAfterChoices();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -158,34 +149,20 @@ public class UpgradeManager : NetworkBehaviour
             return;
         }
 
-        // Clear references from previous round
         spawnedUpgradeObjects.Clear();
-
-        // Shuffle spawn points instead of spawned objects
         ShuffleSpawnPoints();
 
         int spawnCount = Mathf.Min(sharedSpawnPool.Count, spawnpoints.Length);
-
         for (int i = 0; i < spawnCount; i++)
         {
-            int upgradeIndex = sharedSpawnPool[i];
-            AbilityScriptableOBJ upgradeData = entireUpgradePool[upgradeIndex];
-
+            AbilityScriptableOBJ upgradeData = entireUpgradePool[sharedSpawnPool[i]];
             Vector3 spawnPos = spawnpoints[i].transform.position;
-
-            GameObject newUpgrade = Instantiate(upgradeData.pickupObject,spawnPos, Quaternion.identity);
-
+            GameObject newUpgrade = Instantiate(upgradeData.pickupObject, spawnPos, Quaternion.identity);
             NetworkObject netObj = newUpgrade.GetComponent<NetworkObject>();
-
             if (netObj != null)
-            {
-                // Spawn AFTER position is set
                 netObj.Spawn();
-            }
 
             spawnedUpgradeObjects.Add(newUpgrade);
-
-            Debug.Log($"Spawned {newUpgrade.name} at {spawnPos}");
         }
     }
 
@@ -194,10 +171,7 @@ public class UpgradeManager : NetworkBehaviour
         for (int i = 0; i < spawnpoints.Length; i++)
         {
             int randomIndex = Random.Range(i, spawnpoints.Length);
-
-            GameObject temp = spawnpoints[i];
-            spawnpoints[i] = spawnpoints[randomIndex];
-            spawnpoints[randomIndex] = temp;
+            (spawnpoints[i], spawnpoints[randomIndex]) = (spawnpoints[randomIndex], spawnpoints[i]);
         }
     }
 }

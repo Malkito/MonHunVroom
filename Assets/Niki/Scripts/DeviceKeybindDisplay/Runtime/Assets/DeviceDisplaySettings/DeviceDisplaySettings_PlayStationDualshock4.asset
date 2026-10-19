@@ -19,24 +19,18 @@ MonoBehaviour:
   buttonSouthIcon: {fileID: 21300000, guid: 766e476b580fa2342a66ce531482d164, type: 3}
   buttonWestIcon: {fileID: 21300000, guid: 5650772324f737c4692e4ee41e15c9da, type: 3}
   buttonEastIcon: {fileID: 21300000, guid: 0cabbcedf5c82444b8cc57c6adfae34d, type: 3}
-  triggerRightFrontIcon: {fileID: 21300000, guid: 844dc6b26ef8d404498a011f84d2352e,
-    type: 3}
-  triggerRightBackIcon: {fileID: 21300000, guid: 74b024f118217924d99798bf923d2d2e,
-    type: 3}
-  triggerLeftFrontIcon: {fileID: 21300000, guid: c1d4a19b47662e843a6b4aac1dfbd7f0,
-    type: 3}
-  triggerLeftBackIcon: {fileID: 21300000, guid: ac37aede1951f9e41860895428f801b1,
-    type: 3}
+  triggerRightFrontIcon: {fileID: 21300000, guid: 844dc6b26ef8d404498a011f84d2352e, type: 3}
+  triggerRightBackIcon: {fileID: 21300000, guid: 74b024f118217924d99798bf923d2d2e, type: 3}
+  triggerLeftFrontIcon: {fileID: 21300000, guid: c1d4a19b47662e843a6b4aac1dfbd7f0, type: 3}
+  triggerLeftBackIcon: {fileID: 21300000, guid: ac37aede1951f9e41860895428f801b1, type: 3}
   customContextIcons:
   - customInputContextString: Right Stick Press
-    customInputContextIcon: {fileID: 21300000, guid: 5f16fc2f989c8b740a47647d285d867b,
-      type: 3}
+    customInputContextIcon: {fileID: 21300000, guid: 5f16fc2f989c8b740a47647d285d867b, type: 3}
   - customInputContextString: Left Stick Press
-    customInputContextIcon: {fileID: 21300000, guid: c9f67eb2a39c6104e85ea83d2a617c8f,
-      type: 3}
+    customInputContextIcon: {fileID: 21300000, guid: c9f67eb2a39c6104e85ea83d2a617c8f, type: 3}
   - customInputContextString: touchpadButton
-    customInputContextIcon: {fileID: 21300000, guid: 521d85a426fcfbc46a2a6f970d880bd1,
-      type: 3}
+    customInputContextIcon: {fileID: 21300000, guid: 521d85a426fcfbc46a2a6f970d880bd1, type: 3}
   - customInputContextString: Select
-    customInputContextIcon: {fileID: 21300000, guid: 04acd82e9b5a4554dab130bbe48818f5,
-      type: 3}
+    customInputContextIcon: {fileID: 21300000, guid: 04acd82e9b5a4554dab130bbe48818f5, type: 3}
+  - customInputContextString: Share
+    customInputContextIcon: {fileID: 21300000, guid: 04acd82e9b5a4554dab130bbe48818f5, type: 3}

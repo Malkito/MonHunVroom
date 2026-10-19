@@ -19,21 +19,18 @@ MonoBehaviour:
   buttonSouthIcon: {fileID: 21300000, guid: c6ae2910c99c4c045ba6e2473a9df908, type: 3}
   buttonWestIcon: {fileID: 21300000, guid: 38ad6671fee7da74fa7dae825fba063e, type: 3}
   buttonEastIcon: {fileID: 21300000, guid: 4b6115bd287f2bc4c9ef5a3139adf0e6, type: 3}
-  triggerRightFrontIcon: {fileID: 21300000, guid: 36f149afe5339614f9bd864c577fdb20,
-    type: 3}
-  triggerRightBackIcon: {fileID: 21300000, guid: 437bb87abdf0a4b49bad34954137058a,
-    type: 3}
-  triggerLeftFrontIcon: {fileID: 21300000, guid: 3ebbbbbee6115154a9a689365d4c868c,
-    type: 3}
-  triggerLeftBackIcon: {fileID: 21300000, guid: 5b3c19f5c4c0ba64e966b8b617c2c26f,
-    type: 3}
+  triggerRightFrontIcon: {fileID: 21300000, guid: 36f149afe5339614f9bd864c577fdb20, type: 3}
+  triggerRightBackIcon: {fileID: 21300000, guid: 437bb87abdf0a4b49bad34954137058a, type: 3}
+  triggerLeftFrontIcon: {fileID: 21300000, guid: 3ebbbbbee6115154a9a689365d4c868c, type: 3}
+  triggerLeftBackIcon: {fileID: 21300000, guid: 5b3c19f5c4c0ba64e966b8b617c2c26f, type: 3}
   customContextIcons:
   - customInputContextString: Right Stick Press
-    customInputContextIcon: {fileID: 21300000, guid: 61b18d5b639ac5c4bbce0779a7a6be78,
-      type: 3}
+    customInputContextIcon: {fileID: 21300000, guid: 61b18d5b639ac5c4bbce0779a7a6be78, type: 3}
   - customInputContextString: Left Stick Press
-    customInputContextIcon: {fileID: 21300000, guid: 66adf8b974a2bf04f89f4f4bafd389f7,
-      type: 3}
+    customInputContextIcon: {fileID: 21300000, guid: 66adf8b974a2bf04f89f4f4bafd389f7, type: 3}
   - customInputContextString: Select
-    customInputContextIcon: {fileID: 21300000, guid: 2b26cc0b9a2dce248ba53e059a2db679,
-      type: 3}
+    customInputContextIcon: {fileID: 21300000, guid: 2b26cc0b9a2dce248ba53e059a2db679, type: 3}
+  - customInputContextString: Plus
+    customInputContextIcon: {fileID: 21300000, guid: cebf31aab47db914cab09f766cdad1fa, type: 3}
+  - customInputContextString: Home
+    customInputContextIcon: {fileID: 21300000, guid: ac3c995a7c96b44408049238171ad9dd, type: 3}

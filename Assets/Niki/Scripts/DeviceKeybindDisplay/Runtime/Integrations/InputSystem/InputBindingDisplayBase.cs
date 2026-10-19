@@ -40,8 +40,12 @@ namespace CupOHappiness.DeviceKeybindDisplay.Integrations.InputSystem
         private string actionMapName;
         [SerializeField, Tooltip("Action to resolve from the PlayerInput actions asset.")]
         private string actionName;
-
+
+        private int runtimeBindingIndex = -1;
+
         private Sprite _defaultDisplaySprite;
+        private Image.Type _defaultDisplayImageType;
+        private bool _defaultDisplayImagePreserveAspect;
         private bool _cachedDefaultDisplaySprite;
 
         private void OnEnable()
@@ -59,32 +63,89 @@ namespace CupOHappiness.DeviceKeybindDisplay.Integrations.InputSystem
             };
         }
 
-        public void RefreshGraphic()
-        {
-            var inputActions = GetInputActions();
-            var activeDevice = GetActiveDevice();
-            if (inputActions == null || deviceDisplayConfigurator == null)
+        public void SetBindingTarget(InputAction action, int bindingIndex, bool showBindingNameWhenNoIcon = true)
+        {
+            if (action == null || action.actionMap == null)
             {
+                actionMapName = string.Empty;
+                actionName = string.Empty;
+                runtimeBindingIndex = -1;
+                RefreshGraphic();
                 return;
             }
 
-            if (!TryResolveAction(inputActions, actionMapName, actionName, out var action))
-            {
-                ApplyDisplay(null, null);
-                return;
-            }
-
-            string bindingDisplay = TryResolveBindingDisplayString(activeDevice, action, out var resolvedBindingDisplay)
-                ? resolvedBindingDisplay
-                : null;
-
-            Sprite sprite = string.IsNullOrEmpty(bindingDisplay)
-                ? null
-                : deviceDisplayConfigurator.GetDeviceBindingIcon(activeDevice, bindingDisplay);
-
-            ApplyDisplay(sprite, bindingDisplay);
-        }
-
+            SetInputActionsAsset(action.actionMap.asset);
+            actionMapName = action.actionMap.name;
+            actionName = action.name;
+            runtimeBindingIndex = bindingIndex;
+            displayBindingName = showBindingNameWhenNoIcon;
+            RefreshGraphic();
+        }
+
+        protected virtual void SetInputActionsAsset(InputActionAsset inputActions)
+        {
+        }
+
+        public void RefreshGraphic()
+        {
+            var inputActions = GetInputActions();
+            var activeDevice = GetActiveDevice();
+            if (inputActions == null || deviceDisplayConfigurator == null)
+                return;
+
+            if (!TryResolveAction(inputActions, actionMapName, actionName, out var action))
+            {
+                ApplyDisplay(null, null);
+                return;
+            }
+
+            string bindingDisplay;
+            if (runtimeBindingIndex >= 0)
+            {
+                if (runtimeBindingIndex >= action.bindings.Count)
+                {
+                    ApplyDisplay(null, null);
+                    return;
+                }
+
+                var binding = action.bindings[runtimeBindingIndex];
+                bindingDisplay = action.GetBindingDisplayString(runtimeBindingIndex);
+                activeDevice = FindDeviceForBinding(binding, activeDevice);
+            }
+            else
+            {
+                bindingDisplay = TryResolveBindingDisplayString(activeDevice, action, out var resolvedBindingDisplay)
+                    ? resolvedBindingDisplay
+                    : null;
+            }
+
+            Sprite sprite = string.IsNullOrEmpty(bindingDisplay) || activeDevice == null
+                ? null
+                : deviceDisplayConfigurator.GetDeviceBindingIcon(activeDevice, bindingDisplay);
+
+            ApplyDisplay(sprite, bindingDisplay);
+        }
+
+        private static InputDevice FindDeviceForBinding(InputBinding binding, InputDevice activeDevice)
+        {
+            string path = binding.effectivePath;
+            int layoutEnd = string.IsNullOrEmpty(path) ? -1 : path.IndexOf('>');
+            if (layoutEnd <= 1)
+                return activeDevice;
+
+            string layout = path.Substring(1, layoutEnd - 1);
+            if (activeDevice != null && UnityEngine.InputSystem.InputSystem.IsFirstLayoutBasedOnSecond(activeDevice.layout, layout))
+                return activeDevice;
+
+            foreach (var device in UnityEngine.InputSystem.InputSystem.devices)
+            {
+                if (UnityEngine.InputSystem.InputSystem.IsFirstLayoutBasedOnSecond(device.layout, layout))
+                    return device;
+            }
+
+            return null;
+        }
+
         private void ApplyDisplay(Sprite sprite, string bindingDisplay)
         {
             bool hasIcon = sprite != null;
@@ -94,6 +155,8 @@ namespace CupOHappiness.DeviceKeybindDisplay.Integrations.InputSystem
             {
                 CacheDefaultDisplaySprite();
                 displayImage.sprite = hasIcon ? sprite : _defaultDisplaySprite;
+                displayImage.type = hasIcon ? Image.Type.Simple : _defaultDisplayImageType;
+                displayImage.preserveAspect = hasIcon || _defaultDisplayImagePreserveAspect;
                 displayImage.enabled = hasIcon || showBindingName;
             }
 
@@ -147,6 +210,8 @@ namespace CupOHappiness.DeviceKeybindDisplay.Integrations.InputSystem
             }
 
             _defaultDisplaySprite = displayImage.sprite;
+            _defaultDisplayImageType = displayImage.type;
+            _defaultDisplayImagePreserveAspect = displayImage.preserveAspect;
             _cachedDefaultDisplaySprite = true;
         }
 

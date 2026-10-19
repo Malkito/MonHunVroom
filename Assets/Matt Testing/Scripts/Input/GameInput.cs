@@ -5,12 +5,40 @@ public class GameInput : MonoBehaviour
     private PlayerInputActions playerInputActions;
 
     public static GameInput instance { get; private set; }
+    public InputActionAsset Actions => playerInputActions?.asset;
+    public InputAction OptionsAction { get; private set; }
+
+    private const string BindingOverridesKey = "MonHunVroom.InputBindingOverrides";
 
     private void Awake()
     {
         instance = this;
         playerInputActions = new PlayerInputActions();
+        string overrides = PlayerPrefs.GetString(BindingOverridesKey, string.Empty);
+        if (!string.IsNullOrEmpty(overrides))
+        {
+            playerInputActions.asset.LoadBindingOverridesFromJson(overrides);
+        }
+        var globalMap = playerInputActions.asset.AddActionMap("Global");
+        OptionsAction = globalMap.AddAction("Options", InputActionType.Button);
+        OptionsAction.AddBinding("<Keyboard>/escape", groups: "Global");
+        OptionsAction.AddBinding("<Gamepad>/start", groups: "Global");
         playerInputActions.Player.Enable();
+        globalMap.Enable();
+    }
+
+    private void Start()
+    {
+        AudioSettingsController.ApplySavedGlobalVolume();
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
+        playerInputActions?.Dispose();
     }
 
 

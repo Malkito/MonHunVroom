@@ -1,107 +1,100 @@
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class readyCheck : NetworkBehaviour
 {
     [SerializeField] private GameObject readyCanvas;
     [SerializeField] private Image[] readyCheckImages;
     [SerializeField] private Button readyButton;
-    private int numOfPlayers;
-    private int numOfPlayersReady;
-    [SerializeField] GameObject playerPrefabs;
-    private bool playersSpawned;
-    private int spawnIndex;
-    private bool ready;
-    //[SerializeField] private Material[] tankColors;
-    [SerializeField] private GameObject[] playerObjects;
-
+    [SerializeField] private GameObject playerPrefabs;
     [SerializeField] private Transform[] respawnPoints;
+
+    private readonly HashSet<ulong> readyClientIds = new();
+    private bool ready;
+    private bool playersSpawned;
 
     private void Awake()
     {
-        readyButton.onClick.AddListener(() => {
-            readyPressed();
-        });
+        readyButton.onClick.AddListener(ReadyPressed);
     }
-    void Start()
+
+    private void Start()
     {
-        spawnIndex = 0;
-        playersSpawned = false;
-        numOfPlayers = 0;
-        foreach(NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
-        {
-            readyCheckImages[numOfPlayers].gameObject.SetActive(true);
-            numOfPlayers++;
-        }
+        for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count && i < readyCheckImages.Length; i++)
+            readyCheckImages[i].gameObject.SetActive(true);
 
         GameStateManager.Instance.setNewState(GameStateManager.State.WaitingToStart);
     }
+
     private void Update()
     {
-        if (!IsSpawned) return;
-
-        if (GameInput.instance.getJumpInput() && !ready)
-        {
-            readyPressed();
-            ready = true;
-        }
-
-        if (NetworkManager.Singleton == null) return;
-        if (numOfPlayersReady == NetworkManager.Singleton.ConnectedClientsIds.Count && !playersSpawned)
-        {
-            spawnPlayers();
-        }
+        if (IsSpawned && !ready && GameInput.instance.getJumpInput())
+            ReadyPressed();
     }
-    private void readyPressed()
-    {
-        if (!IsSpawned) return;
 
+    private void ReadyPressed()
+    {
+        if (!IsSpawned || ready)
+            return;
+
+        ready = true;
         readyButton.interactable = false;
-        readyPressedServerRpc();
+        ReadyPressedServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void readyPressedServerRpc()
+    private void ReadyPressedServerRpc(ServerRpcParams rpcParams = default)
     {
-        readyCheckImagesClientRpc();
-        numOfPlayersReady++;
-        print("Ready server pressed Client RPC ran");
+        ulong clientId = rpcParams.Receive.SenderClientId;
+        if (!readyClientIds.Add(clientId))
+            return;
+
+        readyCheckImagesClientRpc(readyClientIds.Count - 1);
+        if (readyClientIds.Count == NetworkManager.Singleton.ConnectedClientsIds.Count)
+        {
+            readyCanvas.SetActive(false);
+            turnOffReadyUIClientRpc();
+            UpgradeManager.Instance.ShowUpgradeChoices();
+        }
     }
 
     [ClientRpc]
-    private void readyCheckImagesClientRpc()
+    private void readyCheckImagesClientRpc(int index)
     {
-        readyCheckImages[numOfPlayersReady].color = Color.green;
+        if (index < readyCheckImages.Length)
+            readyCheckImages[index].color = Color.green;
     }
 
-    private void spawnPlayers()
-    {
-       // ac.SetBool("GameStarting", true);
-
-        foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
-        {
-           
-            Transform spawnPoint = respawnPoints[spawnIndex];
-            GameObject player = Instantiate(playerPrefabs, spawnPoint);
-
-
-            player.GetComponent<NetworkObject>().SpawnAsPlayerObject(client.ClientId, true);
-            spawnIndex++;
-        }
-        turnOffReadyUIClientRpc();
-
-        playersSpawned = true;
-
-        setGameStateClientRpc();
-
-        FindAnyObjectByType<UpgradeManager>().SpawnUpgradesServerRpc();
-
-    }
     [ClientRpc]
     private void turnOffReadyUIClientRpc()
     {
         readyCanvas.SetActive(false);
+    }
+
+    public void SpawnPlayersAfterChoices()
+    {
+        if (!IsServer || playersSpawned)
+            return;
+
+        playersSpawned = true;
+        int spawnIndex = 0;
+        foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (spawnIndex >= respawnPoints.Length)
+            {
+                Debug.LogError("Not enough player respawn points.");
+                return;
+            }
+
+            GameObject player = Instantiate(playerPrefabs, respawnPoints[spawnIndex].position, respawnPoints[spawnIndex].rotation);
+            player.GetComponent<NetworkObject>().SpawnAsPlayerObject(client.ClientId, true);
+            spawnIndex++;
+        }
+
+        setGameStateClientRpc();
+        UpgradeManager.Instance.SpawnUpgradesServerRpc();
     }
 
     [ClientRpc]
@@ -109,5 +102,4 @@ public class readyCheck : NetworkBehaviour
     {
         GameStateManager.Instance.setNewState(GameStateManager.State.GamePlaying);
     }
-
 }

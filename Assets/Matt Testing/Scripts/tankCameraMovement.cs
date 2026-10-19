@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Cinemachine;
@@ -17,6 +18,8 @@ public class tankCameraMovement : NetworkBehaviour
     [SerializeField] private LayerMask aimLayerMask;
 
     private Vector3 targetPoint;
+    private CinemachineInputAxisController inputAxisController;
+    private readonly Dictionary<string, float> originalLookGains = new Dictionary<string, float>();
 
     [SerializeField] private float minimumDistance;
 
@@ -29,6 +32,8 @@ public class tankCameraMovement : NetworkBehaviour
     [SerializeField] private float maxBarrelAngle = 35f;
     void Start()
     {
+        GeneralSettings.LoadSavedCameraSensitivity();
+        inputAxisController = cam != null ? cam.GetComponent<CinemachineInputAxisController>() : null;
         canMove = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -50,11 +55,35 @@ public class tankCameraMovement : NetworkBehaviour
     private void Update()
     {
         if (!IsOwner) return;
+        ApplyCameraSensitivity();
         if (!canMove) return;
 
         aimTurret();
     }
 
+
+    private void ApplyCameraSensitivity()
+    {
+        if (inputAxisController == null && cam != null)
+            inputAxisController = cam.GetComponent<CinemachineInputAxisController>();
+        if (inputAxisController == null) return;
+
+        float sensitivity = GeneralSettings.CameraSensitivity;
+        foreach (var controller in inputAxisController.Controllers)
+        {
+            if (controller == null || controller.Input == null ||
+                !controller.Name.StartsWith("Look Orbit "))
+                continue;
+
+            if (!originalLookGains.TryGetValue(controller.Name, out float baseGain))
+            {
+                baseGain = controller.Input.Gain;
+                originalLookGains.Add(controller.Name, baseGain);
+            }
+
+            controller.Input.Gain = baseGain * sensitivity;
+        }
+    }
 
     private void aimTurret()
     {
