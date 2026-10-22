@@ -77,6 +77,10 @@ MonoBehaviour:
   maxFuel: 500
   fuelDrainRate: 70
   fuelRegenRate: 50
+  heliHatSound:
+    _entity: {fileID: 11400000, guid: 0863965ecd5cf3b40b4c5d92e58c865d, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 1909412488855794685}
 --- !u!114 &6111811092666462938
 MonoBehaviour:
   m_ObjectHideFlags: 0

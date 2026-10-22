@@ -26,7 +26,7 @@ public class fireBullet : NetworkBehaviour, bullet
 
     private void Start()
     {
-        BroAudio.Play(fireBallShooting);
+        BroAudio.Play(fireBallShooting,transform.position);
     }
     public void setDamageOrigin(GameObject damageOrigin)
     {

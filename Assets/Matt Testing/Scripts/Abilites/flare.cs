@@ -17,7 +17,7 @@ public class flare : NetworkBehaviour
     {
         spawned = false;
         elapsedTime = 0;
-        BroAudio.Play(flareSFX);
+        BroAudio.Play(flareSFX, transform.position);
     }
 
     void Update()

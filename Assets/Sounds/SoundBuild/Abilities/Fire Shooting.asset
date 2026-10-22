@@ -30,7 +30,7 @@ MonoBehaviour:
   <Loop>k__BackingField: 0
   <SeamlessLoop>k__BackingField: 0
   <TransitionTime>k__BackingField: 0
-  <SpatialSetting>k__BackingField: {fileID: 0}
+  <SpatialSetting>k__BackingField: {fileID: 11400000, guid: 62ed7b46a0496074c9f0f31ef41261ae, type: 2}
   <Priority>k__BackingField: 128
   <Pitch>k__BackingField: 1
   <PitchRandomRange>k__BackingField: 0

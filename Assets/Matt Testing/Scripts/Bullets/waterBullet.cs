@@ -34,7 +34,7 @@ public class waterBullet : NetworkBehaviour, bullet
         NetworkObject splashNetworkOBJ = water.GetComponent<NetworkObject>();
         splashNetworkOBJ.Spawn();
 
-        BroAudio.Play(WaterSplash);
+        BroAudio.Play(WaterSplash, transform.position);
 
         Destroy(water, waterDuration);
         foreach (GameObject fireOBj in findFireInArea())
