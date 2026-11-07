@@ -1,9 +1,20 @@
-using UnityEngine;
+using LordBreakerX.States;
 
-[CreateAssetMenu(menuName = MonsterState.CREATE_PATH + "Monster Dead State")]
+[CreateStateMenu("MonsterDead", "Monster Dead State", "Monster States")]
+[System.Serializable]
 public sealed class DeadState : MonsterState
 {
-    protected override void OnEnterState()
+    public DeadState() : base()
+    {
+
+    }
+
+    public DeadState(IStateMachine machine, DeadState toCopy) : base(machine, toCopy)
+    {
+
+    }
+
+    public override void OnEnter()
     {
         if (IsServer)
         {
@@ -14,7 +25,7 @@ public sealed class DeadState : MonsterState
         MovementHandler.MonsterAnimator.SetBool(MonsterMovementController.WALK_ANIMATION_VARIABLE, false);
     }
 
-    protected override void OnUpdateState()
+    public override void OnUpdate()
     {
         if (IsServer)
         {
@@ -22,4 +33,6 @@ public sealed class DeadState : MonsterState
             AttackHandler.StopAttack();
         }
     }
+
+    public override State CreateCopy(IStateMachine machine) => new DeadState(machine, this);
 }

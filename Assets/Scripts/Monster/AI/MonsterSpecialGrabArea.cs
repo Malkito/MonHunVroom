@@ -1,5 +1,6 @@
 using LordBreakerX.Attributes;
-using LordBreakerX.States.Networked;
+using LordBreakerX.NetcodeStates;
+using LordBreakerX.States;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ public class MonsterSpecialGrabArea : MonoBehaviour
 
     [SerializeField]
     [RequiredField]
-    private MonsterGrabState _specialGrabState;
+    private StateReference _specialGrabState;
 
     [SerializeField]
     [Min(0)]
@@ -44,12 +45,12 @@ public class MonsterSpecialGrabArea : MonoBehaviour
 
         _times[otherTransform] -= Time.deltaTime;
 
-        if (_times[otherTransform] <= 0 && !_stateMachine.IsState(_specialGrabState))
+        if (_times[otherTransform] <= 0 && !_stateMachine.IsCurrentState(_specialGrabState))
         {
             _times[otherTransform] = _timeUntilGrab;
 
             _attackController.SetTarget(otherTransform);
-            _stateMachine.RequestTransitionTo(_specialGrabState);
+            _stateMachine.ChangeState(_specialGrabState);
         }
     }
 }

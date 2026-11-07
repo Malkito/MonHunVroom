@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd245c8746b46b0498a5280f0d57d2c0, type: 3}
-  m_Name: MonsterStats
+  m_Name: Monster
   m_EditorClassIdentifier: 
   _profiles:
   - {fileID: -2345339645381367048}

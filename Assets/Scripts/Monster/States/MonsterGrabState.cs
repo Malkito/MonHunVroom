@@ -1,9 +1,11 @@
+using LordBreakerX.States;
 using UnityEngine;
 
 /// <summary>
 /// Special state started when a player enters above the monster for a short period
 /// </summary>
-[CreateAssetMenu(menuName = MonsterState.CREATE_PATH + "Special Grab State")]
+[CreateStateMenu("MonsterSpecialGrab", "Monster Special Grab", "Monster States")]
+[System.Serializable]
 public class MonsterGrabState : MonsterState
 {
     [SerializeField]
@@ -12,21 +14,34 @@ public class MonsterGrabState : MonsterState
     private bool _startedAttack;
 
     [SerializeField]
-    private MonsterWanderState _wanderState;
+    private StateReference _wanderState;
 
-    protected override void OnEnterState()
+    public MonsterGrabState() : base()
+    {
+
+    }
+
+    public MonsterGrabState(IStateMachine machine, MonsterGrabState toCopy) : base(machine, toCopy)
+    {
+        _specialGrab = toCopy._specialGrab;
+        _wanderState = toCopy._wanderState;
+
+        _startedAttack = false;
+    }
+
+    public override void OnEnter()
     {
         AttackHandler.StopAttack();
         _startedAttack = false;
     }
 
-    protected override void OnUpdateState()
+    public override void OnUpdate()
     {
         if (AttackHandler.IsAttacking) return;
 
         if (_startedAttack)
         {
-            Machine.RequestTransitionTo(_wanderState);
+            Machine.ChangeState(_wanderState);
         }
         else
         {
@@ -35,5 +50,6 @@ public class MonsterGrabState : MonsterState
         }
     }
 
-    
+    public override State CreateCopy(IStateMachine machine) => new MonsterGrabState(machine, this);
+
 }

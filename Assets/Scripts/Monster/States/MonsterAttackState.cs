@@ -1,8 +1,9 @@
-using LordBreakerX.Attributes;
+using LordBreakerX.States;
 using LordBreakerX.Utilities;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = MonsterState.CREATE_PATH + "Monster Attack State")]
+[CreateStateMenu("MonsterAttack", "Monster Attack State", "Monster States")]
+[System.Serializable]
 public class MonsterAttackState : MonsterState
 {
     [Header("Attacks")]
@@ -21,23 +22,36 @@ public class MonsterAttackState : MonsterState
 
     [Header("States")]
     [SerializeField]
-    private MonsterWanderState _wanderState;
+    private StateReference _wanderState;
 
     private int _attacksCompleted;
     private int _attacksNeeded;
 
-    private void OnValidate()
+    public MonsterAttackState() : base()
     {
-        _maxAttacks = Mathf.Max(_minAttacks, _maxAttacks);
+
     }
 
-    protected override void OnEnterState()
+    public MonsterAttackState(IStateMachine machine, MonsterAttackState toCopy) : base(machine, toCopy)
+    {
+        _minAttacks = toCopy._minAttacks;
+        _maxAttacks = toCopy._maxAttacks;
+
+        _playerAttackChance = toCopy._playerAttackChance;
+
+        _wanderState = toCopy._wanderState;
+
+        _attacksCompleted = 0;
+        _attacksNeeded = 0;
+    }
+
+    public override void OnEnter()
     {
         _attacksCompleted = -1;
         _attacksNeeded = Random.Range(_minAttacks, _maxAttacks);
     }
 
-    protected override void OnUpdateState()
+    public override void OnUpdate()
     {
         if (AttackHandler.IsAttacking || !IsServer) return;
 
@@ -45,7 +59,7 @@ public class MonsterAttackState : MonsterState
 
         if (_attacksCompleted >= _attacksNeeded)
         {
-            Machine.RequestTransitionTo(_wanderState);
+            Machine.ChangeState(_wanderState);
         }
         else if (TryUpdateTarget())
         {
@@ -53,7 +67,7 @@ public class MonsterAttackState : MonsterState
         }
         else
         {
-            Machine.RequestTransitionTo(_wanderState);
+            Machine.ChangeState(_wanderState);
         }
     }
 
@@ -67,4 +81,6 @@ public class MonsterAttackState : MonsterState
 
         return AttackHandler.TryTargetRandomObject<dealDamage>();
     }
+
+    public override State CreateCopy(IStateMachine machine) => new MonsterAttackState(machine, this);
 }
