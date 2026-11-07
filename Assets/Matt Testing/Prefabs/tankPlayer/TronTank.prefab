@@ -51329,6 +51329,10 @@ MonoBehaviour:
   - {fileID: 6265199368360065333}
   - {fileID: 5715555305774076116}
   cam: {fileID: 1300287866398083215}
+  ShootingSFX:
+    _entity: {fileID: 11400000, guid: 733a203400367bc4aab8bd0c4ce3ddde, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
 --- !u!114 &6920356542908570991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51468,10 +51472,6 @@ MonoBehaviour:
   jumpIcon: {fileID: 3975747479943129205}
   isFantasy: 0
   FantasyMovementSFX:
-    _entity: {fileID: 0}
-    ID: 0
-    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
-  TronMovementSFX:
     _entity: {fileID: 0}
     ID: 0
     <DebugObject>k__BackingField: {fileID: 8104714157324929073}
