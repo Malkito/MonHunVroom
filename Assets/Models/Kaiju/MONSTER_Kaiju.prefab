@@ -153,6 +153,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3433773191322710657}
     - target: {fileID: 5008790797301554141, guid: 8d4e1c3e28847344ba58c4730ecf9ec8, type: 3}
+      propertyPath: _attackTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 55402133131c1094884313ecb4059620, type: 2}
+    - target: {fileID: 5008790797301554141, guid: 8d4e1c3e28847344ba58c4730ecf9ec8, type: 3}
       propertyPath: '_eyes.Array.data[0]'
       value: 
       objectReference: {fileID: 3563923434367080650}
@@ -267,18 +271,42 @@ MonoBehaviour:
   - attack: {fileID: 11400000, guid: 4f5bdb26130d18741a0da908a750112f, type: 2}
     trigger: Swipe_Slash_Heavy
     moment: 2
+    speed: 1
+    repeatWhileActive: 0
+    repeatInterval: 2
+    releaseTime: 0.8
   - attack: {fileID: 11400000, guid: 7cad650ea9d10a743a82fc14766e22df, type: 2}
     trigger: Bite
     moment: 0
+    speed: 1
+    repeatWhileActive: 0
+    repeatInterval: 2
+    releaseTime: 0.8
   - attack: {fileID: 11400000, guid: 3fea172be1dea4b498ff01e2d4303884, type: 2}
     trigger: Fireball_Breath
     moment: 1
+    speed: 1
+    repeatWhileActive: 1
+    repeatInterval: 2
+    releaseTime: 0.8
   - attack: {fileID: 11400000, guid: 122546b4090a44748a1aa7ac7295cd92, type: 2}
     trigger: Stab
     moment: 2
+    speed: 1
+    repeatWhileActive: 0
+    repeatInterval: 2
+    releaseTime: 0.8
   - attack: {fileID: 11400000, guid: 74e06b5b912dca847a1f77b80d9c274f, type: 2}
     trigger: Swipe_Slash_Heavy
     moment: 2
+    speed: 1
+    repeatWhileActive: 0
+    repeatInterval: 2
+    releaseTime: 0.8
+  _walkAnimSpeed: 1
+  _runAnimSpeed: 1
+  _locomotionDamp: 0.15
+  _movingThreshold: 0.1
 --- !u!114 &6921066267337494912 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5008790797301554141, guid: 8d4e1c3e28847344ba58c4730ecf9ec8, type: 3}
