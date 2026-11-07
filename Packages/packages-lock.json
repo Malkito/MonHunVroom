@@ -25,7 +25,19 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "bf2511bbe06dac2a21df42551fb9212f651641b1"
+      "hash": "d213f7fa0286761ae2592b5a53f85a071c62802f"
+    },
+    "com.lordbreakerx.netcodestates": {
+      "version": "file:com.lordbreakerx.netcodestates",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.lordbreakerx.states": {
+      "version": "file:com.lordbreakerx.states",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.lordbreakerx.weight_tables": {
       "version": "https://github.com/LordBreakerX/Weight-Tables.git",
