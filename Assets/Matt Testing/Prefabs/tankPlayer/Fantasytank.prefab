@@ -80582,7 +80582,6 @@ GameObject:
   - component: {fileID: 5621866573112001209}
   - component: {fileID: 101046386858594832}
   - component: {fileID: 813649777153493869}
-  - component: {fileID: 2524279802247255945}
   - component: {fileID: 7739257043203141109}
   - component: {fileID: 3661673730116130977}
   - component: {fileID: 5776614249075134594}
@@ -80767,6 +80766,10 @@ MonoBehaviour:
   - {fileID: 6265199368360065333}
   - {fileID: 5715555305774076116}
   cam: {fileID: 1300287866398083215}
+  ShootingSFX:
+    _entity: {fileID: 11400000, guid: 9825dc7811d15cc418724cd240aa2912, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
 --- !u!114 &6920356542908570991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80906,10 +80909,6 @@ MonoBehaviour:
   jumpIcon: {fileID: 3975747479943129205}
   isFantasy: 0
   FantasyMovementSFX:
-    _entity: {fileID: 11400000, guid: bd0ff3767218ad44db9e1b691904cf8a, type: 2}
-    ID: 0
-    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
-  TronMovementSFX:
     _entity: {fileID: 11400000, guid: bd0ff3767218ad44db9e1b691904cf8a, type: 2}
     ID: 0
     <DebugObject>k__BackingField: {fileID: 8104714157324929073}
@@ -81163,42 +81162,6 @@ MonoBehaviour:
     m_InternalValue: 0
   currentSpecialBoost:
     m_InternalValue: 0
---- !u!114 &2524279802247255945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4f1ece2337edd54fa9542b9255ae022, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FantasyFireSFX:
-    _entity: {fileID: 0}
-    ID: 0
-    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
-  TronFireSFX:
-    _entity: {fileID: 0}
-    ID: 0
-    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
-  FantasyMovementSFX:
-    _entity: {fileID: 0}
-    ID: 0
-    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
-  TronMovementSFX:
-    _entity: {fileID: 0}
-    ID: 0
-    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
-  JumpSoundSFX:
-    _entity: {fileID: 0}
-    ID: 0
-    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
-  alteranteFireSFX:
-    _entity: {fileID: 0}
-    ID: 0
-    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
 --- !u!114 &7739257043203141109
 MonoBehaviour:
   m_ObjectHideFlags: 0

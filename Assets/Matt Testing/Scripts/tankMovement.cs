@@ -41,7 +41,6 @@ public class tankMovement : NetworkBehaviour
     private fantasyTankSounds sounds;
 
     [SerializeField] private SoundID FantasyMovementSFX;
-    [SerializeField] private SoundID TronMovementSFX;
 
     private IAudioPlayer soundPlayer;
 
@@ -52,7 +51,11 @@ public class tankMovement : NetworkBehaviour
         PlayerStats = GetComponent<playerStats>();
         sounds = GetComponent<fantasyTankSounds>();
         canMove = true;
+        BroAudio.Play(FantasyMovementSFX, transform);
+
     }
+
+
 
     //X = left and right
     //y = up and down
@@ -87,17 +90,19 @@ public class tankMovement : NetworkBehaviour
     {
         rb.AddForce(gameObject.transform.forward * (moveSpeed * PlayerStats.currentSpeed.Value) * inputVector, ForceMode.Acceleration);
 
-        /*
-        if (isFantasy && !soundPlayer.IsPlaying)
-        {
-            soundPlayer = BroAudio.Play(FantasyMovementSFX).SetPitch(rb.GetPointVelocity(transform.position).magnitude).SetVolume(Mathf.Abs(inputVector));
-        }
-        else
-        {
-            soundPlayer =  BroAudio.Play(TronMovementSFX).SetPitch(rb.GetPointVelocity(transform.position).magnitude).SetVolume(Mathf.Abs(inputVector));
-        }
-        */
-        if(inputVector == 0 && isGrounded)
+        float pitch = rb.linearVelocity.magnitude;
+
+        pitch= Mathf.Clamp(pitch, 0f, 3f);
+
+        print("Pitch: " + pitch);
+
+
+        soundPlayer.SetPitch(pitch);
+
+
+
+
+        if (inputVector == 0 && isGrounded)
         {
             rb.linearDamping = linerDampening;
             soundPlayer.Stop();

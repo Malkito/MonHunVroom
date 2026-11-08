@@ -37,6 +37,12 @@ namespace LordBreakerX.AttackSystem
 
         public bool IsAttacking => _activeAttack != null;
 
+        public ScriptableAttack ActiveAttack => _activeAttack;
+
+        public event System.Action<ScriptableAttack> AttackStarted;
+
+        public event System.Action<ScriptableAttack> AttackStopped;
+
         public LayerMask IgnoredLayers => _ignoreLayers;
 
         public AttackTarget Target { get; private set; }
@@ -120,6 +126,7 @@ namespace LordBreakerX.AttackSystem
 
             _activeAttack = attack;
             _activeAttack.OnAttackStarted();
+            AttackStarted?.Invoke(_activeAttack);
         }
 
         public void StartRandomAttack()
@@ -136,6 +143,7 @@ namespace LordBreakerX.AttackSystem
 
             _activeAttack = attackCloned;
             _activeAttack.OnAttackStarted();
+            AttackStarted?.Invoke(_activeAttack);
         }
 
         public void AttackRandomPosition()
@@ -215,6 +223,7 @@ namespace LordBreakerX.AttackSystem
             if (_activeAttack == null || !IsServer) return;
 
             _activeAttack.OnAttackStopped();
+            AttackStopped?.Invoke(_activeAttack);
             _activeAttack = null;
         }
 

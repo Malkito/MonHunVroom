@@ -4,6 +4,7 @@ using TMPro;
 using Unity.Netcode;
 using Unity.Cinemachine;
 using System.Collections;
+using Ami.BroAudio;
 
 
 interface bullet {
@@ -56,6 +57,8 @@ public class playerShooting : NetworkBehaviour
     [SerializeField] private ParticleSystem[] AltMuzzleFlash;
 
     [SerializeField] private CinemachineCamera cam;
+
+    [SerializeField] private SoundID ShootingSFX;
 
     playerStats PlayerStats;
 
@@ -167,6 +170,8 @@ public class playerShooting : NetworkBehaviour
             color.a = 0.5f;
             bigShotUI.color = color;
         }
+
+        BroAudio.Play(ShootingSFX, transform.position);
 
         //Destroy the projectile 
         Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);
