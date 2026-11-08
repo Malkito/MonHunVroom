@@ -28,7 +28,7 @@
       "hash": "d213f7fa0286761ae2592b5a53f85a071c62802f"
     },
     "com.lordbreakerx.netcodestates": {
-      "version": "file:com.lordbreakerx.netcodestates",
+      "version": "file:com.nateironlegend23.netcodestates",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
