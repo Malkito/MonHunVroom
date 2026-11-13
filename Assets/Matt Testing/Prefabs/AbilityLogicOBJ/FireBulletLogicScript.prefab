@@ -182,8 +182,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   maxCharge: 500
-  chargeDeplationRate: 250
-  chargeRegenAmout: 50
+  chargeDeplationRate: 50
+  chargeRegenAmout: 17
   bulletSoIndex: 4
   PS: {fileID: 0}
   timeBetweenShots: 0

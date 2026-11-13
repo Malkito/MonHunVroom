@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using Ami.BroAudio;
 
 public class BoostPad : NetworkBehaviour
 {
@@ -9,9 +10,8 @@ public class BoostPad : NetworkBehaviour
     [SerializeField] private float TimeBeforeReset;
     private float currentTime;
 
-    void Start()
-    {      
-    }
+    [SerializeField] private SoundID speedBoostPickUpSFX;
+
 
     // Update is called once per frame
     void Update()
@@ -31,6 +31,7 @@ public class BoostPad : NetworkBehaviour
     {
         if (other.gameObject.CompareTag("Player") && isActive)
         {
+            BroAudio.Play(speedBoostPickUpSFX, transform.position);
             speedBoost SpeedBoost = other.GetComponent<speedBoost>();
             if (SpeedBoost.AddBoost())
             {

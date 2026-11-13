@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
-
+using Ami.BroAudio;
 
 public class fireBulletLogic : NetworkBehaviour, useAbility, onAbilityPickedup, onAbilityDropped
 {
@@ -31,19 +31,17 @@ public class fireBulletLogic : NetworkBehaviour, useAbility, onAbilityPickedup, 
         {
             if(timeBetweenShots > PS.bulletSOarray[bulletSoIndex].minTimeBetweenShots)
             {
+
                 PS.AltShootServerRPC(bulletSoIndex);
                 timeBetweenShots = 0;
             }
-            else
-            {
-                timeBetweenShots += Time.deltaTime;
-            }
-            currentCharge -= Time.deltaTime * chargeDeplationRate;
+            currentCharge -= chargeDeplationRate;
         }
         else
         {
             isNotfiring();
         }
+        timeBetweenShots += Time.deltaTime;
         fireSlider.value = currentCharge / maxCharge;
     }
 
@@ -52,6 +50,7 @@ public class fireBulletLogic : NetworkBehaviour, useAbility, onAbilityPickedup, 
         fireMeterUI = FindFireUI(player, "FireMeter");
         fireMeterUI.gameObject.SetActive(true);
         fireSlider = fireMeterUI.GetChild(0).GetComponent<Slider>();
+        currentCharge = maxCharge;
     }
 
     public void AbilityPickupDropped(Transform player)

@@ -71,3 +71,13 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Personal AI workspace (Juan) - not shared. Team system guides live in /Guides/
+/Docs/
+/CLAUDE.md
+/CLAUDE.local.md
+AGENTS.md
+
+# Source art files (Blender) - kept outside Assets, not shared
+/ArtSource/
+*.blend1

@@ -19404,6 +19404,10 @@ MonoBehaviour:
   fireEffect: {fileID: 3659318046796098592, guid: f6d1c7d0d6c782246b9ac26ac6d35ef6, type: 3}
   fireBulletSO: {fileID: 11400000, guid: e07e9d1240ced70468f866bc6bb29b7b, type: 2}
   maxBurnTime: 5
+  fireBallShooting:
+    _entity: {fileID: 11400000, guid: f499e67aaeddcd04193f4e2e9d8f9d09, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 6648193206323190310}
 --- !u!114 &8842592224822301679
 MonoBehaviour:
   m_ObjectHideFlags: 0

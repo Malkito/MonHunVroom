@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
-
+using Ami.BroAudio;
 public class energySphereBullet : NetworkBehaviour, bullet
 {
 
@@ -45,7 +45,9 @@ public class energySphereBullet : NetworkBehaviour, bullet
 
     private bool canGrow = false;
 
+    [SerializeField] private SoundID energySoundHigh;
 
+    [SerializeField] private SoundID energySoundLow;
 
     public GameObject BulletDamageOrigin;
 
@@ -66,6 +68,9 @@ public class energySphereBullet : NetworkBehaviour, bullet
 
         maxScale = transform.localScale.x + (transform.localScale.x * percenatgeIncrease);
         print(maxScale);
+
+        BroAudio.Play(energySoundLow, transform.position);
+        BroAudio.Play(energySoundHigh, transform.position);
 
     }
     private void StartGrowing()

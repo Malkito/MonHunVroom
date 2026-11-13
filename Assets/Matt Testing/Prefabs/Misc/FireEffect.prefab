@@ -73,7 +73,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  fireLifetime: 10
   objectFireIsAttachedTo: {fileID: 0}
+  FireEffectSfx:
+    _entity: {fileID: 11400000, guid: 0fe77593d9a7ed048afbe43a6de86b9c, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 3659318046796098592}
 --- !u!65 &8370283543946914689
 BoxCollider:
   m_ObjectHideFlags: 0

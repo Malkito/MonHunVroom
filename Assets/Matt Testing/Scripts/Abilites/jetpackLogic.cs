@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
+using Ami.BroAudio;
 
 public class jetpackLogic : NetworkBehaviour, useAbility, onAbilityPickedup, onAbilityDropped
 {
@@ -24,9 +25,12 @@ public class jetpackLogic : NetworkBehaviour, useAbility, onAbilityPickedup, onA
 
     private bool initialized = false;
 
+    [SerializeField] private SoundID heliHatSound;
+
     private void Awake()
     {
         currentFuel = maxFuel;
+
     }
 
     // -------------------------------
@@ -54,6 +58,12 @@ public class jetpackLogic : NetworkBehaviour, useAbility, onAbilityPickedup, onA
         }
 
         initialized = true;
+    }
+
+    private void Start()
+    {
+        BroAudio.Play(heliHatSound, playerTransform.position);
+        BroAudio.Pause(heliHatSound);
     }
 
     public void AbilityPickupDropped(Transform player)
@@ -133,6 +143,7 @@ public class jetpackLogic : NetworkBehaviour, useAbility, onAbilityPickedup, onA
         if (currentFuel < 0f) currentFuel = 0f;
 
         playerRb.AddForce(Vector3.up * hoverForce, ForceMode.Acceleration);
+        BroAudio.UnPause(heliHatSound);
         hatAnimator.SetBool("IsHovering", true);
     }
 
@@ -140,7 +151,7 @@ public class jetpackLogic : NetworkBehaviour, useAbility, onAbilityPickedup, onA
     {
         currentFuel += Time.fixedDeltaTime * fuelRegenRate;
         if (currentFuel > maxFuel) currentFuel = maxFuel;
-
+        BroAudio.Pause(heliHatSound);
         hatAnimator.SetBool("IsHovering", false);
     }
 

@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using Ami.BroAudio;
 
 public class fireManager : NetworkBehaviour
 {
@@ -14,9 +15,16 @@ public class fireManager : NetworkBehaviour
 
     private float currentTime;
 
+    [SerializeField] private SoundID FireEffectSfx;
+
     private void Awake()
     {
         currentTime = 0;
+    }
+
+    private void Start()
+    {
+        BroAudio.Play(FireEffectSfx, transform.position);
     }
 
     public override void OnNetworkSpawn()

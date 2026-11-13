@@ -132,6 +132,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   repulsionRadius: 50
   repulsionForce: 3000
+  repulsionCannonSFX:
+    _entity: {fileID: 11400000, guid: ab4f352cd6f942f46833d7ed9f01bf13, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 2322708528823678934}
 --- !u!54 &335615999429944670
 Rigidbody:
   m_ObjectHideFlags: 0

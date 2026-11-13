@@ -162,6 +162,14 @@ MonoBehaviour:
   growSpeed: 1
   scaleIncrease: 50
   SphereCollider: {fileID: 3133757884868867418}
+  energySoundHigh:
+    _entity: {fileID: 11400000, guid: cae7891fc1281594aa2a9cc1b03247ff, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 3621685748747441842}
+  energySoundLow:
+    _entity: {fileID: 11400000, guid: bc2ea9ff2c88b78409680808d538aee6, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 3621685748747441842}
   BulletDamageOrigin: {fileID: 0}
 --- !u!54 &5201999722457973142
 Rigidbody:

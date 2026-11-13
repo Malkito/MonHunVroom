@@ -5058,6 +5058,10 @@ MonoBehaviour:
   airStrikeMissle: {fileID: 7524584966813132686, guid: b1b88855ab54d9d429e4672c573b0ffe, type: 3}
   timeToSpawn: 3
   spawnHeight: 50
+  flareSFX:
+    _entity: {fileID: 11400000, guid: 88814ab7e38fc30499f1065e3a0f7fe4, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 7996622516649678803}
 --- !u!114 &8260492060265085960
 MonoBehaviour:
   m_ObjectHideFlags: 0

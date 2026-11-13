@@ -1,11 +1,13 @@
 using UnityEngine;
 using Unity.Netcode;
+using Ami.BroAudio;
 
 public class repulsionCannon : NetworkBehaviour
 {
     [SerializeField] private float repulsionRadius;
     [SerializeField] private float repulsionForce;
 
+    [SerializeField] private SoundID repulsionCannonSFX;
 
     public override void OnNetworkSpawn()
     {
@@ -13,6 +15,8 @@ public class repulsionCannon : NetworkBehaviour
         {
             Fire();
         }
+
+        BroAudio.Play(repulsionCannonSFX, transform.position);
     }
 
 
