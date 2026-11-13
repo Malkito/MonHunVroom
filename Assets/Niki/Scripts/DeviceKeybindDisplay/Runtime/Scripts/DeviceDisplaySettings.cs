@@ -1,12 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CupOHappiness.DeviceKeybindDisplay.Runtime
 {
     [System.Serializable]
     public struct CustomInputContextIcon
     {
-        public string customInputContextString;
+        [FormerlySerializedAs("customInputContextString")]
+        [Tooltip("Device-relative control path (e.g. leftStickPress), or a canonical composite key.")]
+        public string controlPath;
+        [Tooltip("Optional compact label, for example WASD or Arrow keys. This does not change binding resolution.")]
+        public string displayName;
         public Sprite customInputContextIcon;
     }
 
@@ -24,6 +29,6 @@ namespace CupOHappiness.DeviceKeybindDisplay.Runtime
         public Sprite triggerRightBackIcon;
         public Sprite triggerLeftFrontIcon;
         public Sprite triggerLeftBackIcon;
-        public List<CustomInputContextIcon> customContextIcons = new List<CustomInputContextIcon>();
+        public List<CustomInputContextIcon> customContextIcons = new();
     }
 }

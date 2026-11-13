@@ -10,7 +10,18 @@ namespace CupOHappiness.DeviceKeybindDisplay.Editor
         {
             serializedObject.Update();
 
-            DrawPropertiesExcluding(serializedObject, "actionMapName", "actionName");
+            bool usesItems = serializedObject.FindProperty("bindingItemPrefab").objectReferenceValue != null;
+            if (usesItems)
+                DrawPropertiesExcluding(serializedObject, "actionMapName", "actionName",
+                    "displayImage", "bindingNameText", "displayBindingName", "bindingNameExtraMargin");
+            else
+                DrawPropertiesExcluding(serializedObject, "actionMapName", "actionName");
+
+            EditorGUILayout.HelpBox(
+                "First In List selects the first alternative for each composite part. " +
+                "Separate Icons shows one item per alternative group. Compact Text joins their labels. " +
+                "The item container needs a horizontal Layout.",
+                MessageType.Info);
 
             var inputActions = serializedObject.FindProperty("inputActions");
             var playerInput = serializedObject.FindProperty("playerInput");

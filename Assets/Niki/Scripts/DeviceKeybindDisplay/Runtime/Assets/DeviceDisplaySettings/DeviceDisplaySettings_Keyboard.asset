@@ -24,33 +24,162 @@ MonoBehaviour:
   triggerLeftFrontIcon: {fileID: 0}
   triggerLeftBackIcon: {fileID: 0}
   customContextIcons:
-  - customInputContextString: Escape
-    customInputContextIcon: {fileID: 21300000, guid: b4f883cfe11db3e4c9a5337739891512, type: 3}
-  - customInputContextString: Back
-    customInputContextIcon: {fileID: 21300000, guid: b4f883cfe11db3e4c9a5337739891512, type: 3}
-  - customInputContextString: Cancel
-    customInputContextIcon: {fileID: 21300000, guid: b4f883cfe11db3e4c9a5337739891512, type: 3}
-  - customInputContextString: WASD
-    customInputContextIcon: {fileID: 21300000, guid: a095ed4ace37ebc41a433bcd534b356a, type: 3}
-  - customInputContextString: Enter
-    customInputContextIcon: {fileID: 21300000, guid: 51c9769e5db5871419be8b4369adc2e0, type: 3}
-  - customInputContextString: Return
-    customInputContextIcon: {fileID: 21300000, guid: 51c9769e5db5871419be8b4369adc2e0, type: 3}
-  - customInputContextString: Submit
-    customInputContextIcon: {fileID: 21300000, guid: 51c9769e5db5871419be8b4369adc2e0, type: 3}
-  - customInputContextString: Left Button
-    customInputContextIcon: {fileID: 21300000, guid: f42637d2b54fb0f4796257efd4688071, type: 3}
-  - customInputContextString: Right Button
-    customInputContextIcon: {fileID: 21300000, guid: 5e69c75899b7e6a43bd1936d2aafa050, type: 3}
-  - customInputContextString: Position
-    customInputContextIcon: {fileID: 21300000, guid: 271f58954e1954b45967dada50b1cf85, type: 3}
-  - customInputContextString: Delta
-    customInputContextIcon: {fileID: 21300000, guid: 271f58954e1954b45967dada50b1cf85, type: 3}
-  - customInputContextString: Scroll Up/Down
-    customInputContextIcon: {fileID: 21300000, guid: b5477d70585554a41bff1ffd6047848a, type: 3}
-  - customInputContextString: Keyboard
-    customInputContextIcon: {fileID: 21300000, guid: b323b86c77354da4e89538d9071f8925, type: 3}
-  - customInputContextString: LMB
-    customInputContextIcon: {fileID: 21300000, guid: f42637d2b54fb0f4796257efd4688071, type: 3}
-  - customInputContextString: RMB
-    customInputContextIcon: {fileID: 21300000, guid: 5e69c75899b7e6a43bd1936d2aafa050, type: 3}
+  - controlPath: escape
+    displayName: Escape
+    customInputContextIcon: {fileID: 1752483949, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: space
+    displayName: Space
+    customInputContextIcon: {fileID: 8946076, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: enter
+    displayName: Enter
+    customInputContextIcon: {fileID: 1850896411, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: leftShift
+    displayName: Shift
+    customInputContextIcon: {fileID: -312996828, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: upArrow
+    displayName: Up
+    customInputContextIcon: {fileID: 656154969, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: downArrow
+    displayName: Down
+    customInputContextIcon: {fileID: 1957337622, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: leftArrow
+    displayName: Left
+    customInputContextIcon: {fileID: -1886327568, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: rightArrow
+    displayName: Right
+    customInputContextIcon: {fileID: -1892877474, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: vector2composite(down=s,left=a,right=d,up=w)
+    displayName: WASD
+    customInputContextIcon: {fileID: -1141221509, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: vector2composite(down=downarrow,left=leftarrow,right=rightarrow,up=uparrow)
+    displayName: Arrow keys
+    customInputContextIcon: {fileID: -147502121, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: leftButton
+    displayName: Left Click
+    customInputContextIcon: {fileID: 481778435, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: rightButton
+    displayName: Right Click
+    customInputContextIcon: {fileID: 1323696398, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: middleButton
+    displayName: Middle Click
+    customInputContextIcon: {fileID: 816258303, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: scroll
+    displayName: Scroll
+    customInputContextIcon: {fileID: 1773912291, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: position
+    displayName: Pointer
+    customInputContextIcon: {fileID: -1494412960, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: backButton
+    displayName: Back
+    customInputContextIcon: {fileID: -1752383141, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: forwardButton
+    displayName: Forward
+    customInputContextIcon: {fileID: -655896126, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: tab
+    displayName: Tab
+    customInputContextIcon: {fileID: 1000065522, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: backspace
+    displayName: Backspace
+    customInputContextIcon: {fileID: 217719059, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: leftCtrl
+    displayName: Ctrl
+    customInputContextIcon: {fileID: -833224963, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: rightCtrl
+    displayName: Ctrl
+    customInputContextIcon: {fileID: -833224963, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: ctrl
+    displayName: Ctrl
+    customInputContextIcon: {fileID: -833224963, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: leftAlt
+    displayName: Alt / Option
+    customInputContextIcon: {fileID: 1806442151, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: rightAlt
+    displayName: Alt / Option
+    customInputContextIcon: {fileID: 1806442151, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: alt
+    displayName: Alt / Option
+    customInputContextIcon: {fileID: 1806442151, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: leftMeta
+    displayName: Windows / Command
+    customInputContextIcon: {fileID: -1750872818, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: rightMeta
+    displayName: Windows / Command
+    customInputContextIcon: {fileID: -1750872818, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: capsLock
+    displayName: Caps Lock
+    customInputContextIcon: {fileID: -331431556, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: numLock
+    displayName: Num Lock
+    customInputContextIcon: {fileID: -2075104231, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: scrollLock
+    displayName: Scroll Lock
+    customInputContextIcon: {fileID: -989540037, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: insert
+    displayName: Insert
+    customInputContextIcon: {fileID: 486931479, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: delete
+    displayName: Delete
+    customInputContextIcon: {fileID: 1178046769, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: home
+    displayName: Home
+    customInputContextIcon: {fileID: 548294832, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: end
+    displayName: End
+    customInputContextIcon: {fileID: 474011008, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: pageUp
+    displayName: Page Up
+    customInputContextIcon: {fileID: -1818948096, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: pageDown
+    displayName: Page Down
+    customInputContextIcon: {fileID: -399198261, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: pause
+    displayName: Pause
+    customInputContextIcon: {fileID: 458709899, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: printScreen
+    displayName: Print Screen
+    customInputContextIcon: {fileID: -1008506034, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: numpadEnter
+    displayName: Numpad Enter
+    customInputContextIcon: {fileID: -1078609881, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: backquote
+    displayName: Backtick / Tilde
+    customInputContextIcon: {fileID: 761097871, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: semicolon
+    displayName: Semicolon
+    customInputContextIcon: {fileID: 1591287916, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: comma
+    displayName: Comma
+    customInputContextIcon: {fileID: -92219754, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: period
+    displayName: Period
+    customInputContextIcon: {fileID: 2143135474, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: slash
+    displayName: Slash
+    customInputContextIcon: {fileID: -1098191126, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: backslash
+    displayName: Backslash
+    customInputContextIcon: {fileID: -1774378636, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: leftBracket
+    displayName: Left Bracket
+    customInputContextIcon: {fileID: 70546297, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: rightBracket
+    displayName: Right Bracket
+    customInputContextIcon: {fileID: -1681112087, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: quote
+    displayName: Quote
+    customInputContextIcon: {fileID: -2073564428, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: minus
+    displayName: Minus
+    customInputContextIcon: {fileID: 688915016, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: equals
+    displayName: Equals
+    customInputContextIcon: {fileID: 1019763702, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: numpadPlus
+    displayName: Numpad Plus
+    customInputContextIcon: {fileID: -1153222586, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: numpadMinus
+    displayName: Numpad Minus
+    customInputContextIcon: {fileID: 688915016, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
+  - controlPath: delta
+    displayName: Pointer Movement
+    customInputContextIcon: {fileID: -1494412960, guid: fbe06a5f3215f36438cf7ca2f625bf57, type: 3}
