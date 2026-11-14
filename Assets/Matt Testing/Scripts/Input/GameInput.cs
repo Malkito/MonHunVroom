@@ -29,7 +29,7 @@ public class GameInput : MonoBehaviour
 
     private void Start()
     {
-        AudioSettingsController.ApplySavedGlobalVolume();
+        AudioSettingsController.ApplySavedVolumes();
     }
 
     private void OnDestroy()
