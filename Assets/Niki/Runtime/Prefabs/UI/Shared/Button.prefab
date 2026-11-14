@@ -57,7 +57,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 36e66bcc178c2cb41b860891940ddffc, type: 2}
-  m_sharedMaterial: {fileID: -5641841592888557891, guid: 36e66bcc178c2cb41b860891940ddffc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: beb3463457f250d40a6bf92c1042751c, type: 2}
+  m_sharedMaterial: {fileID: 9075308245447566909, guid: beb3463457f250d40a6bf92c1042751c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -77,13 +77,13 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
+  m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 0.90196085, g: 0.7960785, b: 0.4156863, a: 1}
+    bottomRight: {r: 0.90196085, g: 0.7960785, b: 0.4156863, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
@@ -98,8 +98,8 @@ MonoBehaviour:
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
-  m_fontSizeMax: 30
-  m_fontStyle: 32
+  m_fontSizeMax: 72
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -153,8 +153,8 @@ MonoBehaviour:
   m_margin:
     top: 16
     bottom: 16
-    left: 24
-    right: 24
+    left: 36
+    right: 36
   m_sizing:
     x: 0
     y: 0

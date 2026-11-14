@@ -6507,13 +6507,14 @@ GameObject:
   - component: {fileID: 240027697659769486}
   - component: {fileID: 8074113004599079409}
   - component: {fileID: 7921871956804070432}
-  - component: {fileID: 4462390516167709757}
   - component: {fileID: 8180779637909461952}
   - component: {fileID: 9092626335172428542}
   - component: {fileID: 5846988153692271808}
   - component: {fileID: 5183580783955405363}
   - component: {fileID: 8139909928167671968}
   - component: {fileID: 3376410938660735433}
+  - component: {fileID: 1950799634262035269}
+  - component: {fileID: 7375105993864417581}
   m_Layer: 8
   m_Name: PlayerFinal
   m_TagString: Player
@@ -6706,7 +6707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1613846331
+  GlobalObjectIdHash: 385328562
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -6733,7 +6734,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   torso: {fileID: 7584806199710517497}
-  rotateSpeed: 1
   cam: {fileID: 3702426226208108533}
   cameraTransform: {fileID: 3722479059411342028}
   hips: {fileID: 3584963184155771562}
@@ -6772,6 +6772,8 @@ MonoBehaviour:
   - {fileID: 862868711590239367}
   - {fileID: 0}
   onlyOneBarrel: 1
+  bigShotLoaded: 0
+  UseAltAttack: 0
   currentAltBulletSoIndex: 1
   altBarrelEnd: {fileID: 862868711590239367}
   currentMainBuleltTest: {fileID: 1395627057550144827}
@@ -6788,46 +6790,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eb7554b0b8543cf46a61573861da5d80, type: 2}
   - {fileID: 11400000, guid: c11d1c85f3287d7459934d4a4aeb5c0f, type: 2}
   - {fileID: 11400000, guid: 67f08d7d03c844049bf8c7193921c61a, type: 2}
---- !u!114 &4462390516167709757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9127404343536894019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc80c44c196c5645b788b070a31692f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  currentUpgrades:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  abilityOneCooldown: 0
-  abilityTwoCooldown: 0
-  abilityThreeCooldown: 0
-  canUseUpgrade: 0
-  upgradePlaceHolders:
-  - {fileID: 6544901697435720849}
-  - {fileID: 1277973674349870095}
-  - {fileID: 7211767415852682941}
-  upgradeArray:
-  - {fileID: 11400000, guid: 6dcece01264a23a46bf88dc66e6cc6ef, type: 2}
-  - {fileID: 11400000, guid: cf77acb7f343bf542add926b566d4bf6, type: 2}
-  - {fileID: 11400000, guid: 74fadb185cbecea42b1668f36017680c, type: 2}
-  - {fileID: 11400000, guid: 4ef6ed5c1e97829479d3e8d380d86047, type: 2}
-  - {fileID: 11400000, guid: 41c0dd1953e5fc54084aaab1873f2f7e, type: 2}
-  - {fileID: 11400000, guid: b43f0d35993d467439c207ff6f9c1d85, type: 2}
-  - {fileID: 11400000, guid: 3b3c2aef010daf447a421d96a057c5a5, type: 2}
-  - {fileID: 11400000, guid: dbc1abaf7454655468bc543ec5162407, type: 2}
-  - {fileID: 11400000, guid: b2847b1ae74b2104f9ed14fa5cd3567d, type: 2}
-  - {fileID: 11400000, guid: a1cee2643effc81479def850759e294c, type: 2}
-  - {fileID: 11400000, guid: 3592a0bd4899577468e7e6cfa48996d5, type: 2}
-  - {fileID: 11400000, guid: 11052a1002c79f5458e13e8b56936a98, type: 2}
-  - {fileID: 11400000, guid: 432f47366cc30a74ab12c7e67a29509e, type: 2}
-  - {fileID: 11400000, guid: 823955df9e9ee134aae91df67a228c1a, type: 2}
+  bigShotUI: {fileID: 0}
+  muzzleFlash: []
+  AltMuzzleFlash: []
+  cam: {fileID: 0}
+  ShootingSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 0}
 --- !u!114 &8180779637909461952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6840,13 +6810,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389fa691e90a6ba42b957b5a24bcc447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityOne: {fileID: 6615463034165054430}
-  abilityTwo: {fileID: 1770100725425584258}
-  abilityThree: {fileID: 8380236633605989217}
+  abilityOneIcon: {fileID: 0}
+  abilityTwoIcon: {fileID: 0}
+  abilityThreeIcon: {fileID: 0}
   abilityOneName: {fileID: 4250241056447137206}
   abilityTwoName: {fileID: 5855771677710185255}
   abilityThreeName: {fileID: 8133313371850728994}
-  playerUpgradeManager: {fileID: 4462390516167709757}
+  playerUpgradeManager: {fileID: 7375105993864417581}
 --- !u!114 &9092626335172428542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6859,13 +6829,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8217c32854835a546a88e1b9815715f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
-  currentHealth: 0
+  ShowTopMostFoldoutHeaderGroup: 1
+  baseMaxHealth: 100
+  currentHealth:
+    m_InternalValue: 0
   flashTIme: 0.1
   fireColour: {r: 0.7075472, g: 0.3699005, b: 0, a: 0}
   damageColour: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0}
   numOfFiresOnHealth: 0
   mat: {fileID: 2100000, guid: 78660c09ff101ea4cb77de408a9527da, type: 2}
+  deathUI: {fileID: 0}
+  healthSlider: {fileID: 0}
   canTakeDamage: 0
 --- !u!114 &5846988153692271808
 MonoBehaviour:
@@ -6965,3 +6939,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   HUD: {fileID: 6469524849008957040}
+--- !u!114 &1950799634262035269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9127404343536894019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386b761bb48491f418ba358dd3e645dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  currentDamage:
+    m_InternalValue: 0
+  currentSpeed:
+    m_InternalValue: 0
+  currentHealth:
+    m_InternalValue: 0
+  currentFireRateReduction:
+    m_InternalValue: 0
+  currentCooldownReduction:
+    m_InternalValue: 0
+  currentPowerUpBoost:
+    m_InternalValue: 0
+  currentSpecialBoost:
+    m_InternalValue: 0
+--- !u!114 &7375105993864417581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9127404343536894019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17f91e9d5a98034f9ea58dd68501ae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  equippedAbilities:
+  - abilityID: 0
+    logicInstance: {fileID: 0}
+    cooldownRemaining: 0
+  - abilityID: 0
+    logicInstance: {fileID: 0}
+    cooldownRemaining: 0
+  - abilityID: 0
+    logicInstance: {fileID: 0}
+    cooldownRemaining: 0
+  abilityOneCooldown: 0
+  abilityTwoCooldown: 0
+  abilityThreeCooldown: 0
+  canUseAbilites: 0

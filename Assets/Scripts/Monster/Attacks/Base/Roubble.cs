@@ -1,8 +1,9 @@
 using LordBreakerX.Attributes;
+using Unity.Netcode;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class Roubble : MonoBehaviour
+[RequireComponent(typeof(Rigidbody), typeof(NetworkObject))]
+public class Roubble : NetworkBehaviour
 {
     [SerializeField]
     private float _lifeSpan = 10;
@@ -17,48 +18,65 @@ public class Roubble : MonoBehaviour
     [TagDropdown]
     private string _monsterTag = "Monster";
 
-    private void Awake()
+    private Vector3 _launchForce;
+    private bool _launchPending;
+
+    public override void OnNetworkSpawn()
     {
-        Invoke("Death", _lifeSpan);
+        if (IsServer)
+            Invoke(nameof(Death), _lifeSpan);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        CancelInvoke(nameof(Death));
+        _launchPending = false;
+    }
+
+    private void FixedUpdate()
+    {
+        if (!IsSpawned || !IsServer || !_launchPending)
+            return;
+
+        // NetworkRigidbody keeps the body kinematic until spawning has finished.
+        _rigidbody.AddForce(_launchForce, ForceMode.Force);
+        _launchPending = false;
     }
 
     public void Death()
     {
-        Destroy(gameObject);
+        if (IsSpawned && IsServer)
+            NetworkObject.Despawn();
     }
 
     public Roubble CreateRouble(float damage, Vector3 startPosition, ThrowStrength throwStrength)
     {
         Roubble roubbleCopy = Instantiate(this, startPosition, Quaternion.identity);
-
-        Vector3 throwForce = throwStrength.GetForce();
-
-        roubbleCopy._rigidbody.AddForce(throwForce, ForceMode.Force);
+        roubbleCopy._launchForce = throwStrength.GetForce();
+        roubbleCopy._launchPending = true;
         roubbleCopy._damageOnImpact = damage;
-
         return roubbleCopy;
     }
 
     public Roubble CreateRouble(float damage, Vector3 startPosition, Vector3 finalPosition)
     {
         Vector3 direction = finalPosition - startPosition;
-
         float distance = Vector3.Distance(startPosition, finalPosition);
 
         Roubble roubleInstance = Instantiate(this, startPosition, Quaternion.identity);
-
-        roubleInstance._rigidbody.AddForce(distance * roubleInstance._rigidbody.mass * direction, ForceMode.Force);
+        roubleInstance._launchForce = distance * roubleInstance._rigidbody.mass * direction;
+        roubleInstance._launchPending = true;
         roubleInstance._damageOnImpact = damage;
-
         return roubleInstance;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(_monsterTag)) return;
+        if (!IsSpawned || !IsServer || other.CompareTag(_monsterTag))
+            return;
 
         dealDamage damageable = other.GetComponent<dealDamage>();
-        if (damageable != null) 
+        if (damageable != null)
             damageable.dealDamage(_damageOnImpact, Color.red, gameObject);
     }
 }

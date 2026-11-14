@@ -19,6 +19,8 @@ namespace CupOHappiness.UI
         private const string SavedNameKey = "Multiplayer.PlayerName";
         [SerializeField] private RectTransform design;
         [SerializeField] private TMP_Text sessionName;
+        [SerializeField] private TMP_Text sessionCode;
+        [SerializeField] private Button copyButton;
         [SerializeField] private TMP_Text playerCount;
         [SerializeField] private TMP_Text status;
         [SerializeField] private GameObject[] emptySlots;
@@ -29,6 +31,7 @@ namespace CupOHappiness.UI
         [SerializeField] private Button joinButton;
         [SerializeField] private CanvasGroup createGate;
         [SerializeField] private CanvasGroup joinGate;
+        [SerializeField] private CanvasGroup leaveGate;
         [SerializeField] private Transform playerContent;
         [SerializeField] private LobbyPlayerRow playerRowPrefab;
         [SerializeField] private GameObject levelSelect;
@@ -91,9 +94,24 @@ namespace CupOHappiness.UI
             RefreshSession(session);
         }
 
+        private void LateUpdate()
+        {
+            if (!copyButton) return;
+            string code = Application.isPlaying ? CurrentSession()?.Code : null;
+            copyButton.interactable = !string.IsNullOrWhiteSpace(code)
+                && sessionCode && sessionCode.text == code;
+        }
+
         private void RefreshSession(ISession session)
         {
-            sessionName.text = session == null ? "No active session" : session.Name;
+            if (leaveGate)
+            {
+                bool inSession = session != null;
+                leaveGate.alpha = inSession ? 1 : 0;
+                leaveGate.interactable = leaveGate.blocksRaycasts = inSession;
+            }
+            sessionName.text = session == null ? " " : session.Name;
+            if (sessionCode) sessionCode.text = session?.Code ?? " ";
             playerCount.text = session == null ? "PLAYERS  (0 / 4)" : $"PLAYERS  ({session.PlayerCount} / {session.MaxPlayers})";
             var players = session == null ? Array.Empty<IReadOnlyPlayer>() : session.Players.ToArray();
             foreach (string id in rows.Keys.Where(id => players.All(p => p.Id != id)).ToArray())

@@ -52,7 +52,8 @@ namespace CupOHappiness.UI.Editor
                 root.SendMessage("OnRectTransformDimensionsChange", SendMessageOptions.DontRequireReceiver);
                 if (populated)
                 {
-                    root.GetComponentsInChildren<TMP_Text>(true).First(t => t.text == "No active session").text = "Harbor Hangout";
+                    var fixtureData = new SerializedObject(root.GetComponent<MultiplayerLobbyPanel>());
+                    ((TMP_Text)fixtureData.FindProperty("sessionName").objectReferenceValue).text = "Harbor Hangout";
                     root.GetComponentsInChildren<TMP_Text>(true).First(t => t.text == "PLAYERS  (0 / 4)").text = "PLAYERS  (2 / 4)";
                     root.GetComponentsInChildren<TMP_Text>(true).First(t => t.name == "Session Code Text").text = "7KJ4P";
                     var content = root.GetComponentsInChildren<Transform>(true).First(t => t.name == "Open Slot 1").parent;
@@ -62,12 +63,16 @@ namespace CupOHappiness.UI.Editor
                         var row = (GameObject)PrefabUtility.InstantiatePrefab(rowAsset, content);
                         row.GetComponentsInChildren<TMP_Text>(true).First(t => t.name == "Player Name").text = name;
                         row.GetComponentsInChildren<TMP_Text>(true).First(t => t.name == "Host Badge").gameObject.SetActive(name.Contains("HOST"));
-                        foreach (var b in row.GetComponentsInChildren<Button>(true)) b.gameObject.SetActive(false);
+                        foreach (var b in row.GetComponentsInChildren<Button>(true))
+                            b.gameObject.SetActive(fixturePlayers > 4 && !name.Contains("HOST"));
                         row.transform.SetAsFirstSibling();
                     }
                     content.Find("Open Slot 1").gameObject.SetActive(false);
                     content.Find("Open Slot 2").gameObject.SetActive(false);
                 }
+                var rowTemplate = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Niki/Runtime/Prefabs/UI/Lobby/SessionPlayerRow.prefab").GetComponent<Layout>();
+                if (rowTemplate.SizeMode.x != SizingMode.Grow || rowTemplate.SizeMode.y != SizingMode.FitContent)
+                    throw new InvalidOperationException("Player rows must grow in width and fit their content height.");
                 for (int pass = 0; pass < 5; pass++)
                 {
                     foreach (var layout in root.GetComponentsInChildren<Layout>(true)) { layout.RefreshChildCache(); layout.SetDirty(); }
@@ -78,6 +83,35 @@ namespace CupOHappiness.UI.Editor
                 var scroll = root.GetComponentInChildren<ScrollRect>();
                 if (!scroll || !scroll.content || !scroll.viewport || !scroll.vertical || scroll.horizontal)
                     throw new InvalidOperationException("Invalid player scrolling setup.");
+                if (scroll.viewport.rect.width <= 0 || scroll.viewport.rect.height <= 0)
+                    throw new InvalidOperationException("Player viewport has no space.");
+                if (Mathf.Abs(scroll.content.rect.width - scroll.viewport.rect.width) > .5f)
+                    throw new InvalidOperationException("Player content does not fill the viewport width.");
+                foreach (var row in scroll.content.GetComponentsInChildren<Layout>().Where(r => r.transform.parent == scroll.content))
+                {
+                    if (Mathf.Abs(((RectTransform)row.transform).rect.width - scroll.content.rect.width) > .5f)
+                        throw new InvalidOperationException(row.name + " does not fill the list width.");
+                    foreach (var graphic in row.GetComponentsInChildren<Graphic>())
+                    {
+                        var bounds = RectTransformUtility.CalculateRelativeRectTransformBounds(row.transform, graphic.rectTransform);
+                        var rect = ((RectTransform)row.transform).rect;
+                        if (bounds.min.x < rect.xMin - .5f || bounds.max.x > rect.xMax + .5f
+                            || bounds.min.y < rect.yMin - .5f || bounds.max.y > rect.yMax + .5f)
+                            throw new InvalidOperationException(row.name + ": " + graphic.name + " artwork extends outside the row.");
+                        var contentBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(scroll.content, graphic.rectTransform);
+                        var contentRect = scroll.content.rect;
+                        if (contentBounds.min.x < contentRect.xMin - .5f || contentBounds.max.x > contentRect.xMax + .5f
+                            || contentBounds.min.y < contentRect.yMin - .5f || contentBounds.max.y > contentRect.yMax + .5f)
+                            throw new InvalidOperationException(row.name + ": graphics extend outside Content.");
+                    }
+                    foreach (var text in row.GetComponentsInChildren<TMP_Text>())
+                    {
+                        var bounds = RectTransformUtility.CalculateRelativeRectTransformBounds(row.transform, text.rectTransform);
+                        var rect = ((RectTransform)row.transform).rect;
+                        if (bounds.min.y < rect.yMin - .5f || bounds.max.y > rect.yMax + .5f)
+                            throw new InvalidOperationException(row.name + ": row content is clipped vertically.");
+                    }
+                }
                 if (populated && fixturePlayers > 4)
                 {
                     if (scroll.content.rect.height <= scroll.viewport.rect.height)
