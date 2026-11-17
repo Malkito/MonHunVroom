@@ -71,8 +71,13 @@ namespace LordBreakerX.Utilities
             agent.SetDestination(destination);
         }
 
-        public static void StopAgent(this NavMeshAgent agent) 
+        public static void StopAgent(this NavMeshAgent agent)
         {
+            if (agent == null || !agent.isActiveAndEnabled || !agent.isOnNavMesh)
+            {
+                return;
+            }
+
             agent.SetDestination(agent.transform.position);
         }
     }

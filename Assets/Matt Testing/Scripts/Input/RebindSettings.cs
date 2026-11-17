@@ -11,7 +11,8 @@ using UnityEngine.InputSystem;
 public sealed class RebindSettings : MonoBehaviour
 {
     private const string PanelName = "TabBody_Keybinds";
-    private const string PlayerPrefsKey = "MonHunVroom.InputBindingOverrides";
+    private const string PlayerPrefsKey = "PiLlamas.InputBindingOverrides";
+    private static bool overridesLoaded;
 
     [SerializeField] private KeybindBindingRow bindingRowPrefab;
     [SerializeField] private RebindPromptPanel rebindPromptPanel;
@@ -21,9 +22,21 @@ public sealed class RebindSettings : MonoBehaviour
     private string activeBindingGroup;
     private bool built;
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    private static void LoadSavedOverrides()
+    {
+        var actions = InputSystem.actions;
+        if (overridesLoaded || actions == null) return;
+        string overrides = PlayerPrefs.GetString(PlayerPrefsKey, string.Empty);
+        if (!string.IsNullOrEmpty(overrides))
+            actions.LoadBindingOverridesFromJson(overrides);
+        overridesLoaded = true;
+    }
+
     private void OnEnable()
     {
         if (!IsKeybindTab()) return;
+        LoadSavedOverrides();
         rebindPromptPanel?.Hide();
         BuildPanel();
     }
@@ -54,21 +67,21 @@ public sealed class RebindSettings : MonoBehaviour
             return;
         }
 
-        var gameInput = GameInput.instance != null ? GameInput.instance : FindFirstObjectByType<GameInput>();
-        if (gameInput == null || gameInput.Actions == null)
+        var actions = InputSystem.actions;
+        if (actions == null)
         {
-            Debug.LogWarning("Keybind panel could not find GameInput or its actions asset.", this);
+            Debug.LogWarning("Keybind panel could not find the project's shared input actions.", this);
             return;
         }
 
-        playerMap = gameInput.Actions.FindActionMap("Player", throwIfNotFound: false);
+        playerMap = actions.FindActionMap("Player", throwIfNotFound: false);
         if (playerMap == null)
         {
             Debug.LogWarning("Keybind panel could not find the Player action map.", this);
             return;
         }
 
-        string bindingGroup = GetCurrentBindingGroup(gameInput.Actions);
+        string bindingGroup = GetCurrentBindingGroup(actions);
         if (built && activeBindingGroup == bindingGroup) return;
 
         ClearGeneratedRows();
@@ -91,8 +104,11 @@ public sealed class RebindSettings : MonoBehaviour
         {
             contentLayout.RefreshChildCache();
             contentLayout.SetDirty();
-            Canvas.ForceUpdateCanvases();
         }
+
+        Canvas.ForceUpdateCanvases();
+        if (transform is RectTransform rectTransform)
+            UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
     }
 
     private void CreateBindingRow(InputAction action, int bindingIndex, InputBinding binding)
@@ -177,16 +193,8 @@ public sealed class RebindSettings : MonoBehaviour
 
     private static string GetCurrentBindingGroup(InputActionAsset actions)
     {
-        foreach (var map in actions.actionMaps)
-        {
-            foreach (var action in map.actions)
-            {
-                var device = action.activeControl?.device;
-                if (device is Gamepad) return "Gamepad";
-                if (device is Keyboard || device is Mouse) return "Keyboard&Mouse";
-            }
-        }
-
+        var device = CupOHappiness.DeviceKeybindDisplay.Integrations.InputSystem.InputDeviceSelectionUtility.FindActiveDevice(actions);
+        if (device is Gamepad) return "Gamepad";
         return "Keyboard&Mouse";
     }
 
@@ -252,7 +260,7 @@ public sealed class RebindSettings : MonoBehaviour
 
     private static void SaveOverrides()
     {
-        var actions = GameInput.instance != null ? GameInput.instance.Actions : null;
+        var actions = InputSystem.actions;
         if (actions == null) return;
         PlayerPrefs.SetString(PlayerPrefsKey, actions.SaveBindingOverridesAsJson());
         PlayerPrefs.Save();

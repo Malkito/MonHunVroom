@@ -45,9 +45,11 @@ namespace CupOHappiness.DeviceKeybindDisplay.Editor
         {
             customInputContextIconList = new ReorderableList(serializedObject, serializedObject.FindProperty("customContextIcons"), true, true, true, true);
 
+            customInputContextIconList.elementHeight = EditorGUIUtility.singleLineHeight * 2 + 6;
+
             customInputContextIconList.drawHeaderCallback = rect =>
             {
-                EditorGUI.LabelField(CalculateColumn(rect, 1, 15, 0), "Input Binding String");
+                EditorGUI.LabelField(CalculateColumn(rect, 1, 15, 0), "Control Path / Composite Key");
                 EditorGUI.LabelField(CalculateColumn(rect, 2, 15, 0), "Display Icon");
             };
 
@@ -57,8 +59,11 @@ namespace CupOHappiness.DeviceKeybindDisplay.Editor
 
                 rect.y += 2;
 
-                EditorGUI.PropertyField(CalculateColumn(rect, 1, 0, 0), element.FindPropertyRelative("customInputContextString"), GUIContent.none);
+                EditorGUI.PropertyField(CalculateColumn(rect, 1, 0, 0), element.FindPropertyRelative("controlPath"), GUIContent.none);
                 EditorGUI.PropertyField(CalculateColumn(rect, 2, 10, 10), element.FindPropertyRelative("customInputContextIcon"), GUIContent.none);
+                var labelRect = new Rect(rect.x, rect.y + EditorGUIUtility.singleLineHeight + 2,
+                    rect.width, EditorGUIUtility.singleLineHeight);
+                EditorGUI.PropertyField(labelRect, element.FindPropertyRelative("displayName"), new GUIContent("Compact Label"));
             };
         }
 
@@ -101,7 +106,11 @@ namespace CupOHappiness.DeviceKeybindDisplay.Editor
 
                 DrawSpaceGUI(3);
 
-                EditorGUILayout.LabelField("Icons - Custom Contexts", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Icons - Control Paths", EditorStyles.boldLabel);
+                EditorGUILayout.HelpBox(
+                    "Use device-relative control paths, not display names or usages. Examples: escape, leftStickPress, dpad/up. " +
+                    "Compound keys use sorted part names, e.g. vector2composite(down=s,left=a,right=d,up=w).",
+                    MessageType.Info);
                 customInputContextIconList.DoLayoutList();
             }
 

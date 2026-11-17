@@ -35,7 +35,7 @@ namespace CupOHappiness.DeviceKeybindDisplay.Editor
 
             listDeviceSets.drawHeaderCallback = rect =>
             {
-                EditorGUI.LabelField(CalculateColumn(rect, 1, 15, 0), "Raw Path Name");
+                EditorGUI.LabelField(CalculateColumn(rect, 1, 15, 0), "Device Layout");
                 EditorGUI.LabelField(CalculateColumn(rect, 2, 15, 0), "Device Display Settings");
             };
 
@@ -45,7 +45,7 @@ namespace CupOHappiness.DeviceKeybindDisplay.Editor
 
                 rect.y += 2;
 
-                EditorGUI.PropertyField(CalculateColumn(rect, 1, 0, 0), element.FindPropertyRelative("deviceRawPath"), GUIContent.none);
+                EditorGUI.PropertyField(CalculateColumn(rect, 1, 0, 0), element.FindPropertyRelative("deviceLayout"), GUIContent.none);
                 EditorGUI.PropertyField(CalculateColumn(rect, 2, 10, 10), element.FindPropertyRelative("deviceDisplaySettings"), GUIContent.none);
             };
         }

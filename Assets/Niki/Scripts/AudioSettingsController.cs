@@ -1,54 +1,103 @@
+using System;
 using Ami.BroAudio;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-/// <summary>Connects the Audio tab's master volume slider to BroAudio.</summary>
+/// <summary>Connects the Audio tab's volume sliders to BroAudio's master and category buses.</summary>
 public sealed class AudioSettingsController : MonoBehaviour
 {
     public const string GlobalVolumeKey = "MonHunVroom.GlobalVolume";
     private const float DefaultVolume = 1f;
 
+    [Serializable]
+    private sealed class CategoryVolume
+    {
+        public BroAudioType audioType;
+        public Slider slider;
+        [NonSerialized] public UnityAction<float> listener;
+    }
+
     [SerializeField] private Slider globalVolumeSlider;
+    [SerializeField] private CategoryVolume[] categoryVolumes = Array.Empty<CategoryVolume>();
 
     private void OnEnable()
     {
-        if (globalVolumeSlider == null)
+        ConfigureSlider(globalVolumeSlider, BroAudioType.All);
+        if (globalVolumeSlider != null)
+            globalVolumeSlider.onValueChanged.AddListener(OnGlobalVolumeChanged);
+
+        foreach (var category in categoryVolumes)
         {
-            Debug.LogWarning("Global volume slider is not assigned.", this);
-            return;
+            ConfigureSlider(category.slider, category.audioType);
+            if (category.slider == null)
+                continue;
+
+            category.listener = volume => SaveVolume(category.audioType, volume);
+            category.slider.onValueChanged.AddListener(category.listener);
         }
 
-        globalVolumeSlider.minValue = 0f;
-        globalVolumeSlider.maxValue = 1f;
-        globalVolumeSlider.wholeNumbers = false;
-        globalVolumeSlider.onValueChanged.AddListener(OnGlobalVolumeChanged);
-
-        float volume = PlayerPrefs.GetFloat(GlobalVolumeKey, DefaultVolume);
-        globalVolumeSlider.SetValueWithoutNotify(volume);
-        ApplyGlobalVolume(volume);
+        ApplySavedVolumes();
     }
 
     private void OnDisable()
     {
         if (globalVolumeSlider != null)
             globalVolumeSlider.onValueChanged.RemoveListener(OnGlobalVolumeChanged);
+
+        foreach (var category in categoryVolumes)
+        {
+            if (category.slider != null && category.listener != null)
+                category.slider.onValueChanged.RemoveListener(category.listener);
+            category.listener = null;
+        }
+    }
+
+    private void ConfigureSlider(Slider slider, BroAudioType audioType)
+    {
+        if (slider == null)
+        {
+            Debug.LogWarning(audioType + " volume slider is not assigned.", this);
+            return;
+        }
+
+        slider.minValue = 0f;
+        slider.maxValue = 1f;
+        slider.wholeNumbers = false;
+        slider.SetValueWithoutNotify(LoadVolume(audioType));
     }
 
     private void OnGlobalVolumeChanged(float volume)
     {
-        ApplyGlobalVolume(volume);
-        PlayerPrefs.SetFloat(GlobalVolumeKey, volume);
+        SaveVolume(BroAudioType.All, volume);
+    }
+
+    private static void SaveVolume(BroAudioType audioType, float volume)
+    {
+        volume = Mathf.Clamp01(volume);
+        BroAudio.SetVolume(audioType, volume);
+        PlayerPrefs.SetFloat(VolumeKey(audioType), volume);
         PlayerPrefs.Save();
     }
 
-    /// <summary>Loads and applies the saved master volume. Call at application startup.</summary>
-    public static void ApplySavedGlobalVolume()
+    /// <summary>Loads all saved volume levels. Call at application startup.</summary>
+    public static void ApplySavedVolumes()
     {
-        ApplyGlobalVolume(PlayerPrefs.GetFloat(GlobalVolumeKey, DefaultVolume));
+        BroAudio.SetVolume(LoadVolume(BroAudioType.All));
+        foreach (BroAudioType audioType in Enum.GetValues(typeof(BroAudioType)))
+        {
+            if (audioType != BroAudioType.None && audioType != BroAudioType.All)
+                BroAudio.SetVolume(audioType, LoadVolume(audioType));
+        }
     }
 
-    private static void ApplyGlobalVolume(float volume)
+    private static float LoadVolume(BroAudioType audioType)
     {
-        BroAudio.SetVolume(Mathf.Clamp01(volume));
+        return Mathf.Clamp01(PlayerPrefs.GetFloat(VolumeKey(audioType), DefaultVolume));
+    }
+
+    private static string VolumeKey(BroAudioType audioType)
+    {
+        return audioType == BroAudioType.All ? GlobalVolumeKey : "MonHunVroom.Volume." + audioType;
     }
 }

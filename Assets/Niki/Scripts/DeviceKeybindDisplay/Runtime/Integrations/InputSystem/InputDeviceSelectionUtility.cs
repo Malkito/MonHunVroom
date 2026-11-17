@@ -3,9 +3,9 @@ using UnityEngine.InputSystem;
 
 namespace CupOHappiness.DeviceKeybindDisplay.Integrations.InputSystem
 {
-    internal static class InputDeviceSelectionUtility
+    public static class InputDeviceSelectionUtility
     {
-        internal static InputDevice FindActiveDevice(InputActionAsset asset, Func<InputDevice, bool> filter = null)
+        public static InputDevice FindActiveDevice(InputActionAsset asset, Func<InputDevice, bool> filter = null)
         {
             if (asset == null)
             {
