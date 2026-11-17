@@ -17,7 +17,7 @@ MonoBehaviour:
   _group: {fileID: 0}
   Clips:
   - AudioClip: {fileID: 8300000, guid: 9f59317343512904cb2b962ac512c859, type: 3}
-    Volume: 1
+    Volume: 4.477405
     Delay: 0
     StartPosition: 0
     EndPosition: 0

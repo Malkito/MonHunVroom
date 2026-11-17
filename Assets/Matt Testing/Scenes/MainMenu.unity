@@ -669533,7 +669533,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Version 0.2.0
+  m_text: Version 0.2.1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -733592,27 +733592,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 527266020365982283, guid: b28ec67ff9019634a91cda6f4e74f4c4, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 527266020365982283, guid: b28ec67ff9019634a91cda6f4e74f4c4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 527266020365982283, guid: b28ec67ff9019634a91cda6f4e74f4c4, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 527266020365982283, guid: b28ec67ff9019634a91cda6f4e74f4c4, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 527266020365982283, guid: b28ec67ff9019634a91cda6f4e74f4c4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 51.999985
+      value: 51.99994
       objectReference: {fileID: 0}
     - target: {fileID: 527266020365982283, guid: b28ec67ff9019634a91cda6f4e74f4c4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 538483955980123693, guid: b28ec67ff9019634a91cda6f4e74f4c4, type: 3}
       propertyPath: m_fontSize
