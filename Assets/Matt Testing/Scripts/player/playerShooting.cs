@@ -60,6 +60,8 @@ public class playerShooting : NetworkBehaviour
 
     [SerializeField] private SoundID ShootingSFX;
 
+    [SerializeField] private SoundID AltShootingSFX;
+
     playerStats PlayerStats;
 
 
@@ -240,6 +242,8 @@ public class playerShooting : NetworkBehaviour
 
         //Destroy the projectile after 
         Destroy(projectile, bulletSOarray[BulletIndex].bulletLifetime);
+
+        BroAudio.Play(AltShootingSFX, transform.position);
 
     }
 

@@ -80767,7 +80767,11 @@ MonoBehaviour:
   - {fileID: 5715555305774076116}
   cam: {fileID: 1300287866398083215}
   ShootingSFX:
-    _entity: {fileID: 11400000, guid: 9825dc7811d15cc418724cd240aa2912, type: 2}
+    _entity: {fileID: 11400000, guid: 86ec38fe3810b76489941f224f77e1dc, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8104714157324929073}
+  AltShootingSFX:
+    _entity: {fileID: 11400000, guid: 7574d508d40f5734a9934e51f2fe99ec, type: 2}
     ID: 0
     <DebugObject>k__BackingField: {fileID: 8104714157324929073}
 --- !u!114 &6920356542908570991
