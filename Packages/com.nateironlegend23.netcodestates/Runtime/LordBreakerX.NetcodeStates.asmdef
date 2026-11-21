@@ -1,0 +1,17 @@
+{
+    "name": "LordBreakerX.NetcodeStates",
+    "rootNamespace": "LordBreakerX.NetcodeStates",
+    "references": [
+        "GUID:524b29812f8dcee4c8b630a84143f6dc",
+        "GUID:1491147abca9d7d4bb7105af628b223e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

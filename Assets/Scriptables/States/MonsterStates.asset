@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7196834846622860352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2908d5164f0b11b4da4b3bc3d19af3ab, type: 3}
+  m_Name: MonsterAttack
+  m_EditorClassIdentifier: 
+  _stateTemplate:
+    rid: 200739107143156016
+  references:
+    version: 2
+    RefIds:
+    - rid: 200739107143156016
+      type: {class: MonsterAttackState, ns: , asm: Assembly-CSharp}
+      data:
+        _id: MonsterAttack
+        _minAttacks: 1
+        _maxAttacks: 3
+        _playerAttackChance: 80
+        _wanderState: {fileID: 1030722966420990508}
+--- !u!114 &-6416494125335445065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2908d5164f0b11b4da4b3bc3d19af3ab, type: 3}
+  m_Name: MonsterSpecialGrab
+  m_EditorClassIdentifier: 
+  _stateTemplate:
+    rid: 200739107143156017
+  references:
+    version: 2
+    RefIds:
+    - rid: 200739107143156017
+      type: {class: MonsterGrabState, ns: , asm: Assembly-CSharp}
+      data:
+        _id: MonsterSpecialGrab
+        _specialGrab: {fileID: 11400000, guid: 7cad650ea9d10a743a82fc14766e22df, type: 2}
+        _wanderState: {fileID: 1030722966420990508}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9,10 +57,57 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efc153cfd81472c40a5194c353e87147, type: 3}
+  m_Script: {fileID: 11500000, guid: 250285b6ab3187540831d75ef0069a05, type: 3}
   m_Name: MonsterStates
   m_EditorClassIdentifier: 
   _states:
-  - {fileID: 11400000, guid: 00db59fa1597214479f225036c758202, type: 2}
-  - {fileID: 11400000, guid: b5568209018525542a38eabf1033cd0e, type: 2}
-  - {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
+  - {fileID: 1030722966420990508}
+  - {fileID: -7196834846622860352}
+  - {fileID: 5733980111578838359}
+  - {fileID: -6416494125335445065}
+  _startingState: {fileID: 1030722966420990508}
+--- !u!114 &1030722966420990508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2908d5164f0b11b4da4b3bc3d19af3ab, type: 3}
+  m_Name: MonsterWander
+  m_EditorClassIdentifier: 
+  _stateTemplate:
+    rid: 200739107143156015
+  references:
+    version: 2
+    RefIds:
+    - rid: 200739107143156015
+      type: {class: MonsterWanderState, ns: , asm: Assembly-CSharp}
+      data:
+        _id: MonsterWander
+        _minDuration: 2.5
+        _maxDuration: 5
+        _attackState: {fileID: -7196834846622860352}
+--- !u!114 &5733980111578838359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2908d5164f0b11b4da4b3bc3d19af3ab, type: 3}
+  m_Name: MonsterDead
+  m_EditorClassIdentifier: 
+  _stateTemplate:
+    rid: 200739107143156014
+  references:
+    version: 2
+    RefIds:
+    - rid: 200739107143156014
+      type: {class: DeadState, ns: , asm: Assembly-CSharp}
+      data:
+        _id: MonsterDead

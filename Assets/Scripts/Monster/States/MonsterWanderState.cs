@@ -1,7 +1,8 @@
-using LordBreakerX.Attributes;
+using LordBreakerX.States;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = MonsterState.CREATE_PATH + "Monster Wander State")]
+[CreateStateMenu("MonsterWander", "Monster Wander State", "Monster States")]
+[System.Serializable]
 public class MonsterWanderState : MonsterState
 {
     [SerializeField]
@@ -13,26 +14,33 @@ public class MonsterWanderState : MonsterState
     private float _maxDuration = 10;
 
     [SerializeField]
-    private MonsterAttackState _attackState;
+    private StateReference _attackState;
 
     private Timer _durationTimer;
 
-    private void OnValidate()
+    public MonsterWanderState() : base()
     {
-        _maxDuration = Mathf.Max(_maxDuration, _minDuration);
+
     }
 
-    private void OnDurationEnded()
+    public MonsterWanderState(IStateMachine machine, MonsterWanderState toCopy) : base(machine, toCopy)
     {
-        Machine.RequestTransitionTo(_attackState);
+        _minDuration = toCopy._minDuration;
+        _maxDuration = toCopy._maxDuration;
+        _attackState = toCopy._attackState;
     }
 
-    protected override void OnInitlizeState()
+    public override void OnCreate()
     {
         _durationTimer = new Timer(OnDurationEnded);
     }
 
-    protected override void OnEnterState()
+    private void OnDurationEnded()
+    {
+        Machine.ChangeState(_attackState);
+    }
+
+    public override void OnEnter()
     {
         // set wander duration
         float duration = Random.Range(_minDuration, _maxDuration);
@@ -44,7 +52,7 @@ public class MonsterWanderState : MonsterState
         }
     }
 
-    protected override void OnUpdateState()
+    public override void OnUpdate()
     {
         if (IsServer)
         {
@@ -52,4 +60,6 @@ public class MonsterWanderState : MonsterState
             MovementHandler.Wander();
         }
     }
+
+    public override State CreateCopy(IStateMachine machine) => new MonsterWanderState(machine, this);
 }

@@ -821,14 +821,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2192117877491711739}
-        m_TargetAssemblyTypeName: LordBreakerX.States.Networked.NetworkStateMachine,
-          LordBreakerX.States.Networked
-        m_MethodName: RequestTransitionTo
+        m_TargetAssemblyTypeName: LordBreakerX.NetcodeStates.NetworkStateMachine,
+          LordBreakerX.NetcodeStates
+        m_MethodName: ChangeState
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 8b0d4e9480d20ab4390661091906852d, type: 2}
-          m_ObjectArgumentAssemblyTypeName: LordBreakerX.States.Networked.NetworkScriptableState,
-            LordBreakerX.States.Networked
+          m_ObjectArgument: {fileID: 5733980111578838359, guid: bdad64718fff71341ab849c30b56029e, type: 2}
+          m_ObjectArgumentAssemblyTypeName: LordBreakerX.States.StateReference, LordBreakerX.States
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -838,6 +837,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _currentHealth:
+    m_InternalValue: 100
+  _maxHealth:
     m_InternalValue: 100
   numOfFireOnMonster: 0
   mat: {fileID: 1770131436353006553}
@@ -1177,7 +1178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackController: {fileID: 5008790797301554141}
   _stateMachine: {fileID: 2192117877491711739}
-  _specialGrabState: {fileID: 11400000, guid: 2f623b4df10bdb345a8a05279b30c536, type: 2}
+  _specialGrabState: {fileID: -6416494125335445065, guid: bdad64718fff71341ab849c30b56029e, type: 2}
   _timeUntilGrab: 2
 --- !u!65 &7652627111359087407
 BoxCollider:
@@ -7247,12 +7248,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7549028244194166420}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95828d635a2dfa54491c25ed2f92d37b, type: 3}
+  m_Script: {fileID: 11500000, guid: 50153561f14b44f4ab7acc44cc2d7951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _networkStateList: {fileID: 11400000, guid: bdad64718fff71341ab849c30b56029e, type: 2}
-  _startingState: {fileID: 11400000, guid: 00db59fa1597214479f225036c758202, type: 2}
+  _statesAsset: {fileID: 11400000, guid: bdad64718fff71341ab849c30b56029e, type: 2}
 --- !u!195 &7254253223198287580
 NavMeshAgent:
   m_ObjectHideFlags: 0

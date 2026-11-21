@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2345339645381367048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c298e877783684989ca83edab40830, type: 3}
+  m_Name: Easy
+  m_EditorClassIdentifier: 
+  _stats:
+  - _id: Health
+    _type: 0
+    _baseValue: 1000
+    _modifiers:
+    - rid: 8477348268728123610
+    - rid: 8477348268728123611
+  - _id: Move-Speed
+    _type: 1
+    _baseValue: 14
+    _modifiers:
+    - rid: 3963235259289174020
+  - _id: Turning-Speed
+    _type: 1
+    _baseValue: 120
+    _modifiers:
+    - rid: 3963235327910609023
+  - _id: Fly-Speed
+    _type: 1
+    _baseValue: 1
+    _modifiers: []
+  - _id: Laser-Eyes-Duration
+    _type: 1
+    _baseValue: 3
+    _modifiers: []
+  - _id: Flying-Attack-Duration
+    _type: 1
+    _baseValue: 10
+    _modifiers: []
+  - _id: Underground-Attack-Duration
+    _type: 1
+    _baseValue: 10
+    _modifiers: []
+  - _id: Laser-Damage
+    _type: 1
+    _baseValue: 3
+    _modifiers:
+    - rid: 3963235259289174018
+  - _id: Bug-Damage
+    _type: 1
+    _baseValue: 2
+    _modifiers: []
+  - _id: Blackhole-Damage
+    _type: 1
+    _baseValue: 2
+    _modifiers:
+    - rid: 3963235259289174019
+  - _id: Roubble-Damage
+    _type: 1
+    _baseValue: 200
+    _modifiers:
+    - rid: 3963235331672375417
+  - _id: Push-Damage
+    _type: 1
+    _baseValue: 2
+    _modifiers: []
+  - _id: Stomp-Damage
+    _type: 1
+    _baseValue: 25
+    _modifiers:
+    - rid: 3963235259289174016
+  - _id: Bomb-Damage
+    _type: 1
+    _baseValue: 80
+    _modifiers: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3963235259289174016
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.2
+    - rid: 3963235259289174018
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.2
+    - rid: 3963235259289174019
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.2
+    - rid: 3963235259289174020
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.3
+    - rid: 3963235327910609023
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.3
+    - rid: 3963235331672375417
+      type: {class: LevelsCompletedModifier/IntModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.2
+    - rid: 8477348268728123610
+      type: {class: LevelsCompletedModifier/FloatModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _multiplierPerLevel: 1.4
+    - rid: 8477348268728123611
+      type: {class: RoundModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _maxDecimals: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd245c8746b46b0498a5280f0d57d2c0, type: 3}
+  m_Name: Monster
+  m_EditorClassIdentifier: 
+  _profiles:
+  - {fileID: -2345339645381367048}
