@@ -10,70 +10,14 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b34cda31-0500-436a-94d5-7d10e23a2f80" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MonHunVroom/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MonHunVroom/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Matt Testing/Mats/BrightRed.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Matt Testing/Mats/BrightRed.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Matt Testing/Prefabs/tankPlayer/Fantasytank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Matt Testing/Prefabs/tankPlayer/Fantasytank.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Matt Testing/Prefabs/tankPlayer/TronTank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Matt Testing/Prefabs/tankPlayer/TronTank.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Matt Testing/Scenes/FantasyGameScene.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Matt Testing/Scripts/player/ManaSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Matt Testing/Scripts/player/ManaSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Matt Testing/Scripts/player/playerAbilityManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Matt Testing/Scripts/player/playerAbilityManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Matt Testing/Scripts/player/playerHealth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Matt Testing/Scripts/player/playerHealth.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/Runtime/Prefabs/Abilities.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Niki/Runtime/Prefabs/Abilities.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/Runtime/Prefabs/Ability.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Niki/Runtime/Prefabs/Ability.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/Runtime/UI/Textures/sprt_cooldownOverlay.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Niki/Runtime/UI/Textures/sprt_cooldownOverlay.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Editor.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Editor/Niki.UI.Editor.asmdef" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Editor/Niki.UI.Editor.asmdef.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Editor/NikiUiBuilder.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Editor/NikiUiBuilder.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/README.md.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core/BindableElement.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core/BindableElement.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core/Command.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core/Command.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core/IBindingContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core/IBindingContext.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core/IProperty.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core/IProperty.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core/Property.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Core/Property.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableBoolColor.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableBoolColor.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableImageColor.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableImageColor.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableImageSprite.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableImageSprite.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableRadialCooldown.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableRadialCooldown.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableSliderFill.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableSliderFill.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableText.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Elements/BindableText.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Niki.UI.Runtime.asmdef" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Niki.UI.Runtime.asmdef.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Shaders.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Shaders/RadialCooldown.shader" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Shaders/RadialCooldown.shader.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Widgets.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Widgets/AbilitySlotPresenter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Widgets/AbilitySlotPresenter.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Widgets/AbilitySlotViewModel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Niki/UI/Runtime/Widgets/AbilitySlotViewModel.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Fonts/Generated/GermaniaOne-Regular SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Fonts/Generated/GermaniaOne-Regular SDF.asset" afterDir="false" />
-    </list>
+    <list default="true" id="b34cda31-0500-436a-94d5-7d10e23a2f80" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="38" />
+    <option name="cachedIndexableFilesCount" value="35" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -81,6 +25,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Matt Testing/Scripts/player/PlayerStatePresenter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.services.qos@f4a3648d24d3/Runtime/Runner/QosJob.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -112,6 +57,16 @@
   }
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Builds/Windows\RIFT.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Unity\Projects\INTERNSHIP\MonHunVroom\Builds\Windows" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Unity\Editors\6000.0.37f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Unity\Projects\INTERNSHIP\MonHunVroom -debugCodeOptimization" />
@@ -161,6 +116,7 @@
       <workItem from="1790706867184" duration="70000" />
       <workItem from="1790710622859" duration="2524000" />
       <workItem from="1790739850176" duration="3358000" />
+      <workItem from="1794668489040" duration="14000" />
     </task>
     <servers />
   </component>
