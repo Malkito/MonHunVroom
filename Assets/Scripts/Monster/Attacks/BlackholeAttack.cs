@@ -31,6 +31,8 @@ public sealed class BlackholeAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
+
         _spawnedBlackhole = false;
         _currentBlackhole = null;
 
@@ -39,6 +41,8 @@ public sealed class BlackholeAttack : ScriptableAttack
 
     public override void OnAttackStopped()
     {
+        base.OnAttackStopped();
+
         _monsterMovement.StopMovement();
     }
 

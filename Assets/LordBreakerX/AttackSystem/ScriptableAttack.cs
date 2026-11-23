@@ -69,12 +69,12 @@ namespace LordBreakerX.AttackSystem
 
         public virtual void OnAttackStarted()
         {
-            
+            Debug.Log($"[Monster] Started {name} attack!");
         }
 
         public virtual void OnAttackStopped()
         {
-     
+            Debug.Log($"[Monster] Stopped {name} attack!");
         }
 
         public virtual void OnAttackUpdate()

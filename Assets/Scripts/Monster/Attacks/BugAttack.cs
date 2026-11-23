@@ -58,6 +58,7 @@ public sealed class BugAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
         _spawnedSworms = false;
     }
 

@@ -79,6 +79,8 @@ public sealed class LaserEyesAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
+
         _duration = _statHolder.GetFloat("Laser-Eyes-Duration");
         _durationLeft = _duration;
         _attackDistance = Random.Range(_minAttackDistance, _maxAttackDistance);
@@ -87,6 +89,8 @@ public sealed class LaserEyesAttack : ScriptableAttack
 
     public override void OnAttackStopped()
     {
+        base.OnAttackStopped();
+
         _attackTimer.Reset();
     }
 

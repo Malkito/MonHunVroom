@@ -47,6 +47,8 @@ public class MonsterAttackState : MonsterState
 
     public override void OnEnter()
     {
+        base.OnEnter();
+
         _attacksCompleted = -1;
         _attacksNeeded = Random.Range(_minAttacks, _maxAttacks);
     }

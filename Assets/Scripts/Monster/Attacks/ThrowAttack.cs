@@ -39,6 +39,8 @@ public sealed class ThrowAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
+
         _reachedObject = false;
         _thrownedObject = false;
 

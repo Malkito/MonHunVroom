@@ -27,6 +27,8 @@ public class SpecialGrabAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
+
         _thrownedObject = false;
         _grabObject = false;
         _positionTarget = TargetUtility.GetRandomTarget<dealDamage>(Controller.transform.position, _throwRadius, Controller.IgnoredLayers);

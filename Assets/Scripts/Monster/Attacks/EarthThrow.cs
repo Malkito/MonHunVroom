@@ -26,6 +26,8 @@ public sealed class EarthThrow : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
+
         _thrownEarth = false;
         _roubleDamage = _statHolder.GetFloat("Roubble-Damage");
     }

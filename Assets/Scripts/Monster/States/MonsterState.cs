@@ -1,5 +1,6 @@
 using LordBreakerX.NetcodeStates;
 using LordBreakerX.States;
+using UnityEngine;
 
 public abstract class MonsterState : NetworkState
 {
@@ -17,5 +18,15 @@ public abstract class MonsterState : NetworkState
     {
         MovementHandler = machine.ParentObject.GetComponent<MonsterMovementController>();
         AttackHandler = machine.ParentObject.GetComponent<MonsterAttackController>();
+    }
+
+    public override void OnEnter()
+    {
+        Debug.Log($"[Monster] Entered State \"{ID}\"!");
+    }
+
+    public override void OnExit()
+    {
+        Debug.Log($"[Monster] Exited State \"{ID}\"!");
     }
 }

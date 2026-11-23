@@ -52,17 +52,23 @@ public sealed class FlyingAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
+
         _flySpeed = _statHolder.GetFloat("Fly-Speed");
         _attackDuration = _statHolder.GetFloat("Flying-Attack-Duration");
 
         _currentDuration = _attackDuration;
         _subAttack = _scriptableAttackTable.GetRandomAttack();
 
+        Debug.Log($"[Monster] Started flying sub attack!");
         _subAttack.OnAttackStarted();
     }
 
     public override void OnAttackStopped()
     {
+        base.OnAttackStopped();
+
+        Debug.Log($"[Monster] Stopping flying sub attack!");
         _subAttack.OnAttackStopped();
         _movementController.LandFromFlight();
     }
@@ -82,7 +88,12 @@ public sealed class FlyingAttack : ScriptableAttack
 
         if (_subAttack.HasAttackFinished())
         {
+            Debug.Log($"[Monster] Stopping flying sub attack!");
+            _subAttack.OnAttackStopped();
             _subAttack = _scriptableAttackTable.GetRandomAttack();
+
+            Debug.Log($"[Monster] Started flying sub attack!");
+            _subAttack.OnAttackStarted();
         }
     }
 

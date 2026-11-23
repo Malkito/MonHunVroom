@@ -58,6 +58,8 @@ public sealed class UndergroundAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
+
         _attackDuration = _statHolder.GetFloat("Underground-Attack-Duration");
 
         _monsterMovement.UpdateWalkAnimation(true);
@@ -74,6 +76,8 @@ public sealed class UndergroundAttack : ScriptableAttack
 
     public override void OnAttackStopped()
     {
+        base.OnAttackStopped();
+
         _monsterMovement.UpdateWalkAnimation(false);
         _monsterMovement.SetUnderground(false);
     }

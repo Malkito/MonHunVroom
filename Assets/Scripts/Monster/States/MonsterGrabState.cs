@@ -31,6 +31,8 @@ public class MonsterGrabState : MonsterState
 
     public override void OnEnter()
     {
+        base.OnEnter();
+
         AttackHandler.StopAttack();
         _startedAttack = false;
     }

@@ -40,6 +40,8 @@ public sealed class PushAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
+
         _pushedObject = false;
         _pushDamage = _statHolder.GetFloat("Push-Damage");
     }

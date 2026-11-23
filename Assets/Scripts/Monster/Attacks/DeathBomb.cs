@@ -70,6 +70,8 @@ public sealed class DeathBomb : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
+
         _attackComplete = false;
         _reachedDistance = Percentage.MapToNumber(_reachedTargetPercentage, 0, _explosionRadius);
         _explodeTimer.Reset();
@@ -79,6 +81,8 @@ public sealed class DeathBomb : ScriptableAttack
 
     public override void OnAttackStopped()
     {
+        base.OnAttackStopped();
+
         _deathEffect.GetOrCreateInstance(Controller.transform).Stop();
     }
 

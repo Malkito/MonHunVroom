@@ -47,6 +47,8 @@ public sealed class StompAttack : ScriptableAttack
 
     public override void OnAttackStarted()
     {
+        base.OnAttackStarted();
+
         _monsterMovement.UpdateWalkAnimation(true);
         _stompDamage = _statHolder.GetFloat("Stomp-Damage");
     }
@@ -88,6 +90,8 @@ public sealed class StompAttack : ScriptableAttack
 
     public override void OnAttackStopped()
     {
+        base.OnAttackStopped();
+
         _monsterMovement.StopMovement();
     }
 

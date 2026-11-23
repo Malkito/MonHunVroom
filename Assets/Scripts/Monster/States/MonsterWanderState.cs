@@ -42,6 +42,8 @@ public class MonsterWanderState : MonsterState
 
     public override void OnEnter()
     {
+        base.OnEnter();
+
         // set wander duration
         float duration = Random.Range(_minDuration, _maxDuration);
         _durationTimer.SetDuration(duration);

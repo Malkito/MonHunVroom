@@ -16,6 +16,8 @@ public sealed class DeadState : MonsterState
 
     public override void OnEnter()
     {
+        base.OnEnter();
+
         if (IsServer)
         {
             MovementHandler.StopMovement();
