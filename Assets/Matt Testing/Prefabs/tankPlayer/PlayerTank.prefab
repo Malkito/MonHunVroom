@@ -43459,7 +43459,6 @@ GameObject:
   - component: {fileID: 5581967386140061372}
   - component: {fileID: 7849898079742680339}
   - component: {fileID: 508218292159597046}
-  - component: {fileID: 6920356542908570991}
   - component: {fileID: 6383207719736942468}
   - component: {fileID: 5086037589454759781}
   - component: {fileID: 7606277645741942883}
@@ -43474,6 +43473,8 @@ GameObject:
   - component: {fileID: 7826608316434944710}
   - component: {fileID: 3317415102161935302}
   - component: {fileID: 947433051933980619}
+  - component: {fileID: 7544147628449136535}
+  - component: {fileID: 383554089504930864}
   m_Layer: 0
   m_Name: PlayerTank
   m_TagString: Player
@@ -43651,7 +43652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1403586453
+  GlobalObjectIdHash: 578936822
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -43728,6 +43729,7 @@ MonoBehaviour:
   - {fileID: 332713374221541434}
   onlyOneBarrel: 1
   bigShotLoaded: 0
+  UseAltAttack: 0
   currentAltBulletSoIndex: 1
   altBarrelEnd: {fileID: 332713374221541434}
   currentMainBuleltTest: {fileID: 1509212758886401196}
@@ -43756,53 +43758,10 @@ MonoBehaviour:
   - {fileID: 6265199368360065333}
   - {fileID: 5715555305774076116}
   cam: {fileID: 1300287866398083215}
---- !u!114 &6920356542908570991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc80c44c196c5645b788b070a31692f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  upgradeArray:
-  - {fileID: 11400000, guid: 6dcece01264a23a46bf88dc66e6cc6ef, type: 2}
-  - {fileID: 11400000, guid: cf77acb7f343bf542add926b566d4bf6, type: 2}
-  - {fileID: 11400000, guid: 74fadb185cbecea42b1668f36017680c, type: 2}
-  - {fileID: 11400000, guid: 4ef6ed5c1e97829479d3e8d380d86047, type: 2}
-  - {fileID: 11400000, guid: 41c0dd1953e5fc54084aaab1873f2f7e, type: 2}
-  - {fileID: 11400000, guid: b43f0d35993d467439c207ff6f9c1d85, type: 2}
-  - {fileID: 11400000, guid: 3b3c2aef010daf447a421d96a057c5a5, type: 2}
-  - {fileID: 11400000, guid: dbc1abaf7454655468bc543ec5162407, type: 2}
-  - {fileID: 11400000, guid: b2847b1ae74b2104f9ed14fa5cd3567d, type: 2}
-  - {fileID: 11400000, guid: a1cee2643effc81479def850759e294c, type: 2}
-  - {fileID: 11400000, guid: 3592a0bd4899577468e7e6cfa48996d5, type: 2}
-  - {fileID: 11400000, guid: 11052a1002c79f5458e13e8b56936a98, type: 2}
-  - {fileID: 11400000, guid: 432f47366cc30a74ab12c7e67a29509e, type: 2}
-  - {fileID: 11400000, guid: 823955df9e9ee134aae91df67a228c1a, type: 2}
-  - {fileID: 11400000, guid: 2c8b161265366924ca9ca5a475fcafdb, type: 2}
-  upgradePlaceHolders:
-  - {fileID: 2316475716269200963}
-  - {fileID: 2316475716269200963}
-  - {fileID: 2316475716269200963}
-  equipped:
-  - definition: {fileID: 0}
-    logicInstance: {fileID: 0}
-    cooldownRemaining: 0
-  - definition: {fileID: 0}
-    logicInstance: {fileID: 0}
-    cooldownRemaining: 0
-  - definition: {fileID: 0}
-    logicInstance: {fileID: 0}
-    cooldownRemaining: 0
-  abilityOneCooldown: 0
-  abilityTwoCooldown: 0
-  abilityThreeCooldown: 0
-  canUseUpgrade: 0
+  ShootingSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 0}
 --- !u!114 &6383207719736942468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43821,7 +43780,7 @@ MonoBehaviour:
   abilityOneName: {fileID: 4270267180376186860}
   abilityTwoName: {fileID: 7702217064366454006}
   abilityThreeName: {fileID: 4570656949232109785}
-  playerUpgradeManager: {fileID: 6920356542908570991}
+  playerUpgradeManager: {fileID: 383554089504930864}
 --- !u!114 &5086037589454759781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43834,14 +43793,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8217c32854835a546a88e1b9815715f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
+  ShowTopMostFoldoutHeaderGroup: 1
+  baseMaxHealth: 100
+  currentHealth:
+    m_InternalValue: 0
   flashTIme: 0.1
   fireColour: {r: 1, g: 0, b: 0, a: 0}
   damageColour: {r: 1, g: 1, b: 1, a: 0}
   numOfFiresOnHealth: 0
   mat: {fileID: 2100000, guid: e325d21be9837eb49aaf4a6c12fb52cc, type: 2}
   deathUI: {fileID: 0}
+  healthSlider: {fileID: 0}
   canTakeDamage: 0
 --- !u!114 &7606277645741942883
 MonoBehaviour:
@@ -43875,13 +43837,15 @@ MonoBehaviour:
   linerDampening: 0
   accelerationForce: 20
   maxSpeed: 30
-  minTurnTorque: 7
-  maxTurnTorque: 13
-  moveAngleThreshold: 15
-  maxConsideredAngle: 180
+  AngleCorrection: 0
+  OvershootPrevention: 0
+  rotationForce: 0
   jumpFrontForce: 15
   jumpUpForce: 4
   MaxJumpTimer: 3
+  useSidewaysFriction: 1
+  sidewaysFriction: 8
+  useLinerDampingMod: 0
   cameraTransform: {fileID: 2770513277569699001}
   jumpIcon: {fileID: 3975747479943129205}
 --- !u!114 &4953262288513267542
@@ -43899,9 +43863,20 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 2000
   rotationSpeed: 90
+  useSidewaysFriction: 0
+  sidewaysFriction: 0
   canMove: 0
   groundCheck: {fileID: 3415987852756546517}
   linerDampening: 3
+  jumpFrontForce: 0
+  jumpUpForce: 0
+  MaxJumpTimer: 0
+  jumpIcon: {fileID: 0}
+  isFantasy: 0
+  FantasyMovementSFX:
+    _entity: {fileID: 0}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 0}
 --- !u!114 &5844322056726403099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43917,12 +43892,18 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   turretHead: {fileID: 4217024685510504549}
   cam: {fileID: 1300287866398083215}
-  turretBarrel:
-  - {fileID: 8763945603014392548}
-  maxAngle: 25
+  barrel: {fileID: 0}
   canMove: 0
-  rotateSpeed: 0
   turretLookAt: {fileID: 3999413997270472255}
+  aimLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  minimumDistance: 0
+  maxDistance: 0
+  turretRotateSpeed: 10
+  barrelRotateSpeed: 10
+  minBarrelAngle: -10
+  maxBarrelAngle: 35
 --- !u!114 &7547834820336501301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44034,6 +44015,7 @@ MonoBehaviour:
   - {fileID: 1286881386455511969}
   - {fileID: 680456139037839715}
   - {fileID: 51350824789483242}
+  Trails: []
 --- !u!114 &7826608316434944710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44061,11 +44043,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974bf8cc99697b54a857075882c860fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   countdownText: {fileID: 8880905769328581619}
   deathUI: {fileID: 3977440629587973515}
   respawnTime: 5
   isDead: 0
   rb: {fileID: 4561393734523513783}
+  canDie: 0
 --- !u!114 &947433051933980619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44079,6 +44063,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementText: {fileID: 5079270297612997161}
+--- !u!114 &7544147628449136535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386b761bb48491f418ba358dd3e645dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  currentDamage:
+    m_InternalValue: 0
+  currentSpeed:
+    m_InternalValue: 0
+  currentHealth:
+    m_InternalValue: 0
+  currentFireRateReduction:
+    m_InternalValue: 0
+  currentCooldownReduction:
+    m_InternalValue: 0
+  currentPowerUpBoost:
+    m_InternalValue: 0
+  currentSpecialBoost:
+    m_InternalValue: 0
+--- !u!114 &383554089504930864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104714157324929073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17f91e9d5a98034f9ea58dd68501ae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  equippedAbilities:
+  - abilityID: 0
+    logicInstance: {fileID: 0}
+    cooldownRemaining: 0
+  - abilityID: 0
+    logicInstance: {fileID: 0}
+    cooldownRemaining: 0
+  - abilityID: 0
+    logicInstance: {fileID: 0}
+    cooldownRemaining: 0
+  abilityOneCooldown: 0
+  abilityTwoCooldown: 0
+  abilityThreeCooldown: 0
+  canUseAbilites: 0
 --- !u!1 &8105446854303656973
 GameObject:
   m_ObjectHideFlags: 0

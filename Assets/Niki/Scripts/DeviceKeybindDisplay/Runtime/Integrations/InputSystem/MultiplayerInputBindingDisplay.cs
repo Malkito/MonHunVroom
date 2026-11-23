@@ -11,6 +11,8 @@ namespace CupOHappiness.DeviceKeybindDisplay.Integrations.InputSystem
         [SerializeField, Tooltip("PlayerInput that owns this multiplayer player's actions and paired devices.")]
         private PlayerInput playerInput;
 
+        protected override System.Func<InputDevice, bool> DeviceFilter => IsPlayerDevice;
+
         protected override InputActionAsset GetInputActions() => playerInput?.actions;
 
         protected override InputDevice GetActiveDevice() =>
