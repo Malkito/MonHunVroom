@@ -61,5 +61,5 @@ public class MonsterWanderState : MonsterState
         }
     }
 
-    public override State CreateCopy(IStateMachine Machine) => new MonsterWanderState(Machine, this);
+    public override State CreateCopy(IStateMachine machine) => new MonsterWanderState(machine, this);
 }
