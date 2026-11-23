@@ -40,6 +40,19 @@ namespace CupOHappiness.UI.Editor
                             button.onClick.GetPersistentMethodName(n) == nameof(UpgradeManager.SelectUpgrade)), "Choice has no selection action");
                     }
                     if (path == "Assets/Scenes/GAME SCENES/FantasyGameScene.unity")
+                    {
+                        var ready = objects.Select(t => t.GetComponent<readyCheck>()).First(m => m);
+                        var readySo = new SerializedObject(ready);
+                        Require(readySo.FindProperty("readyCanvas").objectReferenceValue, path + ": readyCheck has no panel");
+                        Require(readySo.FindProperty("readyButton").objectReferenceValue, path + ": readyCheck has no ready button");
+                        var roster = objects.Select(t => t.GetComponent<ReadyRoster>()).FirstOrDefault(m => m);
+                        Require(roster && roster.name == "ReadyContainer", path + ": ReadyContainer has no ReadyRoster");
+                        var rosterSo = new SerializedObject(roster);
+                        Require(rosterSo.FindProperty("source").objectReferenceValue == ready &&
+                            rosterSo.FindProperty("rowPrefab").objectReferenceValue &&
+                            rosterSo.FindProperty("container").objectReferenceValue, path + ": ReadyRoster references are not assigned");
+                    }
+                    if (path == "Assets/Scenes/GAME SCENES/FantasyGameScene.unity")
                         Require(!objects.Any(t => GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(t.gameObject) > 0),
                             path + ": missing scripts");
                 }

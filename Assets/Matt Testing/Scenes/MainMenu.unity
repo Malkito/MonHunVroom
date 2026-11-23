@@ -325202,6 +325202,7 @@ GameObject:
   - component: {fileID: 1082839735}
   - component: {fileID: 1082839733}
   - component: {fileID: 1082839737}
+  - component: {fileID: 1082839738}
   m_Layer: 0
   m_Name: FantasyCam
   m_TagString: MainCamera
@@ -325351,6 +325352,14 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!81 &1082839738
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082839732}
+  m_Enabled: 1
 --- !u!1001 &1083888428
 PrefabInstance:
   m_ObjectHideFlags: 0
