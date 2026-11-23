@@ -80568,7 +80568,6 @@ GameObject:
   - component: {fileID: 6383207719736942468}
   - component: {fileID: 5086037589454759781}
   - component: {fileID: 7606277645741942883}
-  - component: {fileID: 86376576617243287}
   - component: {fileID: 1036226262456681080}
   - component: {fileID: 5844322056726403099}
   - component: {fileID: 7547834820336501301}
@@ -80576,9 +80575,7 @@ GameObject:
   - component: {fileID: 8584485710005155835}
   - component: {fileID: 1286881386455511969}
   - component: {fileID: 6357376609551406754}
-  - component: {fileID: 7826608316434944710}
   - component: {fileID: 3317415102161935302}
-  - component: {fileID: 947433051933980619}
   - component: {fileID: 5621866573112001209}
   - component: {fileID: 101046386858594832}
   - component: {fileID: 813649777153493869}
@@ -80858,35 +80855,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   HUD: {fileID: 4021134492926437104}
---- !u!114 &86376576617243287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 013a856a076a1c640a73ed5037ccf4b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  canMove: 0
-  groundCheck: {fileID: 3415987852756546517}
-  linerDampening: 0
-  accelerationForce: 40
-  maxSpeed: 60
-  AngleCorrection: 50
-  OvershootPrevention: 8
-  rotationForce: 400
-  jumpFrontForce: 25
-  jumpUpForce: 4
-  MaxJumpTimer: 3
-  useSidewaysFriction: 1
-  sidewaysFriction: 150
-  useLinerDampingMod: 0
-  cameraTransform: {fileID: 2770513277569699001}
-  jumpIcon: {fileID: 3975747479943129205}
 --- !u!114 &1036226262456681080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81062,21 +81030,6 @@ MonoBehaviour:
   - {fileID: 3124442397821543278}
   - {fileID: 4868134559352243296}
   Trails: []
---- !u!114 &7826608316434944710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 990b51f4b85792c44af6016f6f889f4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  parachute: {fileID: 6286305697316167080}
-  rb: {fileID: 4561393734523513783}
 --- !u!114 &3317415102161935302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81096,19 +81049,6 @@ MonoBehaviour:
   isDead: 0
   rb: {fileID: 4561393734523513783}
   canDie: 0
---- !u!114 &947433051933980619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8104714157324929073}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fededc1f235fa7e4990d3c4cc1c58a9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MovementText: {fileID: 5079270297612997161}
 --- !u!114 &5621866573112001209
 MonoBehaviour:
   m_ObjectHideFlags: 0

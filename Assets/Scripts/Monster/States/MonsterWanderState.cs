@@ -23,7 +23,7 @@ public class MonsterWanderState : MonsterState
 
     }
 
-    public MonsterWanderState(IStateMachine machine, MonsterWanderState toCopy) : base(machine, toCopy)
+    public MonsterWanderState(IStateMachine Machine, MonsterWanderState toCopy) : base(Machine, toCopy)
     {
         _minDuration = toCopy._minDuration;
         _maxDuration = toCopy._maxDuration;
@@ -61,5 +61,5 @@ public class MonsterWanderState : MonsterState
         }
     }
 
-    public override State CreateCopy(IStateMachine machine) => new MonsterWanderState(machine, this);
+    public override State CreateCopy(IStateMachine Machine) => new MonsterWanderState(Machine, this);
 }

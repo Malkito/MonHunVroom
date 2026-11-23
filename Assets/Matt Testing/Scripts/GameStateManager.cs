@@ -72,7 +72,7 @@ public class GameStateManager : NetworkBehaviour
             GameInput.instance.enableOrDisablePlayerAction(true);
         }
 
-        gameStateText.text = CurrentState.ToString();
+        //gameStateText.text = CurrentState.ToString();
     }
 
     private void HandleStateEntered(State newState)
