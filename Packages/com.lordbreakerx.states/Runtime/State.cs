@@ -32,7 +32,7 @@ namespace LordBreakerX.States
         public State(IStateMachine machine, State stateToCopy)
         {
             _id = stateToCopy.ID;
-            Machine = stateToCopy.Machine;
+            Machine = machine;
         }
 
         /// <summary>
